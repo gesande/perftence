@@ -10,6 +10,11 @@ IN PROGRESS:
 publish to sourceforge #development
 
 WAITING:
+- provide test examples with sources #development-support 
+  agent based test
+  fluent based test 
+  distribution
+  upload distribution package to project files (source forge)
 - fix the source packages for 3rd party lib #development-support
 - move build.gradle & settings.gradle under build project #build
 - make shell script library for build tasks #build 
