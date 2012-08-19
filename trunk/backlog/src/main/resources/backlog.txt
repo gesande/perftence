@@ -5,16 +5,17 @@ DONE:
 + add eclipse formatter settings under build project #ide
 + additional build scripts for source jars #development-support
 + additional build scripts for distribution #development-support
++ publish to sourceforge #development
 
 IN PROGRESS:
-publish to sourceforge #development
-
-WAITING:
 - provide test examples with sources #development-support 
   agent based test
   fluent based test 
+
+WAITING:
+- provide test examples with sources #development-support
   distribution
-  upload distribution package to project files (source forge)
+  upload distribution packages to project files (source forge)
 - fix the source packages for 3rd party lib #development-support
 - move build.gradle & settings.gradle under build project #build
 - make shell script library for build tasks #build 
