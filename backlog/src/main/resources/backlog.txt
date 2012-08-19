@@ -8,14 +8,12 @@ DONE:
 + publish to sourceforge #development
 
 IN PROGRESS:
-- provide test examples with sources #development-support 
-  agent based test
-  fluent based test 
+- provide fluent based test examples with sources #development-support 
 
 WAITING:
-- provide test examples with sources #development-support
-  distribution
-  upload distribution packages to project files (source forge)
+- provide agent based test examples with sources #development-support 
+- provide distribution for test examples with sources #development-support
+- upload test example distribution packages to project files (i.e. to source forge)
 - fix the source packages for 3rd party lib #development-support
 - move build.gradle & settings.gradle under build project #build
 - make shell script library for build tasks #build 
@@ -30,9 +28,7 @@ WAITING:
   * define a latency rate
   * print out statistics for latencies over the defined rate (statistics over statistics)
 - change #refactoring
-  * public interface DatasetAdapter<GRAPHDATA> {
-      public void add(final Number x, final Number y);
-  	to public interface DatasetAdapter<GRAPHDATA, CATEGORY> {
-      public void add(final Number x, final CATEGORY y);
+  * public interface DatasetAdapter<GRAPHDATA> { public void add(final Number x, final Number y);
+  * to public interface DatasetAdapter<GRAPHDATA, CATEGORY> { public void add(final Number x, final CATEGORY y);
 - ability to define the TPS is used (defining it before running the test) #feature 
   * e.g. running at 500 TPS (max) when the test is running  
