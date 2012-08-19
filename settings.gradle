@@ -1,1 +1,1 @@
-include 'slf4j-log4j12-1.6.1','slf4j-api-1.6.1','jfreechart-1.0.12','jcommon-1.0.15','commons-collections-3.2.1','log4j-1.2.16','junit-4.10','build','perftence','acceptance-tests','install','mainentrypoint-example','backlog'
+include 'slf4j-log4j12-1.6.1','slf4j-api-1.6.1','jfreechart-1.0.12','jcommon-1.0.15','commons-collections-3.2.1','log4j-1.2.16','junit-4.10','build','perftence','acceptance-tests','install','mainentrypoint-example','backlog','fluent-based-example','agent-based-example'

@@ -1,241 +1,264 @@
 subprojects {
-    apply plugin: "java"
-    apply plugin: "eclipse"
+	apply plugin: "java"
+	apply plugin: "eclipse"
 
-    eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
-    eclipse.classpath.defaultOutputDir = file('target/classes')
+	eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
+	eclipse.classpath.defaultOutputDir = file('target/classes')
 
-    version = '1.0-BETA'
+	version = '1.0-BETA'
 
-    repositories { flatDir { dirs 'lib' } }
+	repositories { flatDir { dirs 'lib' } }
 
-    dependencies {
-        compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
-    }
+	dependencies {
+		compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
+	}
 
-    task "create-dirs" << {
-        sourceSets*.java.srcDirs*.each { it.mkdirs() }
-        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-    }
+	task "create-dirs" << {
+		sourceSets*.java.srcDirs*.each { it.mkdirs() }
+		sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+	}
 
-    task "remove-target" << { delete("target") }
+	task "remove-target" << { delete("target") }
 
-    task sourcesJar(type: Jar, dependsOn:classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
+	task sourcesJar(type: Jar, dependsOn:classes) {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
 
-    task testSourcesJar(type: Jar, dependsOn:classes) {
-        classifier = 'tests'
-        from sourceSets.test.allSource
-    }
+	task testSourcesJar(type: Jar, dependsOn:classes) {
+		classifier = 'tests'
+		from sourceSets.test.allSource
+	}
 
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+		classifier = 'javadoc'
+		from javadoc.destinationDir
+	}
 
-    task "copy-pmd-settings"(type: Copy) { task ->
-        from file('../build/template/for/pmd/.pmd')
-        into task.project.projectDir
-    }
+	task "copy-pmd-settings"(type: Copy) { task ->
+		from file('../build/template/for/pmd/.pmd')
+		into task.project.projectDir
+	}
 
-    artifacts {
-        archives sourcesJar
-        archives testSourcesJar
-        archives javadocJar
-    }
+	artifacts {
+		archives sourcesJar
+		archives testSourcesJar
+		archives javadocJar
+	}
 
-    task "init-libs" << { task ->
-        def libDir = new File(task.project.projectDir, 'lib')
-        libDir.mkdirs()
-        def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
-        libSourcesDir.mkdirs()
-    }
+	task "init-libs" << { task ->
+		def libDir = new File(task.project.projectDir, 'lib')
+		libDir.mkdirs()
+		def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
+		libSourcesDir.mkdirs()
+	}
 }
 
 project(':log4j-1.2.16') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/log4j-1.2.16.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/apache-log4j-1.2.16.zip"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/log4j-1.2.16.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/apache-log4j-1.2.16.zip"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':junit-4.10') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/junit-4.10.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/junit-4.10-src.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/junit-4.10.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/junit-4.10-src.jar"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':jcommon-1.0.15') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/jcommon-1.0.15.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jcommon-1.0.15.tar.gz"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/jcommon-1.0.15.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/jcommon-1.0.15.tar.gz"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':jfreechart-1.0.12') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/jfreechart-1.0.12.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jfreechart-1.0.12.tar.gz"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/jfreechart-1.0.12.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/jfreechart-1.0.12.tar.gz"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':slf4j-api-1.6.1') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/slf4j-api-1.6.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-api-1.6.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/slf4j-api-1.6.1.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-api-1.6.1-sources.jar"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':slf4j-log4j12-1.6.1') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/slf4j-log4j12-1.6.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-log4j12-1.6.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/slf4j-log4j12-1.6.1.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-log4j12-1.6.1-sources.jar"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':commons-collections-3.2.1') { prj ->
-    eclipse {
-        classpath {
-            file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry -> entry.kind == 'lib' }
-                }
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/commons-collections-3.2.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/commons-collections-3.2.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged { classpath ->
+					classpath.entries.removeAll { entry -> entry.kind == 'lib' }
+				}
+				withXml {
+					def node = it.asNode()
+					def componentPath = "${prj.projectDir}/lib/commons-collections-3.2.1.jar"
+					def componentSourcePath = "${prj.projectDir}/lib-sources/commons-collections-3.2.1-sources.jar"
+					node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+				}
+			}
+		}
+	}
 }
 
 project(':perftence') {
-    version = '1.0-BETA'
+	version = '1.0-BETA'
 
-    dependencies {
-        compile project(':junit-4.10')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
-        testRuntime project(':slf4j-log4j12-1.6.1')
-        testRuntime project(':log4j-1.2.16')
-    }
+	dependencies {
+		compile project(':junit-4.10')
+		compile project(':commons-collections-3.2.1')
+		compile project(':slf4j-api-1.6.1')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jcommon-1.0.15')
+		testRuntime project(':slf4j-log4j12-1.6.1')
+		testRuntime project(':log4j-1.2.16')
+	}
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
-    }
+	task('dist', type: Zip) {
+		dependsOn 'jar'
+		from jar.archivePath
+		from configurations.runtime
+		exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
+	}
 }
 
 project(':acceptance-tests') {
-    dependencies {
-        testCompile project(':perftence')
-        testCompile project(':junit-4.10')
-        testCompile project(':commons-collections-3.2.1')
-        testCompile project(':slf4j-api-1.6.1')
-        testCompile project(':jfreechart-1.0.12')
-        testCompile project(':jfreechart-1.0.12')
-        testCompile project(':jcommon-1.0.15')
-        testRuntime project(':slf4j-log4j12-1.6.1')
-        testRuntime project(':log4j-1.2.16')
-    }
+	dependencies {
+		testCompile project(':perftence')
+		testCompile project(':junit-4.10')
+		testCompile project(':commons-collections-3.2.1')
+		testCompile project(':slf4j-api-1.6.1')
+		testCompile project(':jfreechart-1.0.12')
+		testCompile project(':jfreechart-1.0.12')
+		testCompile project(':jcommon-1.0.15')
+		testRuntime project(':slf4j-log4j12-1.6.1')
+		testRuntime project(':log4j-1.2.16')
+	}
 }
 
 project(':build') {
-    eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
+	eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
 }
 
 project(':mainentrypoint-example') {
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0.jar','jfreechart-1.0.12-1.0.jar','junit-4.10-1.0.jar','commons-collections-3.2.1-1.0.jar','slf4j-api-1.6.1-1.0.jar'
-    }
+	task('dist', type: Zip) {
+		dependsOn 'jar'
+		from jar.archivePath
+		from configurations.runtime
+		exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-BETA.jar'
+	}
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
-        runtime project(':slf4j-log4j12-1.6.1')
-        runtime project(':log4j-1.2.16')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile project(':commons-collections-3.2.1')
+		compile project(':slf4j-api-1.6.1')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jcommon-1.0.15')
+		runtime project(':slf4j-log4j12-1.6.1')
+		runtime project(':log4j-1.2.16')
+	}
 }
+
+project(':fluent-based-example') {
+
+	task('dist', type: Zip) {
+		dependsOn 'jar'
+		from jar.archivePath
+		from configurations.runtime
+		exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+	}
+
+	dependencies {
+		compile project(':perftence')
+		compile project(':commons-collections-3.2.1')
+		compile project(':slf4j-api-1.6.1')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jcommon-1.0.15')
+		runtime project(':slf4j-log4j12-1.6.1')
+		runtime project(':log4j-1.2.16')
+	}
+}
+
+
