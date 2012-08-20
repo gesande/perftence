@@ -21,10 +21,10 @@ import org.slf4j.LoggerFactory;
  * 
  */
 @RunWith(DefaultTestRunner.class)
-public final class MultiThreadedTestExample extends AbstractMultiThreadedTest {
+public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(MultiThreadedTestExample.class);
+            .getLogger(FluentBasedTestExample.class);
     private Executable executor;
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
@@ -40,10 +40,10 @@ public final class MultiThreadedTestExample extends AbstractMultiThreadedTest {
         this.executor = new Executable() {
             @Override
             public void execute() {
-                MultiThreadedTestExample.this.i++;
-                if (MultiThreadedTestExample.this.i % 1000 == 0) {
+                FluentBasedTestExample.this.i++;
+                if (FluentBasedTestExample.this.i % 1000 == 0) {
                     log().info("Executing...{}",
-                            MultiThreadedTestExample.this.i);
+                            FluentBasedTestExample.this.i);
                 }
             }
         };
