@@ -1,9 +1,7 @@
 #!/bin/bash
 set -eu
 
-distribution-with-sources() {
-  local PROJECT=$1
-  gradle clean $PROJECT:build $PROJECT:dist $PROJECT:sourcesJar
-}
+HERE=$(dirname $0)
+. $HERE/lib.sh
 
-distribution-with-sources "mainentrypoint-example"
+build-distribution-artifact "mainentrypoint-example"
