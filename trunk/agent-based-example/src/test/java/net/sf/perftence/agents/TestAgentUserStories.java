@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
@@ -20,15 +19,15 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
     private final static Random RANDOM = new Random(System.currentTimeMillis());
 
     @Test
-    public void sleepingAgentStoryWith100Agents() {
-        agentBasedTest().agents(agents(100, new SleepingTestAgentFactory()))
+    public void sleepingAgentStoryWith10Agents() {
+        agentBasedTest().agents(agents(10, new SleepingTestAgentFactory()))
                 .start();
     }
 
     @Test
-    public void sleepingAgentStoryWith100AgentsWithCustomSummaryAppender() {
+    public void sleepingAgentStoryWith10AgentsWithCustomSummaryAppender() {
         SummaryAppender appender = newSummaryAppender();
-        agentBasedTest().agents(agents(100, new SleepingTestAgentFactory()))
+        agentBasedTest().agents(agents(10, new SleepingTestAgentFactory()))
                 .summaryAppender(appender).start();
     }
 
@@ -64,146 +63,11 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
                 .latencyGraphForAll().start();
     }
 
-    @Test
-    public void sleepingAgentStoryWithTasksThatAreScheduledToBeRunNow() {
-        agentBasedTest()
-                .workers(10000)
-                .agents(agents(10000,
-                        new SleepingTestAgentFactoryWithNowFlavour())).start();
-    }
-
-    @Test
-    public void sleepingAgentStoryWithTwoTasks() {
-        agentBasedTest()
-                .agents(agents(
-                        10000,
-                        new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()))
-                .workers(2000).start();
-    }
-
-    @Test
-    public void agentBasedTestWithAllowedExceptions() {
-        agentBasedTest().agents(failingAgents(100)).allow(Fail.class).start();
-    }
-
     class Fail extends Exception {
 
         public Fail(final String message) {
             super(message);
         }
-    }
-
-    private Collection<TestAgent> failingAgents(int agents) {
-        final List<TestAgent> list = new ArrayList<TestAgent>();
-        final AtomicInteger counter = new AtomicInteger();
-        for (int i = 0; i < agents; i++) {
-            TestTask first = (counter.get() % 2 == 0) ? new FailTask()
-                    : newTask(10, 100, null);
-            counter.incrementAndGet();
-            list.add(new FailingHalfTheTime(first));
-        }
-        return list;
-    }
-
-    class FailingHalfTheTime implements TestAgent {
-
-        private final TestTask first;
-
-        public FailingHalfTheTime(final TestTask first) {
-            this.first = first;
-        }
-
-        @Override
-        public TestTask firstTask() {
-            return this.first;
-        }
-    }
-
-    class FailTask implements TestTask {
-
-        @Override
-        public Time when() {
-            return TimeSpecificationFactory.now();
-        }
-
-        @Override
-        public TestTask nextTaskIfAny() {
-            return null;
-        }
-
-        @Override
-        public void run(TestTaskReporter reporter) throws Exception {
-            Thread.sleep(1000);
-            throw new Fail("i fail");
-        }
-
-        @Override
-        public TestTaskCategory category() {
-            return SleepingTestCategory.AliveAgent;
-        }
-
-    }
-
-    class SleepingTestAgentFactoryWithNowFlavourHavingNextTask implements
-            TestAgentFactory {
-
-        @Override
-        public TestAgent newTestAgent(int id) {
-            return new TestAgentWithTwoTasks();
-        }
-
-        class TestAgentWithTwoTasks implements TestAgent {
-            @Override
-            public TestTask firstTask() {
-                return newTask(0, 100, newTask(0, 100, null));
-            }
-        }
-    }
-
-    class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
-
-        @Override
-        public TestAgent newTestAgent(final int id) {
-            return new TestAgentWithNowFlavour();
-        }
-
-        class TestAgentWithNowFlavour implements TestAgent {
-
-            public TestAgentWithNowFlavour() {
-            }
-
-            @Override
-            public TestTask firstTask() {
-                return newTask(0, 100, null);
-            }
-        }
-    }
-
-    private static TestTask newTask(final int scheduled, final int sleep,
-            final TestTask next) {
-        return new TestTask() {
-
-            @Override
-            public Time when() {
-                return TimeSpecificationFactory
-                        .someMillisecondsFromNow(scheduled);
-            }
-
-            @Override
-            public void run(TestTaskReporter reporter) throws Exception {
-                Thread.sleep(sleep);
-            }
-
-            @Override
-            public TestTask nextTaskIfAny() {
-                return next;
-            }
-
-            @Override
-            public TestTaskCategory category() {
-                return SleepingTestCategory.AliveAgent;
-            }
-        };
     }
 
     private static Collection<TestAgent> agents(final int initialCapacity,
@@ -243,7 +107,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         }
 
         private int sleepValue() {
-            return 100 + this.id;
+            return 10 + this.id;
         }
 
     }
@@ -288,7 +152,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
         @Override
         public Time when() {
-            return TimeSpecificationFactory.someMillisecondsFromNow(500);
+            return TimeSpecificationFactory.someMillisecondsFromNow(100);
         }
 
         @Override
@@ -297,7 +161,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         }
 
         private int sleepValue() {
-            return 600 + sleep();
+            return 50 + sleep();
         }
 
         private SleepingTask(final int sleep, final boolean nextTask,
