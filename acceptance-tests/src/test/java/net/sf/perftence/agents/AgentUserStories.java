@@ -35,8 +35,60 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
     }
 
     @Test
+    public void sleepingAgentStoryWithTasksThatAreScheduledToBeRunNow() {
+        agentBasedTest()
+                .workers(10000)
+                .agents(agents(10000,
+                        new SleepingTestAgentFactoryWithNowFlavour())).start();
+    }
+
+    @Test
+    public void sleepingAgentStoryWithTwoTasks() {
+        agentBasedTest()
+                .agents(agents(
+                        10000,
+                        new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()))
+                .workers(2000).start();
+    }
+
+    @Test
     public void agentBasedTestWithAllowedExceptions() {
         agentBasedTest().agents(failingAgents(100)).allow(Fail.class).start();
+    }
+
+    class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
+
+        @Override
+        public TestAgent newTestAgent(final int id) {
+            return new TestAgentWithNowFlavour();
+        }
+
+        class TestAgentWithNowFlavour implements TestAgent {
+
+            public TestAgentWithNowFlavour() {
+            }
+
+            @Override
+            public TestTask firstTask() {
+                return newTask(0, 100, null);
+            }
+        }
+    }
+
+    class SleepingTestAgentFactoryWithNowFlavourHavingNextTask implements
+            TestAgentFactory {
+
+        @Override
+        public TestAgent newTestAgent(int id) {
+            return new TestAgentWithTwoTasks();
+        }
+
+        class TestAgentWithTwoTasks implements TestAgent {
+            @Override
+            public TestTask firstTask() {
+                return newTask(0, 100, newTask(0, 100, null));
+            }
+        }
     }
 
     class Fail extends Exception {

@@ -13,13 +13,13 @@ task-done "additional build scripts for distribution" "#development-support"
 task-done "publish to sourceforge" "#development"
 task-done "rename TPS -> throughput" "#refactoring"
 task-done "provide fluent based test examples with sources" "#development-support" 
+task-done "provide agent based test examples with sources" "#development-support" 
+task-done "provide distribution for test examples with sources" "#development-support"
 
 in-progress-title
 
 waiting-title
 
-waiting "provide agent based test examples with sources" "#development-support" 
-waiting "provide distribution for test examples with sources" "#development-support"
 waiting "upload test example distribution packages to project files (i.e. to source forge)" "#development-support"
 waiting "fix the source packages for 3rd party lib" "#development-support"
 waiting "move build.gradle & settings.gradle under build project" "#build"
