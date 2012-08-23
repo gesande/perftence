@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.Assert;
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.reporting.summary.Summary;
@@ -14,15 +13,11 @@ import net.sf.perftence.reporting.summary.SummaryAppender;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RunWith(DefaultTestRunner.class)
 public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
     private final static Random RANDOM = new Random(System.currentTimeMillis());
-    private final static Logger LOG = LoggerFactory
-            .getLogger(TestAgentUserStories.class);
 
     @Test
     public void sleepingAgentStoryWith100Agents() {
@@ -63,12 +58,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
     }
 
     @Test
-    public void concurrentStoryWithSpecifiedLatencyGraph() {
-        agentBasedTest().agents(agents(2, new ConcurrentAgentFactory()))
-                .latencyGraphFor(SleepingTestCategory.AliveAgent).start();
-    }
-
-    @Test
     public void sleepingAgentWithFixedAmountOfWorkers() {
         agentBasedTest().workers(1000)
                 .agents(agents(1000, new SleepingTestAgentFactory()))
@@ -90,14 +79,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
                         10000,
                         new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()))
                 .workers(2000).start();
-    }
-
-    @Test
-    public void oneAgentOneTask() {
-        agentBasedTest().workerWaitTime(50).invocationRange(100)
-                .throughputRange(6500)
-                .agents(agents(100000, new SleepingMs(40, 50))).workers(1000)
-                .start();
     }
 
     @Test
@@ -159,59 +140,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         @Override
         public TestTaskCategory category() {
             return SleepingTestCategory.AliveAgent;
-        }
-
-    }
-
-    class SleepingMs implements TestAgentFactory {
-
-        private final int sleep;
-        private final int schedule;
-
-        public SleepingMs(final int sleep, final int schedule) {
-            this.sleep = sleep;
-            this.schedule = schedule;
-        }
-
-        @Override
-        public TestAgent newTestAgent(int id) {
-            return new TestAgentWithOneSleepingTask();
-        }
-
-        class TestAgentWithOneSleepingTask implements TestAgent {
-
-            @Override
-            public TestTask firstTask() {
-                return newTestTask(SleepingMs.this.sleep,
-                        SleepingMs.this.schedule,
-                        newTestTask(SleepingMs.this.sleep, 0, null));
-            }
-
-            private TestTask newTestTask(final int sleep, final int schedule,
-                    final TestTask next) {
-                return new TestTask() {
-
-                    @Override
-                    public Time when() {
-                        return TimeSpecificationFactory.inMillis(schedule);
-                    }
-
-                    @Override
-                    public void run(TestTaskReporter reporter) throws Exception {
-                        Thread.sleep(sleep);
-                    }
-
-                    @Override
-                    public TestTask nextTaskIfAny() {
-                        return next;
-                    }
-
-                    @Override
-                    public TestTaskCategory category() {
-                        return SleepingTestCategory.SleepingAgent;
-                    }
-                };
-            }
         }
 
     }
@@ -289,74 +217,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
     interface TestAgentFactory {
         TestAgent newTestAgent(int id);
-    }
-
-    static class ConcurrentAgentFactory implements TestAgentFactory {
-        @Override
-        public TestAgent newTestAgent(int id) {
-            return new ConcurrentAgent();
-        }
-
-    }
-
-    static class ConcurrentAgent implements TestAgent {
-
-        @Override
-        public TestTask firstTask() {
-            return new FirstTask();
-        }
-
-        class FirstTask implements TestTask {
-            private Thread currentThread;
-
-            @Override
-            public TestTaskCategory category() {
-                return SleepingTestCategory.AliveAgent;
-            }
-
-            @Override
-            public TestTask nextTaskIfAny() {
-                Assert.assertEquals("Running thread doesn't match !",
-                        this.currentThread, Thread.currentThread());
-                return new SecondTask();
-            }
-
-            @Override
-            public void run(TestTaskReporter reporter) throws Exception {
-                this.currentThread = Thread.currentThread();
-                Thread.sleep(200);
-                final Time time = reporter.timeSpentSoFar();
-                log().debug("Time spent for far: {} ms", time);
-            }
-
-            @Override
-            public Time when() {
-                return TimeSpecificationFactory.someMillisecondsFromNow(1000);
-            }
-        }
-
-        class SecondTask implements TestTask {
-            @Override
-            public TestTaskCategory category() {
-                return SleepingTestCategory.AliveAgent;
-            }
-
-            @Override
-            public Time when() {
-                return TimeSpecificationFactory.someMillisecondsFromNow(1000);
-            }
-
-            @Override
-            public void run(TestTaskReporter reporter) throws Exception {
-                Thread.sleep(100);
-            }
-
-            @Override
-            public TestTask nextTaskIfAny() {
-                return null;
-            }
-
-        }
     }
 
     class SleepingTestAgentFactory implements TestAgentFactory {
@@ -468,10 +328,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
     private static int nextInt(final int value) {
         return RANDOM.nextInt(value);
-    }
-
-    private static Logger log() {
-        return LOG;
     }
 
 }
