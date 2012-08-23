@@ -1,4 +1,15 @@
 #!/bin/bash
 set -eu
-gradle $1:create-dirs $1:copy-pmd-settings $1:eclipse
+new-java-project() {
+  local PROJECT=$1
+  gradle $PROJECT:create-dirs  
+  echo "$PROJECT directory structure done."
+  svn add $PROJECT
+  ./build/svn/ignore.sh $PROJECT
+  echo "Project put into svn"
+  gradle $PROJECT:copy-pmd-settings $PROJECT:eclipse
+  echo "Eclipse settings done for $PROJECT"
+  echo "Now import (without copying) the project into eclipse"
+}
 
+new-java-project $1
