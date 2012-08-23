@@ -16,7 +16,7 @@ in-progress-title
 in-progress "provide fluent based test examples with sources" "#development-support" 
 
 waiting-title
-waiting "rename TPS -> throughput"
+waiting "rename TPS -> throughput" "#refactoring"
 waiting "provide agent based test examples with sources" "#development-support" 
 waiting "provide distribution for test examples with sources" "#development-support"
 waiting "upload test example distribution packages to project files (i.e. to source forge)" "#development-support"
