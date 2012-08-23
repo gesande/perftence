@@ -107,7 +107,8 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 
     @Override
     public HtmlSummary throughput(final double throughput) {
-        return append("TPS                   : ").append(format(throughput));
+        return append("Throughput                   : ").append(
+                format(throughput));
     }
 
     public HtmlSummary threadCount(final int threadCount) {
