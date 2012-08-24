@@ -213,7 +213,7 @@ project(':perftence') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
+        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
     }
 }
 
@@ -241,7 +241,7 @@ project(':mainentrypoint-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-BETA.jar'
+        exclude 'slf4j-log4j12-1.6.1-1.0-BETA.jar','log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
     }
 
     dependencies {
@@ -262,7 +262,7 @@ project(':fluent-based-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
     }
 
     dependencies {
@@ -283,7 +283,7 @@ project(':agent-based-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
     }
 
     dependencies {
