@@ -108,7 +108,7 @@ project(':jcommon-1.0.15') { prj ->
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/jcommon-1.0.15.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jcommon-1.0.15.tar.gz"
+                    def componentSourcePath = "${prj.projectDir}/lib-sources/jcommon-1.0.15.zip"
                     node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
                 }
             }
