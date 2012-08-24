@@ -17,7 +17,7 @@ task-done "provide fluent based test examples with sources" $(tag development-su
 task-done "provide agent based test examples with sources" $(tag development-support)
 task-done "provide distribution for test examples with sources" $(tag development-support)
 task-done "fix the source packages for 3rd party libs" $(tag development-support)
-
+task-done "removed unnecessary jars from the distribution packages" $(tag development-support)
 in-progress-title
 
 waiting-title
