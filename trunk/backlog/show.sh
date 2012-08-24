@@ -16,9 +16,9 @@ task-done "rename TPS -> throughput" $(tag refactoring)
 task-done "provide fluent based test examples with sources" $(tag development-support)
 task-done "provide agent based test examples with sources" $(tag development-support)
 task-done "provide distribution for test examples with sources" $(tag development-support)
+task-done "fix the source packages for 3rd party libs" $(tag development-support)
 
 in-progress-title
-in-progress "fix the source packages for 3rd party lib" $(tag development-support)
 
 waiting-title
 
@@ -39,3 +39,4 @@ waiting "change" $(tag refactoring)
 intended-comment "public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY"
 waiting "ability to define the TPS is used defining it before running the test" $(tag feature)
 intended-comment "e.g. running at 500 TPS max when the test is running"
+waiting "simplified thread run engine for finding out threading issues" $(tag feature)
