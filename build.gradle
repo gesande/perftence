@@ -128,7 +128,7 @@ project(':jfreechart-1.0.12') { prj ->
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/jfreechart-1.0.12.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jfreechart-1.0.12.tar.gz"
+                    def componentSourcePath = "${prj.projectDir}/lib-sources/jfreechart-1.0.12.zip"
                     node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
                 }
             }
