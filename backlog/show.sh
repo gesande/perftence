@@ -21,6 +21,7 @@ in-progress-title
 
 waiting-title
 
+waiting "provide template pom.xml for developers" $(tag development-support)
 waiting "upload test example distribution packages to project files (i.e. to source forge)" $(tag development-support)
 waiting "fix the source packages for 3rd party lib" $(tag development-support)
 waiting "move build.gradle & settings.gradle under build project" $(tag build)
