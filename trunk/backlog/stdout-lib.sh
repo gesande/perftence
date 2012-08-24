@@ -6,6 +6,10 @@ title() {
   echo 
 }
 
+tag() {
+  local TAG=$1
+  echo -n "#$TAG"
+}
 task-done() {
   local TASK=$1
   local TAGS=$2
