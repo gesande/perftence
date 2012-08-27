@@ -19,7 +19,7 @@ public class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
     @Override
     public void provideSummary(HtmlSummary summary) {
         final Statistics stat = storage().statistics();
-        summary.throughput(stat.tps(elapsedTime(), invocationCount()))
+        summary.throughput(stat.throughput(elapsedTime(), invocationCount()))
                 .endOfLine();
         summary.minResponseTime(stat.min(), " ms").endOfLine();
         summary.maxResponseTime(stat.max(), " ms").endOfLine();
