@@ -14,7 +14,7 @@ tag() {
 task-done() {
   local TASK=$1
   local TAGS=$2
-  echo -e "\033[32m +++ $TASK +++ $TAGS"
+  echo -e "\033[32m +++ $TASK +++ $TAGS \e[m"
 }
 
 done-title() {
@@ -25,30 +25,30 @@ done-title() {
 
 in-progress-title() {
   echo
-  echo -e "\033[33m IN PROGRESS:"
+  echo -e "\033[33m IN PROGRESS: \e[m"
   echo
 }
 
 in-progress() {
   local TASK=$1
   local TAGS=$2
-  echo -e "\033[33m - $TASK $TAGS -"
+  echo -e "\033[33m - $TASK $TAGS - \e[m"
 }
 
 waiting-title() {
   echo
-  echo -e "\033[31mWAITING:"
+  echo -e "\033[31mWAITING: \e[m"
   echo
 }
 
 intended-comment() {
   local COMMENT=$1
-  echo "  * $COMMENT"
+  echo -e "\033[31m  * $COMMENT  \e[m"
 }
 
 waiting() {
   local TASK=$1
   local TAGS=$2
-  echo -e "\033[31m --- $TASK --- $TAGS"
+  echo -e "\033[31m --- $TASK --- $TAGS \e[m"
 }
 

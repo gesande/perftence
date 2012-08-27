@@ -18,11 +18,13 @@ task-done "provide agent based test examples with sources" $(tag development-sup
 task-done "provide distribution for test examples with sources" $(tag development-support)
 task-done "fix the source packages for 3rd party libs" $(tag development-support)
 task-done "removed unnecessary jars from the distribution packages" $(tag development-support)
+
 in-progress-title
 
 waiting-title
 
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag development-support)
+waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide template pom.xml for developers" $(tag development-support)
 waiting "upload test example distribution packages to project files (i.e. to source forge)" $(tag development-support)
 waiting "move build.gradle & settings.gradle under build project" $(tag build)
