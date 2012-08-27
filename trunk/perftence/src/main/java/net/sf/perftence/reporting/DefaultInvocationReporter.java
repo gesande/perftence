@@ -118,7 +118,7 @@ class DefaultInvocationReporter implements InvocationReporter {
 
     private boolean writeThroughputChart(String id) {
         if (throughputStorage().isEmpty()) {
-            log().info("No data to print to the tps chart");
+            log().info("No data to print to the throughput chart");
             return false;
         }
         imageFactory().createXYLineChart(id, throughputStorage().imageData());

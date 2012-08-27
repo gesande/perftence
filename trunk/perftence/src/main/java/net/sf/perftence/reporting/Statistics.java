@@ -20,14 +20,14 @@ public final class Statistics {
     }
 
     /**
-     * Calculates the TPS (invocations / second) for given values.
+     * Calculates the throughput (invocations / second) for given values.
      * 
      * @param elapsedTime
      *            in milliseconds
-     * @return the TPS (invocations / second)
+     * @return the throughput (invocations / second)
      */
     @SuppressWarnings("static-method")
-    public double tps(final long elapsedTime, final long invocationCount) {
+    public double throughput(final long elapsedTime, final long invocationCount) {
         return (invocationCount / (elapsedTime / 1000.00));
     }
 
