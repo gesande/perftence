@@ -23,6 +23,8 @@ in-progress-title
 
 waiting-title
 
+waiting "last second throughput graph" $(tag feature)
+waiting "last second statistics for agent based tests" $(tag feature)
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide template pom.xml for developers" $(tag development-support)
