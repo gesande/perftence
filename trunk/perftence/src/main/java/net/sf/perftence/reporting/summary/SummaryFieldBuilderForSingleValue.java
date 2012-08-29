@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
-final class SummaryFieldBuilderForSingleValue<T> implements
+public final class SummaryFieldBuilderForSingleValue<T> implements
         SummaryFieldBuilder<T>, BuildableSummaryField<T> {
 
     private final FieldFormatter fieldFormatter;

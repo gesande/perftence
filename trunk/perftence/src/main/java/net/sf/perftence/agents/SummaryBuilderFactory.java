@@ -2,6 +2,7 @@ package net.sf.perftence.agents;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.TestSummaryBuilder;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
@@ -27,12 +28,14 @@ public final class SummaryBuilderFactory {
     }
 
     public TestSummaryLogger intermediateSummaryBuilder(
-            RuntimeStatisticsProvider statisticsProvider,
-            ActiveThreads activeThreads,
-            TaskSchedulingStatisticsProvider scheduledTasks) {
+            final RuntimeStatisticsProvider statisticsProvider,
+            final ActiveThreads activeThreads,
+            final TaskSchedulingStatisticsProvider scheduledTasks,
+            final CustomIntermediateSummaryProvider... customProviders) {
         return newTestSummaryLogger(new IntermediateSummaryBuilder(
                 statisticsProvider, activeThreads, scheduledTasks,
-                failureNotifier(), summaryFieldFactory()));
+                failureNotifier(), summaryFieldFactory())
+                .customSummaryProviders(customProviders));
     }
 
     public TestSummaryLogger overallSummaryBuilder(

@@ -3,6 +3,7 @@ package net.sf.perftence.agents;
 import net.sf.perftence.reporting.summary.BuildableSummaryField;
 import net.sf.perftence.reporting.summary.FieldDefinition;
 import net.sf.perftence.reporting.summary.SummaryField;
+import net.sf.perftence.reporting.summary.SummaryFieldBuilder;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 
 public final class SummaryFieldFactoryForAgentBasedTests {
@@ -109,6 +110,11 @@ public final class SummaryFieldFactoryForAgentBasedTests {
 
     public SummaryField<Long> max(final long maxLatency) {
         return summaryFieldFactory().max().value(maxLatency).build();
+    }
+
+    public <VALUE> SummaryFieldBuilder<VALUE> custom(
+            final FieldDefinition field, final Class<VALUE> valueType) {
+        return summaryFieldFactory().custom(field, valueType);
     }
 
 }

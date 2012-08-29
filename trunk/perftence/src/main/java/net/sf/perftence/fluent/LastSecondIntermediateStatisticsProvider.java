@@ -5,12 +5,13 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 
-final class LastSecondIntermediateStatisticsProvider implements
+//TODO: move this to reporting.summary package
+final public class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
     private final RuntimeStatisticsProvider statistics;
 
-    LastSecondIntermediateStatisticsProvider(
+    public LastSecondIntermediateStatisticsProvider(
             final AdjustedFieldBuilder fieldBuilder,
             final RuntimeStatisticsProvider statistics) {
         this.fieldBuilder = fieldBuilder;
