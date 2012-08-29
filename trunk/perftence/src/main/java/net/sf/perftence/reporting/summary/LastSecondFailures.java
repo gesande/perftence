@@ -1,4 +1,4 @@
-package net.sf.perftence.fluent;
+package net.sf.perftence.reporting.summary;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,10 +7,8 @@ import java.util.Map;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.IntermediateSummary;
 
-public class LastSecondFailures implements CustomFailureReporter,
+public final class LastSecondFailures implements CustomFailureReporter,
         CustomIntermediateSummaryProvider {
     private final Map<Long, FailedInvocations> failures = Collections
             .synchronizedMap(new HashMap<Long, FailedInvocations>());

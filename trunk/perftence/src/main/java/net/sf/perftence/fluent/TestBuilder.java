@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.Executable;
+import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerfTestFailureFactory;
@@ -24,6 +25,8 @@ import net.sf.perftence.reporting.InvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
+import net.sf.perftence.reporting.summary.LastSecondFailures;
+import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

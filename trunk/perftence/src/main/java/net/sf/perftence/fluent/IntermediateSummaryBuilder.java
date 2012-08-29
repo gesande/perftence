@@ -1,25 +1,20 @@
 package net.sf.perftence.fluent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.RuntimeStatisticsProvider;
 import net.sf.perftence.reporting.summary.AbstractSummaryBuilder;
-import net.sf.perftence.reporting.summary.AdjustedField;
 import net.sf.perftence.reporting.summary.BuildableSummaryField;
+import net.sf.perftence.reporting.summary.CompositeCustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.FieldDefinition;
-import net.sf.perftence.reporting.summary.IntermediateSummary;
 import net.sf.perftence.reporting.summary.SummaryField;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummary;
 
 final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
-    private final List<CustomIntermediateSummaryProvider> customProviders;
     private final RuntimeStatisticsProvider statisticsProvider;
     private final PerformanceTestSetup setUp;
     private final SummaryFieldFactory summaryFieldFactory;
+    private final CompositeCustomIntermediateSummaryProvider customIntermediateSummaryProvider;
 
     IntermediateSummaryBuilder(final PerformanceTestSetup setUp,
             final RuntimeStatisticsProvider counter,
@@ -27,7 +22,7 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         this.setUp = setUp;
         this.statisticsProvider = counter;
         this.summaryFieldFactory = summaryFieldFactory;
-        this.customProviders = new ArrayList<CustomIntermediateSummaryProvider>();
+        this.customIntermediateSummaryProvider = new CompositeCustomIntermediateSummaryProvider();
     }
 
     @Override
@@ -69,51 +64,17 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
                     .actualTimeLeft(actualTimeLeft)
                     .estimatedTimeLeft(Math.max(actualTimeLeft, 1)));
         }
-        customIntermediateSummary(summary);
+        customIntermediateSummaryProvider().intermediateSummary(summary,
+                summaryFieldFactory());
     }
 
-    private void customIntermediateSummary(final TestSummary summary) {
-        for (final CustomIntermediateSummaryProvider provider : customProviders()) {
-            provider.provideIntermediateSummary(new IntermediateSummary() {
-
-                @Override
-                public IntermediateSummary endOfLine() {
-                    summary.endOfLine();
-                    return this;
-                }
-
-                @Override
-                public IntermediateSummary text(final String text) {
-                    summary.text(text);
-                    return this;
-                }
-
-                @Override
-                public IntermediateSummary field(final AdjustedField<?> field) {
-                    summary.field(summaryFieldFactory()
-                            .custom(toFieldDefinition(field.name()),
-                                    Object.class).value(field.value()).build());
-                    return this;
-                }
-
-                private FieldDefinition toFieldDefinition(final String name) {
-                    return new FieldDefinition() {
-
-                        @Override
-                        public String fullName() {
-                            return name;
-                        }
-                    };
-                }
-            });
-        }
+    private CompositeCustomIntermediateSummaryProvider customIntermediateSummaryProvider() {
+        return this.customIntermediateSummaryProvider;
     }
 
     public IntermediateSummaryBuilder customSummaryProviders(
             final CustomIntermediateSummaryProvider... providers) {
-        for (final CustomIntermediateSummaryProvider provider : providers) {
-            customProviders().add(provider);
-        }
+        customIntermediateSummaryProvider().customSummaryProviders(providers);
         return this;
     }
 
@@ -157,10 +118,6 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 
     private SummaryFieldFactory summaryFieldFactory() {
         return this.summaryFieldFactory;
-    }
-
-    private List<CustomIntermediateSummaryProvider> customProviders() {
-        return this.customProviders;
     }
 
     private PerformanceTestSetup setUp() {

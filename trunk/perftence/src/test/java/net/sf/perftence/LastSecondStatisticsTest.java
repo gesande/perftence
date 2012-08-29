@@ -1,4 +1,6 @@
-package net.sf.perftence.fluent;
+package net.sf.perftence;
+
+import net.sf.perftence.LastSecondStatistics;
 
 import org.junit.Test;
 

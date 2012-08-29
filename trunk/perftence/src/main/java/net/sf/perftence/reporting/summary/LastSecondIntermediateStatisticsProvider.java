@@ -1,11 +1,7 @@
-package net.sf.perftence.fluent;
+package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
-import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.IntermediateSummary;
 
-//TODO: move this to reporting.summary package
 final public class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
