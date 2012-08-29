@@ -10,7 +10,7 @@ import org.apache.commons.collections.bag.TreeBag;
 public class ResponseCodeSummary implements SummaryAppender {
 
     private SortedBag bag;
-    private static final DecimalFormat DF = new DecimalFormat("###.0");
+    private static final DecimalFormat DF = new DecimalFormat("###.###");
 
     public ResponseCodeSummary() {
         this.bag = SynchronizedSortedBag.decorate(new TreeBag());
@@ -43,7 +43,7 @@ public class ResponseCodeSummary implements SummaryAppender {
         if (bag().isEmpty()) {
             summary.text("[no responses]");
         } else {
-            double successRate = successTotal / bag().size() * 100;
+            double successRate = (successTotal * 1.00 / bag().size()) * 100.00;
             summary.text(DF.format(successRate)).text(" %");
         }
         summary.endOfLine();
