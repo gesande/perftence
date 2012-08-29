@@ -7,6 +7,10 @@ subprojects {
 
     version = '1.0-BETA'
 
+    task "show-version" << {
+      println version
+    } 
+
     repositories {
         flatDir { dirs 'lib' }
     }
