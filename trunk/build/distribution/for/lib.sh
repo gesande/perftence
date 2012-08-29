@@ -7,7 +7,9 @@ distribution-with-sources() {
 }
 
 make-distribution-artifact() {
+
   local PROJECT=$1
+  local VERSION=$(gradle $PROJECT:show-version | grep -A1 "show-version" | sed -n 2p)
   cd $PROJECT/build/
   rm -rf dist
   mkdir dist
@@ -15,7 +17,7 @@ make-distribution-artifact() {
   cp libs/*.jar dist
   echo "Copying all distributions to dist" 
   cp distributions/*.zip dist
-  local ARTIFACT=$PROJECT-dist.tar
+  local ARTIFACT=$PROJECT-$VERSION-dist.tar
   echo "Making the tar distribution artifact $ARTIFACT" 
   tar -cf $ARTIFACT dist
   echo "DONE."
