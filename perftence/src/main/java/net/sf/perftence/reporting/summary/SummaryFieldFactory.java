@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
-public class SummaryFieldFactory {
+public class SummaryFieldFactory implements CustomSummaryFieldProvider {
 
     private final FieldFormatter fieldFormatter;
     private final FieldAdjuster fieldAdjuster;
@@ -133,7 +133,7 @@ public class SummaryFieldFactory {
         }
     }
 
-    @SuppressWarnings("unused")
+    @Override
     public <VALUE> SummaryFieldBuilder<VALUE> custom(
             final FieldDefinition field, final Class<VALUE> valueType) {
         return new SummaryFieldBuilderForSingleValue<VALUE>(fieldFormatter(),

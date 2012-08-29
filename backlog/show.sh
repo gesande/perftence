@@ -19,6 +19,7 @@ task-done "provide distribution for test examples with sources" $(tag developmen
 task-done "fix the source packages for 3rd party libs" $(tag development-support)
 task-done "removed unnecessary jars from the distribution packages" $(tag development-support)
 task-done "last second statistics for agent based tests" $(tag feature)
+task-done "removed custom intermediate summary redundancy from intermediate summary builders" $(tag refactoring)
 
 in-progress-title
 

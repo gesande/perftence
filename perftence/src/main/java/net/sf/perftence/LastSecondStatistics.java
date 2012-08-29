@@ -1,14 +1,10 @@
-package net.sf.perftence.fluent;
+package net.sf.perftence;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.perftence.CustomInvocationReporter;
-import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.RuntimeStatisticsProvider;
-
-public class LastSecondStatistics implements RuntimeStatisticsProvider,
+public final class LastSecondStatistics implements RuntimeStatisticsProvider,
         CustomInvocationReporter {
 
     private final Map<Long, LatencyProvider> latencies = Collections

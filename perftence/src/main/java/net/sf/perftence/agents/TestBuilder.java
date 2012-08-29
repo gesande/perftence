@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.CustomInvocationReporter;
+import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetup;
@@ -18,9 +19,6 @@ import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
-import net.sf.perftence.fluent.LastSecondFailures;
-import net.sf.perftence.fluent.LastSecondIntermediateStatisticsProvider;
-import net.sf.perftence.fluent.LastSecondStatistics;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
@@ -29,6 +27,8 @@ import net.sf.perftence.reporting.InvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
+import net.sf.perftence.reporting.summary.LastSecondFailures;
+import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
@@ -72,13 +72,10 @@ public final class TestBuilder implements RunnableAdapter, Startable {
 
     private final List<CustomInvocationReporter> customLatencyReporters;
     private final List<CustomFailureReporter> customFailureReporters;
-
-    private final AdjustedFieldBuilder fieldBuilder;
     private final FailedInvocations failedInvocations;
-
-    private LastSecondStatistics lastSecondStats;
-
-    private LastSecondFailures lastSecondFailures;
+    private final LastSecondStatistics lastSecondStats;
+    private final LastSecondFailures lastSecondFailures;
+    private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 
     TestBuilder(
             final String name,
@@ -108,7 +105,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         this.runningTasks = LatencyVsConcurrentTasks.instance(name());
         this.allowedExceptions = new AllowedExceptions();
 
-        this.fieldBuilder = adjustedFieldBuilderFactory.newInstance();
+        this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
         this.lastSecondStats = new LastSecondStatistics();
         this.lastSecondFailures = new LastSecondFailures(
@@ -178,6 +175,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     }
 
     private void newIntermediateSummaryBuilder() {
+        final AdjustedFieldBuilder fieldBuilder = this.adjustedFieldBuilderFactory
+                .newInstance();
         this.intermediateSummaryLogger = summaryBuilderFactory()
                 .intermediateSummaryBuilder(
                         latencyProvider(),
@@ -185,16 +184,12 @@ public final class TestBuilder implements RunnableAdapter, Startable {
                         scheduledTasks(),
                         failedInvocations(),
                         newLastSecondStatsProvider(lastSecondStatistics(),
-                                fieldBuilder()), lastSecondFailures());
+                                fieldBuilder), lastSecondFailures());
         log().debug("Intermediate summary builder created.");
     }
 
     private LastSecondFailures lastSecondFailures() {
         return this.lastSecondFailures;
-    }
-
-    private AdjustedFieldBuilder fieldBuilder() {
-        return this.fieldBuilder;
     }
 
     private LastSecondStatistics lastSecondStatistics() {
