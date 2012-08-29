@@ -37,7 +37,7 @@ in-progress() {
 
 waiting-title() {
   echo
-  echo -e "\033[31mWAITING: \e[m"
+  echo -e "\033[31m WAITING: \e[m"
   echo
 }
 
