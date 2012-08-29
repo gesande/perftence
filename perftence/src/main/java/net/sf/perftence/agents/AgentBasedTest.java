@@ -20,7 +20,8 @@ public final class AgentBasedTest {
     private final TestSummaryLoggerFactory testSummaryLoggerFactory;
     private final FailedInvocationsFactory failedInvocationsFactory;
     private final LatencyFactory latencyFactory;
-    private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+    private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+    private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 
     public AgentBasedTest(final TestFailureNotifier failureNotifier) {
         this.failureNotifier = validate(failureNotifier);
@@ -29,9 +30,11 @@ public final class AgentBasedTest {
         this.summaryFieldFactory = new SummaryFieldFactoryForAgentBasedTests(
                 SummaryFieldFactory.create(fieldFormatter, fieldAdjuster));
         this.testSummaryLoggerFactory = new TestSummaryLoggerFactory();
+        this.adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
+                fieldFormatter, fieldAdjuster);
         this.failedInvocationsFactory = new FailedInvocationsFactory(
-                new DefaultDoubleFormatter(), new AdjustedFieldBuilderFactory(
-                        fieldFormatter, fieldAdjuster).newInstance());
+                new DefaultDoubleFormatter(), adjustedFieldBuilderFactory()
+                        .newInstance());
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
     }
@@ -41,7 +44,12 @@ public final class AgentBasedTest {
         return new TestBuilder(id, notifierAdapter, new SummaryBuilderFactory(
                 testSummaryLoggerFactory(), summaryFieldFactory(),
                 notifierAdapter), failedInvocationsFactory(), latencyFactory(),
-                allowedExceptionOccurredMessageBuilder());
+                allowedExceptionOccurredMessageBuilder(),
+                adjustedFieldBuilderFactory());
+    }
+
+    private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {
+        return this.adjustedFieldBuilderFactory;
     }
 
     private static TestFailureNotifierDecorator newNotifierDecorator(

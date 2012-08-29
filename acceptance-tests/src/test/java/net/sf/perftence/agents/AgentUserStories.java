@@ -53,7 +53,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
     @Test
     public void agentBasedTestWithAllowedExceptions() {
-        agentBasedTest().agents(failingAgents(100)).allow(Fail.class).start();
+        agentBasedTest().agents(failingAgents(5000)).allow(Fail.class).start();
     }
 
     class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
@@ -130,7 +130,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         final AtomicInteger counter = new AtomicInteger();
         for (int i = 0; i < agents; i++) {
             TestTask first = (counter.get() % 2 == 0) ? new FailTask()
-                    : newTask(10, 100, null);
+                    : newTask(100, 1000, null);
             counter.incrementAndGet();
             list.add(new FailingHalfTheTime(first));
         }
@@ -305,8 +305,8 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
 
         @Override
-        public void run(TestTaskReporter reporter) throws Exception {
-            Thread.sleep(1000);
+        public void run(final TestTaskReporter reporter) throws Exception {
+            Thread.sleep(100);
             throw new Fail("i fail");
         }
 

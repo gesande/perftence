@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
+import net.sf.perftence.CustomInvocationReporter;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetup;
@@ -17,10 +18,17 @@ import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
+import net.sf.perftence.fluent.LastSecondFailures;
+import net.sf.perftence.fluent.LastSecondIntermediateStatisticsProvider;
+import net.sf.perftence.fluent.LastSecondStatistics;
+import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.InvocationReporter;
 import net.sf.perftence.reporting.InvocationReporterFactory;
+import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
+import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
+import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
@@ -62,13 +70,24 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     private int throughputRange = 2500;
     private int invocationRange = 500;
 
+    private final List<CustomInvocationReporter> customLatencyReporters;
+    private final List<CustomFailureReporter> customFailureReporters;
+
+    private final AdjustedFieldBuilder fieldBuilder;
+    private final FailedInvocations failedInvocations;
+
+    private LastSecondStatistics lastSecondStats;
+
+    private LastSecondFailures lastSecondFailures;
+
     TestBuilder(
             final String name,
             final TestFailureNotifierDecorator failureNotifier,
             final SummaryBuilderFactory summaryBuilderFactory,
             final FailedInvocationsFactory failedInvocationsFactory,
             final LatencyFactory latencyFactory,
-            final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder) {
+            final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
+            final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -88,14 +107,32 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
         this.runningTasks = LatencyVsConcurrentTasks.instance(name());
         this.allowedExceptions = new AllowedExceptions();
+
+        this.fieldBuilder = adjustedFieldBuilderFactory.newInstance();
+        this.failedInvocations = this.failedInvocationsFactory.newInstance();
+        this.lastSecondStats = new LastSecondStatistics();
+        this.lastSecondFailures = new LastSecondFailures(
+                this.failedInvocationsFactory);
+
+        this.customLatencyReporters = new ArrayList<CustomInvocationReporter>();
+        this.customLatencyReporters.add(lastSecondStatistics());
+        this.customFailureReporters = new ArrayList<CustomFailureReporter>();
+        this.customFailureReporters.add(lastSecondFailures());
         log().info("TestBuilder {} created.", name());
     }
 
     InvocationReporter defaultInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
+        return newInvocationReporterWithDefaults(latencyProvider, threads,
+                newFailedInvocations());
+    }
+
+    private InvocationReporter newInvocationReporterWithDefaults(
+            final LatencyProvider latencyProvider, final int threads,
+            FailedInvocations newFailedInvocations) {
         return InvocationReporterFactory.newDefaultInvocationReporter(
                 latencyProvider, true, setup(0, threads, 0),
-                newFailedInvocations());
+                newFailedInvocations);
     }
 
     @Override
@@ -142,9 +179,37 @@ public final class TestBuilder implements RunnableAdapter, Startable {
 
     private void newIntermediateSummaryBuilder() {
         this.intermediateSummaryLogger = summaryBuilderFactory()
-                .intermediateSummaryBuilder(latencyProvider(), activeThreads(),
-                        scheduledTasks());
+                .intermediateSummaryBuilder(
+                        latencyProvider(),
+                        activeThreads(),
+                        scheduledTasks(),
+                        failedInvocations(),
+                        newLastSecondStatsProvider(lastSecondStatistics(),
+                                fieldBuilder()), lastSecondFailures());
         log().debug("Intermediate summary builder created.");
+    }
+
+    private LastSecondFailures lastSecondFailures() {
+        return this.lastSecondFailures;
+    }
+
+    private AdjustedFieldBuilder fieldBuilder() {
+        return this.fieldBuilder;
+    }
+
+    private LastSecondStatistics lastSecondStatistics() {
+        return this.lastSecondStats;
+    }
+
+    private FailedInvocations failedInvocations() {
+        return this.failedInvocations;
+    }
+
+    private static CustomIntermediateSummaryProvider newLastSecondStatsProvider(
+            final LastSecondStatistics statisticsProvider,
+            final AdjustedFieldBuilder fieldBuilder) {
+        return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
+                statisticsProvider);
     }
 
     private SummaryBuilderFactory summaryBuilderFactory() {
@@ -152,8 +217,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     }
 
     private void createOverallReporter() {
-        this.overallReporter = defaultInvocationReporter(latencyProvider(),
-                workerThreads());
+        this.overallReporter = newInvocationReporterWithDefaults(
+                latencyProvider(), workerThreads(), failedInvocations());
         log().debug("Overall reporter created.");
     }
 
@@ -220,7 +285,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         categorySpecificLatencies().reportCategorySpecificLatencies();
     }
 
-    private void newCategorySpecificReporter(TestTaskCategory category) {
+    private void newCategorySpecificReporter(final TestTaskCategory category) {
         categorySpecificLatencies().newCategorySpecificReporter(category);
     }
 
@@ -519,12 +584,19 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         schedulingService().handleFailure(task, cause);
         categorySpecificLatencies().reportFailure(task.category(), cause);
         overallReporter().invocationFailed(cause);
+        for (final CustomFailureReporter custom : customFailureReporters()) {
+            custom.more(cause);
+        }
         if (!allowed) {
             failureNotifier().testFailed(cause);
             finishedWithError(task, cause);
         } else {
             log().warn(allowedExceptionOccurredMessage(cause));
         }
+    }
+
+    private List<CustomFailureReporter> customFailureReporters() {
+        return this.customFailureReporters;
     }
 
     private String allowedExceptionOccurredMessage(final Throwable cause) {
@@ -555,8 +627,15 @@ public final class TestBuilder implements RunnableAdapter, Startable {
             final TestTaskCategory category) {
         latencyProvider().addSample(latency);
         overallReporter().latency(latency);
+        for (final CustomInvocationReporter reporter : customLatencyReporters()) {
+            reporter.latency(latency);
+        }
         categorySpecificLatencies().reportCategorySpecificLatency(latency,
                 category);
+    }
+
+    private List<CustomInvocationReporter> customLatencyReporters() {
+        return this.customLatencyReporters;
     }
 
     private int newLatency(final long callStart) {
