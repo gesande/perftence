@@ -5,6 +5,8 @@ can be used for:
   - writing performance tests
   - writing use cases based tests (called test agents)
 
+import eclipse formatting settings from ./build/eclipse/formatting/settings.xml
+
 some eclipse plugins you might consider useful (not required for developing perftence):
 
 eclipse-groovy plugin
