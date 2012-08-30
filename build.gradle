@@ -9,7 +9,8 @@ subprojects {
 
     task "show-version" << { println version }
 
-    repositories { flatDir { dirs 'lib' } }
+    repositories { flatDir { dirs 'lib'
+        } }
 
     dependencies {
         compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
@@ -320,7 +321,5 @@ project(':perftence-junit-utils') {
         exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
     }
 
-    dependencies {
-        compile project(':junit-4.10')
-    }
+    dependencies { compile project(':junit-4.10') }
 }
