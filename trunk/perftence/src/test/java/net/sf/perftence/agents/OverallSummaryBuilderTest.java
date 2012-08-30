@@ -3,6 +3,9 @@ package net.sf.perftence.agents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.text.DecimalFormat;
+
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -16,6 +19,7 @@ import org.slf4j.LoggerFactory;
 public class OverallSummaryBuilderTest implements TestFailureNotifier {
     private final static Logger LOG = LoggerFactory
             .getLogger(OverallSummaryBuilderTest.class);
+    private final static DecimalFormat DF = new DecimalFormat("###.##");
 
     @Test
     public void buildSummary() {
@@ -29,23 +33,27 @@ public class OverallSummaryBuilderTest implements TestFailureNotifier {
                 build.contains("failed tasks:            0\n"));
         assertTrue("threads field is missing!",
                 build.contains("max:                     998\n"));
-        assertTrue("average field is missing!",
-                build.contains("average:                 508.38\n"));
+        assertTrue(
+                "average field is missing!",
+                build.contains("average:                 " + DF.format(508.38)
+                        + "\n"));
         assertTrue("median field is missing!",
                 build.contains("median:                  488\n"));
         assertTrue("95 percentile field is missing!",
                 build.contains("95 percentile:           955\n"));
-        assertTrue("throughput field is missing!",
-                build.contains("throughput:              19.08\n"));
+        assertTrue(
+                "throughput field is missing!",
+                build.contains("throughput:              " + DF.format(19.08)
+                        + "\n"));
         assertTrue("execution time field is missing!",
                 build.contains("execution time (ms):     15000\n"));
         final String expected = "" + "finished tasks:          286\n"
                 + "failed tasks:            0\n"
                 + "max:                     998\n"
-                + "average:                 508.38\n"
+                + "average:                 " + DF.format(508.38) + "\n"
                 + "median:                  488\n"
                 + "95 percentile:           955\n"
-                + "throughput:              19.08\n"
+                + "throughput:              " + DF.format(19.08) + "\n"
                 + "execution time (ms):     15000\n";
         assertEquals(expected, build);
     }
@@ -62,23 +70,27 @@ public class OverallSummaryBuilderTest implements TestFailureNotifier {
                 build.contains("failed tasks:            1\n"));
         assertTrue("threads field is missing!",
                 build.contains("max:                     998\n"));
-        assertTrue("average field is missing!",
-                build.contains("average:                 508.38\n"));
+        assertTrue(
+                "average field is missing!",
+                build.contains("average:                 " + DF.format(508.38)
+                        + "\n"));
         assertTrue("median field is missing!",
                 build.contains("median:                  488\n"));
         assertTrue("95 percentile field is missing!",
                 build.contains("95 percentile:           955\n"));
-        assertTrue("throughput field is missing!",
-                build.contains("throughput:              19.08\n"));
+        assertTrue(
+                "throughput field is missing!",
+                build.contains("throughput:              " + DF.format(19.08)
+                        + "\n"));
         assertTrue("execution time field is missing!",
                 build.contains("execution time (ms):     15000\n"));
         final String expected = "" + "finished tasks:          286\n"
                 + "failed tasks:            1\n"
                 + "max:                     998\n"
-                + "average:                 508.38\n"
+                + "average:                 " + DF.format(508.38) + "\n"
                 + "median:                  488\n"
                 + "95 percentile:           955\n"
-                + "throughput:              19.08\n"
+                + "throughput:              " + DF.format(19.08) + "\n"
                 + "execution time (ms):     15000\n";
         assertEquals(expected, build);
     }
