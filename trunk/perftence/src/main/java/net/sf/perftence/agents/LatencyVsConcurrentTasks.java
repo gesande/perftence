@@ -6,7 +6,7 @@ import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 
-public class LatencyVsConcurrentTasks {
+public final class LatencyVsConcurrentTasks {
 
     private final String name;
     private final ImageData imageData;
