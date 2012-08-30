@@ -20,6 +20,7 @@ task-done "fix the source packages for 3rd party libs" $(tag development-support
 task-done "removed unnecessary jars from the distribution packages" $(tag development-support)
 task-done "last second statistics for agent based tests" $(tag feature)
 task-done "removed custom intermediate summary redundancy from intermediate summary builders" $(tag refactoring)
+task-done "created perftence-junit-utils and responsecode-summaryappender projects"
 
 in-progress-title
 
