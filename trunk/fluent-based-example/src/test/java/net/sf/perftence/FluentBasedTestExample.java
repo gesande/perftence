@@ -14,8 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Acts as an example of how a developer can define performance test fluently
+ * First extend from AbstractMultiThreadedTest to get access to test entry
+ * points decorate with @RunWith using DefaultTestRunner (or or your test runner
+ * extending AbstractTestRunner to get the FailureNotifier injected properly)
  * 
+ * For example like this:
  */
 @RunWith(DefaultTestRunner.class)
 public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
