@@ -45,7 +45,11 @@ public abstract class AbstractTestRunner extends BlockJUnit4ClassRunner
     }
 
     private static void handleException(final Exception e) {
-        LOG.debug(notAbleToInjectTestFailureNotifier(), e.getMessage());
+        log().debug(notAbleToInjectTestFailureNotifier(), e.getMessage());
+    }
+
+    private static Logger log() {
+        return LOG;
     }
 
     private static String notAbleToInjectTestFailureNotifier() {
