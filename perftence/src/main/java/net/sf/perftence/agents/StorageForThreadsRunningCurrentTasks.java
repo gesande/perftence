@@ -14,7 +14,7 @@ import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public class StorageForThreadsRunningCurrentTasks {
+public final class StorageForThreadsRunningCurrentTasks {
 
     private static final DecimalFormat DF = new DecimalFormat("####");
 

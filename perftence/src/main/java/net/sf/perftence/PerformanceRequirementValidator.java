@@ -1,6 +1,6 @@
 package net.sf.perftence;
 
-public class PerformanceRequirementValidator {
+public final class PerformanceRequirementValidator {
 
     private PerfTestFailureFactory perfTestFailureFactory;
     private final PerformanceRequirements requirements;

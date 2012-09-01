@@ -3,7 +3,7 @@ package net.sf.perftence.reporting.summary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeCustomIntermediateSummaryProvider {
+public final class CompositeCustomIntermediateSummaryProvider {
 
     private final List<CustomIntermediateSummaryProvider> customProviders;
 

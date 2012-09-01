@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class SchedulingServiceBasedOnJavaConcurrentStuff implements
+final class SchedulingServiceBasedOnJavaConcurrentStuff implements
         TestTaskSchedulingService {
 
     private static final Logger LOG = LoggerFactory

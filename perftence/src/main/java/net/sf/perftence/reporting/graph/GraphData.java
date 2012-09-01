@@ -12,6 +12,6 @@ public interface GraphData<T> {
 
     Range range();
 
-    T range(Range range);
+    T range(final Range range);
 
 }

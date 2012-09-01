@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting;
 
-public class ReportingOptionsFactory {
+public final class ReportingOptionsFactory {
 
     private ReportingOptionsFactory() {
     }

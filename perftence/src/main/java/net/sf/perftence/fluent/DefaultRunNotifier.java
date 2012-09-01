@@ -8,7 +8,7 @@ import net.sf.perftence.RunNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultRunNotifier implements RunNotifier {
+public final class DefaultRunNotifier implements RunNotifier {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(DefaultRunNotifier.class);

@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
-public class SamplesField extends SummaryFieldImpl<String> {
+public final class SamplesField extends SummaryFieldImpl<String> {
 
     private long samplesSoFar;
     private long samplesTotal;

@@ -16,7 +16,7 @@ public final class DatasetAdapterFactory {
     }
 
     public static DatasetAdapter<ScatterPlotGraphData> adapterForScatterPlot(
-            final String legendTitle, String yAxisTitle) {
+            final String legendTitle, final String yAxisTitle) {
         return new XYSeriesAdapterForScatterPlot(legendTitle, yAxisTitle);
     }
 }

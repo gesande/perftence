@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting;
 
-public class HtmlReportDeployment {
+public final class HtmlReportDeployment {
 
     private HtmlReportDeployment() {
     }
