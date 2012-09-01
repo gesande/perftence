@@ -21,6 +21,7 @@ task-done "removed unnecessary jars from the distribution packages" $(tag develo
 task-done "last second statistics for agent based tests" $(tag feature)
 task-done "removed custom intermediate summary redundancy from intermediate summary builders" $(tag refactoring)
 task-done "created perftence-junit-utils and responsecode-summaryappender projects"
+task-done "added some unit tests for the obvious ones" $(tag development)
 
 in-progress-title
 
