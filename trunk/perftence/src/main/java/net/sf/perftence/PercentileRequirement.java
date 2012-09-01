@@ -1,6 +1,6 @@
 package net.sf.perftence;
 
-public class PercentileRequirement {
+public final class PercentileRequirement {
     private final int percentage;
     private final int millis;
 

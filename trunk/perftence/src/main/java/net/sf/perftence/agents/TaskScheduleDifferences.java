@@ -19,7 +19,7 @@ import org.apache.commons.collections.SortedBag;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.apache.commons.collections.bag.TreeBag;
 
-public class TaskScheduleDifferences {
+public final class TaskScheduleDifferences {
     private static final DecimalFormat DF = new DecimalFormat("####");
 
     private final SortedBag differencies;

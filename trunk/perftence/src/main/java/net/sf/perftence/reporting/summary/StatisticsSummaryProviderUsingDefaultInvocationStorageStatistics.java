@@ -4,7 +4,7 @@ import net.sf.perftence.reporting.InvocationStorage;
 import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
-public class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
+public final class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
         implements StatisticsSummaryProvider<HtmlSummary> {
 
     private final InvocationStorage storage;
@@ -17,7 +17,7 @@ public class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
     }
 
     @Override
-    public void provideSummary(HtmlSummary summary) {
+    public void provideSummary(final HtmlSummary summary) {
         final Statistics stat = storage().statistics();
         summary.throughput(stat.throughput(elapsedTime(), invocationCount()))
                 .endOfLine();

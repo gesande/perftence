@@ -1,6 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
-public class ExecutionTimePlugin implements SummaryFieldPlugin<Long> {
+public final class ExecutionTimePlugin implements SummaryFieldPlugin<Long> {
     private final SummaryFieldFactory summaryFieldFactory;
     private final FieldValueResolver<Long> valueResolver;
 

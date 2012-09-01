@@ -2,7 +2,7 @@ package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
 
-final public class LastSecondIntermediateStatisticsProvider implements
+public final class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
     private final RuntimeStatisticsProvider statistics;

@@ -7,7 +7,7 @@ import java.util.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TimerScheduler {
+public final class TimerScheduler {
     private final static Logger LOG = LoggerFactory
             .getLogger(TimerScheduler.class);
 

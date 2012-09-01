@@ -5,7 +5,7 @@ import java.awt.Paint;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 
-public class BarChartGraphData implements GraphData<BarChartGraphData> {
+public final class BarChartGraphData implements GraphData<BarChartGraphData> {
 
     private final String title;
     private final Paint paint;

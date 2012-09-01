@@ -13,7 +13,7 @@ import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class DefaultInvocationReporter implements InvocationReporter {
+final class DefaultInvocationReporter implements InvocationReporter {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(DefaultInvocationReporter.class);

@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class Sampler {
+final class Sampler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Sampler.class);
 
     static List<Integer> sampledValues(final List<Integer> invocations) {

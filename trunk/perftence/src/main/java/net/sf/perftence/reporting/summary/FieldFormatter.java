@@ -6,7 +6,7 @@ public final class FieldFormatter {
     private final static DecimalFormat DF = new DecimalFormat("#####.##");
 
     @SuppressWarnings("static-method")
-    public String format(Object value) {
+    public String format(final Object value) {
         return DF.format(value);
     }
 

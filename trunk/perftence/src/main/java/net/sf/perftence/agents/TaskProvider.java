@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class TaskProvider implements TaskSchedulingStatisticsProvider {
+final class TaskProvider implements TaskSchedulingStatisticsProvider {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(TaskProvider.class);

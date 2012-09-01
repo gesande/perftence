@@ -3,7 +3,7 @@ package net.sf.perftence.agents;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.InvocationReporter;
 
-public class InvocationReporterAdapter {
+public final class InvocationReporterAdapter {
 
     private final LatencyProvider latencyProvider;
     private final TestTaskCategory category;
