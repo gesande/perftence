@@ -1,55 +1,56 @@
 package net.sf.perftence.reporting.summary;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class ResponseCodeSummaryTest {
 
-    /*
-     * Response code statistics:
-     * 
-     * Response code : 200 Frequency : 7122
-     * 
-     * Response code : 404 Frequency : 1
-     * 
-     * Response success rate: 99.986 %
-     */
     @Test
-    public void test() {
+    public void summary() {
         final ResponseCodeSummary summary = new ResponseCodeSummary();
         for (int i = 0; i < 7122; i++) {
             summary.report(200);
         }
         summary.report(404);
-        summary.append(logSummary());
+        final StringBuilder sb = new StringBuilder();
+        summary.append(logSummary(sb));
+        System.out.print("Result should be like this: \n" + sb.toString());
+        final String result = "ENDOFLINE\n"
+                + "BOLDResponse code statistics:ENDOFLINE\n"
+                + "TEXTResponse code : TEXT200TEXT TEXTFrequency : TEXT7122ENDOFLINE\n"
+                + "TEXTResponse code : TEXT404TEXT TEXTFrequency : TEXT1ENDOFLINE\n"
+                + "TEXTResponse success rate: TEXT99,986TEXT %ENDOFLINE\n";
+        assertEquals(result, sb.toString());
         // TODO: asserts
     }
 
-    private Summary<ResponseCodeSummaryTest> logSummary() {
+    private Summary<ResponseCodeSummaryTest> logSummary(final StringBuilder sb) {
         return new Summary<ResponseCodeSummaryTest>() {
 
             @Override
             public Summary<ResponseCodeSummaryTest> text(final String text) {
-                System.out.print(text);
+                sb.append("TEXT").append(text);
                 return this;
             }
 
             @Override
             public Summary<ResponseCodeSummaryTest> endOfLine() {
-                System.out.println();
+                sb.append("ENDOFLINE").append("\n");
                 return this;
             }
 
             @Override
             public Summary<ResponseCodeSummaryTest> bold(final String text) {
-                System.out.println(text);
+                sb.append("BOLD").append(text);
                 return this;
             }
 
             @Override
             public Summary<ResponseCodeSummaryTest> note(String text) {
+                sb.append("NOTE").append(text);
                 return this;
             }
-
         };
     }
 }
