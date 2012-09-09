@@ -24,7 +24,6 @@ import net.sf.perftence.reporting.InvocationReporter;
 import net.sf.perftence.reporting.InvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
 
@@ -103,17 +102,19 @@ public final class TestBuilder {
         final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
                 failedInvocationsFactory());
+        LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
+                lastSecondStats, fieldBuilder);
+//        setup.graphWriters().add(
+//                lastSecondStatsProvider
+//                        .throughputGraphWriter(invocationRunner().id()));
         return new MultithreadWorker(invocationReporter(latencyProvider,
                 failedInvocations), invocationRunner(), setup, latencyProvider,
                 allowedExceptions(), newPerformanceRequirementValidator(
                         requirements, latencyProvider), summaryBuilderFactory()
                         .overAllSummaryBuilder(setup, latencyProvider),
-                summaryBuilderFactory().intermediateSummaryBuilder(
-                        setup,
-                        latencyProvider,
-                        failedInvocations,
-                        newLastSecondStatsProvider(lastSecondStats,
-                                fieldBuilder), lastSecondFailures),
+                summaryBuilderFactory().intermediateSummaryBuilder(setup,
+                        latencyProvider, failedInvocations,
+                        lastSecondStatsProvider, lastSecondFailures),
                 latencyFactory(), allowedExceptionOccurredMessageBuilder(),
                 perfTestFailureFactory())
                 .customInvocationReporters(lastSecondStats)
@@ -160,7 +161,7 @@ public final class TestBuilder {
         return this.perfTestFailureFactory;
     }
 
-    private static CustomIntermediateSummaryProvider newLastSecondStatsProvider(
+    private static LastSecondIntermediateStatisticsProvider newLastSecondStatsProvider(
             final LastSecondStatistics statisticsProvider,
             final AdjustedFieldBuilder fieldBuilder) {
         return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
