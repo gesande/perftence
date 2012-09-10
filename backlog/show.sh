@@ -25,9 +25,10 @@ task-done "added some unit tests for the obvious ones" $(tag development)
 
 in-progress-title
 
+in-progress "last second throughput graph" $(tag feature)
+
 waiting-title
 
-waiting "last second throughput graph" $(tag feature)
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide template pom.xml for developers" $(tag development-support)
