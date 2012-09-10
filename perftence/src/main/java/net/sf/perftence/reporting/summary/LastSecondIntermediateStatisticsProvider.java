@@ -11,18 +11,21 @@ import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.LineChartGraphData;
 
+import org.apache.commons.collections.list.SynchronizedList;
+
 public final class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
     private final RuntimeStatisticsProvider statistics;
     private List<Double> throughputs;
 
+    @SuppressWarnings("unchecked")
     public LastSecondIntermediateStatisticsProvider(
             final AdjustedFieldBuilder fieldBuilder,
             final RuntimeStatisticsProvider statistics) {
         this.fieldBuilder = fieldBuilder;
         this.statistics = statistics;
-        this.throughputs = new ArrayList<Double>();
+        this.throughputs = SynchronizedList.decorate(new ArrayList<Double>());
     }
 
     public GraphWriter throughputGraphWriter(final String name) {
@@ -40,15 +43,21 @@ public final class LastSecondIntermediateStatisticsProvider implements
                 final ImageData imageData = ImageData.noStatistics(title,
                         "Seconds", "Throughput", adapter);
                 final List<Double> throughputs = throughputs();
+                double max = 0;
                 for (int i = 0; i < throughputs.size(); i++) {
-                    imageData.add(i + 1, throughputs.get(i));
+                    final Double y = throughputs.get(i);
+                    imageData.add((i + 1) * 1.00, y);
+                    if (y > max) {
+                        max = y;
+                    }
                 }
+                imageData.range(max + 10.00);
                 return imageData;
             }
 
             @Override
             public String id() {
-                return name;
+                return name + "-last-second-throughput";
             }
 
             @Override
