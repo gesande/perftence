@@ -29,6 +29,7 @@ in-progress "last second throughput graph" $(tag feature)
 
 waiting-title
 
+waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide template pom.xml for developers" $(tag development-support)
