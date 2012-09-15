@@ -5,8 +5,13 @@ set -e
 tar-file() {
   local REV=$(svnversion)
   local ARTIFACT=perftence-distribution-$REV.tar
+  rm -rf distribution && mkdir -p distribution/sources
+  cp -a **/build/distributions/*.zip distribution
+  cp -a **/build/libs/*sources.jar distribution/sources
+
   echo "ARTIFACT =$ARTIFACT"
-  tar -cvf $ARTIFACT **/build/distributions/*.zip **/build/libs/*sources.jar
+  tar -cvf $ARTIFACT distribution
+  rm -rf distribution
 }
 
 build-packages() {
