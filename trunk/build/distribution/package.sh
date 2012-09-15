@@ -4,12 +4,13 @@ set -e
 
 tar-file() {
   local REV=$(svnversion)
-  local ARTIFACT=perftence-distribution-$REV.tar
+  local ARTIFACT=perftence-distribution-R$REV.tar
+
   rm -rf distribution && mkdir -p distribution/sources
   cp -a **/build/distributions/*.zip distribution
   cp -a **/build/libs/*sources.jar distribution/sources
+  cp -a COPYING distribution
 
-  echo "ARTIFACT =$ARTIFACT"
   tar -cvf $ARTIFACT distribution
   rm -rf distribution
 }
