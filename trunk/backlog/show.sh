@@ -22,7 +22,7 @@ task-done "last second statistics for agent based tests" $(tag feature)
 task-done "removed custom intermediate summary redundancy from intermediate summary builders" $(tag refactoring)
 task-done "created perftence-junit-utils and responsecode-summaryappender projects" $(tag refactoring)
 task-done "added some unit tests for the obvious ones" $(tag development)
-
+task-done "distribution package for sourceforge" $(tag development-support)
 in-progress-title
 
 in-progress "last second throughput graph" $(tag feature)
