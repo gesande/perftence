@@ -232,6 +232,7 @@ project(':perftence') {
     }
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
 }
@@ -263,6 +264,7 @@ project(':mainentrypoint-example') {
     }
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
     dependencies {
@@ -286,6 +288,7 @@ project(':fluent-based-example') {
     }
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
     dependencies {
@@ -309,6 +312,7 @@ project(':agent-based-example') {
     }
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
     dependencies {
@@ -332,6 +336,7 @@ project(':responsecode-summaryappender') {
     }
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
     dependencies {
@@ -350,29 +355,12 @@ project(':perftence-junit-utils') {
         from configurations.runtime
         exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
     }
+
     artifacts {
         archives dist
+        archives sourcesJar
     }
 
     dependencies { compile project(':junit-4.10') }
 }
 
-project(':distribution') {
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar','distribution-1.0-BETA.jar'
-    }
-    artifacts {
-        archives dist
-    }
-
-    dependencies {
-        runtime project(':perftence')
-        runtime project(':perftence-junit-utils')
-        runtime project(':responsecode-summaryappender')
-        runtime project(':slf4j-log4j12-1.6.1')
-        runtime project(':log4j-1.2.16')
-    }
-}
