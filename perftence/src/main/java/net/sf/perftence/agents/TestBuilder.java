@@ -200,7 +200,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         return this.failedInvocations;
     }
 
-    private static CustomIntermediateSummaryProvider newLastSecondStatsProvider(
+    private static LastSecondIntermediateStatisticsProvider newLastSecondStatsProvider(
             final LastSecondStatistics statisticsProvider,
             final AdjustedFieldBuilder fieldBuilder) {
         return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
