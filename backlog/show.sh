@@ -24,6 +24,7 @@ task-done "created perftence-junit-utils and responsecode-summaryappender projec
 task-done "added some unit tests for the obvious ones" $(tag development)
 task-done "distribution package for sourceforge" $(tag development-support)
 task-done "last second throughput graph for fluent based tests" $(tag feature)
+task-done "added change log capabilities through svn diffing backlog" $(tag infrastructure)
 
 in-progress-title
 
