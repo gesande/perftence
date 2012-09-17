@@ -3,15 +3,24 @@ set -e
 
 
 tar-file() {
-  local REV=$(svnversion)
-  local ARTIFACT=perftence-distribution-R$REV.tar
+  local REVISION=$(svnversion)
+  local VERSION=$(gradle perftence:show-version | grep -A1 :perftence:show-version | tail -1)
+  local ARTIFACT=perftence-distribution-$VERSION-R$REVISION.tar
+  tar -cvf $ARTIFACT distribution
+}
 
-  rm -rf distribution && mkdir -p distribution/sources
+copy-to-distribution() {
   cp -a **/build/distributions/*.zip distribution
   cp -a **/build/libs/*sources.jar distribution/sources
   cp -a COPYING distribution
+}
 
-  tar -cvf $ARTIFACT distribution
+prepare-distribution() {
+  clean-distribution
+  mkdir -p distribution/sources
+}
+
+clean-distribution() {
   rm -rf distribution
 }
 
@@ -20,4 +29,7 @@ build-packages() {
 }
 
 build-packages
+prepare-distribution
+copy-to-distribution
 tar-file
+clean-distribution
