@@ -1,2 +1,6 @@
 #!/bin/bash
-gradle clean remove-target
+set -eu
+HERE=$(dirname $0)
+. $HERE/lib.sh
+
+build "clean remove-target"
