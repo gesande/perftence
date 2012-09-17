@@ -23,13 +23,15 @@ task-done "removed custom intermediate summary redundancy from intermediate summ
 task-done "created perftence-junit-utils and responsecode-summaryappender projects" $(tag refactoring)
 task-done "added some unit tests for the obvious ones" $(tag development)
 task-done "distribution package for sourceforge" $(tag development-support)
+task-done "last second throughput graph for fluent based tests" $(tag feature)
+
 in-progress-title
 
-in-progress "last second throughput graph" $(tag feature)
 
 waiting-title
 
 waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
+waiting "last second throughput graph for agent based tests" $(tag feature)
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag development-support)
 waiting "provide template pom.xml for developers" $(tag development-support)
