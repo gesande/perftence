@@ -56,6 +56,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         agentBasedTest().agents(failingAgents(5000)).allow(Fail.class).start();
     }
 
+    @Test
+    public void noInvocationGraphForOverallStatistics() {
+        agentBasedTest().noInvocationGraph().workerWaitTime(50)
+                .invocationRange(100).throughputRange(6500)
+                .agents(agents(100000, new SleepingMs(40, 50))).workers(1000)
+                .start();
+
+    }
+
     class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
 
         @Override
