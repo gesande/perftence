@@ -26,7 +26,6 @@ import net.sf.perftence.reporting.InvocationReporter;
 import net.sf.perftence.reporting.InvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
@@ -77,6 +76,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     private final LastSecondFailures lastSecondFailures;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 
+    private boolean includeInvocationGraph = true;
+
     TestBuilder(
             final String name,
             final TestFailureNotifierDecorator failureNotifier,
@@ -121,15 +122,25 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     InvocationReporter defaultInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return newInvocationReporterWithDefaults(latencyProvider, threads,
-                newFailedInvocations());
+                newFailedInvocations(), true);
     }
 
     private InvocationReporter newInvocationReporterWithDefaults(
             final LatencyProvider latencyProvider, final int threads,
-            FailedInvocations newFailedInvocations) {
+            final FailedInvocations newFailedInvocations,
+            final boolean includeInvocationGraph) {
         return InvocationReporterFactory.newDefaultInvocationReporter(
-                latencyProvider, true, setup(0, threads, 0),
+                latencyProvider, includeInvocationGraph, setup(0, threads, 0),
                 newFailedInvocations);
+    }
+
+    public TestBuilder noInvocationGraph() {
+        this.includeInvocationGraph = false;
+        return this;
+    }
+
+    private boolean includeInvocationGraph() {
+        return this.includeInvocationGraph;
     }
 
     @Override
@@ -213,7 +224,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
 
     private void createOverallReporter() {
         this.overallReporter = newInvocationReporterWithDefaults(
-                latencyProvider(), workerThreads(), failedInvocations());
+                latencyProvider(), workerThreads(), failedInvocations(),
+                includeInvocationGraph());
         log().debug("Overall reporter created.");
     }
 

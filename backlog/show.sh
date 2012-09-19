@@ -25,9 +25,9 @@ task-done "added some unit tests for the obvious ones" $(tag development)
 task-done "distribution package for sourceforge" $(tag development-support)
 task-done "last second throughput graph for fluent based tests" $(tag feature)
 task-done "added change log capabilities through svn diffing backlog" $(tag infrastructure)
+task-done "added noInvocationGraph also for agent based test for overall statistics" $(tag feature)
 
 in-progress-title
-
 
 waiting-title
 
