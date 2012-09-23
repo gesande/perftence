@@ -28,6 +28,7 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
+import net.sf.perftence.reporting.summary.LastSecondThroughput;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
@@ -215,7 +216,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
             final LastSecondStatistics statisticsProvider,
             final AdjustedFieldBuilder fieldBuilder) {
         return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
-                statisticsProvider);
+                statisticsProvider, new LastSecondThroughput());
     }
 
     private SummaryBuilderFactory summaryBuilderFactory() {

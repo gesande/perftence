@@ -26,6 +26,7 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
+import net.sf.perftence.reporting.summary.LastSecondThroughput;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,11 +103,12 @@ public final class TestBuilder {
         final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
                 failedInvocationsFactory());
+        final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput();
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
-                lastSecondStats, fieldBuilder);
+                lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
-                lastSecondStatsProvider
-                        .throughputGraphWriter(invocationRunner().id()));
+                lastSecondThroughput.throughputGraphWriter(invocationRunner()
+                        .id()));
         return new MultithreadWorker(invocationReporter(latencyProvider,
                 failedInvocations), invocationRunner(), setup, latencyProvider,
                 allowedExceptions(), newPerformanceRequirementValidator(
@@ -163,9 +165,10 @@ public final class TestBuilder {
 
     private static LastSecondIntermediateStatisticsProvider newLastSecondStatsProvider(
             final LastSecondStatistics statisticsProvider,
-            final AdjustedFieldBuilder fieldBuilder) {
+            final AdjustedFieldBuilder fieldBuilder,
+            final LastSecondThroughput lastSecondThroughput) {
         return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
-                statisticsProvider);
+                statisticsProvider, lastSecondThroughput);
     }
 
     private PerformanceTestSetup setup() {
