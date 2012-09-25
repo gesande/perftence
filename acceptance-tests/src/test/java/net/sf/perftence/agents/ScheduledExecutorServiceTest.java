@@ -1,9 +1,13 @@
 package net.sf.perftence.agents;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import junit.framework.AssertionFailedError;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 
 import org.junit.Test;
@@ -45,6 +49,61 @@ public class ScheduledExecutorServiceTest {
     @Test
     public void scheduleJobs1000tasks() {
         scheduleJobs(1000, 1000);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void threadFailingTest() throws InterruptedException {
+        AtomicInteger success = new AtomicInteger();
+        AtomicInteger failed = new AtomicInteger();
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(
+                1);
+        executor.setMaximumPoolSize(Integer.MAX_VALUE);
+
+        executor.schedule(failTask(failed), 500, TimeUnit.MILLISECONDS);
+        executor.schedule(successTask(success), 500, TimeUnit.MILLISECONDS);
+        Thread.sleep(2500);
+        assertEquals(1, success.intValue());
+        assertEquals(1, failed.intValue());
+    }
+
+    private static Runnable successTask(final AtomicInteger success) {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                LOG.info("running success task...");
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                LOG.info("success task done");
+                success.incrementAndGet();
+
+            }
+        };
+    }
+
+    private static Runnable failTask(final AtomicInteger failed) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    LOG.info("running fail task...");
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    LOG.info("fail task 'failed'!");
+                    failed.incrementAndGet();
+                    throw new AssertionFailedError("fail task actually failed");
+                } catch (Throwable t) {
+                    LOG.error("Error:", t);
+                }
+            }
+        };
     }
 
     private void scheduleJobs(int corePoolSize, int tasks) {
