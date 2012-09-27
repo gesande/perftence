@@ -9,16 +9,17 @@ public class FilebasedReporter implements InvocationReporter {
 
     private BufferedWriter latencyWriter;
     private BufferedWriter throughputWriter;
+    private File reportDir;
 
     public FilebasedReporter(final String id) {
-        File root = new File("target", "perftence");
-        File reportDir = new File(root, id);
-        reportDir.mkdirs();
+        final File root = new File("target", "perftence");
+        this.reportDir = new File(root, id);
+        reportDirectory().mkdirs();
         try {
             this.latencyWriter = new BufferedWriter(new FileWriter(new File(
-                    reportDir, "latencies")));
+                    reportDirectory(), "latencies")));
             this.throughputWriter = new BufferedWriter(new FileWriter(new File(
-                    reportDir, "throughput")));
+                    reportDirectory(), "throughput")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,8 +28,8 @@ public class FilebasedReporter implements InvocationReporter {
     @Override
     public synchronized void latency(final int latency) {
         try {
-            ((BufferedWriter) this.latencyWriter.append(Integer
-                    .toString(latency))).newLine();
+            ((BufferedWriter) latencyWriter().append(Integer.toString(latency)))
+                    .newLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -38,12 +39,40 @@ public class FilebasedReporter implements InvocationReporter {
     public void summary(final String id, final long elapsedTime,
             final long sampleCount, final long startTime) {
         try {
-            this.latencyWriter.close();
-            this.throughputWriter.close();
+            latencyWriter().close();
+            throughputWriter().close();
+            final BufferedWriter bufferedWriter = new BufferedWriter(
+                    new FileWriter(new File(reportDirectory(), "summary")));
+            try {
+                bufferedWriter.append(id);
+                bufferedWriter.newLine();
+                bufferedWriter.append(longToString(elapsedTime));
+                bufferedWriter.newLine();
+                bufferedWriter.append(longToString(sampleCount));
+                bufferedWriter.newLine();
+                bufferedWriter.append(longToString(startTime));
+            } finally {
+                bufferedWriter.close();
+            }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+    }
+
+    private static String longToString(final long elapsedTime) {
+        return Long.toString(elapsedTime);
+    }
+
+    private BufferedWriter throughputWriter() {
+        return this.throughputWriter;
+    }
+
+    private BufferedWriter latencyWriter() {
+        return this.latencyWriter;
+    }
+
+    private File reportDirectory() {
+        return this.reportDir;
     }
 
     @Override
@@ -51,9 +80,9 @@ public class FilebasedReporter implements InvocationReporter {
             final double throughput) {
         try {
             final StringBuilder sb = new StringBuilder(
-                    Long.toString(currentDuration)).append(":").append(
+                    longToString(currentDuration)).append(":").append(
                     Double.toString(throughput));
-            ((BufferedWriter) this.throughputWriter.append(sb.toString()))
+            ((BufferedWriter) throughputWriter().append(sb.toString()))
                     .newLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
