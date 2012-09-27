@@ -16,7 +16,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
     @Test
     public void write() {
         final AtomicInteger i = new AtomicInteger();
-        final Random r = new Random(System.currentTimeMillis());
+        long currentTimeMillis = System.currentTimeMillis();
+        final Random r = new Random(currentTimeMillis);
         final FilebasedReporter reporter = new FilebasedReporter(id());
         test().setup(setup().threads(100).invocations(10000).build())
                 .executable(new Executable() {
@@ -25,11 +26,11 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                     public void execute() throws Exception {
                         int value = i.incrementAndGet();
                         reporter.latency(value);
-                        reporter.throughput(value, r.nextInt(100) + 1);
+                        reporter.throughput(value, r.nextInt(100));
 
                     }
                 }).start();
 
-        reporter.summary("id", 1000, 10000, 0);
+        reporter.summary(id(), 5000, 10000, currentTimeMillis);
     }
 }
