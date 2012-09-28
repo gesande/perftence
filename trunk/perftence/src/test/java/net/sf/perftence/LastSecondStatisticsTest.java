@@ -1,7 +1,5 @@
 package net.sf.perftence;
 
-import net.sf.perftence.LastSecondStatistics;
-
 import org.junit.Test;
 
 public class LastSecondStatisticsTest {
