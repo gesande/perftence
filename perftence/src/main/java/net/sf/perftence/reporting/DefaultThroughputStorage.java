@@ -33,8 +33,8 @@ public final class DefaultThroughputStorage implements ThroughputStorage {
     @Override
     public ImageData imageData() {
         final String legendTitle = "Throughput";
-        final ImageData imageData = ImageData.noStatistics("Throughput over time",
-                "Time elapsed", legendTitle, range(),
+        final ImageData imageData = ImageData.noStatistics(
+                "Throughput over time", "Time elapsed", legendTitle, range(),
                 DatasetAdapterFactory.adapterForLineChart(legendTitle));
         int i = 0;
         for (double latency : this.list) {
