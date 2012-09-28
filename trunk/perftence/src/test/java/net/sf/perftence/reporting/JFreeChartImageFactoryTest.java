@@ -14,6 +14,7 @@ import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.graph.ScatterPlotGraphData;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -57,6 +58,15 @@ public class JFreeChartImageFactoryTest extends AbstractMultiThreadedTest {
                 .imageData();
         start();
         imageFactory().createXYLineChart(id("with-statistics"), imageData);
+        done();
+    }
+
+    @Ignore
+    @Test
+    public void hugeDataSet() {
+        ImageData imageData = newDefaultInvocationStorage(2000000).imageData();
+        start();
+        imageFactory().createXYLineChart(id("huge-with-statistics"), imageData);
         done();
     }
 
