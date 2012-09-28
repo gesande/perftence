@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RunWith(DefaultTestRunner.class)
-public class JFreeChartImageFactoryTest extends AbstractMultiThreadedTest {
+public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
     private final static Logger LOG = LoggerFactory
-            .getLogger(JFreeChartImageFactoryTest.class);
+            .getLogger(ImageFactoryUsingJFreeChartTest.class);
     private static final Random RANDOM = new Random(System.currentTimeMillis());
     private static ImageFactoryUsingJFreeChart imageFactory;
 
@@ -64,7 +64,7 @@ public class JFreeChartImageFactoryTest extends AbstractMultiThreadedTest {
     @Ignore
     @Test
     public void hugeDataSet() {
-        ImageData imageData = newDefaultInvocationStorage(2000000).imageData();
+        ImageData imageData = newDefaultInvocationStorage(20000000).imageData();
         start();
         imageFactory().createXYLineChart(id("huge-with-statistics"), imageData);
         done();
@@ -225,6 +225,6 @@ public class JFreeChartImageFactoryTest extends AbstractMultiThreadedTest {
     }
 
     private static String id(String id) {
-        return JFreeChartImageFactoryTest.class.getName() + "-" + id;
+        return ImageFactoryUsingJFreeChartTest.class.getName() + "-" + id;
     }
 }
