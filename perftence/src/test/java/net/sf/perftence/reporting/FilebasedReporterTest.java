@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
+import net.sf.perftence.PerformanceTestSetup;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,19 +19,22 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         final AtomicInteger i = new AtomicInteger();
         long currentTimeMillis = System.currentTimeMillis();
         final Random r = new Random(currentTimeMillis);
-        final FilebasedReporter reporter = new FilebasedReporter(id());
-        test().setup(setup().threads(100).invocations(10000).build())
+        PerformanceTestSetup testSetup = setup().threads(100).invocations(10000).build();
+        final FilebasedReporter reporter = new FilebasedReporter(id(), true,testSetup);
+        test().setup(testSetup)
                 .executable(new Executable() {
 
                     @Override
                     public void execute() throws Exception {
-                        int value = i.incrementAndGet();
+                        final int value = i.incrementAndGet();
                         reporter.latency(value);
                         reporter.throughput(value, r.nextInt(100));
 
                     }
                 }).start();
-
         reporter.summary(id(), 5000, 10000, currentTimeMillis);
+
+        final FilebasedReportReader reader = new FilebasedReportReader(id());
+        reader.read();
     }
 }
