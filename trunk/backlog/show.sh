@@ -34,6 +34,8 @@ waiting-title
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"
 intended-comment "second phase -> create test reports from intermediate format"
+waiting "new line-reader project" $(tag development)
+waiting "provide line-reader project in distribution package" $(tag development)
 waiting "provide success rate percentage for intermediate statistics" $(tag feature)
 waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
 waiting "last second throughput graph for agent based tests" $(tag feature)
