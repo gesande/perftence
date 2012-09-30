@@ -28,8 +28,7 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                     public void execute() throws Exception {
                         final int value = i.incrementAndGet();
                         reporter.latency(value);
-                        reporter.throughput(value, r.nextInt(100));
-
+                        reporter.throughput(value, value);
                     }
                 }).start();
         reporter.summary(id(), 5000, 10000, currentTimeMillis);
