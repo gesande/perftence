@@ -21,8 +21,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
     public void write() {
         final AtomicInteger i = new AtomicInteger();
         final long now = System.currentTimeMillis();
-        PerformanceTestSetup testSetup = setup().threads(100)
-                .invocations(10000).build();
+        final PerformanceTestSetup testSetup = setup().threads(100)
+                .invocations(10000).throughputRange(10000).build();
         final FilebasedReporter reporter = new FilebasedReporter(id(), true,
                 testSetup);
         test().setup(testSetup).executable(new Executable() {
@@ -34,7 +34,7 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
             }
         }).start();
         reporter.summary(id(), 5000, 10000, now);
-        
+
         final LatencyProvider latencyProvider = new LatencyProvider();
         final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
                 new FieldFormatter(), new FieldAdjuster());
@@ -43,8 +43,7 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                 adjustedFieldBuilderFactory.newInstance());
 
         final InvocationStorage invocationStorage = InvocationStorageFactory
-                .newDefaultInvocationStorage(testSetup.invocations(),
-                        testSetup.invocationRange());
+                .newDefaultInvocationStorage(10000, 10000);
 
         final FilebasedReportReader reader = new FilebasedReportReader(id(),
                 latencyProvider, invocationStorage, failedInvocations);
@@ -53,7 +52,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         final InvocationReporter invocationReporter = InvocationReporterFactory
                 .newDefaultInvocationReporter(latencyProvider, reader.setup()
                         .includeInvocationGraph(), reader.setup().testSetup(),
-                        reader.failedInvocations(), invocationStorage);
+                        reader.failedInvocations(), invocationStorage, reader
+                                .throughputStorage());
 
         invocationReporter.summary(id() + "-from-filebased", reader.summary()
                 .elapsedTime(), reader.summary().sampleCount(), reader
