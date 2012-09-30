@@ -30,7 +30,11 @@ public final class FailedInvocations implements
     }
 
     public void more(final Throwable t) {
-        exceptions().add(t.getClass().getName());
+        more(t.getClass().getName());
+    }
+
+    public void more(final String className) {
+        exceptions().add(className);
     }
 
     private long failed() {

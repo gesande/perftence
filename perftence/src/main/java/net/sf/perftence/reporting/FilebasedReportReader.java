@@ -10,7 +10,6 @@ import net.sf.perftence.LineReader;
 import net.sf.perftence.LineVisitor;
 import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.PerformanceTestSetupPojo;
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,40 +21,102 @@ public class FilebasedReportReader {
 
     private final File reportDir;
     private final LatencyFileVisitor latencyVisitor;
-    private final ThroughputVisitor throughputVisitor;
-    private final LineReader throughputReader;
     private final LineReader latencyReader;
 
-    private LineReader setupReader;
+    private final SetupVisitor setupVisitor;
+    private final LineReader setupReader;
 
-    private SetupVisitor setupVisitor;
+    private final LineReader throughputReader;
 
-    public FilebasedReportReader(final String id) {
-        final File root = new File("target", "perftence");
-        this.reportDir = new File(root, id);
-        this.latencyVisitor = new LatencyFileVisitor(new LatencyProvider());
-        this.throughputVisitor = new ThroughputVisitor(
-                new DefaultThroughputStorage(100));
+    private final LineReader failedInvocationsReader;
+    private final FailedInvocationsVisitor failedInvocationsVisitor;
+
+    private final LineReader summaryReader;
+    private final SummaryVisitor summaryVisitor;
+
+    public FilebasedReportReader(final String id,
+            final LatencyProvider latencyProvider,
+            final InvocationStorage invocationStorage,
+            final FailedInvocationsFactory failedInvocations) {
+        this.reportDir = new File(new File("target", "perftence"), id);
+
         this.throughputReader = new LineReader();
+
+        this.latencyVisitor = new LatencyFileVisitor(latencyProvider,
+                invocationStorage);
         this.latencyReader = new LineReader();
+
         this.setupReader = new LineReader();
         this.setupVisitor = new SetupVisitor();
+
+        this.failedInvocationsReader = new LineReader();
+        this.failedInvocationsVisitor = new FailedInvocationsVisitor(
+                failedInvocations.newInstance());
+
+        this.summaryReader = new LineReader();
+        this.summaryVisitor = new SummaryVisitor();
+
+    }
+
+    class SummaryVisitor implements LineVisitor {
+
+        private FilebasedSummary summary;
+
+        @Override
+        public void visit(final String line) {
+            final String[] split = line.split(":");
+            this.summary = new FilebasedSummary(toLong(split[1]),
+                    toLong(split[2]), toLong(split[3]));
+        }
+
+        @Override
+        public void emptyLine() {
+            log().warn("Ignored some empty lines from failed-invocations file");
+        }
+
+        public FilebasedSummary summary() {
+            return this.summary;
+        }
+    }
+
+    class FailedInvocationsVisitor implements LineVisitor {
+
+        private final FailedInvocations failedInvocations;
+
+        public FailedInvocationsVisitor(
+                final FailedInvocations failedInvocations) {
+            this.failedInvocations = failedInvocations;
+        }
+
+        @Override
+        public void visit(final String line) {
+            this.failedInvocations.more(line);
+        }
+
+        @Override
+        public void emptyLine() {
+            log().warn("Ignored some empty lines from failed-invocations file");
+        }
+
+        public FailedInvocations failedInvocations() {
+            return this.failedInvocations;
+        }
     }
 
     class ThroughputVisitor implements LineVisitor {
 
         private final DefaultThroughputStorage throughputStorage;
 
-        public ThroughputVisitor(DefaultThroughputStorage throughputStorage) {
+        public ThroughputVisitor(
+                final DefaultThroughputStorage throughputStorage) {
             this.throughputStorage = throughputStorage;
         }
 
         @Override
         public void visit(final String line) {
             final String[] split = line.split(":");
-            long currentDuration = Long.parseLong(split[0]);
-            double throughput = Double.parseDouble(split[1]);
-            this.throughputStorage.store(currentDuration, throughput);
+            this.throughputStorage.store(toLong(split[0]),
+                    Double.parseDouble(split[1]));
         }
 
         @Override
@@ -66,19 +127,18 @@ public class FilebasedReportReader {
 
     class SetupVisitor implements LineVisitor {
 
-        private PerformanceTestSetup setup;
+        private FilebasedTestSetup setup;
 
         @Override
-        public void visit(String line) {
-            String[] values = line.split(":");
-            PerformanceTestSetupBuilder builder = PerformanceTestSetupPojo
-                    .builder();
-            builder.duration(toInt(values[0]));
-            builder.threads(toInt(values[1]));
-            builder.invocations(toInt(values[2]));
-            builder.invocationRange(toInt(values[3]));
-            builder.throughputRange(toInt(values[4]));
-            this.setup = builder.build();
+        public void visit(final String line) {
+            final String[] values = line.split(":");
+            final PerformanceTestSetup testSetup = PerformanceTestSetupPojo
+                    .builder().duration(toInt(values[0]))
+                    .threads(toInt(values[1])).invocations(toInt(values[2]))
+                    .invocationRange(toInt(values[3]))
+                    .throughputRange(toInt(values[4])).build();
+            this.setup = new FilebasedTestSetup(testSetup,
+                    Boolean.parseBoolean(values[5]));
         }
 
         private int toInt(final String value) {
@@ -90,25 +150,33 @@ public class FilebasedReportReader {
             log().warn("Ignored some empty lines from throughput file");
         }
 
+        public FilebasedTestSetup setup() {
+            return this.setup;
+        }
     }
 
     class LatencyFileVisitor implements LineVisitor {
 
         private final LatencyProvider latencyProvider;
+        private final InvocationStorage invocationStorage;
 
-        public LatencyFileVisitor(LatencyProvider latencyProvider) {
+        public LatencyFileVisitor(final LatencyProvider latencyProvider,
+                final InvocationStorage invocationStorage) {
             this.latencyProvider = latencyProvider;
+            this.invocationStorage = invocationStorage;
         }
 
         @Override
         public void visit(final String line) {
-            this.latencyProvider.addSample(Long.parseLong(line));
+            final long latency = Long.parseLong(line);
+            this.latencyProvider.addSample(latency);
+            // FIXME:
+            this.invocationStorage.store((int) latency);
         }
 
         @Override
         public void emptyLine() {
             log().warn("Ignored some empty lines from latency file");
-
         }
     }
 
@@ -122,31 +190,49 @@ public class FilebasedReportReader {
 
     public void read() {
         try {
-            final FileInputStream latencyStream = new FileInputStream(
-                    (new File(reportDirectory(), "latencies")));
-            try {
-                this.latencyReader.read(latencyStream, latencyVisitor());
-            } finally {
-                latencyStream.close();
-            }
-
-            final FileInputStream throughputStream = new FileInputStream(
-                    new File(reportDirectory(), "throughput"));
-            try {
-                this.throughputReader.read(throughputStream,
-                        throughputVisitor());
-            } finally {
-                throughputStream.close();
-            }
-
             final FileInputStream setupStream = new FileInputStream(new File(
                     reportDirectory(), "setup"));
             try {
-                this.setupReader.read(setupStream, setupVisitor());
+                setupReader().read(setupStream, setupVisitor());
             } finally {
                 setupStream.close();
             }
 
+            final FileInputStream latencyStream = new FileInputStream(
+                    (new File(reportDirectory(), "latencies")));
+            try {
+                latencyReader().read(latencyStream, latencyVisitor());
+            } finally {
+                latencyStream.close();
+            }
+
+            final ThroughputVisitor throughputVisitor = new ThroughputVisitor(
+                    new DefaultThroughputStorage(setupVisitor().setup()
+                            .testSetup().throughputRange()));
+            final FileInputStream throughputStream = new FileInputStream(
+                    new File(reportDirectory(), "throughput"));
+            try {
+                throughputReader().read(throughputStream, throughputVisitor);
+            } finally {
+                throughputStream.close();
+            }
+
+            final FileInputStream failedInvocationsStream = new FileInputStream(
+                    new File(reportDirectory(), "failed-invocations"));
+            try {
+                failedInvocationsReader().read(failedInvocationsStream,
+                        throughputVisitor);
+            } finally {
+                failedInvocationsStream.close();
+            }
+
+            final FileInputStream summaryStream = new FileInputStream(new File(
+                    reportDirectory(), "summary"));
+            try {
+                summaryReader().read(summaryStream, summaryVisitor());
+            } finally {
+                failedInvocationsStream.close();
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -154,16 +240,52 @@ public class FilebasedReportReader {
         }
     }
 
+    private SummaryVisitor summaryVisitor() {
+        return this.summaryVisitor;
+    }
+
+    private LineReader summaryReader() {
+        return this.summaryReader;
+    }
+
+    private LineReader failedInvocationsReader() {
+        return this.failedInvocationsReader;
+    }
+
+    private LineReader throughputReader() {
+        return this.throughputReader;
+    }
+
+    private LineReader latencyReader() {
+        return this.latencyReader;
+    }
+
+    private LineReader setupReader() {
+        return this.setupReader;
+    }
+
     private SetupVisitor setupVisitor() {
         return this.setupVisitor;
     }
 
-    private ThroughputVisitor throughputVisitor() {
-        return this.throughputVisitor;
-    }
-
     private LatencyFileVisitor latencyVisitor() {
         return this.latencyVisitor;
+    }
+
+    public FilebasedTestSetup setup() {
+        return setupVisitor().setup();
+    }
+
+    public FailedInvocations failedInvocations() {
+        return this.failedInvocationsVisitor.failedInvocations();
+    }
+
+    public FilebasedSummary summary() {
+        return summaryVisitor().summary();
+    }
+
+    private static long toLong(final String value) {
+        return Long.parseLong(value);
     }
 
 }
