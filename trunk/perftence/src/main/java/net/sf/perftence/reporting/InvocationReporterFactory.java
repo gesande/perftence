@@ -23,6 +23,17 @@ public final class InvocationReporterFactory {
             final FailedInvocations failedInvocations) {
         final InvocationStorage invocationStorage = includeInvocationGraph ? defaultInvocationStorage(setup)
                 : invocationStorageWithNoSamples();
+        return newDefaultInvocationReporter(latencyProvider,
+                includeInvocationGraph, setup, failedInvocations,
+                invocationStorage);
+    }
+
+    public static InvocationReporter newDefaultInvocationReporter(
+            final LatencyProvider latencyProvider,
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup,
+            final FailedInvocations failedInvocations,
+            final InvocationStorage invocationStorage) {
         final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider = statisticsSummaryProvider(
                 latencyProvider, includeInvocationGraph, invocationStorage);
         return new DefaultInvocationReporter(invocationStorage,
@@ -37,9 +48,9 @@ public final class InvocationReporterFactory {
     private static StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider(
             final StatisticsProvider statisticsProvider,
             final boolean includeInvocationGraph,
-            final InvocationStorage defaultInvocationStorage) {
+            final InvocationStorage invocationStorage) {
         return includeInvocationGraph ? new StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics(
-                defaultInvocationStorage)
+                invocationStorage)
                 : new StatisticsSummaryProviderUsingStatisticsProviderStatistics(
                         statisticsProvider);
     }

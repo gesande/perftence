@@ -1,12 +1,15 @@
 package net.sf.perftence.reporting;
 
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
+import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetup;
+import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
+import net.sf.perftence.reporting.summary.FieldAdjuster;
+import net.sf.perftence.reporting.summary.FieldFormatter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,23 +20,43 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
     @Test
     public void write() {
         final AtomicInteger i = new AtomicInteger();
-        long currentTimeMillis = System.currentTimeMillis();
-        final Random r = new Random(currentTimeMillis);
-        PerformanceTestSetup testSetup = setup().threads(100).invocations(10000).build();
-        final FilebasedReporter reporter = new FilebasedReporter(id(), true,testSetup);
-        test().setup(testSetup)
-                .executable(new Executable() {
+        final long now = System.currentTimeMillis();
+        PerformanceTestSetup testSetup = setup().threads(100)
+                .invocations(10000).build();
+        final FilebasedReporter reporter = new FilebasedReporter(id(), true,
+                testSetup);
+        test().setup(testSetup).executable(new Executable() {
+            @Override
+            public void execute() throws Exception {
+                final int value = i.incrementAndGet();
+                reporter.latency(value);
+                reporter.throughput(value, value);
+            }
+        }).start();
+        reporter.summary(id(), 5000, 10000, now);
+        
+        final LatencyProvider latencyProvider = new LatencyProvider();
+        final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
+                new FieldFormatter(), new FieldAdjuster());
+        final FailedInvocationsFactory failedInvocations = new FailedInvocationsFactory(
+                new DefaultDoubleFormatter(),
+                adjustedFieldBuilderFactory.newInstance());
 
-                    @Override
-                    public void execute() throws Exception {
-                        final int value = i.incrementAndGet();
-                        reporter.latency(value);
-                        reporter.throughput(value, value);
-                    }
-                }).start();
-        reporter.summary(id(), 5000, 10000, currentTimeMillis);
+        final InvocationStorage invocationStorage = InvocationStorageFactory
+                .newDefaultInvocationStorage(testSetup.invocations(),
+                        testSetup.invocationRange());
 
-        final FilebasedReportReader reader = new FilebasedReportReader(id());
+        final FilebasedReportReader reader = new FilebasedReportReader(id(),
+                latencyProvider, invocationStorage, failedInvocations);
         reader.read();
+
+        final InvocationReporter invocationReporter = InvocationReporterFactory
+                .newDefaultInvocationReporter(latencyProvider, reader.setup()
+                        .includeInvocationGraph(), reader.setup().testSetup(),
+                        reader.failedInvocations(), invocationStorage);
+
+        invocationReporter.summary(id() + "-from-filebased", reader.summary()
+                .elapsedTime(), reader.summary().sampleCount(), reader
+                .summary().startTime());
     }
 }

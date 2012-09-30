@@ -9,10 +9,11 @@ import net.sf.perftence.PerformanceTestSetup;
 
 public class FilebasedReporter implements InvocationReporter {
 
-    private BufferedWriter latencyWriter;
-    private BufferedWriter throughputWriter;
-    private File reportDir;
+    private final BufferedWriter latencyWriter;
+    private final BufferedWriter throughputWriter;
+    private final BufferedWriter failedInvocationWriter;
     private final boolean includeInvocationGraph;
+    private final File reportDir;
 
     public FilebasedReporter(final String id,
             final boolean includeInvocationGraph,
@@ -24,20 +25,21 @@ public class FilebasedReporter implements InvocationReporter {
         try {
             this.latencyWriter = newBufferedWriterFor("latencies");
             this.throughputWriter = newBufferedWriterFor("throughput");
-            writeSetup(testSetup);
+            this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
+            writeSetup(testSetup, includeInvocationGraph);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private BufferedWriter newBufferedWriterFor(String fileName)
+    private BufferedWriter newBufferedWriterFor(final String fileName)
             throws IOException {
         return new BufferedWriter(new FileWriter(new File(reportDirectory(),
                 fileName)));
     }
 
-    private void writeSetup(final PerformanceTestSetup testSetup)
-            throws IOException {
+    private void writeSetup(final PerformanceTestSetup testSetup,
+            final boolean includeInvocationGraph) throws IOException {
         final BufferedWriter setupWriter = newBufferedWriterFor("setup");
         try {
             setupWriter.append(toString(testSetup.duration()));
@@ -49,6 +51,8 @@ public class FilebasedReporter implements InvocationReporter {
             setupWriter.append(toString(testSetup.invocationRange()));
             setupWriter.append(":");
             setupWriter.append(toString(testSetup.throughputRange()));
+            setupWriter.append(":");
+            setupWriter.append(Boolean.toString(includeInvocationGraph));
         } finally {
             setupWriter.close();
         }
@@ -85,16 +89,21 @@ public class FilebasedReporter implements InvocationReporter {
             final long sampleCount, final long startTime) throws IOException {
         final BufferedWriter bufferedWriter = newBufferedWriterFor("summary");
         try {
-            bufferedWriter.append(id);
+            bufferedWriter.append(summaryLine(id, elapsedTime, sampleCount,
+                    startTime));
             bufferedWriter.newLine();
-            bufferedWriter.append(longToString(elapsedTime));
-            bufferedWriter.newLine();
-            bufferedWriter.append(longToString(sampleCount));
-            bufferedWriter.newLine();
-            bufferedWriter.append(longToString(startTime));
         } finally {
             bufferedWriter.close();
         }
+    }
+
+    private static String summaryLine(final String id, final long elapsedTime,
+            final long sampleCount, final long startTime) {
+        final StringBuilder sb = new StringBuilder(id).append(":")
+                .append(longToString(elapsedTime)).append(":")
+                .append(longToString(sampleCount)).append(":")
+                .append(longToString(startTime));
+        return sb.toString();
     }
 
     private static String longToString(final long value) {
@@ -117,14 +126,17 @@ public class FilebasedReporter implements InvocationReporter {
     public synchronized void throughput(final long currentDuration,
             final double throughput) {
         try {
-            final StringBuilder sb = new StringBuilder(
-                    longToString(currentDuration)).append(":").append(
-                    Double.toString(throughput));
-            ((BufferedWriter) throughputWriter().append(sb.toString()))
-                    .newLine();
+            ((BufferedWriter) throughputWriter().append(
+                    currentThroughput(currentDuration, throughput))).newLine();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String currentThroughput(final long currentDuration,
+            final double throughput) {
+        return new StringBuilder(longToString(currentDuration)).append(":")
+                .append(Double.toString(throughput)).toString();
     }
 
     @Override
@@ -133,7 +145,12 @@ public class FilebasedReporter implements InvocationReporter {
     }
 
     @Override
-    public void invocationFailed(final Throwable t) {
+    public synchronized void invocationFailed(final Throwable t) {
+        try {
+            this.failedInvocationWriter.append(t.getClass().getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
