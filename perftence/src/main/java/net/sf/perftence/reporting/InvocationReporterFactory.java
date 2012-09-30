@@ -28,18 +28,60 @@ public final class InvocationReporterFactory {
                 invocationStorage);
     }
 
-    public static InvocationReporter newDefaultInvocationReporter(
+    private static InvocationReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,
             final InvocationStorage invocationStorage) {
-        final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider = statisticsSummaryProvider(
-                latencyProvider, includeInvocationGraph, invocationStorage);
+        return newDefaultInvocationReporter(latencyProvider,
+                includeInvocationGraph, setup, failedInvocations,
+                invocationStorage, throughputStorage(setup));
+    }
+
+    public static InvocationReporter newDefaultInvocationReporter(
+            final LatencyProvider latencyProvider,
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup,
+            final FailedInvocations failedInvocations,
+            final InvocationStorage invocationStorage,
+            final ThroughputStorage throughputStorage) {
+        return newDefaultInvocationReporter(
+                latencyProvider,
+                includeInvocationGraph,
+                setup,
+                failedInvocations,
+                invocationStorage,
+                statisticsSummaryProvider(latencyProvider,
+                        includeInvocationGraph, invocationStorage),
+                throughputStorage);
+    }
+
+    private static InvocationReporter newDefaultInvocationReporter(
+            final LatencyProvider latencyProvider,
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup,
+            final FailedInvocations failedInvocations,
+            final InvocationStorage invocationStorage,
+            final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
+            final ThroughputStorage throughputStorage) {
+        return newDefaultInvocationReporter(includeInvocationGraph, setup,
+                failedInvocations, invocationStorage,
+                statisticsSummaryProvider, throughputStorage,
+                FrequencyStorageFactory.newFrequencyStorage(latencyProvider));
+    }
+
+    private static InvocationReporter newDefaultInvocationReporter(
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup,
+            final FailedInvocations failedInvocations,
+            final InvocationStorage invocationStorage,
+            final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
+            final ThroughputStorage throughputStorage,
+            final FrequencyStorage newFrequencyStorage) {
         return new DefaultInvocationReporter(invocationStorage,
-                throughputStorage(setup), imageFactory(), setup.threads(),
-                setup.duration(),
-                FrequencyStorageFactory.newFrequencyStorage(latencyProvider),
+                throughputStorage, imageFactory(), setup.threads(),
+                setup.duration(), newFrequencyStorage,
                 setup.summaryAppenders(), includeInvocationGraph,
                 setup.graphWriters(), statisticsSummaryProvider,
                 failedInvocations);

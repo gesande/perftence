@@ -21,41 +21,64 @@ public class FilebasedReportReader {
 
     private final File reportDir;
     private final LatencyFileVisitor latencyVisitor;
-    private final LineReader latencyReader;
-
-    private final SetupVisitor setupVisitor;
-    private final LineReader setupReader;
-
-    private final LineReader throughputReader;
-
-    private final LineReader failedInvocationsReader;
     private final FailedInvocationsVisitor failedInvocationsVisitor;
-
-    private final LineReader summaryReader;
     private final SummaryVisitor summaryVisitor;
+    private final SetupVisitor setupVisitor;
+
+    private DefaultThroughputStorage throughputStorage;
 
     public FilebasedReportReader(final String id,
             final LatencyProvider latencyProvider,
             final InvocationStorage invocationStorage,
             final FailedInvocationsFactory failedInvocations) {
         this.reportDir = new File(new File("target", "perftence"), id);
-
-        this.throughputReader = new LineReader();
-
         this.latencyVisitor = new LatencyFileVisitor(latencyProvider,
                 invocationStorage);
-        this.latencyReader = new LineReader();
-
-        this.setupReader = new LineReader();
-        this.setupVisitor = new SetupVisitor();
-
-        this.failedInvocationsReader = new LineReader();
         this.failedInvocationsVisitor = new FailedInvocationsVisitor(
                 failedInvocations.newInstance());
-
-        this.summaryReader = new LineReader();
         this.summaryVisitor = new SummaryVisitor();
+        this.setupVisitor = new SetupVisitor();
+    }
 
+    class FilebasedReader {
+        private final LineVisitor visitor;
+        private final LineReader reader;
+        private String file;
+        private final File root;
+
+        public FilebasedReader(final LineVisitor lineVisitor,
+                final String file, final File root) {
+            this.file = file;
+            this.root = root;
+            this.reader = new LineReader();
+            this.visitor = lineVisitor;
+        }
+
+        private LineReader reader() {
+            return this.reader;
+        }
+
+        private LineVisitor lineVisitor() {
+            return this.visitor;
+        }
+
+        public void read() throws FileNotFoundException, IOException {
+            final FileInputStream setupStream = new FileInputStream(new File(
+                    root(), file()));
+            try {
+                reader().read(setupStream, lineVisitor());
+            } finally {
+                setupStream.close();
+            }
+        }
+
+        private File root() {
+            return this.root;
+        }
+
+        private String file() {
+            return this.file;
+        }
     }
 
     class SummaryVisitor implements LineVisitor {
@@ -105,10 +128,10 @@ public class FilebasedReportReader {
 
     class ThroughputVisitor implements LineVisitor {
 
-        private final DefaultThroughputStorage throughputStorage;
+        @SuppressWarnings("hiding")
+        private final ThroughputStorage throughputStorage;
 
-        public ThroughputVisitor(
-                final DefaultThroughputStorage throughputStorage) {
+        public ThroughputVisitor(final ThroughputStorage throughputStorage) {
             this.throughputStorage = throughputStorage;
         }
 
@@ -190,49 +213,28 @@ public class FilebasedReportReader {
 
     public void read() {
         try {
-            final FileInputStream setupStream = new FileInputStream(new File(
-                    reportDirectory(), "setup"));
-            try {
-                setupReader().read(setupStream, setupVisitor());
-            } finally {
-                setupStream.close();
-            }
+            final FilebasedReader setupReader = newFilebasedReader(
+                    setupVisitor(), "setup");
+            setupReader.read();
+            final FilebasedReader summaryReader = newFilebasedReader(
+                    summaryVisitor(), "summary");
+            summaryReader.read();
 
-            final FileInputStream latencyStream = new FileInputStream(
-                    (new File(reportDirectory(), "latencies")));
-            try {
-                latencyReader().read(latencyStream, latencyVisitor());
-            } finally {
-                latencyStream.close();
-            }
+            final FilebasedReader failedInvocations = newFilebasedReader(
+                    failedInvocationsVisitor(), "failed-invocations");
+            failedInvocations.read();
 
+            final FilebasedReader latencies = newFilebasedReader(
+                    latencyVisitor(), "latencies");
+            latencies.read();
+
+            this.throughputStorage = new DefaultThroughputStorage(
+                    setupVisitor().setup().testSetup().throughputRange());
             final ThroughputVisitor throughputVisitor = new ThroughputVisitor(
-                    new DefaultThroughputStorage(setupVisitor().setup()
-                            .testSetup().throughputRange()));
-            final FileInputStream throughputStream = new FileInputStream(
-                    new File(reportDirectory(), "throughput"));
-            try {
-                throughputReader().read(throughputStream, throughputVisitor);
-            } finally {
-                throughputStream.close();
-            }
-
-            final FileInputStream failedInvocationsStream = new FileInputStream(
-                    new File(reportDirectory(), "failed-invocations"));
-            try {
-                failedInvocationsReader().read(failedInvocationsStream,
-                        throughputVisitor);
-            } finally {
-                failedInvocationsStream.close();
-            }
-
-            final FileInputStream summaryStream = new FileInputStream(new File(
-                    reportDirectory(), "summary"));
-            try {
-                summaryReader().read(summaryStream, summaryVisitor());
-            } finally {
-                failedInvocationsStream.close();
-            }
+                    this.throughputStorage);
+            final FilebasedReader throughput = newFilebasedReader(
+                    throughputVisitor, "throughput");
+            throughput.read();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -240,32 +242,25 @@ public class FilebasedReportReader {
         }
     }
 
-    private SummaryVisitor summaryVisitor() {
-        return this.summaryVisitor;
+    public ThroughputStorage throughputStorage() {
+        return this.throughputStorage;
     }
 
-    private LineReader summaryReader() {
-        return this.summaryReader;
+    private FilebasedReader newFilebasedReader(final LineVisitor lineVisitor,
+            final String name) {
+        return new FilebasedReader(lineVisitor, name, reportDirectory());
     }
 
-    private LineReader failedInvocationsReader() {
-        return this.failedInvocationsReader;
-    }
-
-    private LineReader throughputReader() {
-        return this.throughputReader;
-    }
-
-    private LineReader latencyReader() {
-        return this.latencyReader;
-    }
-
-    private LineReader setupReader() {
-        return this.setupReader;
+    private FailedInvocationsVisitor failedInvocationsVisitor() {
+        return this.failedInvocationsVisitor;
     }
 
     private SetupVisitor setupVisitor() {
         return this.setupVisitor;
+    }
+
+    private SummaryVisitor summaryVisitor() {
+        return this.summaryVisitor;
     }
 
     private LatencyFileVisitor latencyVisitor() {
@@ -277,7 +272,7 @@ public class FilebasedReportReader {
     }
 
     public FailedInvocations failedInvocations() {
-        return this.failedInvocationsVisitor.failedInvocations();
+        return failedInvocationsVisitor().failedInvocations();
     }
 
     public FilebasedSummary summary() {
