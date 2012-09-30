@@ -41,13 +41,13 @@ public class FilebasedReporter implements InvocationReporter {
         final BufferedWriter setupWriter = newBufferedWriterFor("setup");
         try {
             setupWriter.append(toString(testSetup.duration()));
-            setupWriter.newLine();
+            setupWriter.append(":");
             setupWriter.append(toString(testSetup.threads()));
-            setupWriter.newLine();
+            setupWriter.append(":");
             setupWriter.append(toString(testSetup.invocations()));
-            setupWriter.newLine();
+            setupWriter.append(":");
             setupWriter.append(toString(testSetup.invocationRange()));
-            setupWriter.newLine();
+            setupWriter.append(":");
             setupWriter.append(toString(testSetup.throughputRange()));
         } finally {
             setupWriter.close();

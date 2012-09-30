@@ -8,6 +8,9 @@ import java.io.IOException;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LineReader;
 import net.sf.perftence.LineVisitor;
+import net.sf.perftence.PerformanceTestSetup;
+import net.sf.perftence.PerformanceTestSetupPojo;
+import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +26,10 @@ public class FilebasedReportReader {
     private final LineReader throughputReader;
     private final LineReader latencyReader;
 
+    private LineReader setupReader;
+
+    private SetupVisitor setupVisitor;
+
     public FilebasedReportReader(final String id) {
         final File root = new File("target", "perftence");
         this.reportDir = new File(root, id);
@@ -31,7 +38,8 @@ public class FilebasedReportReader {
                 new DefaultThroughputStorage(100));
         this.throughputReader = new LineReader();
         this.latencyReader = new LineReader();
-
+        this.setupReader = new LineReader();
+        this.setupVisitor = new SetupVisitor();
     }
 
     class ThroughputVisitor implements LineVisitor {
@@ -54,6 +62,34 @@ public class FilebasedReportReader {
         public void emptyLine() {
             log().warn("Ignored some empty lines from throughput file");
         }
+    }
+
+    class SetupVisitor implements LineVisitor {
+
+        private PerformanceTestSetup setup;
+
+        @Override
+        public void visit(String line) {
+            String[] values = line.split(":");
+            PerformanceTestSetupBuilder builder = PerformanceTestSetupPojo
+                    .builder();
+            builder.duration(toInt(values[0]));
+            builder.threads(toInt(values[1]));
+            builder.invocations(toInt(values[2]));
+            builder.invocationRange(toInt(values[3]));
+            builder.throughputRange(toInt(values[4]));
+            this.setup = builder.build();
+        }
+
+        private int toInt(final String value) {
+            return Integer.parseInt(value);
+        }
+
+        @Override
+        public void emptyLine() {
+            log().warn("Ignored some empty lines from throughput file");
+        }
+
     }
 
     class LatencyFileVisitor implements LineVisitor {
@@ -102,11 +138,24 @@ public class FilebasedReportReader {
             } finally {
                 throughputStream.close();
             }
+
+            final FileInputStream setupStream = new FileInputStream(new File(
+                    reportDirectory(), "setup"));
+            try {
+                this.setupReader.read(setupStream, setupVisitor());
+            } finally {
+                setupStream.close();
+            }
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private SetupVisitor setupVisitor() {
+        return this.setupVisitor;
     }
 
     private ThroughputVisitor throughputVisitor() {
