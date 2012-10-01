@@ -30,7 +30,7 @@ public final class FrequencyStorageFactory {
                     }
                     imageData.add(i, count);
                 }
-                return imageData.range(range);
+                return imageData.range(range + 5.0);
             }
 
             @Override

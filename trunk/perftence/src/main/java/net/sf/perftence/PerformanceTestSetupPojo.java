@@ -1,5 +1,6 @@
 package net.sf.perftence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +8,8 @@ import java.util.List;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public final class PerformanceTestSetupPojo implements PerformanceTestSetup {
+public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
+        Serializable {
 
     public static class PerformanceTestSetupBuilder {
         private int duration = -1;
