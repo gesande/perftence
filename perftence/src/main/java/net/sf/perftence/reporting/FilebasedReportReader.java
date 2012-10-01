@@ -40,7 +40,7 @@ public class FilebasedReportReader {
         this.setupVisitor = new SetupVisitor();
     }
 
-    class FilebasedReader {
+    final class FilebasedReader {
         private final LineVisitor visitor;
         private final LineReader reader;
         private String file;

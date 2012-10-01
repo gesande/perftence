@@ -23,8 +23,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         final long now = System.currentTimeMillis();
         final PerformanceTestSetup testSetup = setup().threads(100)
                 .invocations(10000).throughputRange(10000).build();
-        final FilebasedReporter reporter = new FilebasedReporter(id(), true,
-                testSetup);
+        final FilebasedReporter reporter = new FilebasedReporter(id(),
+                testSetup, true);
         test().setup(testSetup).executable(new Executable() {
             @Override
             public void execute() throws Exception {

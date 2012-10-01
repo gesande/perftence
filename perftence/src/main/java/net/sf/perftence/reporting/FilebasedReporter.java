@@ -14,10 +14,12 @@ public class FilebasedReporter implements InvocationReporter {
     private final BufferedWriter failedInvocationWriter;
     private final boolean includeInvocationGraph;
     private final File reportDir;
+    private SummaryFileWriter summaryFileWriter;
 
     public FilebasedReporter(final String id,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup testSetup) {
+            final PerformanceTestSetup testSetup,
+            final boolean includeInvocationGraph) {
+
         this.includeInvocationGraph = includeInvocationGraph;
         final File root = new File("target", "perftence");
         this.reportDir = new File(root, id);
@@ -26,41 +28,60 @@ public class FilebasedReporter implements InvocationReporter {
             this.latencyWriter = newBufferedWriterFor("latencies");
             this.throughputWriter = newBufferedWriterFor("throughput");
             this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
-            writeSetup(testSetup, includeInvocationGraph);
+            this.summaryFileWriter = new SummaryFileWriter();
+            final TestSetupFileWriter testSetupFileWriter = new TestSetupFileWriter(
+                    new FilebasedTestSetup(testSetup, includeInvocationGraph));
+            testSetupFileWriter.write();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private BufferedWriter newBufferedWriterFor(final String fileName)
-            throws IOException {
-        return new BufferedWriter(new FileWriter(new File(reportDirectory(),
-                fileName)));
-    }
-
-    private void writeSetup(final PerformanceTestSetup testSetup,
-            final boolean includeInvocationGraph) throws IOException {
-        final BufferedWriter setupWriter = newBufferedWriterFor("setup");
+    private BufferedWriter newBufferedWriterFor(final String fileName) {
         try {
-            setupWriter.append(toString(testSetup.duration()));
-            setupWriter.append(":");
-            setupWriter.append(toString(testSetup.threads()));
-            setupWriter.append(":");
-            setupWriter.append(toString(testSetup.invocations()));
-            setupWriter.append(":");
-            setupWriter.append(toString(testSetup.invocationRange()));
-            setupWriter.append(":");
-            setupWriter.append(toString(testSetup.throughputRange()));
-            setupWriter.append(":");
-            setupWriter.append(Boolean.toString(includeInvocationGraph));
-        } finally {
-            setupWriter.close();
+            return new BufferedWriter(new FileWriter(new File(
+                    reportDirectory(), fileName)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    @SuppressWarnings("static-method")
-    private String toString(final int value) {
-        return Integer.toString(value);
+    final class TestSetupFileWriter {
+        private final FilebasedTestSetup testSetup;
+
+        public TestSetupFileWriter(FilebasedTestSetup testSetup) {
+            this.testSetup = testSetup;
+        }
+
+        public void write() throws IOException {
+            final BufferedWriter writer = newBufferedWriterFor("setup");
+            try {
+                
+                writer.append(integerToString(setup().testSetup().duration()));
+                writer.append(":");
+                writer.append(integerToString(setup().testSetup().threads()));
+                writer.append(":");
+                writer.append(integerToString(setup().testSetup().invocations()));
+                writer.append(":");
+                writer.append(integerToString(setup().testSetup()
+                        .invocationRange()));
+                writer.append(":");
+                writer.append(integerToString(setup().testSetup()
+                        .throughputRange()));
+                writer.append(":");
+                writer.append(Boolean.toString(includeInvocationGraph()));
+            } finally {
+                writer.close();
+            }
+        }
+
+        private boolean includeInvocationGraph() {
+            return setup().includeInvocationGraph();
+        }
+
+        private FilebasedTestSetup setup() {
+            return this.testSetup;
+        }
     }
 
     @Override
@@ -79,35 +100,87 @@ public class FilebasedReporter implements InvocationReporter {
         try {
             latencyWriter().close();
             throughputWriter().close();
-            writeSummary(id, elapsedTime, sampleCount, startTime);
+            summaryFileWriter().write(id, elapsedTime, sampleCount, startTime);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void writeSummary(final String id, final long elapsedTime,
-            final long sampleCount, final long startTime) throws IOException {
-        final BufferedWriter bufferedWriter = newBufferedWriterFor("summary");
-        try {
-            bufferedWriter.append(summaryLine(id, elapsedTime, sampleCount,
-                    startTime));
-            bufferedWriter.newLine();
-        } finally {
-            bufferedWriter.close();
+    private SummaryFileWriter summaryFileWriter() {
+        return this.summaryFileWriter;
+    }
+
+    final class SummaryFileWriter {
+
+        public void write(final String id, final long elapsedTime,
+                final long sampleCount, final long startTime)
+                throws IOException {
+            final BufferedWriter bufferedWriter = newBufferedWriterFor("summary");
+            try {
+                bufferedWriter.append(SummaryLine.summaryLine(id, elapsedTime,
+                        sampleCount, startTime));
+                bufferedWriter.newLine();
+            } finally {
+                bufferedWriter.close();
+            }
+        }
+
+    }
+
+    final static class SummaryLine {
+
+        public static String summaryLine(final String id,
+                final long elapsedTime, final long sampleCount,
+                final long startTime) {
+            final StringBuilder sb = new StringBuilder(id).append(":")
+                    .append(longToString(elapsedTime)).append(":")
+                    .append(longToString(sampleCount)).append(":")
+                    .append(longToString(startTime));
+            return sb.toString();
         }
     }
 
-    private static String summaryLine(final String id, final long elapsedTime,
-            final long sampleCount, final long startTime) {
-        final StringBuilder sb = new StringBuilder(id).append(":")
-                .append(longToString(elapsedTime)).append(":")
-                .append(longToString(sampleCount)).append(":")
-                .append(longToString(startTime));
-        return sb.toString();
+    @Override
+    public synchronized void throughput(final long currentDuration,
+            final double throughput) {
+        try {
+            ((BufferedWriter) throughputWriter().append(
+                    ThroughputLine.throughputLine(currentDuration, throughput)))
+                    .newLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    final static class ThroughputLine {
+        public static String throughputLine(final long currentDuration,
+                final double throughput) {
+            return new StringBuilder(longToString(currentDuration)).append(":")
+                    .append(Double.toString(throughput)).toString();
+        }
+    }
+
+    @Override
+    public synchronized void invocationFailed(final Throwable t) {
+        try {
+            failedInvocationWriter().append(t.getClass().getName());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean includeInvocationGraph() {
+        return this.includeInvocationGraph;
     }
 
     private static String longToString(final long value) {
         return Long.toString(value);
+    }
+
+    private static String integerToString(final int value) {
+        return Integer.toString(value);
     }
 
     private BufferedWriter throughputWriter() {
@@ -122,35 +195,8 @@ public class FilebasedReporter implements InvocationReporter {
         return this.reportDir;
     }
 
-    @Override
-    public synchronized void throughput(final long currentDuration,
-            final double throughput) {
-        try {
-            ((BufferedWriter) throughputWriter().append(
-                    currentThroughput(currentDuration, throughput))).newLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static String currentThroughput(final long currentDuration,
-            final double throughput) {
-        return new StringBuilder(longToString(currentDuration)).append(":")
-                .append(Double.toString(throughput)).toString();
-    }
-
-    @Override
-    public boolean includeInvocationGraph() {
-        return this.includeInvocationGraph;
-    }
-
-    @Override
-    public synchronized void invocationFailed(final Throwable t) {
-        try {
-            this.failedInvocationWriter.append(t.getClass().getName());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    private BufferedWriter failedInvocationWriter() {
+        return this.failedInvocationWriter;
     }
 
 }
