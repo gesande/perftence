@@ -2,8 +2,10 @@ package net.sf.perftence.reporting;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import net.sf.perftence.PerformanceTestSetup;
 
@@ -24,17 +26,13 @@ public class FilebasedReporter implements InvocationReporter {
         final File root = new File("target", "perftence");
         this.reportDir = new File(root, id);
         reportDirectory().mkdirs();
-        try {
-            this.latencyWriter = newBufferedWriterFor("latencies");
-            this.throughputWriter = newBufferedWriterFor("throughput");
-            this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
-            this.summaryFileWriter = new SummaryFileWriter();
-            final TestSetupFileWriter testSetupFileWriter = new TestSetupFileWriter(
-                    new FilebasedTestSetup(testSetup, includeInvocationGraph));
-            testSetupFileWriter.write();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.latencyWriter = newBufferedWriterFor("latencies");
+        this.throughputWriter = newBufferedWriterFor("throughput");
+        this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
+        this.summaryFileWriter = new SummaryFileWriter();
+        final TestSetupFileWriter testSetupFileWriter = new TestSetupFileWriter(
+                new FilebasedTestSetup(testSetup, includeInvocationGraph));
+        testSetupFileWriter.write();
     }
 
     private BufferedWriter newBufferedWriterFor(final String fileName) {
@@ -53,30 +51,20 @@ public class FilebasedReporter implements InvocationReporter {
             this.testSetup = testSetup;
         }
 
-        public void write() throws IOException {
-            final BufferedWriter writer = newBufferedWriterFor("setup");
+        public void write() {
             try {
-                
-                writer.append(integerToString(setup().testSetup().duration()));
-                writer.append(":");
-                writer.append(integerToString(setup().testSetup().threads()));
-                writer.append(":");
-                writer.append(integerToString(setup().testSetup().invocations()));
-                writer.append(":");
-                writer.append(integerToString(setup().testSetup()
-                        .invocationRange()));
-                writer.append(":");
-                writer.append(integerToString(setup().testSetup()
-                        .throughputRange()));
-                writer.append(":");
-                writer.append(Boolean.toString(includeInvocationGraph()));
-            } finally {
-                writer.close();
+                final FileOutputStream output = new FileOutputStream(new File(
+                        reportDirectory(), "setup"));
+                try {
+                    final ObjectOutputStream outputStream = new ObjectOutputStream(
+                            output);
+                    outputStream.writeObject(setup());
+                } finally {
+                    output.close();
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
-        }
-
-        private boolean includeInvocationGraph() {
-            return setup().includeInvocationGraph();
         }
 
         private FilebasedTestSetup setup() {
@@ -177,10 +165,6 @@ public class FilebasedReporter implements InvocationReporter {
 
     private static String longToString(final long value) {
         return Long.toString(value);
-    }
-
-    private static String integerToString(final int value) {
-        return Integer.toString(value);
     }
 
     private BufferedWriter throughputWriter() {
