@@ -33,6 +33,7 @@ waiting-title
 
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"
+waiting "provide means to create test report from an intermediate format" $(tag feature)
 intended-comment "second phase -> create test reports from intermediate format"
 waiting "new line-reader project" $(tag development)
 waiting "provide line-reader project in distribution package" $(tag development)
