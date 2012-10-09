@@ -10,7 +10,8 @@ import net.sf.perftence.reporting.summary.SummaryAppender;
 
 public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
         Serializable {
-
+    private static final long serialVersionUID = -687991492884005033L;
+    
     public static class PerformanceTestSetupBuilder {
         private int duration = -1;
         private int threads = 1;
