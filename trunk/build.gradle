@@ -2,7 +2,9 @@ subprojects {
     apply plugin: "java"
     apply plugin: "eclipse"
     apply from:'https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle'
-
+    apply plugin: 'findbugs'
+    apply plugin: 'pmd'
+    
     eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
     eclipse.classpath.defaultOutputDir = file('target/classes')
 
@@ -19,6 +21,10 @@ subprojects {
         }
     }
 
+    findbugs.ignoreFailures = true
+
+    pmd.ruleSetFiles = files(".pmd")
+
     version = '1.0-BETA'
 
     task "show-version" << { println version }
@@ -30,8 +36,6 @@ subprojects {
 
     dependencies {
         compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
-        emma "emma:emma:2.0.5312"
-        emma "emma:emma_ant:2.0.5312"
     }
 
     task "create-dirs" << {
@@ -369,4 +373,3 @@ project(':perftence-junit-utils') {
 
     dependencies { compile project(':junit-4.10') }
 }
-
