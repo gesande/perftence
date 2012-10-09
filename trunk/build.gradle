@@ -1,6 +1,7 @@
 subprojects {
     apply plugin: "java"
     apply plugin: "eclipse"
+    apply from:'https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle'
 
     eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
     eclipse.classpath.defaultOutputDir = file('target/classes')
@@ -17,15 +18,20 @@ subprojects {
         println "${matchLastChangedRev[0][1]}"
         }
     }
-    
+
     version = '1.0-BETA'
 
     task "show-version" << { println version }
 
-    repositories { flatDir { dirs 'lib' } }
+    repositories { 
+        flatDir { dirs 'lib' } 
+        mavenCentral()
+    }
 
     dependencies {
         compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
+        emma "emma:emma:2.0.5312"
+        emma "emma:emma_ant:2.0.5312"
     }
 
     task "create-dirs" << {

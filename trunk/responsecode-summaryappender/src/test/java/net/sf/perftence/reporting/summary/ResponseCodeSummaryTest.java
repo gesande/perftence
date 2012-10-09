@@ -2,9 +2,12 @@ package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
 
+import java.text.DecimalFormat;
+
 import org.junit.Test;
 
 public class ResponseCodeSummaryTest {
+    private final static DecimalFormat DF = new DecimalFormat("###.###");
 
     @Test
     public void summary() {
@@ -20,7 +23,9 @@ public class ResponseCodeSummaryTest {
                 + "BOLDResponse code statistics:ENDOFLINE\n"
                 + "TEXTResponse code : TEXT200TEXT TEXTFrequency : TEXT7122ENDOFLINE\n"
                 + "TEXTResponse code : TEXT404TEXT TEXTFrequency : TEXT1ENDOFLINE\n"
-                + "TEXTResponse success rate: TEXT99,986TEXT %ENDOFLINE\n";
+                + "TEXTResponse success rate: TEXT" + DF.format(99.986)
+                + "TEXT %ENDOFLINE\n";
+        System.out.print("Result was: \n" + result);
         assertEquals(result, sb.toString());
         // TODO: asserts
     }
