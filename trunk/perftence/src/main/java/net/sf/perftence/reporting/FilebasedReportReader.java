@@ -48,11 +48,15 @@ public class FilebasedReportReader {
 
         public FilebasedTestSetup read() {
             try {
-                FileInputStream input = new FileInputStream(new File(
+                final FileInputStream input = new FileInputStream(new File(
                         reportDirectory(), "setup"));
                 final ObjectInputStream inputStream = new ObjectInputStream(
                         input);
-                return (FilebasedTestSetup) inputStream.readObject();
+                try {
+                    return (FilebasedTestSetup) inputStream.readObject();
+                } finally {
+                    inputStream.close();
+                }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {

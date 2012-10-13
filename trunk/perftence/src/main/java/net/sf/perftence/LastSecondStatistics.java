@@ -90,7 +90,7 @@ public final class LastSecondStatistics implements RuntimeStatisticsProvider,
     }
 
     @Override
-    public synchronized long percentileLatency(int percentile) {
+    public synchronized long percentileLatency(final int percentile) {
         final long currentSecond = lastSecond();
         if (latencies().containsKey(currentSecond)) {
             return latencies().get(currentSecond).percentileLatency(percentile);

@@ -36,7 +36,7 @@ public final class TimerScheduler {
         return this.timerList;
     }
 
-    public void schedule(TimerSpec spec) {
+    public void schedule(final TimerSpec spec) {
         addTimer(log(spec.name(), newTimer(spec)));
     }
 

@@ -1,59 +1,63 @@
 package net.sf.perftence;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LastSecondStatisticsTest {
-    private LastSecondStatistics statistics;
+    private final static Logger LOG = LoggerFactory
+            .getLogger(LastSecondStatisticsTest.class);
 
+    @SuppressWarnings("static-method")
     @Test
     public void test() throws InterruptedException {
-        this.statistics = new LastSecondStatistics();
+        final LastSecondStatistics statistics = new LastSecondStatistics();
 
-        long start = System.currentTimeMillis() / 1000;
+        final long start = System.currentTimeMillis() / 1000;
         System.out.println("start : " + start);
         Thread.sleep(1000);
-        this.statistics.latency(500);
-        this.statistics.latency(500);
-        double averageLatency = this.statistics.averageLatency();
-        double currentThroughput = this.statistics.currentThroughput();
-        long currentDuration = this.statistics.currentDuration();
-        long sampleCount = this.statistics.sampleCount();
-        System.out.println("\nstats:\n");
-        System.out.println("averageLatency : " + averageLatency);
-        System.out.println("currentThroughput : " + currentThroughput);
-        System.out.println("currentDuration : " + currentDuration);
-        System.out.println("sampleCount : " + sampleCount);
+        statistics.latency(500);
+        statistics.latency(500);
+        double averageLatency = statistics.averageLatency();
+        double currentThroughput = statistics.currentThroughput();
+        long currentDuration = statistics.currentDuration();
+        long sampleCount = statistics.sampleCount();
+        LOG.info("\nstats:\n");
+        LOG.info("averageLatency : " + averageLatency);
+        LOG.info("currentThroughput : " + currentThroughput);
+        LOG.info("currentDuration : " + currentDuration);
+        LOG.info("sampleCount : " + sampleCount);
 
         Thread.sleep(1000);
-        long currentSecond = System.currentTimeMillis() / 1000;
-        System.out.println("currentSecond : " + currentSecond);
-        this.statistics.latency(250);
-        this.statistics.latency(250);
+        final long currentSecond = System.currentTimeMillis() / 1000;
+        LOG.info("currentSecond : " + currentSecond);
+        statistics.latency(250);
+        statistics.latency(250);
         Thread.sleep(400);
-        averageLatency = this.statistics.averageLatency();
-        currentThroughput = this.statistics.currentThroughput();
-        currentDuration = this.statistics.currentDuration();
-        sampleCount = this.statistics.sampleCount();
-        System.out.println("\nstats:\n");
-        System.out.println("averageLatency : " + averageLatency);
-        System.out.println("currentThroughput : " + currentThroughput);
-        System.out.println("currentDuration : " + currentDuration);
-        System.out.println("sampleCount : " + sampleCount);
+        averageLatency = statistics.averageLatency();
+        currentThroughput = statistics.currentThroughput();
+        currentDuration = statistics.currentDuration();
+        sampleCount = statistics.sampleCount();
+        LOG.info("\nstats:\n");
+        LOG.info("averageLatency : " + averageLatency);
+        LOG.info("currentThroughput : " + currentThroughput);
+        LOG.info("currentDuration : " + currentDuration);
+        LOG.info("sampleCount : " + sampleCount);
         Thread.sleep(1000);
 
-        long lastSecond = (System.currentTimeMillis() / 1000) - 1;
-        System.out.println("lastSecond : " + lastSecond);
-        this.statistics.latency(300);
-        this.statistics.latency(300);
-        averageLatency = this.statistics.averageLatency();
-        currentThroughput = this.statistics.currentThroughput();
-        currentDuration = this.statistics.currentDuration();
-        sampleCount = this.statistics.sampleCount();
-        System.out.println("\nstats:\n");
-        System.out.println("averageLatency : " + averageLatency);
-        System.out.println("currentThroughput : " + currentThroughput);
-        System.out.println("currentDuration : " + currentDuration);
-        System.out.println("sampleCount : " + sampleCount);
+        final long lastSecond = (System.currentTimeMillis() / 1000) - 1;
+        LOG.info("lastSecond : " + lastSecond);
+        statistics.latency(300);
+        statistics.latency(300);
+        averageLatency = statistics.averageLatency();
+        currentThroughput = statistics.currentThroughput();
+        currentDuration = statistics.currentDuration();
+        sampleCount = statistics.sampleCount();
+        LOG.info("\nstats:\n");
+        LOG.info("averageLatency : " + averageLatency);
+        LOG.info("currentThroughput : " + currentThroughput);
+        LOG.info("currentDuration : " + currentDuration);
+        LOG.info("sampleCount : " + sampleCount);
 
     }
 }

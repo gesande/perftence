@@ -27,10 +27,9 @@ subprojects {
 
     findbugs.ignoreFailures = true
 
-    findbugsMain.reports {
-      html {
-        destination "./build/reports/findbugs/main.html"
-      }
+    [findbugsMain, findbugsTest]*.reports {
+        xml.enabled false
+        html.enabled true
     }
 
     pmd.ruleSetFiles = files(".pmd")

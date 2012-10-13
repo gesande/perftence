@@ -17,6 +17,7 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
     OverallSummaryBuilder(final PerformanceTestSetup setUp,
             final StatisticsProvider provider,
             final SummaryFieldFactory summaryFieldFactory) {
+        super();
         this.setUp = setUp;
         this.provider = provider;
         this.summaryFieldFactory = summaryFieldFactory;
@@ -53,32 +54,31 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
         return provider().hasSamples();
     }
 
-    private final SummaryField<Long> executionTime(long duration) {
+    private SummaryField<Long> executionTime(long duration) {
         return summaryFieldFactory().executionTime().value(duration).build();
     }
 
-    private final BuildableSummaryField<Double> throughput(double value) {
+    private BuildableSummaryField<Double> throughput(double value) {
         return summaryFieldFactory().throughput().value(value);
     }
 
-    private final SummaryField<Long> percentile95(final long value) {
+    private SummaryField<Long> percentile95(final long value) {
         return summaryFieldFactory().percentile95().value(value).build();
     }
 
-    private final SummaryField<Long> median(final long value) {
+    private SummaryField<Long> median(final long value) {
         return summaryFieldFactory().median().value(value).build();
     }
 
-    private final BuildableSummaryField<Double> average(
-            final double averageLatency) {
+    private BuildableSummaryField<Double> average(final double averageLatency) {
         return summaryFieldFactory().average().value(averageLatency);
     }
 
-    private final SummaryField<Long> max(final long maxLatency) {
+    private SummaryField<Long> max(final long maxLatency) {
         return summaryFieldFactory().max().value(maxLatency).build();
     }
 
-    private final SummaryField<Integer> threads(final int value) {
+    private SummaryField<Integer> threads(final int value) {
         return summaryFieldFactory().threads().value(value).build();
     }
 

@@ -37,12 +37,12 @@ public final class TestSummaryLogger {
         return summaryBuilder().hasSamples();
     }
 
-    private final static void logSummary(final String summary, final String id) {
+    private static void logSummary(final String summary, final String id) {
         log().info("{}{} statistics: {}{}",
                 new Object[] { newLine(), id, newLine(), summary });
     }
 
-    private final static void logNoSamplesReported() {
+    private static void logNoSamplesReported() {
         log().info("No samples, no need for the summary.");
     }
 
@@ -50,7 +50,7 @@ public final class TestSummaryLogger {
         return LOG;
     }
 
-    private static final String newLine() {
+    private static String newLine() {
         return "\n";
     }
 

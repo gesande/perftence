@@ -96,7 +96,7 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         return summaryFieldFactory().throughput(currentThroughput);
     }
 
-    private SummaryField<Long> percentile95(long percentileLatency) {
+    private SummaryField<Long> percentile95(final long percentileLatency) {
         return summaryFieldFactory().percentile95(percentileLatency);
     }
 

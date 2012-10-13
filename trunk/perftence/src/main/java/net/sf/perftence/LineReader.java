@@ -17,10 +17,10 @@ public class LineReader {
             try {
                 String strLine;
                 while ((strLine = br.readLine()) != null) {
-                    if (!strLine.isEmpty()) {
-                        visitor.visit(strLine);
-                    } else {
+                    if (strLine.isEmpty()) {
                         visitor.emptyLine();
+                    } else {
+                        visitor.visit(strLine);
                     }
                 }
             } finally {

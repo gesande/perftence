@@ -18,7 +18,7 @@ final class SchedulingServiceFactory {
             final RunnableAdapter adapter, final int workers,
             final ScheduledTasks scheduledTasks) {
         return new SchedulingServiceBasedOnJavaConcurrentStuff(adapter,
-                Integer.MAX_VALUE, workers, scheduledTasks);
+                workers, scheduledTasks);
     }
 
 }
