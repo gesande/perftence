@@ -21,7 +21,7 @@ subprojects {
         }
     }
 
-    findbugs.ignoreFailures = true
+    findbugsMain.ignoreFailures = true
     findbugsMain.reports {
       html {
         destination "./build/reports/findbugs/main.html"
