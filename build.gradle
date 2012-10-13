@@ -21,7 +21,12 @@ subprojects {
         }
     }
 
-    findbugsMain.ignoreFailures = true
+    pmd {
+      ignoreFailures = 'true'
+    }
+
+    findbugs.ignoreFailures = true
+
     findbugsMain.reports {
       html {
         destination "./build/reports/findbugs/main.html"
