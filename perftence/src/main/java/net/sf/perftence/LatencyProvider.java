@@ -93,17 +93,19 @@ public final class LatencyProvider implements StatisticsProvider,
         long count = 0;
         for (long value = minLatency(); value <= maxLatency(); value++) {
             count += latencyCount(value);
-            if (count >= targetCount)
+            if (count >= targetCount) {
                 return value;
+            }
         }
         return maxLatency();
     }
 
     @Override
     public double throughput() {
-        if (this.startTime == -1 || this.endTime == -1)
+        if (this.startTime == -1 || this.endTime == -1) {
             throw new IllegalArgumentException(
                     "Invalid setup: Use start() and stop() to indicate test start and end!");
+        }
         return currentThroughput(sampleCount(), duration());
     }
 

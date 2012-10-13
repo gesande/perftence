@@ -12,14 +12,15 @@ import net.sf.perftence.reporting.summary.TestSummary;
 
 final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
     private final RuntimeStatisticsProvider statisticsProvider;
-    private final PerformanceTestSetup setUp;
+    private final PerformanceTestSetup testSetup;
     private final SummaryFieldFactory summaryFieldFactory;
     private final CompositeCustomIntermediateSummaryProvider customIntermediateSummaryProvider;
 
     IntermediateSummaryBuilder(final PerformanceTestSetup setUp,
             final RuntimeStatisticsProvider counter,
             final SummaryFieldFactory summaryFieldFactory) {
-        this.setUp = setUp;
+        super();
+        this.testSetup = setUp;
         this.statisticsProvider = counter;
         this.summaryFieldFactory = summaryFieldFactory;
         this.customIntermediateSummaryProvider = new CompositeCustomIntermediateSummaryProvider();
@@ -31,17 +32,17 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         final double currentThroughput = runtimeStatistics()
                 .currentThroughput();
         final long sampleCount = runtimeStatistics().sampleCount();
-        if (setUp().invocations() > 0) {
+        if (testSetup().invocations() > 0) {
             summary.field(summaryFieldFactory().samples()
                     .samplesSoFar(sampleCount)
-                    .samplesTotal(setUp().invocations()));
+                    .samplesTotal(testSetup().invocations()));
         } else {
             summary.field(summaryFieldFactory()
                     .estimatedSamples()
                     .samplesSoFar(sampleCount)
                     .estimatedSamples(
                             EstimatedInvocations.calculate(currentThroughput,
-                                    setUp().duration(), runtimeStatistics()
+                                    testSetup().duration(), runtimeStatistics()
                                             .sampleCount())));
         }
         summary.field(max(runtimeStatistics().maxLatency()));
@@ -51,14 +52,14 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         summary.field(percentile95(runtimeStatistics().percentileLatency(95)));
         summary.field(throughput(currentThroughput).asFormatted());
         summary.field(executionTime(currentDuration));
-        summary.field(threads(setUp().threads()));
-        if (setUp().invocations() > 0) {
+        summary.field(threads(testSetup().threads()));
+        if (testSetup().invocations() > 0) {
             summary.field(summaryFieldFactory()
                     .estimatedTimeLeftBasedOnThroughput()
-                    .invocationsLeft(setUp().invocations() - sampleCount)
+                    .invocationsLeft(testSetup().invocations() - sampleCount)
                     .throughput(currentThroughput));
         } else {
-            final long actualTimeLeft = (setUp().duration() - currentDuration) / 1000;
+            final long actualTimeLeft = (testSetup().duration() - currentDuration) / 1000;
             summary.field(summaryFieldFactory()
                     .estimatedTimeLeftBasedOnDuration()
                     .actualTimeLeft(actualTimeLeft)
@@ -83,32 +84,31 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         return runtimeStatistics().hasSamples();
     }
 
-    private final SummaryField<Long> executionTime(final long duration) {
+    private SummaryField<Long> executionTime(final long duration) {
         return summaryFieldFactory().executionTime().value(duration).build();
     }
 
-    private final BuildableSummaryField<Double> throughput(final double value) {
+    private BuildableSummaryField<Double> throughput(final double value) {
         return summaryFieldFactory().throughput().value(value);
     }
 
-    private final SummaryField<Long> percentile95(final long value) {
+    private SummaryField<Long> percentile95(final long value) {
         return summaryFieldFactory().percentile95().value(value).build();
     }
 
-    private final SummaryField<Long> median(final long value) {
+    private SummaryField<Long> median(final long value) {
         return summaryFieldFactory().median().value(value).build();
     }
 
-    private final BuildableSummaryField<Double> average(
-            final double averageLatency) {
+    private BuildableSummaryField<Double> average(final double averageLatency) {
         return summaryFieldFactory().average().value(averageLatency);
     }
 
-    private final SummaryField<Long> max(final long maxLatency) {
+    private SummaryField<Long> max(final long maxLatency) {
         return summaryFieldFactory().max().value(maxLatency).build();
     }
 
-    private final SummaryField<Integer> threads(final int value) {
+    private SummaryField<Integer> threads(final int value) {
         return summaryFieldFactory().threads().value(value).build();
     }
 
@@ -120,8 +120,8 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
         return this.summaryFieldFactory;
     }
 
-    private PerformanceTestSetup setUp() {
-        return this.setUp;
+    private PerformanceTestSetup testSetup() {
+        return this.testSetup;
     }
 
 }

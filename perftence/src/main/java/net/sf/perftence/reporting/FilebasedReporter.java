@@ -58,7 +58,11 @@ public class FilebasedReporter implements InvocationReporter {
                 try {
                     final ObjectOutputStream outputStream = new ObjectOutputStream(
                             output);
-                    outputStream.writeObject(setup());
+                    try {
+                        outputStream.writeObject(setup());
+                    } finally {
+                        outputStream.close();
+                    }
                 } finally {
                     output.close();
                 }

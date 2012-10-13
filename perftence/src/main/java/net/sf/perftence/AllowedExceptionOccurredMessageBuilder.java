@@ -1,8 +1,6 @@
 package net.sf.perftence;
 
 public final class AllowedExceptionOccurredMessageBuilder {
-    public AllowedExceptionOccurredMessageBuilder() {
-    }
 
     @SuppressWarnings("static-method")
     public String allowedExceptionOccurredMessage(final Throwable t,

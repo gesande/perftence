@@ -11,7 +11,7 @@ import net.sf.perftence.reporting.summary.Summary;
 public final class HtmlSummary implements Summary<HtmlSummary>,
         StatisticsSummary<HtmlSummary> {
     private final static DefaultDoubleFormatter DF = new DefaultDoubleFormatter();
-    private final static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
 
     private StringBuffer sb;
@@ -75,8 +75,12 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
         return append("Test report created   : ").append(format(date));
     }
 
-    private static String format(final Date date) {
-        return SIMPLE_DATE_FORMAT.format(date);
+    private String format(final Date date) {
+        return dateFormat().format(date);
+    }
+
+    private SimpleDateFormat dateFormat() {
+        return this.dateFormat;
     }
 
     public HtmlSummary br() {

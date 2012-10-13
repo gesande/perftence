@@ -116,7 +116,7 @@ final class DefaultInvocationReporter implements InvocationReporter {
         summary.image(id);
     }
 
-    private boolean writeThroughputChart(String id) {
+    private boolean writeThroughputChart(final String id) {
         if (throughputStorage().isEmpty()) {
             log().info("No data to print to the throughput chart");
             return false;
@@ -131,10 +131,8 @@ final class DefaultInvocationReporter implements InvocationReporter {
 
     private void appendInvocationChart(final String id,
             final HtmlSummary summary) {
-        if (includeInvocationGraph()) {
-            if (writeInvocationChart(id)) {
-                appendImage(id, summary);
-            }
+        if (includeInvocationGraph() && writeInvocationChart(id)) {
+            appendImage(id, summary);
         }
     }
 

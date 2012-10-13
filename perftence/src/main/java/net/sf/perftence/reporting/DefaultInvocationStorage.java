@@ -21,7 +21,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     }
 
     public static InvocationStorage newDefaultStorage(
-            final int totalInvocations, ReportingOptions reportingOptions) {
+            final int totalInvocations, final ReportingOptions reportingOptions) {
         return new DefaultInvocationStorage(totalInvocations, reportingOptions);
     }
 
@@ -41,10 +41,8 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     }
 
     private void reportLatencyBeingBelowOne(final int latency) {
-        if (latency == 0) {
-            if (!reportedLatencyBeingBelowOne()) {
-                markReportLatenciesBeingBelowOne();
-            }
+        if (latency == 0 && !reportedLatencyBeingBelowOne()) {
+            markReportLatenciesBeingBelowOne();
         }
     }
 
@@ -85,7 +83,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
                 legendTitle(), range(), adapter);
         int i = 0;
         for (final Integer latency : invocations) {
-            Integer value = latency == null ? -1 : latency;
+            final Integer value = latency == null ? -1 : latency;
             imageData.add(i, value);
             i++;
         }
