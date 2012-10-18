@@ -41,6 +41,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
     private final static Logger LOG = LoggerFactory
             .getLogger(TestBuilder.class);
 
+    private final LastSecondThroughput lastSecondThroughput;
+
     private final ActiveThreads activeThreads;
     private final String name;
     private final List<TestTaskCategory> latencyGraphFor;
@@ -117,6 +119,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         this.customLatencyReporters.add(lastSecondStatistics());
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
         this.customFailureReporters.add(lastSecondFailures());
+        this.lastSecondThroughput = new LastSecondThroughput();
         log().info("TestBuilder {} created.", name());
     }
 
@@ -212,11 +215,15 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         return this.failedInvocations;
     }
 
-    private static LastSecondIntermediateStatisticsProvider newLastSecondStatsProvider(
+    private LastSecondIntermediateStatisticsProvider newLastSecondStatsProvider(
             final LastSecondStatistics statisticsProvider,
             final AdjustedFieldBuilder fieldBuilder) {
         return new LastSecondIntermediateStatisticsProvider(fieldBuilder,
-                statisticsProvider, new LastSecondThroughput());
+                statisticsProvider, lastSecondThroughput());
+    }
+
+    private LastSecondThroughput lastSecondThroughput() {
+        return this.lastSecondThroughput;
     }
 
     private SummaryBuilderFactory summaryBuilderFactory() {
@@ -502,7 +509,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         return testSetupBuilder.graphWriter(
                 threadsRunningCurrentTasks().graphWriter(),
                 taskScheduleDifferencies().graphWriter(),
-                runningTasks().graphWriter()).build();
+                runningTasks().graphWriter(),
+                lastSecondThroughput().throughputGraphWriter(id())).build();
     }
 
     class TaskSpecificTestReporter implements TestTaskReporter {
