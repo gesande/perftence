@@ -26,6 +26,7 @@ task-done "distribution package for sourceforge" $(tag development-support)
 task-done "last second throughput graph for fluent based tests" $(tag feature)
 task-done "added change log capabilities through svn diffing backlog" $(tag infrastructure)
 task-done "added noInvocationGraph also for agent based test for overall statistics" $(tag feature)
+task-done "enabled last second throughput graph writing also for agent based tests" $(tag feature)
 
 in-progress-title
 
