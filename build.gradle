@@ -24,7 +24,10 @@ subprojects {
       ignoreFailures = 'true'
     }
 
-    findbugs.ignoreFailures = true
+    tasks.withType(FindBugs){
+        ignoreFailures = true
+    }
+//    findbugs.ignoreFailures = true
 
     [findbugsMain, findbugsTest]*.reports {
         xml.enabled false
