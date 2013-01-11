@@ -1,7 +1,6 @@
 subprojects {
     apply plugin: "java"
     apply plugin: "eclipse"
-    apply from:'https://raw.github.com/breskeby/gradleplugins/master/emmaPlugin/emma.gradle'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
     
@@ -231,6 +230,7 @@ project(':commons-collections-3.2.1') { prj ->
 }
 
 project(':perftence') {
+    apply from:'../build/plugins/emma.gradle'
     version = '1.0-BETA'
 
     dependencies {
@@ -346,6 +346,7 @@ project(':agent-based-example') {
 }
 
 project(':responsecode-summaryappender') {
+    apply from:'../build/plugins/emma.gradle'
     version ='1.0'
     task('dist', type: Zip) {
         dependsOn 'jar'
@@ -367,7 +368,9 @@ project(':responsecode-summaryappender') {
 }
 
 project(':perftence-junit-utils') {
+    apply from:'../build/plugins/emma.gradle'
     version ='1.0'
+    
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
