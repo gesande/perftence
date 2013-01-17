@@ -1,6 +1,7 @@
 package net.sf.perftence.fluent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.sf.perftence.PercentileRequirement;
@@ -151,7 +152,8 @@ public final class PerformanceRequirementsPojo implements
 
     @Override
     public PercentileRequirement[] percentileRequirements() {
-        return this.percentileRequirements;
+        return Arrays.copyOf(this.percentileRequirements,
+                this.percentileRequirements.length);
     }
 
     @Override

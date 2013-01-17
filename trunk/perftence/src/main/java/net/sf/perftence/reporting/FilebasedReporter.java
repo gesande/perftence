@@ -9,23 +9,37 @@ import java.io.ObjectOutputStream;
 
 import net.sf.perftence.PerformanceTestSetup;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FilebasedReporter implements InvocationReporter {
 
+    private final static Logger LOG = LoggerFactory
+            .getLogger(FilebasedReporter.class);
     private final BufferedWriter latencyWriter;
     private final BufferedWriter throughputWriter;
     private final BufferedWriter failedInvocationWriter;
     private final boolean includeInvocationGraph;
-    private final File reportDir;
+    private final File reportDirectory;
     private SummaryFileWriter summaryFileWriter;
 
     public FilebasedReporter(final String id,
             final PerformanceTestSetup testSetup,
             final boolean includeInvocationGraph) {
-
         this.includeInvocationGraph = includeInvocationGraph;
         final File root = new File("target", "perftence");
-        this.reportDir = new File(root, id);
-        reportDirectory().mkdirs();
+        this.reportDirectory = new File(root, id);
+        if (!reportDirectory().exists()) {
+            if (!reportDirectory().mkdirs()) {
+                throw new RuntimeException("Not able to create directory '"
+                        + id + "' to directory '" + reportDirectory().getName()
+                        + "'");
+            }
+        } else {
+            log().info(
+                    "Directory '" + id + " already exists under '"
+                            + reportDirectory().getName() + "'...");
+        }
         this.latencyWriter = newBufferedWriterFor("latencies");
         this.throughputWriter = newBufferedWriterFor("throughput");
         this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
@@ -93,7 +107,6 @@ public class FilebasedReporter implements InvocationReporter {
             latencyWriter().close();
             throughputWriter().close();
             summaryFileWriter().write(id, elapsedTime, sampleCount, startTime);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -180,11 +193,15 @@ public class FilebasedReporter implements InvocationReporter {
     }
 
     private File reportDirectory() {
-        return this.reportDir;
+        return this.reportDirectory;
     }
 
     private BufferedWriter failedInvocationWriter() {
         return this.failedInvocationWriter;
+    }
+
+    private static Logger log() {
+        return LOG;
     }
 
 }

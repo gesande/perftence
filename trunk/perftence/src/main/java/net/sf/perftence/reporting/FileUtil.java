@@ -13,10 +13,13 @@ public class FileUtil {
             throw newRuntimeException("Couldn't write to file: " + path, e);
         }
         try {
-            FileOutputStream fos = new FileOutputStream(outFile);
-            fos.write(sb.toString().getBytes());
-            fos.flush();
-            fos.close();
+            final FileOutputStream fos = new FileOutputStream(outFile);
+            try {
+                fos.write(sb.toString().getBytes());
+            } finally {
+                fos.flush();
+                fos.close();
+            }
 
         } catch (Exception e) {
             throw newRuntimeException("Couldn't write to file: " + path, e);
@@ -30,8 +33,15 @@ public class FileUtil {
             if (parent == null)
                 throw new FileNotFoundException();
             ensureDirectoryExists(parent);
-            dir.mkdir();
+            if (!dir.mkdir()) {
+                throw newRuntimeException("Not able to create directory '"
+                        + dir.getName() + "'");
+            }
         }
+    }
+
+    private static RuntimeException newRuntimeException(final String message) {
+        return new RuntimeException(message);
     }
 
     public static RuntimeException newRuntimeException(final String message,
