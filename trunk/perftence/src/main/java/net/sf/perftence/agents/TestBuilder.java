@@ -23,7 +23,7 @@ import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.InvocationReporterFactory;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -133,7 +133,7 @@ public final class TestBuilder implements RunnableAdapter, Startable {
             final LatencyProvider latencyProvider, final int threads,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph) {
-        return InvocationReporterFactory.newDefaultInvocationReporter(
+        return DefaultInvocationReporterFactory.newDefaultInvocationReporter(
                 latencyProvider, includeInvocationGraph, setup(0, threads, 0),
                 newFailedInvocations);
     }
