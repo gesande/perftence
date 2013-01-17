@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultTestRunner;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@RunWith(DefaultTestRunner.class)
 public class StatisticsPerformanceTest extends AbstractMultiThreadedTest {
 
     private static final Random RANDOM = new Random(System.currentTimeMillis());
