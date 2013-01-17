@@ -68,7 +68,7 @@ public class FilebasedReportReader {
         }
     }
 
-    final class FilebasedReader {
+    final static class FilebasedReader {
         private final LineVisitor visitor;
         private final LineReader reader;
         private String file;
@@ -109,7 +109,7 @@ public class FilebasedReportReader {
         }
     }
 
-    class SummaryVisitor implements LineVisitor {
+    static class SummaryVisitor implements LineVisitor {
 
         private FilebasedSummary summary;
 
@@ -130,7 +130,7 @@ public class FilebasedReportReader {
         }
     }
 
-    class FailedInvocationsVisitor implements LineVisitor {
+    static class FailedInvocationsVisitor implements LineVisitor {
 
         private final FailedInvocations failedInvocations;
 
@@ -154,9 +154,8 @@ public class FilebasedReportReader {
         }
     }
 
-    class ThroughputVisitor implements LineVisitor {
+    static class ThroughputVisitor implements LineVisitor {
 
-        @SuppressWarnings("hiding")
         private final ThroughputStorage throughputStorage;
 
         public ThroughputVisitor(final ThroughputStorage throughputStorage) {
@@ -176,7 +175,7 @@ public class FilebasedReportReader {
         }
     }
 
-    class SetupVisitor implements LineVisitor {
+    static class SetupVisitor implements LineVisitor {
 
         private FilebasedTestSetup setup;
 
@@ -192,7 +191,7 @@ public class FilebasedReportReader {
                     Boolean.parseBoolean(values[5]));
         }
 
-        private int toInt(final String value) {
+        private static int toInt(final String value) {
             return Integer.parseInt(value);
         }
 
@@ -206,7 +205,7 @@ public class FilebasedReportReader {
         }
     }
 
-    class LatencyFileVisitor implements LineVisitor {
+    static class LatencyFileVisitor implements LineVisitor {
 
         private final LatencyProvider latencyProvider;
         private final InvocationStorage invocationStorage;

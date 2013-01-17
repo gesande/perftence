@@ -70,7 +70,7 @@ public final class AdjustedFieldBuilder {
         };
     }
 
-    private class Formatted implements AdjustedField<String> {
+    private static class Formatted implements AdjustedField<String> {
 
         private final AdjustedField<?> field;
         private final FieldFormatter formatter;
