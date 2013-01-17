@@ -20,7 +20,7 @@ import net.sf.perftence.reporting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.InvocationReporterFactory;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
@@ -60,7 +60,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
         setup.graphWriter(this.newStorage.graphWriter());
         setup.summaryAppender(this.newStorage.summaryAppender());
-        this.newDefaultInvocationReporter = InvocationReporterFactory
+        this.newDefaultInvocationReporter = DefaultInvocationReporterFactory
                 .newDefaultInvocationReporter(this.latencyProvider, true,
                         setup.build(), newFailedInvocations());
         final SleepingTestAgentFactoryWithNowFlavour agentFactory = new SleepingTestAgentFactoryWithNowFlavour();
@@ -104,7 +104,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         setup.graphWriter(this.newStorage.graphWriter());
         setup.summaryAppender(this.newStorage.summaryAppender());
 
-        this.newDefaultInvocationReporter = InvocationReporterFactory
+        this.newDefaultInvocationReporter = DefaultInvocationReporterFactory
                 .newDefaultInvocationReporter(this.latencyProvider, true,
                         setup.build(), newFailedInvocations());
         this.activeThreads = new ActiveThreads();

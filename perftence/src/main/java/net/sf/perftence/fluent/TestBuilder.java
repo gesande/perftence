@@ -21,7 +21,7 @@ import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequiremen
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.InvocationReporterFactory;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -147,7 +147,7 @@ public final class TestBuilder {
     private InvocationReporter invocationReporter(
             final LatencyProvider latencyProvider,
             final FailedInvocations failedInvocations) {
-        return InvocationReporterFactory.newDefaultInvocationReporter(
+        return DefaultInvocationReporterFactory.newDefaultInvocationReporter(
                 latencyProvider, includeInvocationGraph(), setup(),
                 failedInvocations);
     }

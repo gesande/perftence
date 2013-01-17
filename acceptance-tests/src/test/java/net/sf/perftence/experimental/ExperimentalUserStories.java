@@ -22,7 +22,7 @@ import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.FrequencyStorage;
 import net.sf.perftence.reporting.FrequencyStorageFactory;
 import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.InvocationReporterFactory;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -88,7 +88,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         this.latencyProvider = new LatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.newDefaultInvocationReporter = InvocationReporterFactory
+        this.newDefaultInvocationReporter = DefaultInvocationReporterFactory
                 .newDefaultInvocationReporter(this.latencyProvider, true,
                         setup().threads(userCount).build(),
                         newFailedInvocations());

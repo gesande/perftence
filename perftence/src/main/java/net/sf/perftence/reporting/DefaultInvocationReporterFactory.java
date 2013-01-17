@@ -14,7 +14,7 @@ import net.sf.perftence.reporting.summary.StatisticsSummaryProviderUsingDefaultI
 import net.sf.perftence.reporting.summary.StatisticsSummaryProviderUsingStatisticsProviderStatistics;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
-public final class InvocationReporterFactory {
+public final class DefaultInvocationReporterFactory {
 
     public static InvocationReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
