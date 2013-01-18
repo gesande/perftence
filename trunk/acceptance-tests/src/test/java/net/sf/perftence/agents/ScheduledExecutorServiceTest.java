@@ -22,23 +22,8 @@ public class ScheduledExecutorServiceTest {
     private StorageForThreadsRunningCurrentTasks storage;
 
     @Test
-    public void scheduleJobs100000tasks() {
-        scheduleJobs(5000, 100000);
-    }
-
-    @Test
-    public void scheduleJobs80000tasks() {
-        scheduleJobs(4000, 80000);
-    }
-
-    @Test
-    public void scheduleJobs60000tasks() {
-        scheduleJobs(3000, 60000);
-    }
-
-    @Test
-    public void scheduleJobs40000tasks() {
-        scheduleJobs(2000, 40000);
+    public void scheduleJobs1000tasks() {
+        scheduleJobs(1000, 1000);
     }
 
     @Test
@@ -47,8 +32,23 @@ public class ScheduledExecutorServiceTest {
     }
 
     @Test
-    public void scheduleJobs1000tasks() {
-        scheduleJobs(1000, 1000);
+    public void scheduleJobs40000tasks() {
+        scheduleJobs(2000, 40000);
+    }
+
+    @Test
+    public void scheduleJobs60000tasks() {
+        scheduleJobs(3000, 60000);
+    }
+
+    @Test
+    public void scheduleJobs80000tasks() {
+        scheduleJobs(4000, 80000);
+    }
+
+    @Test
+    public void scheduleJobs100000tasks() {
+        scheduleJobs(5000, 100000);
     }
 
     @SuppressWarnings("static-method")
@@ -106,7 +106,7 @@ public class ScheduledExecutorServiceTest {
         };
     }
 
-    private void scheduleJobs(int corePoolSize, int tasks) {
+    private void scheduleJobs(final int corePoolSize, final int tasks) {
         this.service = new ScheduledThreadPoolExecutor(corePoolSize);
         this.activeThreads = new ActiveThreads();
         final String name = "ScheduledExecutorServiceTest.scheduleJobs-"
@@ -115,8 +115,7 @@ public class ScheduledExecutorServiceTest {
 
         log().info("Scheduling tasks...");
         for (int i = 0; i < tasks; i++) {
-            this.service
-                    .schedule(sleepRunnable(1000), 0, TimeUnit.MILLISECONDS);
+            this.service.schedule(sleepRunnable(100), 0, TimeUnit.MILLISECONDS);
         }
         log().info("Scheduled all tasks...already active threads {}",
                 this.activeThreads.active());
