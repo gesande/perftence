@@ -14,14 +14,18 @@ final class CategorySpecificLatencies {
     private static final Logger LOG = LoggerFactory
             .getLogger(CategorySpecificLatencies.class);
 
-    private final TestBuilder testBuilder;
-    private boolean createCategorySpecificReportersOnTheFly = true;
+    private final InvocationReporterFactory reporterFactory;
     private final Map<TestTaskCategory, InvocationReporterAdapter> categorySpecificReporters;
+    private final String name;
 
-    public CategorySpecificLatencies(TestBuilder testBuilder) {
-        this.testBuilder = testBuilder;
+    private boolean createCategorySpecificReportersOnTheFly = true;
+
+    public CategorySpecificLatencies(final String name,
+            final InvocationReporterFactory reporterFactory) {
+        this.reporterFactory = reporterFactory;
         this.categorySpecificReporters = Collections
                 .synchronizedMap(new HashMap<TestTaskCategory, InvocationReporterAdapter>());
+        this.name = name;
     }
 
     public void latencyForAll() {
@@ -97,20 +101,23 @@ final class CategorySpecificLatencies {
             final TestTaskCategory category) {
         final LatencyProvider counter = new LatencyProvider();
         final InvocationReporterAdapter reporter = new InvocationReporterAdapter(
-                name(), counter, category,
-                defaultInvocationReporter(counter, 0));
+                name(), counter, category, newInvocationReporter(counter, 0));
         register(category, reporter);
         return reporter;
     }
 
-    private InvocationReporter defaultInvocationReporter(
+    private InvocationReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
-        return this.testBuilder.defaultInvocationReporter(latencyProvider,
-                threads);
+        return reporterFactory()
+                .newInvocationReporter(latencyProvider, threads);
+    }
+
+    private InvocationReporterFactory reporterFactory() {
+        return this.reporterFactory;
     }
 
     private String name() {
-        return this.testBuilder.name();
+        return this.name;
     }
 
     private synchronized boolean createCategorySpecificReportersOnTheFly() {

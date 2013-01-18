@@ -20,10 +20,10 @@ import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
 import net.sf.perftence.reporting.CustomFailureReporter;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -36,7 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unused")
-public final class TestBuilder implements RunnableAdapter, Startable {
+public final class TestBuilder implements RunnableAdapter, Startable,
+        InvocationReporterFactory {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(TestBuilder.class);
@@ -101,7 +102,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         this.timerScheduler = new TimerScheduler();
         this.activeThreads = new ActiveThreads();
         this.scheduledTasks = new ScheduledTasks();
-        this.categorySpecificLatencies = new CategorySpecificLatencies(this);
+        this.categorySpecificLatencies = new CategorySpecificLatencies(name,
+                this);
         this.taskScheduleDifferences = TaskScheduleDifferences.instance(name());
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
                 .newStorage(name());
@@ -123,7 +125,8 @@ public final class TestBuilder implements RunnableAdapter, Startable {
         log().info("TestBuilder {} created.", name());
     }
 
-    InvocationReporter defaultInvocationReporter(
+    @Override
+    public InvocationReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return newInvocationReporterWithDefaults(latencyProvider, threads,
                 newFailedInvocations(), true);
