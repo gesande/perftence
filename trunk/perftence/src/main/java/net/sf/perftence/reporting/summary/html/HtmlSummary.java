@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.sf.perftence.reporting.DefaultDoubleFormatter;
-import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.summary.StatisticsSummary;
 import net.sf.perftence.reporting.summary.Summary;
 
@@ -174,21 +173,6 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
         return append(text);
     }
 
-    public HtmlSummary percentiles(final Statistics stat) {
-        percentileHeader();
-        percentile90(stat);
-        percentile("95", stat.percentile95());
-        percentile("96", stat.percentile96());
-        percentile("97", stat.percentile97());
-        percentile("98", stat.percentile98());
-        percentile("99", stat.percentile99());
-        return this;
-    }
-
-    private void percentile90(final Statistics stat) {
-        percentile90(stat.percentile90());
-    }
-
     @Override
     public HtmlSummary percentile90(final long percentileValue) {
         return percentile("90", percentileValue);
@@ -232,10 +216,5 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 
     private HtmlSummary tab() {
         return append("   ");
-    }
-
-    public HtmlSummary successRate(final double successRate) {
-        return append("Invocation success rate : ").append(format(successRate))
-                .append(" %");
     }
 }
