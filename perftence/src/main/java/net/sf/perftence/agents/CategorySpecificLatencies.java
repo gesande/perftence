@@ -11,17 +11,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 final class CategorySpecificLatencies {
-    private static final Logger LOG = LoggerFactory
+    private final static Logger LOG = LoggerFactory
             .getLogger(CategorySpecificLatencies.class);
 
-    private final InvocationReporterFactory reporterFactory;
+    private final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory;
     private final Map<TestTaskCategory, InvocationReporterAdapter> categorySpecificReporters;
     private final String name;
 
     private boolean createCategorySpecificReportersOnTheFly = true;
 
-    public CategorySpecificLatencies(final String name,
-            final InvocationReporterFactory reporterFactory) {
+    public CategorySpecificLatencies(
+            final String name,
+            final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory) {
+        if (reporterFactory == null) {
+            throw new NullPointerException("reportFactory is null");
+        }
         this.reporterFactory = reporterFactory;
         this.categorySpecificReporters = Collections
                 .synchronizedMap(new HashMap<TestTaskCategory, InvocationReporterAdapter>());
@@ -76,12 +80,12 @@ final class CategorySpecificLatencies {
         return !categorySpecificReporters().isEmpty();
     }
 
-    public void register(final TestTaskCategory category,
+    private void register(final TestTaskCategory category,
             final InvocationReporterAdapter reporter) {
         categorySpecificReporters().put(category, reporter);
     }
 
-    public synchronized void reportCategorySpecificLatency(final int latency,
+    public synchronized void reportLatencyFor(final int latency,
             final TestTaskCategory category) {
         if (categorySpecificReporters().containsKey(category)) {
             reportLatency(categorySpecificReporters().get(category), latency);
@@ -112,7 +116,7 @@ final class CategorySpecificLatencies {
                 .newInvocationReporter(latencyProvider, threads);
     }
 
-    private InvocationReporterFactory reporterFactory() {
+    private InvocationReporterFactoryForCategorySpecificLatencies reporterFactory() {
         return this.reporterFactory;
     }
 

@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unused")
 public final class TestBuilder implements RunnableAdapter, Startable,
-        InvocationReporterFactory {
+        InvocationReporterFactoryForCategorySpecificLatencies {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(TestBuilder.class);
@@ -89,7 +89,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final FailedInvocationsFactory failedInvocationsFactory,
             final LatencyFactory latencyFactory,
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
-            final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory) {
+            final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory,
+            final TaskScheduleDifferences taskScheduleDifferences) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -104,7 +105,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.scheduledTasks = new ScheduledTasks();
         this.categorySpecificLatencies = new CategorySpecificLatencies(name,
                 this);
-        this.taskScheduleDifferences = TaskScheduleDifferences.instance(name());
+        this.taskScheduleDifferences = taskScheduleDifferences;
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
                 .newStorage(name());
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
@@ -122,6 +123,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
         this.customFailureReporters.add(lastSecondFailures());
         this.lastSecondThroughput = new LastSecondThroughput();
+
         log().info("TestBuilder {} created.", name());
     }
 
@@ -649,8 +651,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         for (final CustomInvocationReporter reporter : customLatencyReporters()) {
             reporter.latency(latency);
         }
-        categorySpecificLatencies().reportCategorySpecificLatency(latency,
-                category);
+        categorySpecificLatencies().reportLatencyFor(latency, category);
     }
 
     private List<CustomInvocationReporter> customLatencyReporters() {
