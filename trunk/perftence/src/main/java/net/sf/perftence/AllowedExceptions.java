@@ -14,7 +14,8 @@ public final class AllowedExceptions {
         return this.allowedExceptions;
     }
 
-    public <EXCEPTION extends Exception> boolean isAllowed(final EXCEPTION exception) {
+    public <EXCEPTION extends Exception> boolean isAllowed(
+            final EXCEPTION exception) {
         return this.allowedExceptions.contains(exception.getClass());
     }
 }
