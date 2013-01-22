@@ -11,15 +11,15 @@ public final class SummaryBuilderFactory {
 
     private final TestSummaryLoggerFactory testSummaryLoggerFactory;
     private final SummaryFieldFactoryForAgentBasedTests summaryFieldFactory;
-    private final TestFailureNotifierDecorator failureNotifier;
+    private final TestFailureNotifierDecorator failureNotifierDecorator;
 
     public SummaryBuilderFactory(
             final TestSummaryLoggerFactory testSummaryLoggerFactory,
             final SummaryFieldFactoryForAgentBasedTests summaryFieldFactory,
-            final TestFailureNotifierDecorator failureNotifier) {
+            final TestFailureNotifierDecorator failureNotifierDecorator) {
         this.testSummaryLoggerFactory = testSummaryLoggerFactory;
         this.summaryFieldFactory = summaryFieldFactory;
-        this.failureNotifier = failureNotifier;
+        this.failureNotifierDecorator = failureNotifierDecorator;
     }
 
     private TestSummaryLogger newTestSummaryLogger(
@@ -49,7 +49,7 @@ public final class SummaryBuilderFactory {
     }
 
     private TestFailureNotifierDecorator failureNotifier() {
-        return this.failureNotifier;
+        return this.failureNotifierDecorator;
     }
 
     private SummaryFieldFactoryForAgentBasedTests summaryFieldFactory() {

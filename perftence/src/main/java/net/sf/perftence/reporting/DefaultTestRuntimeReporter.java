@@ -13,10 +13,10 @@ import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class DefaultInvocationReporter implements InvocationReporter {
+final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(DefaultInvocationReporter.class);
+            .getLogger(DefaultTestRuntimeReporter.class);
 
     private final int threadCount;
     private final int duration;
@@ -30,7 +30,8 @@ final class DefaultInvocationReporter implements InvocationReporter {
     private final Collection<GraphWriter> graphWriters;
     private final Collection<SummaryAppender> customSummaryAppenders;
 
-    public DefaultInvocationReporter(final InvocationStorage invocationStorage,
+    public DefaultTestRuntimeReporter(
+            final InvocationStorage invocationStorage,
             final ThroughputStorage throughputStorage,
             final ImageFactory imageFactory, final int threadCount,
             final int duration, final FrequencyStorage frequencyStorage,

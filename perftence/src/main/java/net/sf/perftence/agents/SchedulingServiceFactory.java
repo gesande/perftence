@@ -4,17 +4,16 @@ import net.sf.perftence.TestFailureNotifier;
 
 final class SchedulingServiceFactory {
 
-    private SchedulingServiceFactory() {
-    }
-
-    public static TestTaskSchedulingService newBasedOnTaskProvider(
+    @SuppressWarnings("static-method")
+    public TestTaskSchedulingService newBasedOnTaskProvider(
             final Time workerWaitTime, final RunnableAdapter adapter,
             final int workers, TestFailureNotifier testFailureNotifier) {
         return new SchedulingServiceBasedOnTaskProvider(new TaskProvider(
                 workerWaitTime), adapter, workers, testFailureNotifier);
     }
 
-    public static TestTaskSchedulingService newBasedOnJavaConcurrentStuff(
+    @SuppressWarnings("static-method")
+    public TestTaskSchedulingService newBasedOnJavaConcurrentStuff(
             final RunnableAdapter adapter, final int workers,
             final ScheduledTasks scheduledTasks) {
         return new SchedulingServiceBasedOnJavaConcurrentStuff(adapter,

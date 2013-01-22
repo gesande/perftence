@@ -4,9 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.reporting.InvocationReporter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,22 +11,26 @@ final class CategorySpecificLatencies {
     private final static Logger LOG = LoggerFactory
             .getLogger(CategorySpecificLatencies.class);
 
-    private final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory;
+    private final CategorySpecificReporterFactory reporterFactory;
     private final Map<TestTaskCategory, InvocationReporterAdapter> categorySpecificReporters;
-    private final String name;
 
     private boolean createCategorySpecificReportersOnTheFly = true;
 
+    private final InvocationReporterFactoryForCategorySpecificLatencies invocationReporter;
+
     public CategorySpecificLatencies(
-            final String name,
-            final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory) {
+            final CategorySpecificReporterFactory reporterFactory,
+            InvocationReporterFactoryForCategorySpecificLatencies invocationReporter) {
         if (reporterFactory == null) {
             throw new NullPointerException("reportFactory is null");
         }
         this.reporterFactory = reporterFactory;
+        if (invocationReporter == null) {
+            throw new NullPointerException("invocationReporter is null");
+        }
+        this.invocationReporter = invocationReporter;
         this.categorySpecificReporters = Collections
                 .synchronizedMap(new HashMap<TestTaskCategory, InvocationReporterAdapter>());
-        this.name = name;
     }
 
     public void latencyForAll() {
@@ -80,7 +81,7 @@ final class CategorySpecificLatencies {
         return !categorySpecificReporters().isEmpty();
     }
 
-    private void register(final TestTaskCategory category,
+    public void register(final TestTaskCategory category,
             final InvocationReporterAdapter reporter) {
         categorySpecificReporters().put(category, reporter);
     }
@@ -101,27 +102,25 @@ final class CategorySpecificLatencies {
         adapter.latency(latency);
     }
 
-    public synchronized InvocationReporterAdapter newCategorySpecificReporter(
+    private InvocationReporterAdapter newCategorySpecificReporter(
             final TestTaskCategory category) {
-        final LatencyProvider counter = new LatencyProvider();
-        final InvocationReporterAdapter reporter = new InvocationReporterAdapter(
-                name(), counter, category, newInvocationReporter(counter, 0));
-        register(category, reporter);
-        return reporter;
+        return registerFor(category,
+                reporterFactory().adapterFor(invocationReporter(), category));
     }
 
-    private InvocationReporter newInvocationReporter(
-            final LatencyProvider latencyProvider, final int threads) {
-        return reporterFactory()
-                .newInvocationReporter(latencyProvider, threads);
+    private InvocationReporterFactoryForCategorySpecificLatencies invocationReporter() {
+        return this.invocationReporter;
     }
 
-    private InvocationReporterFactoryForCategorySpecificLatencies reporterFactory() {
+    private InvocationReporterAdapter registerFor(
+            final TestTaskCategory category,
+            final InvocationReporterAdapter adapterFor) {
+        register(category, adapterFor);
+        return adapterFor;
+    }
+
+    private CategorySpecificReporterFactory reporterFactory() {
         return this.reporterFactory;
-    }
-
-    private String name() {
-        return this.name;
     }
 
     private synchronized boolean createCategorySpecificReportersOnTheFly() {

@@ -49,7 +49,7 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                 latencyProvider, invocationStorage, failedInvocations);
         reader.read();
 
-        final InvocationReporter invocationReporter = DefaultInvocationReporterFactory
+        final TestRuntimeReporter invocationReporter = DefaultInvocationReporterFactory
                 .newDefaultInvocationReporter(latencyProvider, reader.setup()
                         .includeInvocationGraph(), reader.setup().testSetup(),
                         reader.failedInvocations(), invocationStorage, reader

@@ -2,7 +2,6 @@ package net.sf.perftence.agents;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
-import net.sf.perftence.reporting.InvocationReporter;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -35,7 +34,6 @@ import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("unused")
 public final class TestBuilder implements RunnableAdapter, Startable,
         InvocationReporterFactoryForCategorySpecificLatencies {
 
@@ -46,7 +44,6 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     private final ActiveThreads activeThreads;
     private final String name;
-    private final List<TestTaskCategory> latencyGraphFor;
     private final LatencyProvider latencyProvider;
     private final TestFailureNotifierDecorator failureNotifier;
     private final TimerScheduler timerScheduler;
@@ -63,7 +60,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
 
-    private InvocationReporter overallReporter;
+    private TestRuntimeReporter overallReporter;
     private TestTaskSchedulingService schedulingService;
     private int workers = -1;
     private int workerWaitTime = 100;
@@ -79,6 +76,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private final LastSecondStatistics lastSecondStats;
     private final LastSecondFailures lastSecondFailures;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
+    private final SchedulingServiceFactory schedulingServiceFactory;
+    private final CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator;
 
     private boolean includeInvocationGraph = true;
 
@@ -90,51 +89,52 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final LatencyFactory latencyFactory,
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
             final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory,
-            final TaskScheduleDifferences taskScheduleDifferences) {
+            final TaskScheduleDifferences taskScheduleDifferences,
+            final SchedulingServiceFactory schedulingServiceFactory,
+            final CategorySpecificReporterFactory categorySpecificReporterFactory) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
         this.summaryBuilderFactory = summaryBuilderFactory;
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
-        this.latencyGraphFor = Collections
-                .synchronizedList(new ArrayList<TestTaskCategory>());
+        this.schedulingServiceFactory = schedulingServiceFactory;
         this.latencyProvider = new LatencyProvider();
         this.timerScheduler = new TimerScheduler();
         this.activeThreads = new ActiveThreads();
         this.scheduledTasks = new ScheduledTasks();
-        this.categorySpecificLatencies = new CategorySpecificLatencies(name,
-                this);
+        this.categorySpecificLatencies = new CategorySpecificLatencies(
+                categorySpecificReporterFactory, this);
         this.taskScheduleDifferences = taskScheduleDifferences;
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
-                .newStorage(name());
+                .newStorage(id());
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
-        this.runningTasks = LatencyVsConcurrentTasks.instance(name());
+        this.runningTasks = LatencyVsConcurrentTasks.instance(id());
         this.allowedExceptions = new AllowedExceptions();
-
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
         this.lastSecondStats = new LastSecondStatistics();
         this.lastSecondFailures = new LastSecondFailures(
                 this.failedInvocationsFactory);
-
         this.customLatencyReporters = new ArrayList<CustomInvocationReporter>();
         this.customLatencyReporters.add(lastSecondStatistics());
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
         this.customFailureReporters.add(lastSecondFailures());
         this.lastSecondThroughput = new LastSecondThroughput();
-
-        log().info("TestBuilder {} created.", name());
+        this.categorySpecificLatenciesConfigurator = new CategorySpecificLatenciesConfigurator(
+                this.categorySpecificLatencies,
+                categorySpecificReporterFactory, this);
+        log().info("TestBuilder {} created.", id());
     }
 
     @Override
-    public InvocationReporter newInvocationReporter(
+    public TestRuntimeReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return newInvocationReporterWithDefaults(latencyProvider, threads,
                 newFailedInvocations(), true);
     }
 
-    private InvocationReporter newInvocationReporterWithDefaults(
+    private TestRuntimeReporter newInvocationReporterWithDefaults(
             final LatencyProvider latencyProvider, final int threads,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph) {
@@ -154,7 +154,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     @Override
     public String id() {
-        return name();
+        return this.name;
     }
 
     private FailedInvocations newFailedInvocations() {
@@ -251,27 +251,17 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         log().debug("Scheduling service created");
     }
 
-    private TestTaskSchedulingService taskProviderService() {
-        return SchedulingServiceFactory.newBasedOnTaskProvider(
-                inMillis(workerWaitTime()), this, workerThreads(),
-                failureNotifier());
-    }
-
     private TestTaskSchedulingService javaConcurrentStuffService() {
-        return SchedulingServiceFactory.newBasedOnJavaConcurrentStuff(this,
+        return schedulingServiceFactory().newBasedOnJavaConcurrentStuff(this,
                 workerThreads(), scheduledTasks());
     }
 
-    private int workerWaitTime() {
-        return this.workerWaitTime;
+    private SchedulingServiceFactory schedulingServiceFactory() {
+        return this.schedulingServiceFactory;
     }
 
     private int workers() {
         return this.workers;
-    }
-
-    private static Time inMillis(final long time) {
-        return TimeSpecificationFactory.inMillis(time);
     }
 
     private void addAgents(final Collection<TestAgent> agents) {
@@ -281,54 +271,35 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     public TestBuilder latencyGraphFor(final TestTaskCategory... categories) {
-        for (final TestTaskCategory category : categories) {
-            newCategorySpecificReporter(category);
-            latencyGraphFor().add(category);
-            log().debug("Added invocation reporter for {}", category);
-        }
-        reportCategorySpecificLatencies();
+        categorySpecificLatenciesConfigurator().latencyGraphFor(categories);
         return this;
     }
 
     public TestBuilder latencyGraphForAll() {
-        latencyGraphFor().add(new TestTaskCategory() {
-            @Override
-            public String name() {
-                return "all";
-            }
-        });
-        latencyForAll();
+        categorySpecificLatenciesConfigurator().latencyGraphForAll();
         return this;
     }
 
-    private void reportCategorySpecificLatencies() {
-        categorySpecificLatencies().reportCategorySpecificLatencies();
-    }
-
-    private void newCategorySpecificReporter(final TestTaskCategory category) {
-        categorySpecificLatencies().newCategorySpecificReporter(category);
-    }
-
-    private void latencyForAll() {
-        categorySpecificLatencies().latencyForAll();
+    private CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator() {
+        return this.categorySpecificLatenciesConfigurator;
     }
 
     @Override
     public void start() {
-        log().info("Starting agent based test: {}", name());
+        log().info("Starting agent based test: {}", id());
         warmUp();
         try {
             run();
         } finally {
             stopRunning();
-            log().info("Finished agent based test: {}", name());
+            log().info("Finished agent based test: {}", id());
         }
     }
 
     private void run() {
-        log().info("Running {} until no scheduled tasks...", name());
+        log().info("Running {} until no scheduled tasks...", id());
         schedulingService().run();
-        log().info("No more scheduled tasks for {}.", name());
+        log().info("No more scheduled tasks for {}.", id());
     }
 
     private void warmUp() {
@@ -352,7 +323,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     private void stopRunning() {
-        log().info("Finished all tasks for {}.", name());
+        log().info("Finished all tasks for {}.", id());
         stopLatencyCounter();
         categorySpecificLatencies().stop();
         shutdownExecutor();
@@ -451,7 +422,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                     @Override
                     public void run() {
                         intermediateSummaryLogger().printSummary(
-                                TestBuilder.this.name());
+                                TestBuilder.this.id());
                     }
                 };
             }
@@ -479,12 +450,12 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     private void doSummary(final long duration, final long sampleCount) {
         printOverallSummary();
-        newSummary(name() + "-overall-statistics", duration, sampleCount,
+        newSummary(id() + "-overall-statistics", duration, sampleCount,
                 latencyProvider().startTime());
     }
 
     private void printOverallSummary() {
-        overAllSummaryBuilder().printSummary(name());
+        overAllSummaryBuilder().printSummary(id());
     }
 
     private void newSummary(final String name, final long duration,
@@ -621,8 +592,12 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     private String allowedExceptionOccurredMessage(final Throwable cause) {
-        return this.allowedExceptionOccurredMessageBuilder
-                .allowedExceptionOccurredMessage(cause, name());
+        return allowedExceptionOccurredMessageBuilder()
+                .allowedExceptionOccurredMessage(cause, id());
+    }
+
+    private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+        return this.allowedExceptionOccurredMessageBuilder;
     }
 
     private boolean isAllowed(final Throwable cause) {
@@ -678,11 +653,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         return this.customSummaryAppenders;
     }
 
-    public String name() {
-        return this.name;
-    }
-
-    private InvocationReporter overallReporter() {
+    private TestRuntimeReporter overallReporter() {
         return this.overallReporter;
     }
 
@@ -692,10 +663,6 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     private TestFailureNotifierDecorator failureNotifier() {
         return this.failureNotifier;
-    }
-
-    private List<TestTaskCategory> latencyGraphFor() {
-        return this.latencyGraphFor;
     }
 
     private TimerScheduler timerScheduler() {
@@ -734,7 +701,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         return this.runningTasks;
     }
 
-    private static Logger log() {
+    static Logger log() {
         return LOG;
     }
 

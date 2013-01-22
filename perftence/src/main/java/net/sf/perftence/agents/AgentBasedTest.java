@@ -40,13 +40,16 @@ public final class AgentBasedTest {
     }
 
     public TestBuilder test(final String id) {
-        final TestFailureNotifierDecorator notifierAdapter = newNotifierDecorator(failureNotifier());
-        return new TestBuilder(id, notifierAdapter, new SummaryBuilderFactory(
-                testSummaryLoggerFactory(), summaryFieldFactory(),
-                notifierAdapter), failedInvocationsFactory(), latencyFactory(),
+        final TestFailureNotifierDecorator notifierDecorator = newNotifierDecorator(failureNotifier());
+        return new TestBuilder(id, notifierDecorator,
+                new SummaryBuilderFactory(testSummaryLoggerFactory(),
+                        summaryFieldFactory(), notifierDecorator),
+                failedInvocationsFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
                 adjustedFieldBuilderFactory(),
-                TaskScheduleDifferences.instance(id));
+                TaskScheduleDifferences.instance(id),
+                new SchedulingServiceFactory(),
+                new DefaultCategorySpecificReporterFactory(id));
     }
 
     private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {

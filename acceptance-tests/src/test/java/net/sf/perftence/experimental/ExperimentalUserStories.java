@@ -17,12 +17,12 @@ import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
 import net.sf.perftence.reporting.DefaultDoubleFormatter;
+import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.FrequencyStorage;
 import net.sf.perftence.reporting.FrequencyStorageFactory;
-import net.sf.perftence.reporting.InvocationReporter;
-import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -42,7 +42,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     private LatencyProvider latencyProvider;
-    private InvocationReporter newDefaultInvocationReporter;
+    private TestRuntimeReporter newDefaultInvocationReporter;
     private AtomicInteger tasksRun;
     private AtomicInteger tasksFailed;
     private Bag latencyFreqs;
