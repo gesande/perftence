@@ -18,7 +18,7 @@ import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.InvocationReporter;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public final class MultithreadWorker implements Startable {
             .getLogger(MultithreadWorker.class);
 
     private final InvocationRunner runner;
-    private final InvocationReporter reporter;
+    private final TestRuntimeReporter reporter;
     private final PerformanceTestSetup setUp;
     private final TimerScheduler timerScheduler;
     private final LatencyProvider latencyProvider;
@@ -47,7 +47,7 @@ public final class MultithreadWorker implements Startable {
     private Invocation[] runnables;
 
     public MultithreadWorker(
-            final InvocationReporter reporter,
+            final TestRuntimeReporter reporter,
             final InvocationRunner runner,
             final PerformanceTestSetup setUp,
             final LatencyProvider latencyProvider,
@@ -619,7 +619,7 @@ public final class MultithreadWorker implements Startable {
         return this.customReporters;
     }
 
-    private InvocationReporter reporter() {
+    private TestRuntimeReporter reporter() {
         return this.reporter;
     }
 

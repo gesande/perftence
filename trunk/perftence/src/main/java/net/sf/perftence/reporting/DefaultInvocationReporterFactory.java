@@ -16,7 +16,7 @@ import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
 public final class DefaultInvocationReporterFactory {
 
-    public static InvocationReporter newDefaultInvocationReporter(
+    public static TestRuntimeReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
@@ -28,7 +28,7 @@ public final class DefaultInvocationReporterFactory {
                 invocationStorage);
     }
 
-    private static InvocationReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
@@ -39,7 +39,7 @@ public final class DefaultInvocationReporterFactory {
                 invocationStorage, throughputStorage(setup));
     }
 
-    public static InvocationReporter newDefaultInvocationReporter(
+    public static TestRuntimeReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
@@ -57,7 +57,7 @@ public final class DefaultInvocationReporterFactory {
                 throughputStorage);
     }
 
-    private static InvocationReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
@@ -71,7 +71,7 @@ public final class DefaultInvocationReporterFactory {
                 FrequencyStorageFactory.newFrequencyStorage(latencyProvider));
     }
 
-    private static InvocationReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newDefaultInvocationReporter(
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,
@@ -79,7 +79,7 @@ public final class DefaultInvocationReporterFactory {
             final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
             final ThroughputStorage throughputStorage,
             final FrequencyStorage newFrequencyStorage) {
-        return new DefaultInvocationReporter(invocationStorage,
+        return new DefaultTestRuntimeReporter(invocationStorage,
                 throughputStorage, imageFactory(), setup.threads(),
                 setup.duration(), newFrequencyStorage,
                 setup.summaryAppenders(), includeInvocationGraph,

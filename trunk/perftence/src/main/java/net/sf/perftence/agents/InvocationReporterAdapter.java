@@ -1,19 +1,19 @@
 package net.sf.perftence.agents;
 
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.reporting.InvocationReporter;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 
 public final class InvocationReporterAdapter {
 
     private final LatencyProvider latencyProvider;
     private final TestTaskCategory category;
-    private final InvocationReporter reporter;
+    private final TestRuntimeReporter reporter;
     private boolean isStarted = false;
     private final String name;
 
     public InvocationReporterAdapter(final String name,
             final LatencyProvider latencyProvider,
-            final TestTaskCategory category, final InvocationReporter reporter) {
+            final TestTaskCategory category, final TestRuntimeReporter reporter) {
         this.name = name;
         this.latencyProvider = latencyProvider;
         this.category = category;
@@ -24,7 +24,7 @@ public final class InvocationReporterAdapter {
         return this.latencyProvider;
     }
 
-    private InvocationReporter reporter() {
+    private TestRuntimeReporter reporter() {
         return this.reporter;
     }
 

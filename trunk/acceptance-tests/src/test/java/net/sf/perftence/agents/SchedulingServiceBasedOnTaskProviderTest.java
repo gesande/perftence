@@ -10,7 +10,7 @@ public class SchedulingServiceBasedOnTaskProviderTest {
     @SuppressWarnings("static-method")
     @Test
     public void schedule() {
-        SchedulingServiceFactory.newBasedOnTaskProvider(inMillis(100),
+        new SchedulingServiceFactory().newBasedOnTaskProvider(inMillis(100),
                 new RunnableAdapter() {
 
                     @Override

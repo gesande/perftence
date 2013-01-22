@@ -1,11 +1,11 @@
 package net.sf.perftence.agents;
 
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.reporting.InvocationReporter;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 
 public interface InvocationReporterFactoryForCategorySpecificLatencies {
 
-    InvocationReporter newInvocationReporter(
+    TestRuntimeReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads);
 
 }

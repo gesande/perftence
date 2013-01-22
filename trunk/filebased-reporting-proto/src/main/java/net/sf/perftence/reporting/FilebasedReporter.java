@@ -12,7 +12,7 @@ import net.sf.perftence.PerformanceTestSetup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FilebasedReporter implements InvocationReporter {
+public class FilebasedReporter implements TestRuntimeReporter {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(FilebasedReporter.class);

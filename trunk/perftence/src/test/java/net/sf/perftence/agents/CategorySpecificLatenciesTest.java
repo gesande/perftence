@@ -4,31 +4,35 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.reporting.InvocationReporter;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 
 import org.junit.Test;
 
-public class CategorySpecificLatenciesTest implements
+public final class CategorySpecificLatenciesTest implements
         InvocationReporterFactoryForCategorySpecificLatencies {
 
     @Test
     public void empty() {
-        assertFalse(new CategorySpecificLatencies("name", this)
+        assertFalse(new CategorySpecificLatencies(
+                new DefaultCategorySpecificReporterFactory("id"), this)
                 .hasCategorySpecificReporters());
     }
 
     @Test
     public void oneAppender() {
-        CategorySpecificLatencies categorySpecificLatencies = new CategorySpecificLatencies(
-                "name", this);
+        final DefaultCategorySpecificReporterFactory defaultCategorySpecificReporterFactory = new DefaultCategorySpecificReporterFactory(
+                "name");
+        final CategorySpecificLatencies categorySpecificLatencies = new CategorySpecificLatencies(
+                defaultCategorySpecificReporterFactory, this);
         assertFalse(categorySpecificLatencies.hasCategorySpecificReporters());
-        categorySpecificLatencies.newCategorySpecificReporter(Category.One);
-
+        final Category categoryOne = Category.One;
+        categorySpecificLatencies.register(categoryOne,
+                defaultCategorySpecificReporterFactory.adapterFor(this,
+                        categoryOne));
         assertTrue(categorySpecificLatencies.hasCategorySpecificReporters());
-
         categorySpecificLatencies.startAdapters();
-        categorySpecificLatencies.reportLatencyFor(1000, Category.One);
-        categorySpecificLatencies.reportFailure(Category.One, new IFail());
+        categorySpecificLatencies.reportLatencyFor(1000, categoryOne);
+        categorySpecificLatencies.reportFailure(categoryOne, new IFail());
         categorySpecificLatencies.stop();
         categorySpecificLatencies.summaryTime();
     }
@@ -41,9 +45,9 @@ public class CategorySpecificLatenciesTest implements
     }
 
     @Override
-    public InvocationReporter newInvocationReporter(
+    public TestRuntimeReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
-        return new InvocationReporter() {
+        return new TestRuntimeReporter() {
 
             @Override
             public void throughput(final long currentDuration,

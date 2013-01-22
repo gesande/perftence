@@ -44,7 +44,9 @@ public class AgentBasedTestUsingFileBasedReporting {
                 notifierAdapter), failedInvocationsFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
                 adjustedFieldBuilderFactory(),
-                TaskScheduleDifferences.instance(id));
+                TaskScheduleDifferences.instance(id),
+                new SchedulingServiceFactory(),
+                new DefaultCategorySpecificReporterFactory(id));
     }
 
     private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {
