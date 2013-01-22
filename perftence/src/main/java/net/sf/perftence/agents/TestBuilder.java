@@ -63,6 +63,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private TestRuntimeReporter overallReporter;
     private TestTaskSchedulingService schedulingService;
     private int workers = -1;
+    @SuppressWarnings("unused")
     private int workerWaitTime = 100;
     private int intermediateStatisticsInterval = 1000;
     private int throughputInterval = 1000;
@@ -131,7 +132,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     public TestRuntimeReporter newInvocationReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return newInvocationReporterWithDefaults(latencyProvider, threads,
-                newFailedInvocations(), true);
+                newFailedInvocations(), includeInvocationGraph());
     }
 
     private TestRuntimeReporter newInvocationReporterWithDefaults(
@@ -143,6 +144,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 newFailedInvocations);
     }
 
+    /**
+     * Calling this will set test to draw no invocation graphs, also no category
+     * specific invocation graphs will be drawn.
+     */
     public TestBuilder noInvocationGraph() {
         this.includeInvocationGraph = false;
         return this;
@@ -270,6 +275,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         log().debug("Added '{}' agents.", agents().size());
     }
 
+    /**
+     * Define which categories will have latency graphs. Notice that if
+     * noInvocationGraph() has been called, this has eventually no effect.
+     */
     public TestBuilder latencyGraphFor(final TestTaskCategory... categories) {
         categorySpecificLatenciesConfigurator().latencyGraphFor(categories);
         return this;
@@ -701,10 +710,13 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         return this.runningTasks;
     }
 
-    static Logger log() {
+    private static Logger log() {
         return LOG;
     }
 
+    /**
+     * Assign summary appender for the test macchina.
+     */
     public TestBuilder summaryAppender(final SummaryAppender... appenders) {
         for (final SummaryAppender appender : appenders) {
             addAppender(appender);
@@ -716,16 +728,26 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         customSummaryAppenders().add(appender);
     }
 
+    /**
+     * Setting invocation range for the graph. Notice that if
+     * noInvocationGraph() has been called, this has eventually no effect.
+     */
     public TestBuilder invocationRange(final int invocationRange) {
         this.invocationRange = invocationRange;
         return this;
     }
 
+    /**
+     * Setting throughput range for the graph.
+     */
     public TestBuilder throughputRange(final int throughputRange) {
         this.throughputRange = throughputRange;
         return this;
     }
 
+    /**
+     * Set the allowed exceptions for the test.
+     */
     public TestBuilder allow(final Class<? extends Exception> allowed) {
         allowedExceptions().allow(allowed);
         return this;
