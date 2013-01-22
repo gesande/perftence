@@ -27,6 +27,7 @@ task-done "last second throughput graph for fluent based tests" $(tag feature)
 task-done "added change log capabilities through svn diffing backlog" $(tag infrastructure)
 task-done "added noInvocationGraph also for agent based test for overall statistics" $(tag feature)
 task-done "enabled last second throughput graph writing also for agent based tests" $(tag feature)
+task-done "agent based tests: category specific invocation reporters also respect noInvocationGraph() setting" $(tag feature)
 
 in-progress-title
 
