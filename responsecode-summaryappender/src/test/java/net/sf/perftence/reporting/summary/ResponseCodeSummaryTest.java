@@ -30,6 +30,21 @@ public class ResponseCodeSummaryTest {
         // TODO: asserts
     }
 
+    @Test
+    public void empty() {
+        final ResponseCodeSummary summary = new ResponseCodeSummary();
+        final StringBuilder sb = new StringBuilder();
+        summary.append(logSummary(sb));
+        System.out.print("Result should be like this: \n" + sb.toString());
+        final String result = "ENDOFLINE\n"
+                + "BOLDResponse code statistics:ENDOFLINE\n"
+                + "TEXTResponse success rate: TEXT[no responses]"
+                + "ENDOFLINE\n";
+        System.out.print("Result was: \n" + result);
+        assertEquals(result, sb.toString());
+
+    }
+
     private Summary<ResponseCodeSummaryTest> logSummary(final StringBuilder sb) {
         return new Summary<ResponseCodeSummaryTest>() {
 
