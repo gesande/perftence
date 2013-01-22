@@ -13,6 +13,7 @@ public abstract class AbstractMultiThreadedTest {
     private static TestFailureNotifier failureNotifier;
     private final FluentPerformanceTest performanceTest;
     private final AgentBasedTest agentBasedTest;
+    private final FullyQualifiedMethodNameWithClassName idFactory = new FullyQualifiedMethodNameWithClassName();
 
     public AbstractMultiThreadedTest() {
         this.performanceTest = createPerformanceTest();
@@ -79,8 +80,11 @@ public abstract class AbstractMultiThreadedTest {
     }
 
     protected final String fullyQualifiedMethodNameWithClassName() {
-        return new StringBuffer(this.getClass().getName()).append(".")
-                .append(testMethodName()).toString();
+        return idFactory().idFor(this.getClass(), testMethodName());
+    }
+
+    private FullyQualifiedMethodNameWithClassName idFactory() {
+        return this.idFactory;
     }
 
     protected final String testMethodName() {
