@@ -273,6 +273,20 @@ project(':acceptance-tests') {
     }
 }
 
+project(':perftence-experimental') {
+    dependencies {
+        testCompile project(':perftence')
+        testCompile project(':junit-4.10')
+        testCompile project(':commons-collections-3.2.1')
+        testCompile project(':slf4j-api-1.6.1')
+        testCompile project(':jfreechart-1.0.12')
+        testCompile project(':jcommon-1.0.15')
+        testRuntime project(':slf4j-log4j12-1.6.1')
+        testRuntime project(':log4j-1.2.16')
+    }
+}
+
+
 project(':build') {
     eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
 }
