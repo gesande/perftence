@@ -13,11 +13,11 @@ public final class DefaultCategorySpecificReporterFactory implements
 
     @Override
     public InvocationReporterAdapter adapterFor(
-            final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory,
+            final ReporterFactoryForCategorySpecificLatencies reporterFactory,
             final TestTaskCategory category) {
         final LatencyProvider latencyProvider = new LatencyProvider();
         return new InvocationReporterAdapter(name(), latencyProvider, category,
-                reporterFactory.newInvocationReporter(latencyProvider, 0));
+                reporterFactory.newReporter(latencyProvider, 0));
     }
 
     private String name() {

@@ -9,7 +9,7 @@ import net.sf.perftence.reporting.TestRuntimeReporter;
 import org.junit.Test;
 
 public final class CategorySpecificLatenciesTest implements
-        InvocationReporterFactoryForCategorySpecificLatencies {
+        ReporterFactoryForCategorySpecificLatencies {
 
     @Test
     public void empty() {
@@ -45,7 +45,7 @@ public final class CategorySpecificLatenciesTest implements
     }
 
     @Override
-    public TestRuntimeReporter newInvocationReporter(
+    public TestRuntimeReporter newReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return new TestRuntimeReporter() {
 

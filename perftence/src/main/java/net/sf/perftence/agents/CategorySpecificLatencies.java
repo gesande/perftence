@@ -16,11 +16,11 @@ final class CategorySpecificLatencies {
 
     private boolean createCategorySpecificReportersOnTheFly = true;
 
-    private final InvocationReporterFactoryForCategorySpecificLatencies invocationReporter;
+    private final ReporterFactoryForCategorySpecificLatencies invocationReporter;
 
     public CategorySpecificLatencies(
             final CategorySpecificReporterFactory reporterFactory,
-            InvocationReporterFactoryForCategorySpecificLatencies invocationReporter) {
+            ReporterFactoryForCategorySpecificLatencies invocationReporter) {
         if (reporterFactory == null) {
             throw new NullPointerException("reportFactory is null");
         }
@@ -108,7 +108,7 @@ final class CategorySpecificLatencies {
                 reporterFactory().adapterFor(invocationReporter(), category));
     }
 
-    private InvocationReporterFactoryForCategorySpecificLatencies invocationReporter() {
+    private ReporterFactoryForCategorySpecificLatencies invocationReporter() {
         return this.invocationReporter;
     }
 

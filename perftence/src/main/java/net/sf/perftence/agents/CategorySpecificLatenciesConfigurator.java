@@ -13,12 +13,12 @@ class CategorySpecificLatenciesConfigurator {
     private final CategorySpecificLatencies latencies;
     private final List<TestTaskCategory> latencyGraphFor;
     private final CategorySpecificReporterFactory reporterFactory;
-    private final InvocationReporterFactoryForCategorySpecificLatencies invocationReporterFactory;
+    private final ReporterFactoryForCategorySpecificLatencies invocationReporterFactory;
 
     public CategorySpecificLatenciesConfigurator(
             final CategorySpecificLatencies latencies,
             final CategorySpecificReporterFactory reporterFactory,
-            final InvocationReporterFactoryForCategorySpecificLatencies invocationReporterFactory) {
+            final ReporterFactoryForCategorySpecificLatencies invocationReporterFactory) {
         this.latencies = latencies;
         this.reporterFactory = reporterFactory;
         this.invocationReporterFactory = invocationReporterFactory;
@@ -64,7 +64,7 @@ class CategorySpecificLatenciesConfigurator {
                         category));
     }
 
-    private InvocationReporterFactoryForCategorySpecificLatencies invocationReporterFactory() {
+    private ReporterFactoryForCategorySpecificLatencies invocationReporterFactory() {
         return this.invocationReporterFactory;
     }
 
