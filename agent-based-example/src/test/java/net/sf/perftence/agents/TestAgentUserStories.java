@@ -63,6 +63,14 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
                 .latencyGraphForAll().start();
     }
 
+    @Test
+    public void sleepingAgentStoryWithNoInvocationGraphsNorThreadsRunningCurrentTasksNorTaskScheduleDifferencies() {
+        agentBasedTest().noInvocationGraph().noThreadsRunningCurrentTasks()
+                .noTaskScheduleDifferencies()
+                .agents(agents(10, new SleepingTestAgentFactory(), 1100))
+                .start();
+    }
+
     class Fail extends Exception {
 
         public Fail(final String message) {
@@ -72,31 +80,38 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
     private static Collection<TestAgent> agents(final int initialCapacity,
             final TestAgentFactory factory) {
+        return agents(initialCapacity, factory, 10);
+    }
+
+    private static Collection<TestAgent> agents(final int initialCapacity,
+            final TestAgentFactory factory, final int sleepValue) {
         final List<TestAgent> agents = new ArrayList<TestAgent>(initialCapacity);
         for (int i = 0; i < initialCapacity; i++) {
-            agents.add(factory.newTestAgent(i));
+            agents.add(factory.newTestAgent(i, sleepValue));
         }
         return agents;
     }
 
     interface TestAgentFactory {
-        TestAgent newTestAgent(int id);
+        TestAgent newTestAgent(final int id, final int sleepValue);
     }
 
     class SleepingTestAgentFactory implements TestAgentFactory {
 
         @Override
-        public TestAgent newTestAgent(final int id) {
-            return new SleepingTestAgent(id);
+        public TestAgent newTestAgent(final int id, final int sleepValue) {
+            return new SleepingTestAgent(id, sleepValue);
         }
     }
 
     class SleepingTestAgent implements TestAgent {
         private final int id;
+        private final int sleepValue;
         private TestTask firstTask;
 
-        public SleepingTestAgent(final int id) {
+        public SleepingTestAgent(final int id, final int sleepValue) {
             this.id = id;
+            this.sleepValue = sleepValue;
             this.firstTask = newSleepingTask(sleepValue(),
                     evaluateIfNextTaskIsNeeded());
         }
@@ -107,7 +122,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         }
 
         private int sleepValue() {
-            return 10 + this.id;
+            return this.sleepValue + this.id;
         }
 
     }
