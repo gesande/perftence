@@ -36,7 +36,7 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
         log().info("Warming up invocation storage...");
         final InvocationStorage storage = DefaultInvocationStorage
                 .newDefaultStorage(value,
-                        ReportingOptionsFactory.latencyOptions(120));
+                        ReportingOptionsFactory.latencyOptionsWithStatistics(120));
         for (int i = 0; i < value; i++) {
             storage.store(randomValue());
         }

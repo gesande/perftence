@@ -5,7 +5,7 @@ public final class ReportingOptionsFactory {
     private ReportingOptionsFactory() {
     }
 
-    public static ReportingOptions latencyOptions(final int range) {
+    public static ReportingOptions latencyOptionsWithStatistics(final int range) {
         return new ReportingOptions() {
             @Override
             public String title() {
