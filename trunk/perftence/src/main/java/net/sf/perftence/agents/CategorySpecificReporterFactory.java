@@ -2,6 +2,6 @@ package net.sf.perftence.agents;
 
 public interface CategorySpecificReporterFactory {
     InvocationReporterAdapter adapterFor(
-            final InvocationReporterFactoryForCategorySpecificLatencies reporterFactory,
+            final ReporterFactoryForCategorySpecificLatencies reporterFactory,
             final TestTaskCategory category);
 }

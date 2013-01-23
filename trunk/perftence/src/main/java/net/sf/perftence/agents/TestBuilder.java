@@ -35,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class TestBuilder implements RunnableAdapter, Startable,
-        InvocationReporterFactoryForCategorySpecificLatencies {
+        ReporterFactoryForCategorySpecificLatencies {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(TestBuilder.class);
@@ -129,7 +129,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     @Override
-    public TestRuntimeReporter newInvocationReporter(
+    public TestRuntimeReporter newReporter(
             final LatencyProvider latencyProvider, final int threads) {
         return newInvocationReporterWithDefaults(latencyProvider, threads,
                 newFailedInvocations(), includeInvocationGraph());
