@@ -25,7 +25,7 @@ clean-distribution() {
 }
 
 build-packages() {
-  gradle clean perftence:test perftence:dist perftence:sourcesJar responsecode-summaryappender:test responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar
+  gradle clean perftence:test responsecode-summaryappender:test acceptance-tests:test perftence:dist perftence:sourcesJar  responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar
 }
 
 build-packages
