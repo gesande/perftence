@@ -81,6 +81,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private final CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator;
 
     private boolean includeInvocationGraph = true;
+    private boolean includeThreadsRunningCurrentTasks = true;
+    private boolean includeTaskScheduleDifferencies = true;
 
     TestBuilder(
             final String name,
@@ -125,22 +127,34 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.categorySpecificLatenciesConfigurator = new CategorySpecificLatenciesConfigurator(
                 this.categorySpecificLatencies,
                 categorySpecificReporterFactory, this);
-        log().info("TestBuilder {} created.", id());
+        log().info("TestBuilder for '{}' created.", id());
     }
 
     @Override
     public TestRuntimeReporter newReporter(
             final LatencyProvider latencyProvider, final int threads) {
-        return newInvocationReporterWithDefaults(latencyProvider, threads,
-                newFailedInvocations(), includeInvocationGraph());
+        return newInvocationReporterWithDefaults(latencyProvider,
+                newFailedInvocations(), includeInvocationGraph(),
+                buildSetup(0, threads, 0).build());
     }
 
     private TestRuntimeReporter newInvocationReporterWithDefaults(
             final LatencyProvider latencyProvider, final int threads,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph) {
+        final PerformanceTestSetup setup = setupWithAppenders(0, threads, 0);
+        return newInvocationReporterWithDefaults(latencyProvider,
+                newFailedInvocations, includeInvocationGraph, setup);
+    }
+
+    @SuppressWarnings("static-method")
+    private TestRuntimeReporter newInvocationReporterWithDefaults(
+            final LatencyProvider latencyProvider,
+            final FailedInvocations newFailedInvocations,
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup) {
         return DefaultInvocationReporterFactory.newDefaultInvocationReporter(
-                latencyProvider, includeInvocationGraph, setup(0, threads, 0),
+                latencyProvider, includeInvocationGraph, setup,
                 newFailedInvocations);
     }
 
@@ -476,26 +490,53 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         return summaryBuilderFactory().overallSummaryBuilder(latencyProvider());
     }
 
-    private PerformanceTestSetup setup(final int duration, final int threads,
-            final int sampleCount) {
-        final PerformanceTestSetupBuilder testSetupBuilder = PerformanceTestSetupPojo
-                .builder()
-                .duration(duration)
-                .threads(threads)
-                .invocations(sampleCount)
-                .invocationRange(invocationRange())
-                .throughputRange(throughputRange())
-                .summaryAppender(
-                        threadsRunningCurrentTasks().summaryAppender(),
-                        taskScheduleDifferencies().summaryAppender());
+    private PerformanceTestSetup setupWithAppenders(final int duration,
+            final int threads, final int sampleCount) {
+        final PerformanceTestSetupBuilder testSetupBuilder = buildSetup(
+                duration, threads, sampleCount);
+
+        if (includeThreadsRunningCurrentTasks()) {
+            testSetupBuilder.summaryAppender(threadsRunningCurrentTasks()
+                    .summaryAppender());
+        }
+
+        if (includeTaskScheduleDifferencies()) {
+            testSetupBuilder.summaryAppender(taskScheduleDifferencies()
+                    .summaryAppender());
+
+        }
+
         for (final SummaryAppender appender : customSummaryAppenders()) {
             testSetupBuilder.summaryAppender(appender);
         }
-        return testSetupBuilder.graphWriter(
-                threadsRunningCurrentTasks().graphWriter(),
-                taskScheduleDifferencies().graphWriter(),
-                runningTasks().graphWriter(),
-                lastSecondThroughput().throughputGraphWriter(id())).build();
+
+        if (includeThreadsRunningCurrentTasks()) {
+            testSetupBuilder.graphWriter(threadsRunningCurrentTasks()
+                    .graphWriter());
+        }
+
+        if (includeTaskScheduleDifferencies()) {
+            testSetupBuilder.graphWriter(taskScheduleDifferencies()
+                    .graphWriter());
+        }
+        testSetupBuilder.graphWriter(runningTasks().graphWriter());
+
+        testSetupBuilder.graphWriter(lastSecondThroughput()
+                .throughputGraphWriter(id()));
+
+        return testSetupBuilder.build();
+    }
+
+    private boolean includeTaskScheduleDifferencies() {
+        return this.includeTaskScheduleDifferencies;
+    }
+
+    private PerformanceTestSetupBuilder buildSetup(final int duration,
+            final int threads, final int sampleCount) {
+        return PerformanceTestSetupPojo.builder().duration(duration)
+                .threads(threads).invocations(sampleCount)
+                .invocationRange(invocationRange())
+                .throughputRange(throughputRange());
     }
 
     class TaskSpecificTestReporter implements TestTaskReporter {
@@ -545,7 +586,9 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                     task.run(new TaskSpecificTestReporter(callStart));
                     final int latency = newLatency(callStart);
                     addSample(latency, task.category());
-                    reportWhenDifference(callStart - timeItWasScheduled);
+                    if (includeTaskScheduleDifferencies()) {
+                        reportWhenDifference(callStart - timeItWasScheduled);
+                    }
                     reportLatencyForRunningTasks(activeTasks, latency);
                 } catch (Throwable t) {
                     handleFailure(task, t);
@@ -568,12 +611,16 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     private void reportWhenDifference(final long difference) {
-        taskScheduleDifferencies().report(difference);
+        if (includeTaskScheduleDifferencies()) {
+            taskScheduleDifferencies().report(difference);
+        }
     }
 
     private void storeThreadsRunningCurrentTasks(final int threads) {
-        threadsRunningCurrentTasks().store(latencyProvider().currentDuration(),
-                threads);
+        if (includeThreadsRunningCurrentTasks()) {
+            threadsRunningCurrentTasks().store(
+                    latencyProvider().currentDuration(), threads);
+        }
     }
 
     private synchronized void handleFailure(final TestTask task,
@@ -724,7 +771,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         return this;
     }
 
-    private void addAppender(SummaryAppender appender) {
+    private void addAppender(final SummaryAppender appender) {
         customSummaryAppenders().add(appender);
     }
 
@@ -755,6 +802,26 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     private AllowedExceptions allowedExceptions() {
         return this.allowedExceptions;
+    }
+
+    /**
+     * Turning off summary and graph for ThreadsRunningCurrentTasks
+     */
+    public TestBuilder noThreadsRunningCurrentTasks() {
+        this.includeThreadsRunningCurrentTasks = false;
+        return this;
+    }
+
+    private boolean includeThreadsRunningCurrentTasks() {
+        return this.includeThreadsRunningCurrentTasks;
+    }
+
+    /**
+     * Turning off summary and graph for TaskScheduleDifferencies
+     */
+    public TestBuilder noTaskScheduleDifferencies() {
+        this.includeTaskScheduleDifferencies = false;
+        return this;
     }
 
 }
