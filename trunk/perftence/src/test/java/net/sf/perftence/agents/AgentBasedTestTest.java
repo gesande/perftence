@@ -38,7 +38,6 @@ public final class AgentBasedTestTest implements TestFailureNotifier {
         test.agents(oneAgent()).start();
         assertTrue(this.testFailed);
         assertTrue(this.testFailure.getClass().equals(MyFailure.class));
-
     }
 
     private static Collection<TestAgent> oneAgent() {
