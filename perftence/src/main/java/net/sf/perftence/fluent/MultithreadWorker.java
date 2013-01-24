@@ -280,7 +280,7 @@ public final class MultithreadWorker implements Startable {
     }
 
     private void checkMaxRequirement(final int latency) {
-        requirements().checkMaxLatency(id(), latency);
+        requirements().checkRuntimeLatency(id(), latency);
     }
 
     private PerformanceRequirementValidator requirements() {

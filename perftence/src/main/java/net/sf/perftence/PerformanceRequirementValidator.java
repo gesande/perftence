@@ -27,7 +27,7 @@ public final class PerformanceRequirementValidator {
         return requirements() != null;
     }
 
-    public void checkMaxLatency(final String id, final int latency) {
+    public void checkRuntimeLatency(final String id, final int latency) {
         if (hasRequirements() && requirements().max() >= 0
                 && latency > requirements().max()) {
             throw newPerfTestFailure("Method " + id
@@ -41,15 +41,16 @@ public final class PerformanceRequirementValidator {
         if (requiredMax >= 0) {
             final long maxLatency = statistics().maxLatency();
             if (maxLatency > requiredMax) {
-                throw newPerfTestFailure("The maximum latency of "
-                        + requiredMax + " ms was exceeded, Measured: "
-                        + maxLatency + " ms");
+                throw newPerfTestFailure("Test " + id
+                        + " exceeded required maximum latency of "
+                        + requiredMax + " ms. Measured: " + maxLatency + " ms");
             }
         }
         final long requiredTotalTime = requirements().totalTime();
         if (requiredTotalTime >= 0 && elapsedTime > requiredTotalTime) {
-            throw newPerfTestFailure("Test run " + id + " exceeded timeout of "
-                    + requiredTotalTime + " ms running " + elapsedTime + " ms");
+            throw newPerfTestFailure("Test " + id
+                    + " exceeded elapsed time of " + requiredTotalTime
+                    + " ms. Elapsed time was " + elapsedTime + " ms");
 
         }
         final int requiredThroughput = requirements().throughput();
