@@ -60,5 +60,5 @@ public class EntrypointTest extends AbstractMultiThreadedTest {
                 "net.sf.perftence.EntrypointTest.checkFullyQualifiedMethodNameWithClassName",
                 fullyQualifiedMethodNameWithClassName());
     }
-
+    
 }
