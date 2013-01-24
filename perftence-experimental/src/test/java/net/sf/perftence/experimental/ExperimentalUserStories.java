@@ -21,9 +21,12 @@ import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.FrequencyStorage;
-import net.sf.perftence.reporting.FrequencyStorageFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.graph.DatasetAdapter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.reporting.graph.LineChartGraphData;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
@@ -57,8 +60,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
             throws InterruptedException {
         this.latencyFactory = new LatencyFactory();
         this.latencyFreqs = SynchronizedBag.decorate(new HashBag());
-        final FrequencyStorage storage = FrequencyStorageFactory
-                .newFrequencyStorage(this.latencyFreqs);
+        final FrequencyStorage storage = newFrequencyStorage(this.latencyFreqs);
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         final int userCount = 16000;
@@ -263,4 +265,45 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         return new FailedInvocationsFactory(new DefaultDoubleFormatter(),
                 adjustedFieldBuilderFactory.newInstance()).newInstance();
     }
+
+    private static FrequencyStorage newFrequencyStorage(final Bag values) {
+        return new FrequencyStorage() {
+            @Override
+            public ImageData imageData() {
+                final String legendTitle = legendTitle();
+                final ImageData imageData = newImageData(legendTitle);
+                long range = 0;
+                for (final Object value : values.uniqueSet()) {
+                    final int count = values.getCount(value);
+                    if (count > range) {
+                        range = count;
+                    }
+                    imageData.add((Number) value, count);
+                }
+                return imageData.range(range);
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return !values.isEmpty();
+            }
+        };
+    }
+
+    private static String legendTitle() {
+        return "Frequency";
+    }
+
+    private static ImageData newImageData(final String legendTitle) {
+        final ImageData imageData = ImageData.noStatistics(
+                "Latency frequencies", "Latency (ms)", legendTitle,
+                adapterForLinechart(legendTitle));
+        return imageData;
+    }
+
+    private static DatasetAdapter<LineChartGraphData> adapterForLinechart(
+            final String legendTitle) {
+        return DatasetAdapterFactory.adapterForLineChart(legendTitle);
+    }
+
 }
