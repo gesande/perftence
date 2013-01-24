@@ -366,6 +366,11 @@ project(':agent-based-example') {
 
 project(':responsecode-summaryappender') {
     apply from:'../build/plugins/emma.gradle'
+
+    pmd {
+      ignoreFailures = 'true'
+    }
+
     version ='1.0'
     task('dist', type: Zip) {
         dependsOn 'jar'
@@ -389,6 +394,10 @@ project(':responsecode-summaryappender') {
 project(':perftence-junit-utils') {
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
+
+    pmd {
+      ignoreFailures = 'true'
+    }
     
     task('dist', type: Zip) {
         dependsOn 'jar'

@@ -2,7 +2,7 @@ package net.sf.perftence;
 
 public final class PerformanceRequirementValidator {
 
-    private PerfTestFailureFactory perfTestFailureFactory;
+    private final PerfTestFailureFactory perfTestFailureFactory;
     private final PerformanceRequirements requirements;
     private final StatisticsProvider statisticsProvider;
 

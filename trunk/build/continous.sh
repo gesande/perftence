@@ -1,4 +1,13 @@
 #!/bin/bash
 set -eu
-gradle --info perftence:clean perftence:test perftence:copy-pmd-settings perftence:findbugsMain perftence:pmdMain
+
+continous-build() {
+  local PROJECT=$1
+  gradle --info $PROJECT:clean $PROJECT:test $PROJECT:copy-pmd-settings $PROJECT:findbugsMain $PROJECT:pmdMain
+}
+
+continous-build perftence
+continous-build responsecode-summaryappender
+continous-build perftence-junit-utils
+
 
