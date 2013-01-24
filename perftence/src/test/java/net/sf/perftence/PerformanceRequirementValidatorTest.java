@@ -1,8 +1,76 @@
 package net.sf.perftence;
 
+import net.sf.perftence.fluent.PerformanceRequirementsPojo;
+
 import org.junit.Test;
 
 public class PerformanceRequirementValidatorTest {
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void noRequirements() {
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public long maxLatency() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                // TODO Auto-generated method stub
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+
+            @Override
+            public double averageLatency() {
+                // TODO Auto-generated method stub
+                return 0;
+            }
+        };
+        final PerformanceRequirementValidator validator = new PerformanceRequirementValidator(
+                PerformanceRequirementsPojo.noRequirements(),
+                statisticsProvider, new PerfTestFailureFactory());
+        validator.checkRuntimeLatency("id", 0);
+        validator.checkAllRequirements("id", 0);
+    }
 
     @SuppressWarnings("static-method")
     @Test(expected = PerfTestFailure.class)
@@ -96,8 +164,8 @@ public class PerformanceRequirementValidatorTest {
                 return 0;
             }
         };
-        newValidator(requirements, statisticsProvider).checkRuntimeLatency("id",
-                500);
+        newValidator(requirements, statisticsProvider).checkRuntimeLatency(
+                "id", 500);
     }
 
     private static PerformanceRequirementValidator newValidator(
