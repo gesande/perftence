@@ -9,5 +9,5 @@ continous-build() {
 continous-build perftence
 continous-build responsecode-summaryappender
 continous-build perftence-junit-utils
-
+continous-build perftence-classhelper
 
