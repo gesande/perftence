@@ -68,7 +68,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         final TestBuilder builder = new FluentPerformanceTest(
                 new PerfTestFailedNotifier()).test(id());
         builder.setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(100).build())
+                .requirements(requirements().percentile95(101).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -100,7 +100,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         final TestBuilder builder = new FluentPerformanceTest(
                 new PerfTestFailedNotifier()).test(id());
         builder.setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(100).max(100).build())
+                .requirements(requirements().percentile95(100).max(102).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
