@@ -3,6 +3,7 @@ subprojects {
     apply plugin: "eclipse"
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
+    apply plugin: "jdepend"
     
     eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
     eclipse.classpath.defaultOutputDir = file('target/classes')
@@ -32,6 +33,11 @@ subprojects {
     [findbugsMain, findbugsTest]*.reports {
         xml.enabled false
         html.enabled true
+    }
+
+    [jdependMain, jdependTest]*.reports {
+        xml.enabled false
+        text.enabled true
     }
 
     pmd.ruleSetFiles = files(".pmd")
@@ -234,8 +240,16 @@ project(':commons-collections-3.2.1') { prj ->
 
 project(':perftence') {
     apply from:'../build/plugins/emma.gradle'
+
     version = '1.0-BETA'
     pmd.ignoreFailures = 'false'
+
+    jdependMain.doLast {
+        File file = new File(jdepend.reportsDir, "main.xml");
+        assert file.exists() && file.isFile(), "File '$file' must exist"
+        def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
+        assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
+    }
 
     dependencies {
         compile project(':junit-4.10')
