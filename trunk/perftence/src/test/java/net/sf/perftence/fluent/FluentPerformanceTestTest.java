@@ -68,11 +68,11 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         final TestBuilder builder = new FluentPerformanceTest(
                 new PerfTestFailedNotifier()).test(id());
         builder.setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(101).build())
+                .requirements(requirements().percentile95(100).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
-                        Thread.sleep(100);
+                        Thread.sleep(99);
                     }
                 }).start();
         assertFalse(this.testFailed);
@@ -104,7 +104,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
-                        Thread.sleep(100);
+                        Thread.sleep(99);
                     }
                 }).start();
         assertFalse(this.testFailed);
