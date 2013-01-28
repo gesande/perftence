@@ -21,6 +21,7 @@ import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
@@ -56,7 +57,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.latencyProvider = new LatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.newStorage = StorageForThreadsRunningCurrentTasks.newStorage(id());
+        this.newStorage = newStorage();
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
         setup.graphWriter(this.newStorage.graphWriter());
         setup.summaryAppender(this.newStorage.summaryAppender());
@@ -84,6 +85,11 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                 this.latencyProvider.startTime());
     }
 
+    private StorageForThreadsRunningCurrentTasks newStorage() {
+        return StorageForThreadsRunningCurrentTasks.newStorage(id(),
+                new DefaultDatasetAdapterFactory());
+    }
+
     private static FailedInvocations newFailedInvocations() {
         return new FailedInvocationsFactory(new DefaultDoubleFormatter(),
                 new AdjustedFieldBuilderFactory(new FieldFormatter(),
@@ -99,7 +105,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.latencyProvider = new LatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.newStorage = StorageForThreadsRunningCurrentTasks.newStorage(id());
+        this.newStorage = newStorage();
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
         setup.graphWriter(this.newStorage.graphWriter());
         setup.summaryAppender(this.newStorage.summaryAppender());

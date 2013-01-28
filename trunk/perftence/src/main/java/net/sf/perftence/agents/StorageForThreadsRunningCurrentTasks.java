@@ -22,11 +22,14 @@ public final class StorageForThreadsRunningCurrentTasks {
     private final List<Integer> threads;
     private final List<Long> times;
     private final String name;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     public StorageForThreadsRunningCurrentTasks(final String name,
-            final ReportingOptions reportingOptions) {
+            final ReportingOptions reportingOptions,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.name = name;
         this.reportingOptions = reportingOptions;
+        this.datasetAdapterFactory = datasetAdapterFactory;
         this.threads = Collections.synchronizedList(new ArrayList<Integer>());
         this.times = Collections.synchronizedList(new ArrayList<Long>());
     }
@@ -53,10 +56,12 @@ public final class StorageForThreadsRunningCurrentTasks {
     }
 
     public ImageData imageData() {
-        final ImageData imageData = ImageData.noStatistics(reportingOptions()
-                .title(), reportingOptions().xAxisTitle(), reportingOptions()
-                .legendTitle(), DatasetAdapterFactory
-                .adapterForLineChart(reportingOptions().legendTitle()));
+        final ImageData imageData = ImageData.noStatistics(
+                reportingOptions().title(),
+                reportingOptions().xAxisTitle(),
+                reportingOptions().legendTitle(),
+                datasetAdapterFactory().forLineChart(
+                        reportingOptions().legendTitle()));
         int i = 0;
         double max = reportingOptions().range();
         for (double value : threads()) {
@@ -70,6 +75,10 @@ public final class StorageForThreadsRunningCurrentTasks {
         return imageData;
     }
 
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
+    }
+
     private ReportingOptions reportingOptions() {
         return this.reportingOptions;
     }
@@ -79,7 +88,7 @@ public final class StorageForThreadsRunningCurrentTasks {
     }
 
     public static StorageForThreadsRunningCurrentTasks newStorage(
-            final String name) {
+            final String name, final DatasetAdapterFactory datasetAdapterFactory) {
         return new StorageForThreadsRunningCurrentTasks(name,
                 new ReportingOptions() {
                     @Override
@@ -106,7 +115,7 @@ public final class StorageForThreadsRunningCurrentTasks {
                     public String legendTitle() {
                         return "Threads";
                     }
-                });
+                }, datasetAdapterFactory);
     }
 
     public SummaryAppender summaryAppender() {

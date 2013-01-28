@@ -8,7 +8,7 @@ import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.graph.ScatterPlotGraphData;
@@ -35,8 +35,9 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
     private static InvocationStorage newDefaultInvocationStorage(final int value) {
         log().info("Warming up invocation storage...");
         final InvocationStorage storage = DefaultInvocationStorage
-                .newDefaultStorage(value,
-                        ReportingOptionsFactory.latencyOptionsWithStatistics(120));
+                .newDefaultStorage(value, ReportingOptionsFactory
+                        .latencyOptionsWithStatistics(120),
+                        new DefaultDatasetAdapterFactory());
         for (int i = 0; i < value; i++) {
             storage.store(randomValue());
         }
@@ -120,7 +121,7 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
 
     private static DatasetAdapter<ScatterPlotGraphData> scatterPlotAdapter(
             final String legendTitle, final String yAxisTitle) {
-        return DatasetAdapterFactory.adapterForScatterPlot(legendTitle,
+        return new DefaultDatasetAdapterFactory().forScatterPlot(legendTitle,
                 yAxisTitle);
     }
 
@@ -171,10 +172,10 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
 
             @Override
             public ImageData imageData() {
-                final ImageData data = ImageData
-                        .noStatistics("title", "xAxisTitle", "legendTitle",
-                                DatasetAdapterFactory
-                                        .adapterForBarChart("legendTitle"));
+                final ImageData data = ImageData.noStatistics("title",
+                        "xAxisTitle", "legendTitle",
+                        new DefaultDatasetAdapterFactory()
+                                .forBarChart("legendTitle"));
                 final Collection<Long> samples = latencyProvider
                         .uniqueSamples();
                 for (final Long sample : samples) {
@@ -189,8 +190,8 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
     private static ImageData imageDataWithoutStatistics() {
         log().info("Warming up latency counter...");
         return warmedUp(FrequencyStorageFactory.newFrequencyStorage(
-                toString(newCounterWithRandomContent(storageSize())))
-                .imageData());
+                toString(newCounterWithRandomContent(storageSize())),
+                new DefaultDatasetAdapterFactory()).imageData());
     }
 
     private static Logger log() {

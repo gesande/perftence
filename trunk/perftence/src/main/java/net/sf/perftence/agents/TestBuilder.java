@@ -23,6 +23,7 @@ import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -94,7 +95,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory,
             final TaskScheduleDifferences taskScheduleDifferences,
             final SchedulingServiceFactory schedulingServiceFactory,
-            final CategorySpecificReporterFactory categorySpecificReporterFactory) {
+            final CategorySpecificReporterFactory categorySpecificReporterFactory,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -110,9 +112,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 categorySpecificReporterFactory, this);
         this.taskScheduleDifferences = taskScheduleDifferences;
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
-                .newStorage(id());
+                .newStorage(id(), datasetAdapterFactory);
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
-        this.runningTasks = LatencyVsConcurrentTasks.instance(id());
+        this.runningTasks = LatencyVsConcurrentTasks.instance(id(),
+                datasetAdapterFactory);
         this.allowedExceptions = new AllowedExceptions();
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
@@ -123,7 +126,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.customLatencyReporters.add(lastSecondStatistics());
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
         this.customFailureReporters.add(lastSecondFailures());
-        this.lastSecondThroughput = new LastSecondThroughput();
+        this.lastSecondThroughput = new LastSecondThroughput(
+                datasetAdapterFactory);
         this.categorySpecificLatenciesConfigurator = new CategorySpecificLatenciesConfigurator(
                 this.categorySpecificLatencies,
                 categorySpecificReporterFactory, this);
@@ -520,7 +524,6 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                     .graphWriter());
         }
         testSetupBuilder.graphWriter(runningTasks().graphWriter());
-
         testSetupBuilder.graphWriter(lastSecondThroughput()
                 .throughputGraphWriter(id()));
 

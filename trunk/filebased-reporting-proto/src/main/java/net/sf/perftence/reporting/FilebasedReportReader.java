@@ -24,17 +24,18 @@ public class FilebasedReportReader {
     private final LatencyFileVisitor latencyVisitor;
     private final FailedInvocationsVisitor failedInvocationsVisitor;
     private final SummaryVisitor summaryVisitor;
+    private final ThroughputStorageFactory throughputStorageFactory;
 
-    private DefaultThroughputStorage throughputStorage;
-
+    private ThroughputStorage throughputStorage;
     private SetupReader setupReader;
-
     private FilebasedTestSetup setup;
 
     public FilebasedReportReader(final String id,
             final LatencyProvider latencyProvider,
             final InvocationStorage invocationStorage,
-            final FailedInvocationsFactory failedInvocations) {
+            final FailedInvocationsFactory failedInvocations,
+            final ThroughputStorageFactory throughputStorageFactory) {
+        this.throughputStorageFactory = throughputStorageFactory;
         this.reportDir = new File(new File("target", "perftence"), id);
         this.latencyVisitor = new LatencyFileVisitor(latencyProvider,
                 invocationStorage);
@@ -253,8 +254,8 @@ public class FilebasedReportReader {
                     latencyVisitor(), "latencies");
             latencies.read();
 
-            this.throughputStorage = new DefaultThroughputStorage(setup()
-                    .testSetup().throughputRange());
+            this.throughputStorage = throughputStorageFactory().forRange(
+                    setup().testSetup().throughputRange());
             final ThroughputVisitor throughputVisitor = new ThroughputVisitor(
                     this.throughputStorage);
             final FilebasedReader throughput = newFilebasedReader(
@@ -265,6 +266,10 @@ public class FilebasedReportReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ThroughputStorageFactory throughputStorageFactory() {
+        return this.throughputStorageFactory;
     }
 
     private SetupReader setupReader() {

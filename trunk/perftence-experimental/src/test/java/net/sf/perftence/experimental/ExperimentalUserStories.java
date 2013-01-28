@@ -23,7 +23,7 @@ import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.FrequencyStorage;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.graph.LineChartGraphData;
@@ -303,7 +303,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 
     private static DatasetAdapter<LineChartGraphData> adapterForLinechart(
             final String legendTitle) {
-        return DatasetAdapterFactory.adapterForLineChart(legendTitle);
+        return new DefaultDatasetAdapterFactory().forLineChart(legendTitle);
     }
 
 }

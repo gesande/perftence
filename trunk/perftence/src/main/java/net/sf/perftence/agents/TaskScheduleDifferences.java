@@ -25,12 +25,15 @@ public final class TaskScheduleDifferences {
     private final SortedBag differencies;
     private final String name;
     private final ReportingOptions reportingOptions;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     public TaskScheduleDifferences(final String name,
-            final ReportingOptions reportingOptions) {
+            final ReportingOptions reportingOptions,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.name = name;
         this.reportingOptions = reportingOptions;
         this.differencies = SynchronizedSortedBag.decorate(new TreeBag());
+        this.datasetAdapterFactory = datasetAdapterFactory;
     }
 
     private ReportingOptions reportingOptions() {
@@ -53,7 +56,8 @@ public final class TaskScheduleDifferences {
         differencies().add(difference);
     }
 
-    public static TaskScheduleDifferences instance(final String name) {
+    public static TaskScheduleDifferences instance(final String name,
+            DatasetAdapterFactory datasetAdapterFactory) {
         return new TaskScheduleDifferences(name, new ReportingOptions() {
 
             @Override
@@ -80,14 +84,16 @@ public final class TaskScheduleDifferences {
             public String legendTitle() {
                 return "Frequency";
             }
-        });
+        }, datasetAdapterFactory);
     }
 
     private ImageData imageData() {
-        final ImageData imageData = ImageData.noStatistics(reportingOptions()
-                .title(), reportingOptions().xAxisTitle(), reportingOptions()
-                .legendTitle(), DatasetAdapterFactory
-                .adapterForLineChart(reportingOptions().legendTitle()));
+        final ImageData imageData = ImageData.noStatistics(
+                reportingOptions().title(),
+                reportingOptions().xAxisTitle(),
+                reportingOptions().legendTitle(),
+                datasetAdapterFactory().forLineChart(
+                        reportingOptions().legendTitle()));
         final Set<Long> uniqueSet = uniqueSamples();
         long max = 0;
         for (final Long difference : uniqueSet) {
@@ -98,6 +104,10 @@ public final class TaskScheduleDifferences {
             }
         }
         return imageData.range(max);
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private int count(final long value) {

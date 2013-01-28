@@ -10,6 +10,7 @@ import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.reporting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
@@ -29,6 +30,7 @@ public final class FluentPerformanceTest {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
+    private DefaultDatasetAdapterFactory datasetAdapterFactory;
 
     public FluentPerformanceTest(final TestFailureNotifier failureNotifier) {
         validate(failureNotifier);
@@ -44,6 +46,7 @@ public final class FluentPerformanceTest {
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.perfTestFailureFactory = new PerfTestFailureFactory();
+        this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
     }
 
     private static AdjustedFieldBuilderFactory newAdjustedFieldBuilderFactory(
@@ -75,7 +78,11 @@ public final class FluentPerformanceTest {
                 summaryBuilderFactory(), failedInvocationsFactory(),
                 adjustedFieldBuilderFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
-                perfTestFailureFactory());
+                perfTestFailureFactory(), datasetAdapterFactory());
+    }
+
+    private DefaultDatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private PerfTestFailureFactory perfTestFailureFactory() {
