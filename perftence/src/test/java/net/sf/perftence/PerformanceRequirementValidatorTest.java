@@ -68,47 +68,16 @@ public class PerformanceRequirementValidatorTest {
         final PerformanceRequirementValidator validator = new PerformanceRequirementValidator(
                 PerformanceRequirementsPojo.noRequirements(),
                 statisticsProvider, new PerfTestFailureFactory());
-        validator.checkRuntimeLatency("id", 0);
-        validator.checkAllRequirements("id", 0);
+        validator.checkRuntimeLatency("maxLatencyFailed", 0);
+        validator.checkAllRequirements("maxLatencyFailed", 0);
     }
 
     @SuppressWarnings("static-method")
     @Test(expected = PerfTestFailure.class)
-    public void maxLatency() {
-        final int max = 50;
-        PerformanceRequirements requirements = new PerformanceRequirements() {
-
-            @Override
-            public long totalTime() {
-                return 1000;
-            }
-
-            @Override
-            public int throughput() {
-                return 100;
-            }
-
-            @Override
-            public PercentileRequirement[] percentileRequirements() {
-                return new PercentileRequirement[0];
-            }
-
-            @Override
-            public int median() {
-                return 100;
-            }
-
-            @Override
-            public int max() {
-                return max;
-            }
-
-            @Override
-            public int average() {
-                return 100;
-            }
-        };
-        StatisticsProvider statisticsProvider = new StatisticsProvider() {
+    public void maxLatencyFailed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().max(50).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
 
             @Override
             public double throughput() {
@@ -165,7 +134,175 @@ public class PerformanceRequirementValidatorTest {
             }
         };
         newValidator(requirements, statisticsProvider).checkRuntimeLatency(
-                "id", 500);
+                "maxLatencyFailed", 500);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test(expected = PerfTestFailure.class)
+    public void averageFailed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().average(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 0;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 0;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 100;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 0;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "averageFailed", 1000);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test(expected = PerfTestFailure.class)
+    public void throughputFailed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().throughput(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 999;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 0;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 100;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 0;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "throughputFailed", 10000);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test(expected = PerfTestFailure.class)
+    public void totalTimeFailed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().totalTime(10000).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 0;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 0;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 100;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 0;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "totalTimeFailed", 10001);
     }
 
     private static PerformanceRequirementValidator newValidator(
