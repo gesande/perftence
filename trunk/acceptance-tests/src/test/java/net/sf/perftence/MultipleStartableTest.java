@@ -2,16 +2,13 @@ package net.sf.perftence;
 
 import java.util.Random;
 
-import junit.framework.Assert;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.Duration;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@Ignore
 @RunWith(DefaultTestRunner.class)
 public class MultipleStartableTest extends AbstractMultiThreadedTest {
     private static final Random RANDOM = new Random();
@@ -34,22 +31,6 @@ public class MultipleStartableTest extends AbstractMultiThreadedTest {
     public void mixed() throws Exception {
         test().startable(durationWorker(idOne(), 10))
                 .startable(threadWorker(idTwo(), 10, 100)).start();
-    }
-
-    @Test
-    public void noInvocationGraphConstruction() throws Exception {
-        MultithreadWorker durationWorker = durationWorkerBuilder(idOne(), 10)
-                .noInvocationGraph().executable(sleepingExecutable());
-
-        TestBuilder startable = test().noInvocationGraph().startable(
-                durationWorker);
-        Assert.assertFalse(
-                "includeInvocationGraph should have been 'false' for MultithreadTestWorkerBuilder!",
-                startable.includeInvocationGraph());
-        Assert.assertFalse(
-                "includeInvocationGraph should have been 'false' for MultithreadWorker!",
-                durationWorker.includeInvocationGraph());
-        startable.start();
     }
 
     private String idThree() {
@@ -87,7 +68,7 @@ public class MultipleStartableTest extends AbstractMultiThreadedTest {
         return new Executable() {
             @Override
             public void execute() throws Exception {
-                Thread.sleep(RANDOM.nextInt(1000) + 1);
+                Thread.sleep(RANDOM.nextInt(10) + 1);
             }
         };
     }
