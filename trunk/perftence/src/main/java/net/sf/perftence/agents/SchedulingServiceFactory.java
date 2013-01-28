@@ -1,6 +1,5 @@
 package net.sf.perftence.agents;
 
-
 final class SchedulingServiceFactory {
 
     @SuppressWarnings("static-method")
