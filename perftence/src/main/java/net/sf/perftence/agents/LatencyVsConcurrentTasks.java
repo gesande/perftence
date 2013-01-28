@@ -37,7 +37,8 @@ public final class LatencyVsConcurrentTasks {
         return this.hasSamples;
     }
 
-    public static LatencyVsConcurrentTasks instance(final String name) {
+    public static LatencyVsConcurrentTasks instance(final String name,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         ReportingOptions reportingOptions = new ReportingOptions() {
 
             @Override
@@ -66,10 +67,11 @@ public final class LatencyVsConcurrentTasks {
             }
         };
         final String legendTitle = reportingOptions.legendTitle();
-        return new LatencyVsConcurrentTasks(name, ImageData.noStatistics(
-                reportingOptions.title(), reportingOptions.xAxisTitle(),
-                legendTitle, DatasetAdapterFactory.adapterForScatterPlot(
-                        legendTitle, yAxisTitle())));
+        return new LatencyVsConcurrentTasks(name,
+                ImageData.noStatistics(reportingOptions.title(),
+                        reportingOptions.xAxisTitle(), legendTitle,
+                        datasetAdapterFactory.forScatterPlot(legendTitle,
+                                yAxisTitle())));
     }
 
     private static String yAxisTitle() {

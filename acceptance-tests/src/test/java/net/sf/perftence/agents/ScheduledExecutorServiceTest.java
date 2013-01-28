@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.AssertionFailedError;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 
 import org.junit.Test;
@@ -111,7 +112,8 @@ public class ScheduledExecutorServiceTest {
         this.activeThreads = new ActiveThreads();
         final String name = "ScheduledExecutorServiceTest.scheduleJobs-"
                 + corePoolSize + "-" + tasks;
-        this.storage = StorageForThreadsRunningCurrentTasks.newStorage(name);
+        this.storage = StorageForThreadsRunningCurrentTasks.newStorage(name,
+                new DefaultDatasetAdapterFactory());
 
         log().info("Scheduling tasks...");
         for (int i = 0; i < tasks; i++) {

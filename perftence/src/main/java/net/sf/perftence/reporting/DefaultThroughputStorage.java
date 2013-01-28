@@ -11,9 +11,12 @@ public final class DefaultThroughputStorage implements ThroughputStorage {
     private final List<Double> list;
     private final List<Long> time;
     private final int range;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
-    public DefaultThroughputStorage(final int range) {
+    public DefaultThroughputStorage(final int range,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.range = range;
+        this.datasetAdapterFactory = datasetAdapterFactory;
         this.list = Collections.synchronizedList(new ArrayList<Double>());
         this.time = Collections.synchronizedList(new ArrayList<Long>());
     }
@@ -21,13 +24,13 @@ public final class DefaultThroughputStorage implements ThroughputStorage {
     @Override
     public synchronized void store(final long currentDuration,
             final double throughput) {
-        this.list.add(throughput);
-        this.time.add(currentDuration);
+        throughputs().add(throughput);
+        reportTimes().add(currentDuration);
     }
 
     @Override
     public boolean isEmpty() {
-        return this.list.isEmpty();
+        return throughputs().isEmpty();
     }
 
     @Override
@@ -35,14 +38,25 @@ public final class DefaultThroughputStorage implements ThroughputStorage {
         final String legendTitle = "Throughput";
         final ImageData imageData = ImageData.noStatistics(
                 "Throughput over time", "Time elapsed", legendTitle, range(),
-                DatasetAdapterFactory.adapterForLineChart(legendTitle));
+                datasetAdapterFactory().forLineChart(legendTitle));
         int i = 0;
-        for (double latency : this.list) {
-            imageData.add(this.time.get(i), latency);
+        for (final double latency : throughputs()) {
+            imageData.add(reportTimes().get(i), latency);
             i++;
         }
         return imageData;
+    }
 
+    private List<Double> throughputs() {
+        return this.list;
+    }
+
+    private List<Long> reportTimes() {
+        return this.time;
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private int range() {

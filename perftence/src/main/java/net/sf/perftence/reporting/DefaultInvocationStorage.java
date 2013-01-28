@@ -13,16 +13,22 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     private final List<Integer> totalInvocations;
     private boolean reportedLatencyBeingBelowOne = false;
     private final ReportingOptions reportingOptions;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     private DefaultInvocationStorage(final int totalInvocations,
-            final ReportingOptions reportingOptions) {
+            final ReportingOptions reportingOptions,
+            DatasetAdapterFactory datasetAdapterFactory) {
         this.reportingOptions = reportingOptions;
+        this.datasetAdapterFactory = datasetAdapterFactory;
         this.totalInvocations = initialize(totalInvocations);
     }
 
     public static InvocationStorage newDefaultStorage(
-            final int totalInvocations, final ReportingOptions reportingOptions) {
-        return new DefaultInvocationStorage(totalInvocations, reportingOptions);
+            final int totalInvocations,
+            final ReportingOptions reportingOptions,
+            final DatasetAdapterFactory datasetAdapterFactory) {
+        return new DefaultInvocationStorage(totalInvocations, reportingOptions,
+                datasetAdapterFactory);
     }
 
     private static List<Integer> initialize(final int invocations) {
@@ -75,8 +81,8 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     }
 
     private ImageData imageData(final List<Integer> invocations) {
-        final DatasetAdapter<LineChartGraphData> adapter = DatasetAdapterFactory
-                .adapterForLineChart(legendTitle());
+        final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
+                .forLineChart(legendTitle());
         final ImageData imageData = provideStatistics() ? ImageData.statistics(
                 title(), xAxisTitle(), legendTitle(), range(), statistics(),
                 adapter) : ImageData.noStatistics(title(), xAxisTitle(),
@@ -88,6 +94,10 @@ public final class DefaultInvocationStorage implements InvocationStorage {
             i++;
         }
         return imageData;
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private int range() {

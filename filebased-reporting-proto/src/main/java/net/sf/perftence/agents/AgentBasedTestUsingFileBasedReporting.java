@@ -5,6 +5,7 @@ import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.reporting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
@@ -19,6 +20,7 @@ public class AgentBasedTestUsingFileBasedReporting {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
+    private DefaultDatasetAdapterFactory datasetAdapterFactory;
 
     public AgentBasedTestUsingFileBasedReporting(
             final TestFailureNotifier failureNotifier) {
@@ -35,6 +37,7 @@ public class AgentBasedTestUsingFileBasedReporting {
                         .newInstance());
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
+        this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
     }
 
     public TestBuilder test(final String id) {
@@ -44,9 +47,14 @@ public class AgentBasedTestUsingFileBasedReporting {
                 notifierAdapter), failedInvocationsFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
                 adjustedFieldBuilderFactory(),
-                TaskScheduleDifferences.instance(id),
+                TaskScheduleDifferences.instance(id, datasetAdapterFactory()),
                 new SchedulingServiceFactory(),
-                new DefaultCategorySpecificReporterFactory(id));
+                new DefaultCategorySpecificReporterFactory(id),
+                datasetAdapterFactory());
+    }
+
+    private DefaultDatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {

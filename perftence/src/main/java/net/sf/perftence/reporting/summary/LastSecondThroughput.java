@@ -14,14 +14,21 @@ import org.apache.commons.collections.list.SynchronizedList;
 
 public final class LastSecondThroughput implements ValueReporter<Double> {
     private List<Double> throughputs;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     @SuppressWarnings("unchecked")
-    public LastSecondThroughput() {
+    public LastSecondThroughput(
+            final DatasetAdapterFactory datasetAdapterFactory) {
+        this.datasetAdapterFactory = datasetAdapterFactory;
         this.throughputs = SynchronizedList.decorate(new ArrayList<Double>());
     }
 
     private List<Double> throughputs() {
         return this.throughputs;
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     public GraphWriter throughputGraphWriter(final String name) {
@@ -34,8 +41,8 @@ public final class LastSecondThroughput implements ValueReporter<Double> {
 
             private ImageData throughputData() {
                 final String title = "Last second throughput";
-                final DatasetAdapter<LineChartGraphData> adapter = DatasetAdapterFactory
-                        .adapterForLineChart(title);
+                final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
+                        .forLineChart(title);
                 final ImageData imageData = ImageData.noStatistics(title,
                         "Seconds", "Throughput", adapter);
                 final List<Double> throughputs = throughputs();

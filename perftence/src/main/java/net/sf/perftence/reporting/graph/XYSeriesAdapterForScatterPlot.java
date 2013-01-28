@@ -21,6 +21,10 @@ class XYSeriesAdapterForScatterPlot implements
         return this.series;
     }
 
+    private String yAxisTitle() {
+        return this.yAxisTitle;
+    }
+
     @Override
     public void add(final Number x, final Number y) {
         series().add(x, y, false);
@@ -30,6 +34,7 @@ class XYSeriesAdapterForScatterPlot implements
     public ScatterPlotGraphData graphData(final Paint paint, final double range) {
         final XYSeriesCollection result = new XYSeriesCollection();
         result.addSeries(series());
-        return new ScatterPlotGraphData(this.yAxisTitle, result);
+        return new ScatterPlotGraphData(yAxisTitle(), result);
     }
+
 }

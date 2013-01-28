@@ -22,6 +22,7 @@ import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
@@ -46,6 +47,7 @@ public final class TestBuilder {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     private PerformanceTestSetup setup;
     private PerformanceRequirements requirements;
@@ -59,14 +61,15 @@ public final class TestBuilder {
             final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory,
             final LatencyFactory latencyFactory,
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
-            final PerfTestFailureFactory perfTestFailureFactory) {
+            final PerfTestFailureFactory perfTestFailureFactory,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.invocationRunner = invocationRunner;
         this.runNotifier = runNotifier;
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.perfTestFailureFactory = perfTestFailureFactory;
-        PerformanceRequirementsPojo.builder();
+        this.datasetAdapterFactory = datasetAdapterFactory;
         this.requirements = PerformanceRequirementsBuilder.noRequirements();
         this.setup = PerformanceTestSetupPojo.builder().noSetup();
         this.summaryBuilderFactory = summaryBuilderFactory;
@@ -103,7 +106,8 @@ public final class TestBuilder {
         final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
                 failedInvocationsFactory());
-        final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput();
+        final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput(
+                datasetAdapterFactory());
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
                 lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
@@ -122,6 +126,10 @@ public final class TestBuilder {
                 .customInvocationReporters(lastSecondStats)
                 .customFailureReporter(lastSecondFailures)
                 .executable(executable);
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
     private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {

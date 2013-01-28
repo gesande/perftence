@@ -12,13 +12,15 @@ public final class FrequencyStorageFactory {
     }
 
     public static FrequencyStorage newFrequencyStorage(
-            final LatencyProvider latencyProvider) {
+            final LatencyProvider latencyProvider,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         return new FrequencyStorage() {
 
             @Override
             public ImageData imageData() {
                 final String legendTitle = legendTitle();
-                final ImageData imageData = newImageData(legendTitle);
+                final ImageData imageData = newImageData(legendTitle,
+                        datasetAdapterFactory.forLineChart(legendTitle));
                 final long maxLatency = latencyProvider.maxLatency();
                 long range = 0;
                 for (long i = 0; i <= maxLatency; i++) {
@@ -38,19 +40,15 @@ public final class FrequencyStorageFactory {
         };
     }
 
-    private static ImageData newImageData(final String legendTitle) {
+    private static ImageData newImageData(final String legendTitle,
+            DatasetAdapter<LineChartGraphData> adapterForLinechart) {
         final ImageData imageData = ImageData.noStatistics(
                 "Latency frequencies", "Latency (ms)", legendTitle,
-                adapterForLinechart(legendTitle));
+                adapterForLinechart);
         return imageData;
     }
 
     private static String legendTitle() {
         return "Frequency";
-    }
-
-    private static DatasetAdapter<LineChartGraphData> adapterForLinechart(
-            final String legendTitle) {
-        return DatasetAdapterFactory.adapterForLineChart(legendTitle);
     }
 }

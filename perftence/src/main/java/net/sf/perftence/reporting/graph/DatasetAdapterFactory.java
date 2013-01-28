@@ -1,22 +1,11 @@
 package net.sf.perftence.reporting.graph;
 
-public final class DatasetAdapterFactory {
+public interface DatasetAdapterFactory {
+    DatasetAdapter<LineChartGraphData> forLineChart(final String title);
 
-    private DatasetAdapterFactory() {
-    }
+    DatasetAdapter<BarChartGraphData> forBarChart(final String legendTitle);
 
-    public static DatasetAdapter<LineChartGraphData> adapterForLineChart(
-            final String title) {
-        return new XYSeriesAdapter(title);
-    }
+    DatasetAdapter<ScatterPlotGraphData> forScatterPlot(
+            final String legendTitle, final String yAxisTitle);
 
-    public static DatasetAdapter<BarChartGraphData> adapterForBarChart(
-            final String legendTitle) {
-        return new CategoryDatasetAdapter(legendTitle);
-    }
-
-    public static DatasetAdapter<ScatterPlotGraphData> adapterForScatterPlot(
-            final String legendTitle, final String yAxisTitle) {
-        return new XYSeriesAdapterForScatterPlot(legendTitle, yAxisTitle);
-    }
 }

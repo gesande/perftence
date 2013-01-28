@@ -6,6 +6,7 @@ import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
@@ -15,6 +16,10 @@ import net.sf.perftence.reporting.summary.StatisticsSummaryProviderUsingStatisti
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
 public final class DefaultInvocationReporterFactory {
+
+    private final static DatasetAdapterFactory DATASET_ADAPTER_FACTORY = new DefaultDatasetAdapterFactory();
+    private final static ThroughputStorageFactory THROUGHPUT_STORAGE_FACTORY = new ThroughputStorageFactory(
+            DATASET_ADAPTER_FACTORY);
 
     public static TestRuntimeReporter newDefaultInvocationReporter(
             final LatencyProvider latencyProvider,
@@ -68,7 +73,8 @@ public final class DefaultInvocationReporterFactory {
         return newDefaultInvocationReporter(includeInvocationGraph, setup,
                 failedInvocations, invocationStorage,
                 statisticsSummaryProvider, throughputStorage,
-                FrequencyStorageFactory.newFrequencyStorage(latencyProvider));
+                FrequencyStorageFactory.newFrequencyStorage(latencyProvider,
+                        datasetAdapterFactory()));
     }
 
     private static TestRuntimeReporter newDefaultInvocationReporter(
@@ -99,7 +105,15 @@ public final class DefaultInvocationReporterFactory {
 
     private static ThroughputStorage throughputStorage(
             final PerformanceTestSetup setup) {
-        return new DefaultThroughputStorage(setup.throughputRange());
+        return throughputStorageFactory().forRange(setup.throughputRange());
+    }
+
+    private static ThroughputStorageFactory throughputStorageFactory() {
+        return THROUGHPUT_STORAGE_FACTORY;
+    }
+
+    private static DatasetAdapterFactory datasetAdapterFactory() {
+        return DATASET_ADAPTER_FACTORY;
     }
 
     private static ImageFactory imageFactory() {
@@ -109,7 +123,8 @@ public final class DefaultInvocationReporterFactory {
     private static InvocationStorage defaultInvocationStorage(
             final PerformanceTestSetup setup) {
         return InvocationStorageFactory.newDefaultInvocationStorage(
-                setup.invocations(), setup.invocationRange());
+                setup.invocations(), setup.invocationRange(),
+                datasetAdapterFactory());
     }
 
     private static InvocationStorage invocationStorageWithNoSamples() {
@@ -139,8 +154,8 @@ public final class DefaultInvocationReporterFactory {
             public ImageData imageData() {
                 String legendTitle = "legend title";
                 return ImageData.statistics("no samples", "X-axis title",
-                        legendTitle, 100, statistics(),
-                        DatasetAdapterFactory.adapterForLineChart(legendTitle));
+                        legendTitle, 100, statistics(), datasetAdapterFactory()
+                                .forLineChart(legendTitle));
             }
 
         };
