@@ -1,5 +1,6 @@
 package net.sf.perftence.agents;
 
+import static java.lang.Thread.sleep;
 import static junit.framework.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -26,6 +27,155 @@ public class TaskProviderTest {
         this.tasksRun = new AtomicInteger();
     }
 
+    @Test
+    public void addTasks() throws ScheduleFailedException {
+        final TaskProvider taskProvider = newTaskProvider();
+        final int tasks = 5;
+        for (int i = 0; i < tasks; i++) {
+            schedule(taskProvider, sleepingTask(1000));
+        }
+        assertEquals(tasks, taskProvider.scheduledTasks());
+    }
+
+    @Test
+    public void scheduleOrder() throws ScheduleFailedException,
+            InterruptedException {
+        final int sleepValue = 100;
+        final TestTask first = sleepingTask(sleepValue, null, inMillis(250));
+        final TestTask second = sleepingTask(sleepValue, null, inMillis(200));
+        final TaskProvider newTaskProvider = newTaskProvider();
+        log().debug("schedule first task");
+        schedule(newTaskProvider, first);
+        log().debug("schedule second task");
+        schedule(newTaskProvider, second);
+        final List<Thread> threads = new ArrayList<Thread>();
+        final Thread newThread = newThread(newTaskProvider, "worker-0");
+        threads.add(newThread);
+        log().debug("start worker");
+        newThread.start();
+        sleepingUntilUglyStop(1500);
+        interruptAndJoin(threads);
+        done();
+    }
+
+    @Test
+    public void runOrder() throws ScheduleFailedException, InterruptedException {
+        final long sleep = 100;
+        final TestTask task2 = new TestTask() {
+
+            @Override
+            public Time when() {
+                return TimeSpecificationFactory.now();
+            }
+
+            @Override
+            public void run(TestTaskReporter reporter) throws Exception {
+                log().debug("runnning task2");
+                assertEquals("Task1 wasn't run before task2!", 1,
+                        TaskProviderTest.this.tasksRun.intValue());
+                TaskProviderTest.this.tasksRun.incrementAndGet();
+                log().debug("task2 done");
+            }
+
+            @Override
+            public TestTask nextTaskIfAny() {
+                return null;
+            }
+
+            @Override
+            public TestTaskCategory category() {
+                return Category.One;
+            }
+        };
+        TestTask first = new TestTask() {
+
+            @Override
+            public Time when() {
+                log().debug("when called");
+                return inMillis(1000);
+            }
+
+            @Override
+            public void run(TestTaskReporter reporter) throws Exception {
+                log().debug("runnning task1");
+                assertEquals("This should have been the first task to be run!",
+                        0, TaskProviderTest.this.tasksRun.intValue());
+                log().debug("Sleeping...");
+                sleep(sleep);
+                TaskProviderTest.this.tasksRun.incrementAndGet();
+                log().debug("task 1 done");
+            }
+
+            @Override
+            public TestTask nextTaskIfAny() {
+                log().debug("nextTaskIfAny called");
+                return task2;
+            }
+
+            @Override
+            public TestTaskCategory category() {
+                return Category.One;
+            }
+        };
+        final TaskProvider taskProvider = newTaskProvider();
+        log().debug("first task scheduled.");
+        taskProvider.schedule(first);
+        final List<Thread> threads = new ArrayList<Thread>();
+        final Thread t = new Thread(newWorker(taskProvider),
+                nameForWorkerThread(0));
+        threads.add(t);
+        t.start();
+        sleepingUntilUglyStop(1500);
+        interruptAndJoin(threads);
+        assertForNextTasks(1);
+        done();
+    }
+
+    @Test
+    public void schedule1TaskWithFutureTask() throws ScheduleFailedException,
+            InterruptedException {
+        final int tasks = 1;
+        final TaskProvider taskProvider = newTaskProvider();
+        startingTest(tasks);
+        final List<Thread> threads = new ArrayList<Thread>();
+        for (int i = 0; i < tasks; i++) {
+            schedule(taskProvider,
+                    sleepingTask(100, sleepingTask(100), inMillis(1000)));
+            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            threads.add(t);
+            t.start();
+        }
+        sleepingUntilUglyStop(2000);
+        interruptAndJoin(threads);
+        assertForNextTasks(tasks);
+        done();
+    }
+
+    @Test
+    public void schedule1TaskToBeRun() throws Exception {
+        runTasks(newTaskProvider(), 1, 2000);
+    }
+
+    @Test
+    public void schedule2TasksToBeRun() throws Exception {
+        runTasks(newTaskProvider(), 2, 2000);
+    }
+
+    @Test
+    public void schedule5TasksToBeRun() throws Exception {
+        runTasks(newTaskProvider(), 5, 2000);
+    }
+
+    @Test
+    public void schedule10TasksToBeRun() throws Exception {
+        runTasks(newTaskProvider(), 10, 2000);
+    }
+
+    @Test
+    public void schedule100TasksToBeRun() throws Exception {
+        runTasks(newTaskProvider(), 100, 2000);
+    }
+   
     @Test
     public void schedule1000TasksToBeRun() throws Exception {
         runTasks(newTaskProvider(), 1000);
@@ -171,6 +321,30 @@ public class TaskProviderTest {
         });
     }
 
+    enum Category implements TestTaskCategory {
+        One
+    }
+
+    private void runTasks(final TaskProvider taskProvider, final int tasks,
+            int sleep) throws InterruptedException, ScheduleFailedException {
+        log().debug(
+                "Going to create and start {} worker threads for running the tasks.",
+                tasks);
+        final List<Thread> threads = new ArrayList<Thread>();
+        for (int i = 0; i < tasks; i++) {
+            schedule(taskProvider, sleepingTask(1000));
+            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            threads.add(t);
+            t.start();
+        }
+        log().debug("sleep until ugly stop");
+        Thread.sleep(sleep);
+        log().debug("Temporary ugly stop");
+        interruptAndJoin(threads);
+        assertEquals("All tasks were not run!", tasks, this.tasksRun.intValue());
+        done();
+    }
+
     private TestTask sleepingTask(final int sleep) {
         return sleepingTask(sleep, null, TimeSpecificationFactory.now());
     }
@@ -208,20 +382,16 @@ public class TaskProviderTest {
         };
     }
 
-    enum Category implements TestTaskCategory {
-        One
-    }
-
     private static Logger log() {
         return LOG;
     }
 
-    private static Thread newThread(final TaskProvider taskProvider, String name) {
+    private static Thread newThread(final TaskProvider taskProvider,
+            final String name) {
         return new Thread(newWorker(taskProvider), name);
     }
 
     private static String nameForWorkerThread(final int i) {
         return "thread-worker-" + i;
     }
-
 }
