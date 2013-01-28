@@ -4,8 +4,7 @@ public final class DefaultDatasetAdapterFactory implements
         DatasetAdapterFactory {
 
     @Override
-    public DatasetAdapter<LineChartGraphData> forLineChart(
-            final String title) {
+    public DatasetAdapter<LineChartGraphData> forLineChart(final String title) {
         return new XYSeriesAdapter(title);
     }
 

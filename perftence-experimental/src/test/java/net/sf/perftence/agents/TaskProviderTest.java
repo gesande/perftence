@@ -175,7 +175,7 @@ public class TaskProviderTest {
     public void schedule100TasksToBeRun() throws Exception {
         runTasks(newTaskProvider(), 100, 2000);
     }
-   
+
     @Test
     public void schedule1000TasksToBeRun() throws Exception {
         runTasks(newTaskProvider(), 1000);
