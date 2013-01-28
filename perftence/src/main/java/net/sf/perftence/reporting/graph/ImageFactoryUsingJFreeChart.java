@@ -198,7 +198,8 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
                     width(), height());
             log().info("Image successfully written to {}", outputFilePath);
         } catch (Exception e) {
-            throw writingFileFailed(outputFilePath, e);
+            throw new WritingFileFailed("Writing file " + outputFilePath
+                    + " failed!", e);
         }
     }
 
@@ -292,7 +293,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     private static void writeImageRefToTheIndexFile(final String indexFile,
             String link) {
         try {
-            OutputStream out = new FileOutputStream(indexFile, true);
+            final OutputStream out = new FileOutputStream(indexFile, true);
             out.write(link.getBytes());
             out.flush();
             out.close();
@@ -304,25 +305,14 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         log().info("Index file {} updated", indexFile);
     }
 
-    private static RuntimeException writingFileFailed(
-            final String outputFilePath, Exception e) {
-        return newRuntimeException("Writing file " + outputFilePath
-                + " failed!", e);
-    }
-
     private static RuntimeException writingImageRefFailed(final String link,
             Throwable t) {
-        return newRuntimeException("Couldn't write image ref '" + link
-                + "' to the index file!", t);
+        return new WriteImageRefToTheIndexFileFailed(
+                "Couldn't write image ref '" + link + "' to the index file!", t);
     }
 
     private static String reportDeploymentDirectory() {
         return HtmlReportDeployment.deploymentDirectory();
-    }
-
-    private static RuntimeException newRuntimeException(final String message,
-            final Throwable t) {
-        return FileUtil.newRuntimeException(message, t);
     }
 
     private static Logger log() {

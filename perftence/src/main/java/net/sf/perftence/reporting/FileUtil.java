@@ -28,7 +28,7 @@ public class FileUtil {
 
     public static void ensureDirectoryExists(final File dir)
             throws FileNotFoundException {
-        File parent = dir.getParentFile();
+        final File parent = dir.getParentFile();
         if (!dir.exists()) {
             if (parent == null)
                 throw new FileNotFoundException();
