@@ -34,11 +34,9 @@ import net.sf.perftence.reporting.summary.FieldFormatter;
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;
 import org.apache.commons.collections.bag.SynchronizedBag;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@Ignore
 @RunWith(DefaultTestRunner.class)
 public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 

@@ -26,12 +26,10 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Ignore
 public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 
     private final static Logger LOG = LoggerFactory
@@ -48,7 +46,6 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         SleepingAgent, AliveAgent, CounterAgent, DoubleAgent
     }
 
-    @Ignore
     @Test
     public void sleepingAgentStoryWithOneTaskWithDirectThreadModel()
             throws InterruptedException {
@@ -96,7 +93,6 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                         new FieldAdjuster()).newInstance()).newInstance();
     }
 
-    @Ignore
     @Test
     public void sleepingAgentStoryWithTwoTasksWithDirectThreadModel()
             throws InterruptedException {
