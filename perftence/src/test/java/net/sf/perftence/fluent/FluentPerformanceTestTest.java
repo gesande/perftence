@@ -280,7 +280,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         }
     }
 
-    private static class ErrorOccurred extends Error {
+    private static class ErrorOccurred extends Error {//
     }
 
 }
