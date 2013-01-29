@@ -84,9 +84,9 @@ public final class DefaultInvocationStorage implements InvocationStorage {
         final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
                 .forLineChart(legendTitle());
         final ImageData imageData = provideStatistics() ? ImageData.statistics(
-                title(), xAxisTitle(), legendTitle(), range(), statistics(),
-                adapter) : ImageData.noStatistics(title(), xAxisTitle(),
-                legendTitle(), range(), adapter);
+                title(), xAxisTitle(), range(), statistics(), adapter)
+                : ImageData.noStatistics(title(), xAxisTitle(), range(),
+                        adapter);
         int i = 0;
         for (final Integer latency : invocations) {
             final int value = latency == null ? -1 : latency;

@@ -91,7 +91,6 @@ public final class TaskScheduleDifferences {
         final ImageData imageData = ImageData.noStatistics(
                 reportingOptions().title(),
                 reportingOptions().xAxisTitle(),
-                reportingOptions().legendTitle(),
                 datasetAdapterFactory().forLineChart(
                         reportingOptions().legendTitle()));
         final Set<Long> uniqueSet = uniqueSamples();

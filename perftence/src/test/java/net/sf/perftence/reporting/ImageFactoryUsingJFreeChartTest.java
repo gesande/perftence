@@ -108,8 +108,7 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
 
     private static ImageData imageDataForScatterPlot() {
         final ImageData data = ImageData.noStatistics("Scatter Plot Title",
-                "xTitle", "legendTitle",
-                scatterPlotAdapter("legendTitle", "yAxisTitle"));
+                "xTitle", scatterPlotAdapter("legendTitle", "yAxisTitle"));
         Random r = new Random();
         for (int i = 0; i <= 100; i++) {
             double x = r.nextDouble();
@@ -173,8 +172,7 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
             @Override
             public ImageData imageData() {
                 final ImageData data = ImageData.noStatistics("title",
-                        "xAxisTitle", "legendTitle",
-                        new DefaultDatasetAdapterFactory()
+                        "xAxisTitle", new DefaultDatasetAdapterFactory()
                                 .forBarChart("legendTitle"));
                 final Collection<Long> samples = latencyProvider
                         .uniqueSamples();

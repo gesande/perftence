@@ -44,7 +44,7 @@ public final class LastSecondThroughput implements ValueReporter<Double> {
                 final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
                         .forLineChart(title);
                 final ImageData imageData = ImageData.noStatistics(title,
-                        "Seconds", "Throughput", adapter);
+                        "Seconds", adapter);
                 final List<Double> throughputs = throughputs();
                 double max = 0;
                 for (int i = 0; i < throughputs.size(); i++) {

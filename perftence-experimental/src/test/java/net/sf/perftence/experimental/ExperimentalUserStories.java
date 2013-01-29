@@ -294,7 +294,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 
     private static ImageData newImageData(final String legendTitle) {
         final ImageData imageData = ImageData.noStatistics(
-                "Latency frequencies", "Latency (ms)", legendTitle,
+                "Latency frequencies", "Latency (ms)",
                 adapterForLinechart(legendTitle));
         return imageData;
     }

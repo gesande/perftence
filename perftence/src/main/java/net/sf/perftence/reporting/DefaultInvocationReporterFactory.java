@@ -152,10 +152,9 @@ public final class DefaultInvocationReporterFactory {
 
             @Override
             public ImageData imageData() {
-                String legendTitle = "legend title";
-                return ImageData.statistics("no samples", "X-axis title",
-                        legendTitle, 100, statistics(), datasetAdapterFactory()
-                                .forLineChart(legendTitle));
+                return ImageData.statistics("no samples", "X-axis title", 100,
+                        statistics(),
+                        datasetAdapterFactory().forLineChart("legend title"));
             }
 
         };

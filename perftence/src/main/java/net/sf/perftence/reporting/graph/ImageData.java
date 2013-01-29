@@ -5,41 +5,35 @@ import net.sf.perftence.reporting.Statistics;
 public final class ImageData {
     private final String title;
     private final String xAxisTitle;
-    private final String legendTitle;
     private double range;
     private final Statistics statistics;
     private final DatasetAdapter<?> adapter;
 
     private ImageData(final String title, final String xAxisTitle,
-            final String legendTitle, final double range,
-            final Statistics statistics, final DatasetAdapter<?> adapter) {
+            final double range, final Statistics statistics,
+            final DatasetAdapter<?> adapter) {
         this.title = title;
         this.xAxisTitle = xAxisTitle;
-        this.legendTitle = legendTitle;
         this.range = range;
         this.statistics = statistics;
         this.adapter = adapter;
     }
 
     public static ImageData statistics(final String title,
-            final String xAxisTitle, final String legendTitle,
-            final double range, final Statistics statistics,
-            final DatasetAdapter<?> adapter) {
-        return new ImageData(title, xAxisTitle, legendTitle, range, statistics,
-                adapter);
+            final String xAxisTitle, final double range,
+            final Statistics statistics, final DatasetAdapter<?> adapter) {
+        return new ImageData(title, xAxisTitle, range, statistics, adapter);
     }
 
     public static ImageData noStatistics(final String title,
-            final String xAxisTitle, final String legendTitle,
-            final double range, final DatasetAdapter<?> adapter) {
-        return new ImageData(title, xAxisTitle, legendTitle, range, null,
-                adapter);
+            final String xAxisTitle, final double range,
+            final DatasetAdapter<?> adapter) {
+        return new ImageData(title, xAxisTitle, range, null, adapter);
     }
 
     public static ImageData noStatistics(final String title,
-            final String xAxisTitle, final String legendTitle,
-            final DatasetAdapter<?> adapter) {
-        return new ImageData(title, xAxisTitle, legendTitle, 0, null, adapter);
+            final String xAxisTitle, final DatasetAdapter<?> adapter) {
+        return new ImageData(title, xAxisTitle, 0, null, adapter);
     }
 
     public void add(Number x, Number y) {
@@ -56,10 +50,6 @@ public final class ImageData {
 
     public String xAxisLabel() {
         return this.xAxisTitle;
-    }
-
-    public String legendTitle() {
-        return this.legendTitle;
     }
 
     public double range() {
