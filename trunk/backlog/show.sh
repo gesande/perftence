@@ -32,12 +32,12 @@ task-done "agent based tests: optimize graph, no same graphs from overall to  ca
 task-done "agent based tests: Ability to turn off 'threads running current tasks' and task schedule differencies' measurements" $(tag feature)
 task-done "acceptance-tests are also run when making a distribution package" $(tag deployment)
 task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag feature)
+task-done "use emma to figure out where to put some more unit tests" $(tag code-quality)
 
 in-progress-title
 
 waiting-title
 
-waiting "use emma to figure out where to put some more unit tests" $(tag code-quality)
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"
 waiting "provide means to create test report from an intermediate format" $(tag feature)
