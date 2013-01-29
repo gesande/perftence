@@ -37,7 +37,8 @@ task-done "use emma to figure out where to put some more unit tests" $(tag code-
 in-progress-title
 
 waiting-title
-
+waiting "provide unit test for AdjustedFieldBuilder" $(tag code-quality)
+waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"
 waiting "provide means to create test report from an intermediate format" $(tag feature)
