@@ -16,23 +16,14 @@ final class SchedulingServiceBasedOnJavaConcurrentStuff implements
     private final RunnableAdapter runnableProvider;
     private final ScheduledTasks scheduledTasks;
     private final ScheduledThreadPoolExecutor executor;
-    private int corePoolSize = 28000;
 
     public SchedulingServiceBasedOnJavaConcurrentStuff(
-            final RunnableAdapter runnableProvider, final int corePoolSize,
-            final ScheduledTasks scheduledTasks) {
+            final RunnableAdapter runnableProvider,
+            final ScheduledTasks scheduledTasks,
+            final ScheduledThreadPoolExecutor executor) {
         this.runnableProvider = runnableProvider;
-        this.corePoolSize = corePoolSize;
         this.scheduledTasks = scheduledTasks;
-        this.executor = newScheduledThreadPoolExecutor();
-    }
-
-    private ScheduledThreadPoolExecutor newScheduledThreadPoolExecutor() {
-        return new ScheduledThreadPoolExecutor(corePoolSize());
-    }
-
-    private int corePoolSize() {
-        return this.corePoolSize;
+        this.executor = executor;
     }
 
     private ScheduledThreadPoolExecutor executor() {

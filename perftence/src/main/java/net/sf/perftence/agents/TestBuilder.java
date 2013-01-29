@@ -270,13 +270,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     }
 
     private void newSchedulingService() {
-        this.schedulingService = javaConcurrentStuffService();
+        this.schedulingService = schedulingServiceFactory()
+                .newSchedulingService(this, workerThreads(),
+                        scheduledTasks());
         log().debug("Scheduling service created");
-    }
-
-    private TestTaskSchedulingService javaConcurrentStuffService() {
-        return schedulingServiceFactory().newBasedOnJavaConcurrentStuff(this,
-                workerThreads(), scheduledTasks());
     }
 
     private SchedulingServiceFactory schedulingServiceFactory() {
