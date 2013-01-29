@@ -11,11 +11,12 @@ public final class LineChartGraphData implements GraphData<LineChartGraphData> {
     private final String title;
     private Range range;
     private Paint paint;
+    private final static XYSeriesFactory SERIES_FACTORY = new XYSeriesFactory();
 
     LineChartGraphData(final String legendTitle, final Paint paint) {
         this.title = legendTitle;
         this.paint = paint;
-        this.series = new XYSeries(legendTitle);
+        this.series = SERIES_FACTORY.newXYSeries(legendTitle);
         this.range = null;
     }
 

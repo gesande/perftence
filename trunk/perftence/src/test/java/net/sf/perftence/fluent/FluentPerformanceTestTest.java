@@ -30,7 +30,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         MultithreadWorker test = fluentPerformanceTest
                 .test("sanityCheck")
                 .setup(fluentPerformanceTest.setup().threads(100)
-                        .duration(Duration.seconds(5)).build())
+                        .duration(Duration.seconds(3)).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {

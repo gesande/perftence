@@ -10,11 +10,12 @@ class XYSeriesAdapterForScatterPlot implements
 
     private final XYSeries series;
     private final String yAxisTitle;
+    private final static XYSeriesFactory SERIES_FACTORY = new XYSeriesFactory();
 
     XYSeriesAdapterForScatterPlot(final String legendTitle,
             final String yAxisTitle) {
         this.yAxisTitle = yAxisTitle;
-        this.series = new XYSeries(legendTitle);
+        this.series = SERIES_FACTORY.newXYSeries(legendTitle);
     }
 
     private XYSeries series() {

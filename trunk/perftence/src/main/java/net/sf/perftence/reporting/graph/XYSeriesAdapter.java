@@ -9,9 +9,10 @@ final class XYSeriesAdapter implements DatasetAdapter<LineChartGraphData> {
 
     private XYSeries series;
     private String legendTitle;
+    private final static XYSeriesFactory SERIES_FACTORY = new XYSeriesFactory();
 
     XYSeriesAdapter(final String legendTitle) {
-        this.series = new XYSeries(legendTitle);
+        this.series = SERIES_FACTORY.newXYSeries(legendTitle);
         this.legendTitle = legendTitle;
     }
 

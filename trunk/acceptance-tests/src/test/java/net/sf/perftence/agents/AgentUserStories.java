@@ -139,7 +139,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         final AtomicInteger counter = new AtomicInteger();
         for (int i = 0; i < agents; i++) {
             TestTask first = (counter.get() % 2 == 0) ? new FailTask()
-                    : newTask(100, 1000, null);
+                    : newTask(100, 100, null);
             counter.incrementAndGet();
             list.add(new FailingHalfTheTime(first));
         }
