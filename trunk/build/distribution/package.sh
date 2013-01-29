@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-
 tar-file() {
   local REVISION=$(svnversion)
   local VERSION=$(gradle perftence:show-version | grep -A1 :perftence:show-version | tail -1)
@@ -25,11 +24,16 @@ clean-distribution() {
 }
 
 build-packages() {
-  gradle clean perftence:test responsecode-summaryappender:test acceptance-tests:test perftence-junit-utils:test perftence-classhelper:test perftence:dist perftence:sourcesJar responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar perftence-classhelper:dist perftence-classhelper:sourcesJar
+  gradle clean perftence:test responsecode-summaryappender:test acceptance-tests:test perftence-junit-utils:test perftence-classhelper:test
+  gradle clean perftence:dist perftence:sourcesJar responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar perftence-classhelper:dist perftence-classhelper:sourcesJar
 }
 
+start_time=`date +%s`
 build-packages
 prepare-distribution
 copy-to-distribution
 tar-file
 clean-distribution
+end_time=`date +%s`
+echo
+echo TOTAL BUILD TIME: `expr $end_time - $start_time` s.
