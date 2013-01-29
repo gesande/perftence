@@ -54,8 +54,9 @@ final class ScheduledTasks implements TaskSchedulingStatisticsProvider {
             synchronized (tasks()) {
                 final TestTask key = tasks().get(tasks().size() - 1);
                 if (key != null) {
-                    return TimeSpecificationFactory.inMillis(runTimes()
-                            .get(key) - System.currentTimeMillis());
+                    final Long runtimeKey = runTimes().get(key);
+                    return runtimeKey == null ? null : TimeSpecificationFactory
+                            .inMillis(runtimeKey - System.currentTimeMillis());
                 }
             }
         }

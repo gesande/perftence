@@ -21,7 +21,7 @@ public class MultipleStartableTest extends AbstractMultiThreadedTest {
     public void noInvocationGraphConstruction() throws Exception {
         final AtomicBoolean executed = new AtomicBoolean(false);
         final MultithreadWorker durationWorker = test(id() + ".1")
-                .setup(setup().threads(10).duration(Duration.seconds(10))
+                .setup(setup().threads(10).duration(Duration.seconds(4))
                         .build()).noInvocationGraph()
                 .executable(new Executable() {
                     @Override
@@ -41,5 +41,4 @@ public class MultipleStartableTest extends AbstractMultiThreadedTest {
         startable.start();
         assertTrue(executed.get());
     }
-
 }
