@@ -31,6 +31,7 @@ task-done "agent based tests: category specific invocation reporters also respec
 task-done "agent based tests: optimize graph, no same graphs from overall to  category specific reports" $(tag feature)
 task-done "agent based tests: Ability to turn off 'threads running current tasks' and task schedule differencies' measurements" $(tag feature)
 task-done "acceptance-tests are also run when making a distribution package" $(tag deployment)
+task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag feature)
 
 in-progress-title
 
