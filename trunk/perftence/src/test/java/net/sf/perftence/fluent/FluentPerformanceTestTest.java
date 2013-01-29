@@ -152,6 +152,16 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         }).start();
     }
 
+    @Test(expected = RuntimeException.class)
+    public void noSetup() {
+        when().setup(setup().noSetup()).executable(new Executable() {
+            @Override
+            public void execute() throws Exception {
+                Thread.sleep(100);
+            }
+        }).start();
+    }
+
     @Test(expected = PerfTestFailure.class)
     public void invalidTestSetup() {
         when().setup(setup().build()).executable(new Executable() {

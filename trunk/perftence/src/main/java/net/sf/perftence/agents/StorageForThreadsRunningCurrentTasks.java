@@ -59,7 +59,6 @@ public final class StorageForThreadsRunningCurrentTasks {
         final ImageData imageData = ImageData.noStatistics(
                 reportingOptions().title(),
                 reportingOptions().xAxisTitle(),
-                reportingOptions().legendTitle(),
                 datasetAdapterFactory().forLineChart(
                         reportingOptions().legendTitle()));
         int i = 0;

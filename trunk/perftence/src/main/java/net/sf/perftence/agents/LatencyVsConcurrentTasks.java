@@ -69,9 +69,8 @@ public final class LatencyVsConcurrentTasks {
         final String legendTitle = reportingOptions.legendTitle();
         return new LatencyVsConcurrentTasks(name,
                 ImageData.noStatistics(reportingOptions.title(),
-                        reportingOptions.xAxisTitle(), legendTitle,
-                        datasetAdapterFactory.forScatterPlot(legendTitle,
-                                yAxisTitle())));
+                        reportingOptions.xAxisTitle(), datasetAdapterFactory
+                                .forScatterPlot(legendTitle, yAxisTitle())));
     }
 
     private static String yAxisTitle() {
