@@ -472,6 +472,9 @@ project(':perftence-linereader'){
         archives sourcesJar
     }
 
+    dependencies {
+        testCompile project(':junit-4.10')
+    }
 }
 
 project(':perftence-classhelper') {
