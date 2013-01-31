@@ -10,6 +10,7 @@ continous-build perftence
 continous-build responsecode-summaryappender
 continous-build perftence-junit-utils
 continous-build perftence-classhelper
+continous-build perftence-linereader
 end_time=`date +%s`
 echo
 echo TOTAL BUILD TIME: `expr $end_time - $start_time` s.
