@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.nio.charset.Charset;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LineReader;
@@ -79,7 +80,7 @@ public class FilebasedReportReader {
                 final String file, final File root) {
             this.file = file;
             this.root = root;
-            this.reader = new LineReader();
+            this.reader = new LineReader(Charset.defaultCharset());
             this.visitor = lineVisitor;
         }
 
