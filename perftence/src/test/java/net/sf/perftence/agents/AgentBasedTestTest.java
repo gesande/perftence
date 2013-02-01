@@ -232,7 +232,7 @@ public final class AgentBasedTestTest {
                 @Override
                 public void run(final TestTaskReporter reporter)
                         throws Exception {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                     log().info(
                             "Time spent so far = " + reporter.timeSpentSoFar());
                     taskRun().incrementAndGet();
