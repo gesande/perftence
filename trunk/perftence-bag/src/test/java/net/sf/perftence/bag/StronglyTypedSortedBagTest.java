@@ -76,7 +76,7 @@ public class StronglyTypedSortedBagTest {
 
     @SuppressWarnings("static-method")
     @Test
-    public void multiThreadUseOfBag() {
+    public void multiThreadUseOfBag() throws InterruptedException {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
                 .synchronizedTreeBag();
         final Runnable runnable1 = new Runnable() {
@@ -93,7 +93,7 @@ public class StronglyTypedSortedBagTest {
         };
         new Thread(runnable1).start();
         new Thread(runnable2).start();
-
+        Thread.sleep(50);
         assertEquals(2, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
         assertEquals(1, bag.count("value2"));
