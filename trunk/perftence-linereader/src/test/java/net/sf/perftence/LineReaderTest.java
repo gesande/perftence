@@ -16,6 +16,7 @@ import org.junit.Test;
 
 public class LineReaderTest {
 
+    @SuppressWarnings("static-method")
     @Test
     public void noEmptyLines() throws IOException {
         final InputStream stream = inputStreamWith3Lines();
@@ -44,10 +45,7 @@ public class LineReaderTest {
     @SuppressWarnings("static-method")
     @Test
     public void emptyLines() throws IOException {
-        final StringBuilder sb = new StringBuilder().append("line1\n")
-                .append("\n").append("line3");
-        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-                sb.toString().getBytes());
+        final InputStream byteArrayInputStream = contentsWithEmptyLine();
         final AtomicBoolean emptyLineDetected = new AtomicBoolean(false);
         final List<String> lines = new ArrayList<String>(3);
         new LineReader(Charset.defaultCharset()).read(byteArrayInputStream,
@@ -71,31 +69,53 @@ public class LineReaderTest {
         assertEquals("line3", lines.get(2));
     }
 
-    @SuppressWarnings("static-method")
-    @Test(expected = RuntimeException.class)
+    @Test(expected = FailIHave.class)
     public void exceptionDuringVisit() throws IOException {
         new LineReader(Charset.defaultCharset()).read(inputStreamWith3Lines(),
                 new LineVisitor() {
 
                     @Override
                     public void visit(final String line) {
-                        throw new RuntimeException("FailIHave");
+                        throw new FailIHave();
+                    }
+
+                    @Override
+                    public void emptyLine() {//
+                    }
+                });
+    }
+
+    @Test(expected = FailIHave.class)
+    public void exceptionDuringEmptyLine() throws IOException {
+        new LineReader(Charset.defaultCharset()).read(contentsWithEmptyLine(),
+                new LineVisitor() {
+
+                    @Override
+                    public void visit(final String line) {//
                     }
 
                     @Override
                     public void emptyLine() {
-                        throw new RuntimeException("FailIHave");
+                        throw new FailIHave();
                     }
                 });
+    }
 
+    class FailIHave extends RuntimeException {//
+
+    }
+
+    private static InputStream contentsWithEmptyLine() {
+        return newByteArrayInputStream(new StringBuilder().append("line1\n")
+                .append("\n").append("line3"));
     }
 
     private static InputStream inputStreamWith3Lines() {
-        final StringBuilder sb = new StringBuilder().append("line1\n")
-                .append("line2\n").append("line3\n");
-        final InputStream stream = new ByteArrayInputStream(sb.toString()
-                .getBytes());
-        return stream;
+        return newByteArrayInputStream(new StringBuilder().append("line1\n")
+                .append("line2\n").append("line3\n"));
     }
 
+    private static InputStream newByteArrayInputStream(final StringBuilder sb) {
+        return new ByteArrayInputStream(sb.toString().getBytes());
+    }
 }
