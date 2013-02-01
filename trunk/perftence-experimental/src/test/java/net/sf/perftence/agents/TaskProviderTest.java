@@ -32,7 +32,7 @@ public class TaskProviderTest {
         final TaskProvider taskProvider = newTaskProvider();
         final int tasks = 5;
         for (int i = 0; i < tasks; i++) {
-            schedule(taskProvider, sleepingTask(1000));
+            schedule(taskProvider, sleepingTask(100));
         }
         assertEquals(tasks, taskProvider.scheduledTasks());
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
@@ -27,9 +28,11 @@ import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.FieldFormatter;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@RunWith(DefaultTestRunner.class)
 public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 
     private final static Logger LOG = LoggerFactory
