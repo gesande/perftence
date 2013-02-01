@@ -2,20 +2,19 @@ package net.sf.perftence;
 
 import java.util.Collection;
 
-import org.apache.commons.collections.SortedBag;
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-import org.apache.commons.collections.bag.TreeBag;
+import net.sf.perftence.bag.StronglyTypedSortedBag;
 
 public final class LatencyProvider implements StatisticsProvider,
         RuntimeStatisticsProvider {
 
+    private final StronglyTypedSortedBag<Long> latencies;
+
     private long startTime;
     private long endTime;
     private long totalLatency;
-    private final SortedBag latencies;
 
     public LatencyProvider() {
-        this.latencies = SynchronizedSortedBag.decorate(new TreeBag());
+        this.latencies = StronglyTypedSortedBag.synchronizedTreeBag();
         init();
     }
 
@@ -50,7 +49,7 @@ public final class LatencyProvider implements StatisticsProvider,
     }
 
     public long latencyCount(final long latency) {
-        return latencies().getCount(latency);
+        return latencies().count(latency);
     }
 
     @Override
@@ -60,22 +59,22 @@ public final class LatencyProvider implements StatisticsProvider,
 
     @Override
     public long minLatency() {
-        final Object first = findFirst();
-        return first == null ? 0 : (Long) first;
+        final Long first = findFirst();
+        return first == null ? 0 : first;
     }
 
-    private Object findFirst() {
-        return latencies().isEmpty() ? null : latencies().first();
+    private Long findFirst() {
+        return latencies().findFirst();
     }
 
     @Override
     public long maxLatency() {
-        final Object last = findLast();
-        return last == null ? 0 : (Long) last;
+        final Long last = findLast();
+        return last == null ? 0 : last;
     }
 
-    private Object findLast() {
-        return latencies().isEmpty() ? null : latencies().last();
+    private Long findLast() {
+        return latencies().findLast();
     }
 
     @Override
@@ -83,7 +82,7 @@ public final class LatencyProvider implements StatisticsProvider,
         return latencies().size();
     }
 
-    private SortedBag latencies() {
+    private StronglyTypedSortedBag<Long> latencies() {
         return this.latencies;
     }
 
@@ -106,17 +105,17 @@ public final class LatencyProvider implements StatisticsProvider,
             throw new IllegalArgumentException(
                     "Invalid setup: Use start() and stop() to indicate test start and end!");
         }
-        return currentThroughput(sampleCount(), duration());
+        return calculateThroughput(sampleCount(), duration());
     }
 
-    private static double currentThroughput(final long sampleCount,
+    private static double calculateThroughput(final long sampleCount,
             final long duration) {
         return 1000. * sampleCount / duration;
     }
 
     @Override
     public double currentThroughput() {
-        return currentThroughput(sampleCount(), currentDuration());
+        return calculateThroughput(sampleCount(), currentDuration());
     }
 
     @Override
@@ -129,9 +128,8 @@ public final class LatencyProvider implements StatisticsProvider,
         return latencies().toString();
     }
 
-    @SuppressWarnings("unchecked")
     public Collection<Long> uniqueSamples() {
-        return latencies().uniqueSet();
+        return latencies().uniqueSamples();
     }
 
     @Override
