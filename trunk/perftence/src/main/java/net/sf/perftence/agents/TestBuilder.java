@@ -271,8 +271,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
     private void newSchedulingService() {
         this.schedulingService = schedulingServiceFactory()
-                .newSchedulingService(this, workerThreads(),
-                        scheduledTasks());
+                .newSchedulingService(this, workerThreads(), scheduledTasks());
         log().debug("Scheduling service created");
     }
 
