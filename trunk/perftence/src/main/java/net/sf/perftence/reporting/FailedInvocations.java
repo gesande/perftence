@@ -37,7 +37,7 @@ public final class FailedInvocations implements
         exceptions().add(className);
     }
 
-    private long failed() {
+    public long failed() {
         return exceptions().size();
     }
 

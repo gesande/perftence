@@ -31,7 +31,7 @@ public final class LastSecondThroughput implements ValueReporter<Double> {
         return this.datasetAdapterFactory;
     }
 
-    public GraphWriter throughputGraphWriter(final String name) {
+    public GraphWriter graphFor(final String name) {
         return new GraphWriter() {
 
             @Override

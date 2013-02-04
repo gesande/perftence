@@ -121,7 +121,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
         this.lastSecondStats = new LastSecondStatistics();
         this.lastSecondFailures = new LastSecondFailures(
-                this.failedInvocationsFactory);
+                this.failedInvocationsFactory, datasetAdapterFactory);
         this.customLatencyReporters = new ArrayList<CustomInvocationReporter>();
         this.customLatencyReporters.add(lastSecondStatistics());
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
@@ -520,9 +520,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                     .graphWriter());
         }
         testSetupBuilder.graphWriter(runningTasks().graphWriter());
-        testSetupBuilder.graphWriter(lastSecondThroughput()
-                .throughputGraphWriter(id()));
-
+        testSetupBuilder.graphWriter(lastSecondThroughput().graphFor(id()));
         return testSetupBuilder.build();
     }
 
