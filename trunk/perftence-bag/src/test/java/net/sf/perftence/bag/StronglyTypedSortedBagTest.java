@@ -1,8 +1,10 @@
 package net.sf.perftence.bag;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -15,6 +17,7 @@ public class StronglyTypedSortedBagTest {
                 .synchronizedTreeBag();
         assertEquals(0, bag.size());
         assertEquals(0, bag.uniqueSamples().size());
+        assertTrue(bag.isEmpty());
         assertNull(bag.findFirst());
         assertNull(bag.findLast());
     }
@@ -27,6 +30,7 @@ public class StronglyTypedSortedBagTest {
         bag.add("value1");
         assertEquals(1, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
+        assertFalse(bag.isEmpty());
     }
 
     @SuppressWarnings("static-method")
