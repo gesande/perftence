@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
-import net.sf.perftence.DefaultTestRunner;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RunWith(DefaultTestRunner.class)
 public class StatisticsTest {
 
     private static Statistics stat;
