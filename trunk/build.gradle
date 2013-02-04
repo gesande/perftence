@@ -21,11 +21,13 @@ subprojects {
         }
     }
 
-    pmd {
-      ignoreFailures = 'true'
+    task "copy-pmd-settings"(type: Copy) { task ->
+        from file('../build/template/for/pmd/.pmd')
+        into task.project.projectDir
     }
+
     pmd.ruleSetFiles = files(".pmd")
- 
+    pmd.ignoreFailures = 'false'
 
     //findbugs.ignoreFailures = true
     tasks.withType(FindBugs){
@@ -46,8 +48,13 @@ subprojects {
         File file = new File(jdepend.reportsDir, "main.xml");
         assert file.exists() && file.isFile(), "File '$file' must exist"
         def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
-        """We have detected $numberOfCycles cycles. Checkout report file: $file."""
-        //assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
+        if (numberOfCycles > 0) {
+            ant.echo(message: """We have detected $numberOfCycles cycles. Checkout report file: $file.""")
+            //assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
+        }
+        else {
+            ant.echo(message: "No cycles detected. Good work!")
+        }
     }
 
     version = '1.0-BETA'
@@ -83,11 +90,6 @@ subprojects {
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
         from javadoc.destinationDir
-    }
-
-    task "copy-pmd-settings"(type: Copy) { task ->
-        from file('../build/template/for/pmd/.pmd')
-        into task.project.projectDir
     }
 
     /*
@@ -250,7 +252,6 @@ project(':perftence') {
     apply from:'../build/plugins/emma.gradle'
 
     version = '1.0-BETA'
-    pmd.ignoreFailures = 'false'
 
     dependencies {
         compile project(':junit-4.10')
@@ -273,15 +274,12 @@ project(':perftence') {
         archives dist
         archives sourcesJar
     }
-
 }
-
 
 project(':perftence-junit') {
     apply from:'../build/plugins/emma.gradle'
 
     version = '1.0'
-    pmd.ignoreFailures = 'false'
 
     dependencies {
         compile project(':perftence')
@@ -295,6 +293,10 @@ project(':perftence-junit') {
         testRuntime project(':log4j-1.2.16')
     }
 
+    tasks.withType(FindBugs){
+        ignoreFailures = false
+    }
+
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
@@ -305,9 +307,7 @@ project(':perftence-junit') {
         archives dist
         archives sourcesJar
     }
-
 }
-
 
 project(':acceptance-tests') {
     dependencies {
@@ -326,8 +326,8 @@ project(':acceptance-tests') {
 project(':perftence-bag'){
     apply from:'../build/plugins/emma.gradle'
 
-    pmd {
-      ignoreFailures = 'true'
+    tasks.withType(FindBugs){
+        ignoreFailures = false
     }
 
     version ='1.0'
@@ -449,8 +449,8 @@ project(':agent-based-example') {
 project(':responsecode-summaryappender') {
     apply from:'../build/plugins/emma.gradle'
 
-    pmd {
-      ignoreFailures = 'true'
+    tasks.withType(FindBugs){
+        ignoreFailures = false
     }
 
     version ='1.0'
@@ -478,8 +478,8 @@ project(':perftence-junit-utils') {
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    pmd {
-      ignoreFailures = 'true'
+    tasks.withType(FindBugs){
+        ignoreFailures = false
     }
     
     task('dist', type: Zip) {
@@ -530,6 +530,10 @@ project(':perftence-linereader'){
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
+    tasks.withType(FindBugs){
+        ignoreFailures = false
+    }
+
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
@@ -550,8 +554,8 @@ project(':perftence-classhelper') {
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    pmd {
-      ignoreFailures = 'true'
+    tasks.withType(FindBugs){
+        ignoreFailures = false
     }
     
     task('dist', type: Zip) {
