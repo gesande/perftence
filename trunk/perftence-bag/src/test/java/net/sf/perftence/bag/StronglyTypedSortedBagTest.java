@@ -13,6 +13,7 @@ public class StronglyTypedSortedBagTest {
     public void empty() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
                 .synchronizedTreeBag();
+        assertEquals(0, bag.size());
         assertEquals(0, bag.uniqueSamples().size());
         assertNull(bag.findFirst());
         assertNull(bag.findLast());
@@ -35,6 +36,7 @@ public class StronglyTypedSortedBagTest {
                 .synchronizedTreeBag();
         bag.add("value1");
         bag.add("value2");
+        assertEquals(2, bag.size());
         assertEquals(2, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
         assertEquals(1, bag.count("value2"));
@@ -50,6 +52,7 @@ public class StronglyTypedSortedBagTest {
                 .synchronizedTreeBag();
         bag.add("value1");
         bag.add("value2");
+        assertEquals(2, bag.size());
         assertEquals(2, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
         assertEquals(1, bag.count("value2"));
@@ -64,6 +67,7 @@ public class StronglyTypedSortedBagTest {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
                 .synchronizedTreeBag();
         bag.add("value1");
+        assertEquals(1, bag.size());
         assertEquals(1, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
         final String findFirst = bag.findFirst();
@@ -105,7 +109,42 @@ public class StronglyTypedSortedBagTest {
         final String findLast = bag.findLast();
         assertNotNull(findLast);
         assertEquals("value2", findLast);
+    }
 
+    @SuppressWarnings("static-method")
+    @Test
+    public void size() {
+        final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
+                .synchronizedTreeBag();
+        assertEquals(0, bag.size());
+        bag.add("value1");
+        bag.add("value1");
+        bag.add("value1");
+        bag.add("value1");
+        bag.add("value2");
+        bag.add("value1");
+        bag.add("value2");
+        bag.add("value1");
+        bag.add("value3");
+        bag.add("value1");
+        assertEquals(10, bag.size());
+        assertEquals(3, bag.uniqueSamples().size());
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void clear() {
+        final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
+                .synchronizedTreeBag();
+        assertEquals(0, bag.size());
+        bag.add("value1");
+        bag.add("value2");
+        bag.add("value3");
+        assertEquals(3, bag.size());
+        assertEquals(3, bag.uniqueSamples().size());
+        bag.clear();
+        assertEquals(0, bag.size());
+        assertEquals(0, bag.uniqueSamples().size());
     }
 
 }
