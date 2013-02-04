@@ -33,11 +33,14 @@ task-done "agent based tests: Ability to turn off 'threads running current tasks
 task-done "acceptance-tests are also run when making a distribution package" $(tag deployment)
 task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag feature)
 task-done "use emma to figure out where to put some more unit tests" $(tag code-quality)
+task-done "provided unit test for AdjustedFieldBuilder" $(tag code-quality)
+task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
 
 in-progress-title
 
 waiting-title
-waiting "provide unit test for AdjustedFieldBuilder" $(tag code-quality)
+waiting "add median check for PerformanceRequirements" $(tag feature)
+waiting "remove static evil for EstimatedInvocations " $(tag refactoring)
 waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"

@@ -5,9 +5,7 @@ import net.sf.perftence.reporting.summary.AbstractSummaryBuilder;
 import net.sf.perftence.reporting.summary.BuildableSummaryField;
 import net.sf.perftence.reporting.summary.CompositeCustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.FieldDefinition;
 import net.sf.perftence.reporting.summary.SummaryField;
-import net.sf.perftence.reporting.summary.SummaryFieldBuilder;
 import net.sf.perftence.reporting.summary.TestSummary;
 
 final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
@@ -134,11 +132,6 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 
     private SummaryFieldFactoryForAgentBasedTests summaryFieldFactory() {
         return this.summaryFieldFactory;
-    }
-
-    public <VALUE> SummaryFieldBuilder<VALUE> custom(
-            final FieldDefinition field, final Class<VALUE> valueType) {
-        return summaryFieldFactory().custom(field, valueType);
     }
 
 }

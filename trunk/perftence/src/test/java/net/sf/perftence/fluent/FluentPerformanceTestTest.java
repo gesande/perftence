@@ -252,6 +252,12 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         assertNull(this.testFailure);
     }
 
+    @SuppressWarnings({ "unused", "static-method" })
+    @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
+    public void nullNotifier() {
+        new FluentPerformanceTest(null);
+    }
+
     private TestBuilder when() {
         return new FluentPerformanceTest(new PerfTestFailedNotifier())
                 .test(id());

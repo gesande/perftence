@@ -2,10 +2,11 @@ package net.sf.perftence.agents;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import net.sf.perftence.bag.StronglyTypedSortedBag;
 import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
@@ -15,14 +16,10 @@ import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-import org.apache.commons.collections.SortedBag;
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-import org.apache.commons.collections.bag.TreeBag;
-
 public final class TaskScheduleDifferences {
     private static final DecimalFormat DF = new DecimalFormat("####");
 
-    private final SortedBag differencies;
+    private final StronglyTypedSortedBag<Long> differencies;
     private final String name;
     private final ReportingOptions reportingOptions;
     private final DatasetAdapterFactory datasetAdapterFactory;
@@ -32,7 +29,7 @@ public final class TaskScheduleDifferences {
             final DatasetAdapterFactory datasetAdapterFactory) {
         this.name = name;
         this.reportingOptions = reportingOptions;
-        this.differencies = SynchronizedSortedBag.decorate(new TreeBag());
+        this.differencies = StronglyTypedSortedBag.synchronizedTreeBag();
         this.datasetAdapterFactory = datasetAdapterFactory;
     }
 
@@ -40,7 +37,7 @@ public final class TaskScheduleDifferences {
         return this.reportingOptions;
     }
 
-    private SortedBag differencies() {
+    private StronglyTypedSortedBag<Long> differencies() {
         return this.differencies;
     }
 
@@ -93,7 +90,7 @@ public final class TaskScheduleDifferences {
                 reportingOptions().xAxisTitle(),
                 datasetAdapterFactory().forLineChart(
                         reportingOptions().legendTitle()));
-        final Set<Long> uniqueSet = uniqueSamples();
+        final Collection<Long> uniqueSet = uniqueSamples();
         long max = 0;
         for (final Long difference : uniqueSet) {
             final int value = count(difference);
@@ -110,12 +107,11 @@ public final class TaskScheduleDifferences {
     }
 
     private int count(final long value) {
-        return this.differencies.getCount(value);
+        return this.differencies.count(value);
     }
 
-    @SuppressWarnings("unchecked")
-    private Set<Long> uniqueSamples() {
-        return this.differencies.uniqueSet();
+    private Collection<Long> uniqueSamples() {
+        return this.differencies.uniqueSamples();
     }
 
     @Override
@@ -164,7 +160,7 @@ public final class TaskScheduleDifferences {
     }
 
     private Statistics statistics() {
-        final Set<Long> uniqueSamples = uniqueSamples();
+        final Collection<Long> uniqueSamples = uniqueSamples();
         final List<Integer> latencies = new ArrayList<Integer>();
         for (final Long sample : uniqueSamples) {
             latencies.add(Integer.parseInt(Long
