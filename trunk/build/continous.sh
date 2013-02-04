@@ -6,6 +6,7 @@ continous-build() {
   gradle --info $PROJECT:clean $PROJECT:test $PROJECT:copy-pmd-settings $PROJECT:findbugsMain $PROJECT:pmdMain $PROJECT:jdependMain
 }
 start_time=`date +%s`
+gradle clean
 continous-build perftence
 continous-build responsecode-summaryappender
 continous-build perftence-junit-utils
