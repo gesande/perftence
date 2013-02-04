@@ -22,15 +22,15 @@ public class LastSecondStatisticsTest {
         double currentThroughput = statistics.currentThroughput();
         long currentDuration = statistics.currentDuration();
         long sampleCount = statistics.sampleCount();
-        LOG.info("\nstats:\n");
-        LOG.info("averageLatency : " + averageLatency);
-        LOG.info("currentThroughput : " + currentThroughput);
-        LOG.info("currentDuration : " + currentDuration);
-        LOG.info("sampleCount : " + sampleCount);
+        log().info("\nstats:\n");
+        log().info("averageLatency : " + averageLatency);
+        log().info("currentThroughput : " + currentThroughput);
+        log().info("currentDuration : " + currentDuration);
+        log().info("sampleCount : " + sampleCount);
 
         Thread.sleep(1000);
         final long currentSecond = System.currentTimeMillis() / 1000;
-        LOG.info("currentSecond : " + currentSecond);
+        log().info("currentSecond : " + currentSecond);
         statistics.latency(250);
         statistics.latency(250);
         Thread.sleep(400);
@@ -38,26 +38,30 @@ public class LastSecondStatisticsTest {
         currentThroughput = statistics.currentThroughput();
         currentDuration = statistics.currentDuration();
         sampleCount = statistics.sampleCount();
-        LOG.info("\nstats:\n");
-        LOG.info("averageLatency : " + averageLatency);
-        LOG.info("currentThroughput : " + currentThroughput);
-        LOG.info("currentDuration : " + currentDuration);
-        LOG.info("sampleCount : " + sampleCount);
+        log().info("\nstats:\n");
+        log().info("averageLatency : " + averageLatency);
+        log().info("currentThroughput : " + currentThroughput);
+        log().info("currentDuration : " + currentDuration);
+        log().info("sampleCount : " + sampleCount);
         Thread.sleep(1000);
 
         final long lastSecond = (System.currentTimeMillis() / 1000) - 1;
-        LOG.info("lastSecond : " + lastSecond);
+        log().info("lastSecond : " + lastSecond);
         statistics.latency(300);
         statistics.latency(300);
         averageLatency = statistics.averageLatency();
         currentThroughput = statistics.currentThroughput();
         currentDuration = statistics.currentDuration();
         sampleCount = statistics.sampleCount();
-        LOG.info("\nstats:\n");
-        LOG.info("averageLatency : " + averageLatency);
-        LOG.info("currentThroughput : " + currentThroughput);
-        LOG.info("currentDuration : " + currentDuration);
-        LOG.info("sampleCount : " + sampleCount);
+        log().info("\nstats:\n");
+        log().info("averageLatency : " + averageLatency);
+        log().info("currentThroughput : " + currentThroughput);
+        log().info("currentDuration : " + currentDuration);
+        log().info("sampleCount : " + sampleCount);
+        log().info("95 percentile : " + statistics.percentileLatency(95));
+    }
 
+    private static Logger log() {
+        return LOG;
     }
 }
