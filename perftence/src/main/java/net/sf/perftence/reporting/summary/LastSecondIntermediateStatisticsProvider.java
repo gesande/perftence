@@ -6,7 +6,7 @@ public final class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
     private final RuntimeStatisticsProvider statistics;
-    private LastSecondThroughput lastSecondThroughput;
+    private final LastSecondThroughput lastSecondThroughput;
 
     public LastSecondIntermediateStatisticsProvider(
             final AdjustedFieldBuilder fieldBuilder,
@@ -28,7 +28,7 @@ public final class LastSecondIntermediateStatisticsProvider implements
         summary.field(fieldBuilder().field("median:", statistics().median()));
         summary.field(fieldBuilder().field("95 percentile:",
                 statistics().percentileLatency(95)));
-        double currentThroughput = statistics().currentThroughput();
+        final double currentThroughput = statistics().currentThroughput();
         reportThroughput(currentThroughput);
         summary.field(fieldBuilder().field("throughput:", currentThroughput)
                 .asFormatted());
