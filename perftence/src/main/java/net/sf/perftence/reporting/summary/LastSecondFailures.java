@@ -1,5 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,16 +8,25 @@ import java.util.Map;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
+import net.sf.perftence.reporting.graph.DatasetAdapter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.reporting.graph.ImageFactory;
+import net.sf.perftence.reporting.graph.LineChartGraphData;
 
 public final class LastSecondFailures implements CustomFailureReporter,
         CustomIntermediateSummaryProvider {
     private final Map<Long, FailedInvocations> failures = Collections
             .synchronizedMap(new HashMap<Long, FailedInvocations>());
-    private FailedInvocationsFactory failedInvocationsFactory;
+    private final FailedInvocationsFactory failedInvocationsFactory;
+    private final DatasetAdapterFactory datasetAdapterFactory;
 
     public LastSecondFailures(
-            final FailedInvocationsFactory failedInvocationsFactory) {
+            final FailedInvocationsFactory failedInvocationsFactory,
+            final DatasetAdapterFactory datasetAdapterFactory) {
         this.failedInvocationsFactory = failedInvocationsFactory;
+        this.datasetAdapterFactory = datasetAdapterFactory;
     }
 
     @Override
@@ -50,6 +60,59 @@ public final class LastSecondFailures implements CustomFailureReporter,
         if (failures().containsKey(lastSecond)) {
             failures().get(lastSecond).provideIntermediateSummary(summary);
         }
+    }
+
+    public GraphWriter graphFor(final String name) {
+        return new GraphWriter() {
+
+            @Override
+            public void writeImage(final ImageFactory imageFactory) {
+                imageFactory.createXYLineChart(id(), data());
+            }
+
+            private ImageData data() {
+                final String title = "Last second failures";
+                final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
+                        .forLineChart(title);
+                final ImageData imageData = ImageData.noStatistics(title,
+                        "Seconds", adapter);
+                double max = 0;
+                final Long[] keySet = failures().keySet().toArray(
+                        new Long[failures().size()]);
+                Arrays.sort(keySet);
+                final long first = keySet[0];
+                final long last = keySet[failures().size() - 1];
+                for (long i = first; i <= last; i++) {
+                    final FailedInvocations failedInvocations = failures().get(
+                            i);
+                    if (failedInvocations != null) {
+                        final long failed = failedInvocations.failed();
+                        if (failed > max) {
+                            max = failed;
+                        }
+                        imageData.add(i, failed);
+                    } else {
+                        imageData.add(i, 0);
+                    }
+                }
+                imageData.range(max + 10.00);
+                return imageData;
+            }
+
+            @Override
+            public String id() {
+                return name + "-last-second-failures";
+            }
+
+            @Override
+            public boolean hasSomethingToWrite() {
+                return !failures().isEmpty();
+            }
+        };
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
+        return this.datasetAdapterFactory;
     }
 
 }

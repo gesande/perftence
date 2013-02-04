@@ -105,14 +105,13 @@ public final class TestBuilder {
                 .newInstance();
         final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
-                failedInvocationsFactory());
+                failedInvocationsFactory(), datasetAdapterFactory());
         final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput(
                 datasetAdapterFactory());
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
                 lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
-                lastSecondThroughput.throughputGraphWriter(invocationRunner()
-                        .id()));
+                lastSecondThroughput.graphFor(invocationRunner().id()));
         return new MultithreadWorker(invocationReporter(latencyProvider,
                 failedInvocations), invocationRunner(), setup, latencyProvider,
                 allowedExceptions(), newPerformanceRequirementValidator(

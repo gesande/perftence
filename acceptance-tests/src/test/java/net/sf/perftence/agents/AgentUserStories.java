@@ -138,8 +138,8 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         final List<TestAgent> list = new ArrayList<TestAgent>();
         final AtomicInteger counter = new AtomicInteger();
         for (int i = 0; i < agents; i++) {
-            TestTask first = (counter.get() % 2 == 0) ? new FailTask()
-                    : newTask(100, 100, null);
+            final TestTask first = (counter.get() % 10 == 0) ? log(new FailTask(
+                    1000)) : newTask(50, 100, null);
             counter.incrementAndGet();
             list.add(new FailingHalfTheTime(first));
         }
@@ -231,6 +231,11 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
+    private static FailTask log(final FailTask failTask) {
+        log().info("Got FailTask in our hands...");
+        return failTask;
+    }
+
     private static Logger log() {
         return LOG;
     }
@@ -303,9 +308,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
     class FailTask implements TestTask {
 
+        private long failureSleep;
+
+        public FailTask(final long failureSleep) {
+            this.failureSleep = failureSleep;
+        }
+
         @Override
         public Time when() {
-            return TimeSpecificationFactory.now();
+            return TimeSpecificationFactory.someMillisecondsFromNow(1500);
         }
 
         @Override
@@ -315,8 +326,12 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
         @Override
         public void run(final TestTaskReporter reporter) throws Exception {
-            Thread.sleep(100);
+            Thread.sleep(failureSleep());
             throw new Fail("i fail");
+        }
+
+        private long failureSleep() {
+            return this.failureSleep;
         }
 
         @Override

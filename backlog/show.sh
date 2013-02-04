@@ -35,11 +35,12 @@ task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag fea
 task-done "use emma to figure out where to put some more unit tests" $(tag code-quality)
 task-done "provided unit test for AdjustedFieldBuilder" $(tag code-quality)
 task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
-task-done "introduced perftence-junit module"
+task-done "introduced perftence-junit module" $(tag refactoring)
 
 in-progress-title
 
 waiting-title
+waiting "empty unit test for Statistics" $(tag code-quality)
 waiting "failures over test time -graph" $(tag feature)
 waiting "add more unit tests for LatencyProvider" $(tag code-quality)
 waiting "add median check for PerformanceRequirements" $(tag feature)
