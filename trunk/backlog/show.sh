@@ -35,12 +35,16 @@ task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag fea
 task-done "use emma to figure out where to put some more unit tests" $(tag code-quality)
 task-done "provided unit test for AdjustedFieldBuilder" $(tag code-quality)
 task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
+task-done "introduced perftence-junit module"
 
 in-progress-title
 
 waiting-title
+waiting "failures over test time -graph" $(tag feature)
+waiting "add more unit tests for LatencyProvider" $(tag code-quality)
 waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "remove static evil for EstimatedInvocations " $(tag refactoring)
+waiting "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"

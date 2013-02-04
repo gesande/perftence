@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import net.sf.perftence.AbstractMultiThreadedTest;
-import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
 import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
@@ -15,17 +13,20 @@ import net.sf.perftence.reporting.graph.ScatterPlotGraphData;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RunWith(DefaultTestRunner.class)
-public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
+public class ImageFactoryUsingJFreeChartTest {
     private final static Logger LOG = LoggerFactory
             .getLogger(ImageFactoryUsingJFreeChartTest.class);
     private static final Random RANDOM = new Random(System.currentTimeMillis());
     private static ImageFactoryUsingJFreeChart imageFactory;
+
+    @Rule
+    public TestName name = new TestName();
 
     @BeforeClass
     public static void beforeClass() {
@@ -73,6 +74,18 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
 
     private void done() {
         log().info("Done: {}", fullyQualifiedMethodNameWithClassName());
+    }
+
+    private String fullyQualifiedMethodNameWithClassName() {
+        return this.getClass().toString() + "-" + id();
+    }
+
+    private String id() {
+        return testName().getMethodName();
+    }
+
+    private TestName testName() {
+        return this.name;
     }
 
     private void start() {
@@ -223,7 +236,7 @@ public class ImageFactoryUsingJFreeChartTest extends AbstractMultiThreadedTest {
         return imageFactory;
     }
 
-    private static String id(String id) {
+    private static String id(final String id) {
         return ImageFactoryUsingJFreeChartTest.class.getName() + "-" + id;
     }
 }

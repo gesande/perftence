@@ -5,30 +5,33 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.sf.perftence.AbstractMultiThreadedTest;
-import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.reporting.Duration;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.rules.TestName;
 
-@RunWith(DefaultTestRunner.class)
-public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
+public class FluentPerformanceTestTest {
 
     private boolean testFailed;
     private Throwable testFailure;
 
+    @Rule
+    public TestName name = new TestName();
+
     @Test
     public void sanityCheck() {
-        FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
+        final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
                 new FailIHaveNotifier());
-        MultithreadWorker test = fluentPerformanceTest
-                .test("sanityCheck")
+        final MultithreadWorker test = fluentPerformanceTest
+                .test(id())
                 .setup(fluentPerformanceTest.setup().threads(100)
                         .duration(Duration.seconds(3)).build())
                 .executable(new Executable() {
@@ -48,8 +51,10 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test(expected = PerfTestFailure.class)
     public void requirementFailed() {
         final AtomicInteger i = new AtomicInteger();
-        when().setup(setup().threads(1).invocations(2).build())
-                .requirements(requirements().max(200).build())
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id())
+                .setup(fluent.setup().threads(1).invocations(2).build())
+                .requirements(fluent.requirements().max(200).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -63,8 +68,10 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
 
     @Test
     public void percentile95RequirementSucceeds() {
-        when().setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(100).build())
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id())
+                .setup(fluent.setup().threads(1).invocations(5).build())
+                .requirements(fluent.requirements().percentile95(100).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -77,8 +84,10 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
 
     @Test(expected = PerfTestFailure.class)
     public void percentile95RequirementFails() {
-        when().setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(50).build())
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id())
+                .setup(fluent.setup().threads(1).invocations(5).build())
+                .requirements(fluent.requirements().percentile95(50).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -91,9 +100,12 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
 
     @Test
     public void percentile95RequirementAndMaxSucceeds() {
-        when().setup(setup().threads(1).invocations(5).build())
-                .requirements(requirements().percentile95(102).max(102).build())
-                .executable(new Executable() {
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id())
+                .setup(fluent.setup().threads(1).invocations(5).build())
+                .requirements(
+                        fluent.requirements().percentile95(102).max(102)
+                                .build()).executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
                         Thread.sleep(99);
@@ -106,8 +118,9 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test
     public void allowedException() {
         final AtomicInteger i = new AtomicInteger();
-        when().noInvocationGraph()
-                .setup(setup().threads(1).invocations(5).build())
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id()).noInvocationGraph()
+                .setup(fluent.setup().threads(1).invocations(5).build())
                 .allow(FailIHave.class).executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -125,9 +138,12 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test
     public void allowedExceptionDuringDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
-        when().noInvocationGraph()
-                .setup(setup().threads(1).duration(Duration.seconds(5)).build())
-                .allow(FailIHave.class).executable(new Executable() {
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id())
+                .noInvocationGraph()
+                .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
+                        .build()).allow(FailIHave.class)
+                .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
                         i.incrementAndGet();
@@ -143,7 +159,7 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
 
     @Test(expected = RuntimeException.class)
     public void noTestSetup() {
-        when().executable(new Executable() {
+        fluent().test(id()).executable(new Executable() {
 
             @Override
             public void execute() throws Exception {
@@ -154,33 +170,38 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
 
     @Test(expected = RuntimeException.class)
     public void noSetup() {
-        when().setup(setup().noSetup()).executable(new Executable() {
-            @Override
-            public void execute() throws Exception {
-                Thread.sleep(100);
-            }
-        }).start();
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id()).setup(fluent.setup().noSetup())
+                .executable(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        Thread.sleep(100);
+                    }
+                }).start();
     }
 
     @Test(expected = PerfTestFailure.class)
     public void invalidTestSetup() {
-        when().setup(setup().build()).executable(new Executable() {
+        final FluentPerformanceTest fluent = fluent();
+        fluent.test(id()).setup(fluent.setup().build())
+                .executable(new Executable() {
 
-            @Override
-            public void execute() throws Exception {
-                Thread.sleep(100);
-            }
-        }).start();
+                    @Override
+                    public void execute() throws Exception {
+                        Thread.sleep(100);
+                    }
+                }).start();
     }
 
     @Test
     public void failingUnexpectedlyInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
-        new FluentPerformanceTest(new FailIHaveNotifier())
-                .test(id())
+        final FluentPerformanceTest fluent = new FluentPerformanceTest(
+                new FailIHaveNotifier());
+        fluent.test(id())
                 .noInvocationGraph()
-                .setup(setup().threads(1).duration(Duration.seconds(5)).build())
-                .executable(new Executable() {
+                .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
+                        .build()).executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
                         i.incrementAndGet();
@@ -197,11 +218,12 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test
     public void errorOccurredInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
-        new FluentPerformanceTest(new ErrorFailureNotifier())
-                .test(id())
+        FluentPerformanceTest fluent = new FluentPerformanceTest(
+                new ErrorFailureNotifier());
+        fluent.test(id())
                 .noInvocationGraph()
-                .setup(setup().threads(1).duration(Duration.seconds(5)).build())
-                .executable(new Executable() {
+                .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
+                        .build()).executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
                         i.incrementAndGet();
@@ -218,9 +240,10 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test
     public void errorOccurredInInvocationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
-        new FluentPerformanceTest(new ErrorFailureNotifier()).test(id())
-                .noInvocationGraph()
-                .setup(setup().threads(1).invocations(5).build())
+        FluentPerformanceTest fluent = new FluentPerformanceTest(
+                new ErrorFailureNotifier());
+        fluent.test(id()).noInvocationGraph()
+                .setup(fluent.setup().threads(1).invocations(5).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -238,9 +261,10 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     @Test
     public void invocationsNotSpreadEvenlyBetweenThreads() {
         final AtomicInteger i = new AtomicInteger();
-        new FluentPerformanceTest(new ErrorFailureNotifier()).test(id())
-                .noInvocationGraph()
-                .setup(setup().threads(3).invocations(10).build())
+        FluentPerformanceTest fluent = new FluentPerformanceTest(
+                new ErrorFailureNotifier());
+        fluent.test(id()).noInvocationGraph()
+                .setup(fluent.setup().threads(3).invocations(10).build())
                 .executable(new Executable() {
                     @Override
                     public void execute() throws Exception {
@@ -258,9 +282,37 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
         new FluentPerformanceTest(null);
     }
 
-    private TestBuilder when() {
-        return new FluentPerformanceTest(new PerfTestFailedNotifier())
-                .test(id());
+    @Test
+    public void startable() throws Exception {
+        final AtomicBoolean executed = new AtomicBoolean(false);
+        final Random random = new Random();
+        final FluentPerformanceTest fluent = fluent();
+        final MultithreadWorker durationWorker = fluent
+                .test(id() + ".1")
+                .setup(fluent.setup().threads(10).duration(Duration.seconds(4))
+                        .build()).noInvocationGraph()
+                .executable(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        executed.set(true);
+                        Thread.sleep(random.nextInt(10) + 1);
+                    }
+                });
+        final TestBuilder startable = fluent.test("root").noInvocationGraph()
+                .startable(durationWorker);
+        assertFalse(
+                "includeInvocationGraph should have been 'false' for MultithreadTestWorkerBuilder!",
+                startable.includeInvocationGraph());
+        assertFalse(
+                "includeInvocationGraph should have been 'false' for MultithreadWorker!",
+                durationWorker.includeInvocationGraph());
+        startable.start();
+        assertTrue(executed.get());
+
+    }
+
+    private FluentPerformanceTest fluent() {
+        return new FluentPerformanceTest(new PerfTestFailedNotifier());
     }
 
     private class PerfTestFailedNotifier implements TestFailureNotifier {
@@ -299,4 +351,11 @@ public class FluentPerformanceTestTest extends AbstractMultiThreadedTest {
     private static class ErrorOccurred extends Error {//
     }
 
+    private String id() {
+        return testName().getMethodName();
+    }
+
+    private TestName testName() {
+        return this.name;
+    }
 }

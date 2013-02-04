@@ -7,12 +7,13 @@ continous-build() {
 }
 start_time=`date +%s`
 gradle clean
-continous-build perftence
-continous-build responsecode-summaryappender
+continous-build perftence-bag
+continous-build perftence-linereader
 continous-build perftence-junit-utils
 continous-build perftence-classhelper
-continous-build perftence-linereader
-continous-build perftence-bag
+continous-build perftence
+continous-build responsecode-summaryappender
+continous-build perftence-junit
 end_time=`date +%s`
 echo
 echo TOTAL BUILD TIME: `expr $end_time - $start_time` s.
