@@ -1,42 +1,39 @@
 package net.sf.perftence.reporting.summary;
 
 import java.text.DecimalFormat;
-import java.util.Set;
+import java.util.Collection;
 
-import org.apache.commons.collections.SortedBag;
-import org.apache.commons.collections.bag.SynchronizedSortedBag;
-import org.apache.commons.collections.bag.TreeBag;
+import net.sf.perftence.bag.StronglyTypedSortedBag;
 
 public class ResponseCodeSummary implements SummaryAppender {
 
-    private SortedBag bag;
+    private StronglyTypedSortedBag<Integer> bag;
     private static final DecimalFormat DF = new DecimalFormat("###.###");
 
     public ResponseCodeSummary() {
-        this.bag = SynchronizedSortedBag.decorate(new TreeBag());
+        this.bag = StronglyTypedSortedBag.synchronizedTreeBag();
     }
 
     public void report(final int responseCode) {
         bag().add(responseCode);
     }
 
-    private SortedBag bag() {
+    private StronglyTypedSortedBag<Integer> bag() {
         return this.bag;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public void append(final Summary<?> summary) {
         summary.endOfLine().bold("Response code statistics:").endOfLine();
-        final Set unique = bag().uniqueSet();
-        for (Object value : unique) {
+        final Collection<Integer> unique = bag().uniqueSamples();
+        for (final Integer value : unique) {
             summary.text("Response code : ").text(value.toString()).text(" ");
             summary.text("Frequency : ")
-                    .text(Integer.toString(bag().getCount(value))).endOfLine();
+                    .text(Integer.toString(bag().count(value))).endOfLine();
         }
-        int success_200 = bag().getCount(200);
-        int success_204 = bag().getCount(204);
-        int success_201 = bag().getCount(201);
+        int success_200 = bag().count(200);
+        int success_204 = bag().count(204);
+        int success_201 = bag().count(201);
 
         int successTotal = success_200 + success_204 + success_201;
         summary.text("Response success rate: ");

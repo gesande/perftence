@@ -108,6 +108,12 @@ public final class AgentBasedTestTest {
         assertEquals(4, taskRun().get());
     }
 
+    @SuppressWarnings({ "static-method", "unused" })
+    @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
+    public void nullNotifier() {
+        new AgentBasedTest(null);
+    }
+
     private Collection<TestAgent> agentsWithManyTasks(final int agentCount) {
         final List<TestAgent> agents = new ArrayList<TestAgent>();
         for (int i = 0; i < agentCount; i++) {

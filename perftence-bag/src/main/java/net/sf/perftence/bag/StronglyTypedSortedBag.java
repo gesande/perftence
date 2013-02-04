@@ -50,6 +50,10 @@ public final class StronglyTypedSortedBag<TYPE> {
         return bag().size();
     }
 
+    public boolean isEmpty() {
+        return bag().isEmpty();
+    }
+
     public void clear() {
         bag().clear();
     }
