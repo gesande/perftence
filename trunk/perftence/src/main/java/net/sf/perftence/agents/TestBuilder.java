@@ -494,7 +494,6 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final int threads, final int sampleCount) {
         final PerformanceTestSetupBuilder testSetupBuilder = buildSetup(
                 duration, threads, sampleCount);
-
         if (includeThreadsRunningCurrentTasks()) {
             testSetupBuilder.summaryAppender(threadsRunningCurrentTasks()
                     .summaryAppender());
@@ -503,7 +502,6 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         if (includeTaskScheduleDifferencies()) {
             testSetupBuilder.summaryAppender(taskScheduleDifferencies()
                     .summaryAppender());
-
         }
 
         for (final SummaryAppender appender : customSummaryAppenders()) {
