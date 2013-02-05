@@ -49,11 +49,11 @@ subprojects {
         assert file.exists() && file.isFile(), "File '$file' must exist"
         def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
         if (numberOfCycles > 0) {
-            ant.echo(message: """We have detected $numberOfCycles cycles. Checkout report file: $file.""")
+            logger.warn "We have detected $numberOfCycles cycles. Checkout report file: $file."
             //assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
         }
         else {
-            ant.echo(message: "No cycles detected. Good work!")
+            logger.info "No cycles detected for project '$project.name' . Good work!"
         }
     }
 
