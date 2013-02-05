@@ -1,0 +1,7 @@
++task-done "acceptance-tests are also run when making a distribution package" $(tag deployment)
++task-done "XYSeriesFactory in use, gave up using autoSort on XySeries" $(tag feature)
++task-done "use emma to figure out where to put some more unit tests" $(tag code-quality)
++task-done "provided unit test for AdjustedFieldBuilder" $(tag code-quality)
++task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
++task-done "introduced perftence-junit module" $(tag refactoring)
++task-done "empty unit test for Statistics" $(tag code-quality)
