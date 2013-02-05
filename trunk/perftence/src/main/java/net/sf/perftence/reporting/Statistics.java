@@ -84,7 +84,7 @@ public final class Statistics {
             return 0;
         }
         long sum = 0;
-        for (Integer latency : this.latencies) {
+        for (final Integer latency : this.latencies) {
             sum += latency;
         }
         return (double) sum / this.latencies.size();
@@ -101,7 +101,7 @@ public final class Statistics {
 
         for (Integer x : this.latencies) {
             n++;
-            double delta = x - mean;
+            final double delta = x - mean;
             mean += delta / n;
             s += delta * (x - mean);
         }
