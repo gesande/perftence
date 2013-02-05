@@ -46,6 +46,10 @@ public final class StronglyTypedSortedBag<TYPE> {
                 SynchronizedSortedBag.decorate(new TreeBag()));
     }
 
+    public static <T> StronglyTypedSortedBag<T> treeBag() {
+        return new StronglyTypedSortedBag<T>(new TreeBag());
+    }
+
     public long size() {
         return bag().size();
     }
