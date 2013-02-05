@@ -590,7 +590,7 @@ public final class MultithreadWorker implements Startable {
                     public void run() {
                         MultithreadWorker.this.start();
                     }
-                }, "performance-test-startable-" + id()).start();
+                }, "perftence-test-startable-" + id()).start();
             }
         };
     }
