@@ -14,7 +14,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void empty() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         assertEquals(0, bag.size());
         assertEquals(0, bag.uniqueSamples().size());
         assertTrue(bag.isEmpty());
@@ -26,7 +26,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void add() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         bag.add("value1");
         assertEquals(1, bag.uniqueSamples().size());
         assertEquals(1, bag.count("value1"));
@@ -37,7 +37,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void findFirst() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         bag.add("value1");
         bag.add("value2");
         assertEquals(2, bag.size());
@@ -53,7 +53,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void findLast() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         bag.add("value1");
         bag.add("value2");
         assertEquals(2, bag.size());
@@ -69,7 +69,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void firstBeingLast() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         bag.add("value1");
         assertEquals(1, bag.size());
         assertEquals(1, bag.uniqueSamples().size());
@@ -119,7 +119,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void size() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         assertEquals(0, bag.size());
         bag.add("value1");
         bag.add("value1");
@@ -139,7 +139,7 @@ public class StronglyTypedSortedBagTest {
     @Test
     public void clear() {
         final StronglyTypedSortedBag<String> bag = StronglyTypedSortedBag
-                .synchronizedTreeBag();
+                .treeBag();
         assertEquals(0, bag.size());
         bag.add("value1");
         bag.add("value2");
