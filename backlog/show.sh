@@ -38,33 +38,33 @@ task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
 task-done "introduced perftence-junit module" $(tag refactoring)
 task-done "empty unit test for Statistics" $(tag code-quality)
 task-done "first version of failures over test time -graph" $(tag feature)
+task-done "last second throughput graph for agent based tests" $(tag feature)
+task-done "new line-reader project" $(tag development)
+task-done "provide line-reader project in distribution package" $(tag development)
 
 in-progress-title
 
 waiting-title
-waiting "add more unit tests for LatencyProvider" $(tag code-quality)
+waiting "failures over test time, use DateAxis" $(tag feature)
 waiting "add median check for PerformanceRequirements" $(tag feature)
+waiting "provide success rate percentage for intermediate statistics" $(tag feature)
+waiting "add more unit tests for LatencyProvider" $(tag code-quality)
 waiting "remove static evil for EstimatedInvocations " $(tag refactoring)
 waiting "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
+waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
+waiting "split fluent and agent stuff into separate projects" $(tag refactoring)
+intended-comment "may reflect to need of: separate 'perftence' and 'report' stuff" 
 waiting "provide means to create test results in an intermediate format" $(tag feature)
 intended-comment "two-phased construction -> first tests -> produce results to an intermediate format"
 waiting "provide means to create test report from an intermediate format" $(tag feature)
 intended-comment "second phase -> create test reports from intermediate format"
-waiting "provide success rate percentage for intermediate statistics" $(tag feature)
-waiting "last second throughput graph for agent based tests" $(tag feature)
-waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
-waiting "split fluent and agent stuff into separate projects" $(tag refactoring)
-intended-comment "may reflect to need of: separate 'perftence' and 'report' stuff" 
-waiting "new line-reader project" $(tag development)
-waiting "provide line-reader project in distribution package" $(tag development)
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag feature)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag feature)
-waiting "provide template pom.xml for developers" $(tag development-support)
 waiting "upload test example distribution packages to project files (i.e. to source forge)" $(tag development-support)
 waiting "move build.gradle & settings.gradle under build project" $(tag build)
 waiting "make shell script library for build tasks" $(tag build)
-waiting "write unit tests for summary fields" $(tag tests)
+waiting "write unit tests for summary fields" $(tag code-quality)
 waiting "one intermediate summary statistics appender" $(tag refactoring)
 intended-comment "define each summary item as a separate 'plugin' which is registered to one implementation --> one summary builder for agent and executable -based tests, each define their own summary 'plugin'"
 waiting "latency frequencies -> ability to set the range for the graph e.g. using 99% percentile" $(tag feature)
