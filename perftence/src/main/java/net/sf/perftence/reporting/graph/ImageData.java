@@ -36,7 +36,7 @@ public final class ImageData {
         return new ImageData(title, xAxisTitle, 0, null, adapter);
     }
 
-    public void add(Number x, Number y) {
+    public void add(final Number x, final Number y) {
         adapter().add(x, y);
     }
 
