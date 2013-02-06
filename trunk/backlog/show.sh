@@ -41,6 +41,7 @@ task-done "first version of failures over test time -graph" $(tag feature)
 task-done "last second throughput graph for agent based tests" $(tag feature)
 task-done "new line-reader project" $(tag development)
 task-done "provide line-reader project in distribution package" $(tag development)
+task-done "write unit tests for summary fields" $(tag code-quality)
 
 in-progress-title
 
@@ -64,7 +65,6 @@ waiting "provide means to tell the Executable  also Throwable/Error with allow()
 waiting "upload test example distribution packages to project files (i.e. to source forge)" $(tag development-support)
 waiting "move build.gradle & settings.gradle under build project" $(tag build)
 waiting "make shell script library for build tasks" $(tag build)
-waiting "write unit tests for summary fields" $(tag code-quality)
 waiting "one intermediate summary statistics appender" $(tag refactoring)
 intended-comment "define each summary item as a separate 'plugin' which is registered to one implementation --> one summary builder for agent and executable -based tests, each define their own summary 'plugin'"
 waiting "latency frequencies -> ability to set the range for the graph e.g. using 99% percentile" $(tag feature)
