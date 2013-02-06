@@ -2,7 +2,7 @@ package net.sf.perftence;
 
 public final class PerfTestFailure extends RuntimeException {
 
-    PerfTestFailure(String message) {
+    PerfTestFailure(final String message) {
         super(message);
     }
 
