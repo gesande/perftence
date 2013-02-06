@@ -2,16 +2,14 @@ package net.sf.perftence.reporting.graph;
 
 import java.awt.Paint;
 
-import org.jfree.data.Range;
-
-public interface GraphData<T> {
+public interface GraphData<DATA, RANGE> {
 
     Paint paint();
 
     String title();
 
-    Range range();
+    RANGE range();
 
-    T range(final Range range);
+    DATA range(final RANGE range);
 
 }
