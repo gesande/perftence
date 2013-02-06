@@ -37,11 +37,11 @@ task-done "provided unit test for AdjustedFieldBuilder" $(tag code-quality)
 task-done "put perftence-bag into use all over the perftence" $(tag refactoring)
 task-done "introduced perftence-junit module" $(tag refactoring)
 task-done "empty unit test for Statistics" $(tag code-quality)
+task-done "first version of failures over test time -graph" $(tag feature)
 
 in-progress-title
 
 waiting-title
-waiting "failures over test time -graph" $(tag feature)
 waiting "add more unit tests for LatencyProvider" $(tag code-quality)
 waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "remove static evil for EstimatedInvocations " $(tag refactoring)

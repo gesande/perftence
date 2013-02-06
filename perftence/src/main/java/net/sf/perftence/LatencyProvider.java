@@ -5,7 +5,7 @@ import java.util.Collection;
 import net.sf.perftence.bag.StronglyTypedSortedBag;
 
 public final class LatencyProvider implements StatisticsProvider,
-        RuntimeStatisticsProvider {
+        RuntimeStatisticsProvider, TestTimeAware {
 
     private final StronglyTypedSortedBag<Long> latencies;
 
@@ -13,9 +13,14 @@ public final class LatencyProvider implements StatisticsProvider,
     private long endTime;
     private long totalLatency;
 
-    public LatencyProvider() {
-        this.latencies = StronglyTypedSortedBag.synchronizedTreeBag();
+    private LatencyProvider(final StronglyTypedSortedBag<Long> latencies) {
+        this.latencies = latencies;
         init();
+    }
+
+    public static LatencyProvider withSynchronized() {
+        return new LatencyProvider(
+                StronglyTypedSortedBag.<Long> synchronizedTreeBag());
     }
 
     private void init() {
@@ -27,7 +32,7 @@ public final class LatencyProvider implements StatisticsProvider,
     public void start() {
         init();
         latencies().clear();
-        this.startTime = System.nanoTime() / 1000000;
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -41,9 +46,10 @@ public final class LatencyProvider implements StatisticsProvider,
     }
 
     public void stop() {
-        this.endTime = System.nanoTime() / 1000000;
+        this.endTime = System.currentTimeMillis();
     }
 
+    @Override
     public long startTime() {
         return this.startTime;
     }
@@ -103,7 +109,7 @@ public final class LatencyProvider implements StatisticsProvider,
     public double throughput() {
         if (this.startTime == -1 || this.endTime == -1) {
             throw new IllegalArgumentException(
-                    "Invalid setup: Use start() and stop() to indicate test start and end!");
+                    "Invalid state: Use start() and stop() to indicate test start and end!");
         }
         return calculateThroughput(sampleCount(), duration());
     }
@@ -139,6 +145,6 @@ public final class LatencyProvider implements StatisticsProvider,
 
     @Override
     public long currentDuration() {
-        return (System.nanoTime() / 1000000) - startTime();
+        return System.currentTimeMillis() - startTime();
     }
 }

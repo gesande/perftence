@@ -46,6 +46,11 @@ public final class FailedInvocations implements
     }
 
     @Override
+    public String toString() {
+        return "FailedInvocations [exceptions=" + exceptions() + "]";
+    }
+
+    @Override
     public void provideSummary(final Summary<HtmlSummary> summary) {
         summary.endOfLine();
         summary.text("Invocation success rate : ").text(format(successRate()))

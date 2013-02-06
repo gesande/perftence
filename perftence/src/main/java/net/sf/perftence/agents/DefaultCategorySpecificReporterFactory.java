@@ -15,7 +15,8 @@ public final class DefaultCategorySpecificReporterFactory implements
     public InvocationReporterAdapter adapterFor(
             final ReporterFactoryForCategorySpecificLatencies reporterFactory,
             final TestTaskCategory category) {
-        final LatencyProvider latencyProvider = new LatencyProvider();
+        final LatencyProvider latencyProvider = LatencyProvider
+                .withSynchronized();
         return new InvocationReporterAdapter(name(), latencyProvider, category,
                 reporterFactory.newReporter(latencyProvider, 0));
     }

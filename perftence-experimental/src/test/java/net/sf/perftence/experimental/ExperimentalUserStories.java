@@ -85,7 +85,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
     public void printAllTheGraphsAndHtmlSummary() throws InterruptedException {
         final int userCount = 16000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = new LatencyProvider();
+        this.latencyProvider = LatencyProvider.withSynchronized();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newDefaultInvocationReporter = DefaultInvocationReporterFactory

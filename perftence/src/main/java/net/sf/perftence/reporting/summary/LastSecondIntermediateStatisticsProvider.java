@@ -1,6 +1,7 @@
 package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
+import net.sf.perftence.reporting.graph.LastSecondThroughput;
 
 public final class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {

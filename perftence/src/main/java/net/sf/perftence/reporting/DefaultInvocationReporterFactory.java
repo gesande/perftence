@@ -11,9 +11,9 @@ import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
-import net.sf.perftence.reporting.summary.StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics;
-import net.sf.perftence.reporting.summary.StatisticsSummaryProviderUsingStatisticsProviderStatistics;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
+import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics;
+import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingStatisticsProviderStatistics;
 
 public final class DefaultInvocationReporterFactory {
 

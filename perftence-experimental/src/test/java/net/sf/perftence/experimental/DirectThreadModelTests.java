@@ -54,7 +54,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
             throws InterruptedException {
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = new LatencyProvider();
+        this.latencyProvider = LatencyProvider.withSynchronized();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();
@@ -101,7 +101,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
             throws InterruptedException {
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = new LatencyProvider();
+        this.latencyProvider = LatencyProvider.withSynchronized();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();

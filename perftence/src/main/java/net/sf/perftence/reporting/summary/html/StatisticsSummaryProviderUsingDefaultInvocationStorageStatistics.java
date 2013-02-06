@@ -1,8 +1,8 @@
-package net.sf.perftence.reporting.summary;
+package net.sf.perftence.reporting.summary.html;
 
 import net.sf.perftence.reporting.InvocationStorage;
 import net.sf.perftence.reporting.Statistics;
-import net.sf.perftence.reporting.summary.html.HtmlSummary;
+import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 
 public final class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
         implements StatisticsSummaryProvider<HtmlSummary> {

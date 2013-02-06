@@ -19,7 +19,6 @@ import net.sf.perftence.reporting.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.Axis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
@@ -86,15 +85,15 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         log().info("Processing main data...");
         final Paint paint = data.paint();
         final CategoryDataset dataset = data.categoryDataset();
-        final Axis axis = new NumberAxis(data.title());
+        final ValueAxis axis = new NumberAxis(data.title());
         axis.setLabelPaint(paint);
         axis.setTickLabelPaint(paint);
         log().debug("Setting axis '{}' range to '{}'", data.title(),
                 data.range());
-        ((ValueAxis) axis).setRange(data.range());
+        axis.setRange(data.range());
 
         plot.setDataset(index, dataset);
-        plot.setRangeAxis(index, (ValueAxis) axis);
+        plot.setRangeAxis(index, axis);
         plot.mapDatasetToRangeAxis(index, index);
 
         log().info("Main data processed.");
@@ -106,12 +105,12 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         log().info("Processing statistics ...");
         XYSeriesCollection dataset = newXYSeriesCollection();
         StandardXYItemRenderer renderer = newXYItemRenderer();
-        final Axis axis = newNumberAxis(statistics.title());
+        final ValueAxis axis = newNumberAxis(statistics.title());
         axis.setLabelPaint(statistics.paint());
         axis.setTickLabelPaint(statistics.paint());
         log().debug("Setting statistics axis '{}' range to '{}'",
                 statistics.title(), range);
-        ((ValueAxis) axis).setRange(range);
+        axis.setRange(range);
         int i = 0;
         log().info("Processing statistics data series...");
         for (final LineChartGraphData data : statistics.values()) {
@@ -120,13 +119,13 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             i++;
         }
         plot.setDataset(index, dataset);
-        plot.setRangeAxis(index, (ValueAxis) axis);
+        plot.setRangeAxis(index, axis);
         plot.setRenderer(index, renderer);
         plot.mapDatasetToRangeAxis(index, 0);
         log().info("Statistics processed...");
     }
 
-    private static Axis newNumberAxis(final String title) {
+    private static ValueAxis newNumberAxis(final String title) {
         return new NumberAxis(title);
     }
 
@@ -138,13 +137,11 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             final ImageData imageData,
             final LineChartGraphData lineChartGraphData) {
         log().debug("Gathering statistics");
-        Statistics statistics = imageData.statistics();
+        final Statistics statistics = imageData.statistics();
         final double median = statistics.median();
         final double meanValue = statistics.mean();
         final double percentile95Value = statistics.percentile95();
-
         final LineGraphStatisticsGraphData data = new LineGraphStatisticsGraphData();
-
         final LineChartGraphData average = data.newSeries("Median",
                 Color.GREEN, lineChartGraphData.range());
         final LineChartGraphData percentile95 = data.newSeries("95 percentile",
@@ -165,20 +162,20 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             final LineChartGraphData data, final int index) {
         log().info("Processing main data...");
         Paint paint = data.paint();
-        XYSeriesCollection dataset = newXYSeriesCollection();
+        final XYSeriesCollection dataset = newXYSeriesCollection();
         dataset.addSeries(data.series());
-        Axis axis = new NumberAxis(data.title());
+        final ValueAxis axis = new NumberAxis(data.title());
         axis.setLabelPaint(paint);
         axis.setTickLabelPaint(paint);
         log().debug("Setting axis '{}' range to '{}'", data.title(),
                 data.range());
-        ((ValueAxis) axis).setRange(data.range());
+        axis.setRange(data.range());
 
         StandardXYItemRenderer renderer = newXYItemRenderer();
         renderer.setSeriesPaint(0, paint);
 
         plot.setDataset(index, dataset);
-        plot.setRangeAxis(index, (ValueAxis) axis);
+        plot.setRangeAxis(index, axis);
         plot.setRenderer(index, renderer);
         plot.mapDatasetToRangeAxis(index, index);
         log().info("Main data processed.");

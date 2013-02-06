@@ -16,7 +16,8 @@ public final class LastSecondStatistics implements RuntimeStatisticsProvider,
         if (latencies().containsKey(currentSecond)) {
             latencies().get(currentSecond).addSample(latency);
         } else {
-            final LatencyProvider latencyProvider = new LatencyProvider();
+            final LatencyProvider latencyProvider = LatencyProvider
+                    .withSynchronized();
             latencyProvider.start();
             latencyProvider.addSample(latency);
             latencies().put(currentSecond, latencyProvider);
