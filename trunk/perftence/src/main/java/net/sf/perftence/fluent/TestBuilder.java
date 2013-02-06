@@ -21,13 +21,13 @@ import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequiremen
 import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
+import net.sf.perftence.reporting.LastSecondFailures;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.LastSecondThroughput;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
-import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
-import net.sf.perftence.reporting.summary.LastSecondThroughput;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,8 +91,8 @@ public final class TestBuilder {
     }
 
     public MultithreadWorker executable(final Executable executable) {
-        return newWorker(executable, new LatencyProvider(), setup(),
-                requirements());
+        return newWorker(executable, LatencyProvider.withSynchronized(),
+                setup(), requirements());
     }
 
     private MultithreadWorker newWorker(final Executable executable,
@@ -105,7 +105,7 @@ public final class TestBuilder {
                 .newInstance();
         final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
-                failedInvocationsFactory(), datasetAdapterFactory());
+                failedInvocationsFactory());
         final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput(
                 datasetAdapterFactory());
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(

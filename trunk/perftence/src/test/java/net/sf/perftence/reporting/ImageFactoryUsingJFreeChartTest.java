@@ -139,7 +139,8 @@ public class ImageFactoryUsingJFreeChartTest {
 
     private static ImageData imageDataWithSmallAmountOfData() {
         log().info("Warming up latency counter...");
-        final LatencyProvider latencyProvider = new LatencyProvider();
+        final LatencyProvider latencyProvider = LatencyProvider
+                .withSynchronized();
         latencyProvider.start();
         for (int i = 0; i < 100; i++) {
             latencyProvider.addSample(200);
@@ -221,7 +222,8 @@ public class ImageFactoryUsingJFreeChartTest {
     }
 
     private static LatencyProvider newCounterWithRandomContent(final int size) {
-        final LatencyProvider latencyProvider = new LatencyProvider();
+        final LatencyProvider latencyProvider = LatencyProvider
+                .withSynchronized();
         latencyProvider.start();
         for (int i = 0; i < size; i++) {
             final int n = RANDOM.nextInt(1000) + 1;

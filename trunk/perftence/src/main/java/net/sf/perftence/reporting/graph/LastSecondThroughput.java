@@ -1,14 +1,9 @@
-package net.sf.perftence.reporting.summary;
+package net.sf.perftence.reporting.graph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.GraphWriter;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactory;
-import net.sf.perftence.reporting.graph.LineChartGraphData;
+import net.sf.perftence.reporting.summary.ValueReporter;
 
 import org.apache.commons.collections.list.SynchronizedList;
 

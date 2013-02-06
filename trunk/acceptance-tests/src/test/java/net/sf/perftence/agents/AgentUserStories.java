@@ -53,7 +53,8 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
     @Test
     public void agentBasedTestWithAllowedExceptions() {
-        agentBasedTest().agents(failingAgents(5000)).allow(Fail.class).start();
+        agentBasedTest().agents(failingAgents(5000)).allow(FailIHave.class)
+                .start();
     }
 
     @Test
@@ -100,9 +101,9 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
-    class Fail extends Exception {
+    class FailIHave extends Exception {
 
-        public Fail(final String message) {
+        public FailIHave(final String message) {
             super(message);
         }
     }
@@ -137,9 +138,10 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
     private Collection<TestAgent> failingAgents(int agents) {
         final List<TestAgent> list = new ArrayList<TestAgent>();
         final AtomicInteger counter = new AtomicInteger();
+        failures().set(0);
         for (int i = 0; i < agents; i++) {
             final TestTask first = (counter.get() % 10 == 0) ? log(new FailTask(
-                    1000)) : newTask(50, 100, null);
+                    100)) : newTask(50, 300, null);
             counter.incrementAndGet();
             list.add(new FailingHalfTheTime(first));
         }
@@ -306,6 +308,12 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
+    private AtomicInteger failures() {
+        return this.failures;
+    }
+
+    final AtomicInteger failures = new AtomicInteger(0);
+
     class FailTask implements TestTask {
 
         private long failureSleep;
@@ -316,18 +324,21 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
         @Override
         public Time when() {
-            return TimeSpecificationFactory.someMillisecondsFromNow(1500);
+            return TimeSpecificationFactory.someMillisecondsFromNow(2000);
         }
 
         @Override
         public TestTask nextTaskIfAny() {
-            return null;
+            return newTask(50, 100, null);
         }
 
         @Override
         public void run(final TestTaskReporter reporter) throws Exception {
+            failures().incrementAndGet();
             Thread.sleep(failureSleep());
-            throw new Fail("i fail");
+            if (failures().get() < 200) {
+                throw new FailIHave("Yoda: Fail I have...");
+            }
         }
 
         private long failureSleep() {

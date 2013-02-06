@@ -36,7 +36,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         }).start();
         reporter.summary(id(), 5000, 10000, now);
 
-        final LatencyProvider latencyProvider = new LatencyProvider();
+        final LatencyProvider latencyProvider = LatencyProvider
+                .withSynchronized();
         final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
                 new FieldFormatter(), new FieldAdjuster());
         final FailedInvocationsFactory failedInvocations = new FailedInvocationsFactory(
