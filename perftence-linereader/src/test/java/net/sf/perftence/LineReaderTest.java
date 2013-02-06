@@ -69,6 +69,7 @@ public class LineReaderTest {
         assertEquals("line3", lines.get(2));
     }
 
+    @SuppressWarnings("static-method")
     @Test(expected = FailIHave.class)
     public void exceptionDuringVisit() throws IOException {
         new LineReader(Charset.defaultCharset()).read(inputStreamWith3Lines(),
@@ -85,6 +86,7 @@ public class LineReaderTest {
                 });
     }
 
+    @SuppressWarnings("static-method")
     @Test(expected = FailIHave.class)
     public void exceptionDuringEmptyLine() throws IOException {
         new LineReader(Charset.defaultCharset()).read(contentsWithEmptyLine(),
@@ -101,7 +103,7 @@ public class LineReaderTest {
                 });
     }
 
-    class FailIHave extends RuntimeException {//
+    private final static class FailIHave extends RuntimeException {//
 
     }
 
@@ -116,6 +118,7 @@ public class LineReaderTest {
     }
 
     private static InputStream newByteArrayInputStream(final StringBuilder sb) {
-        return new ByteArrayInputStream(sb.toString().getBytes());
+        return new ByteArrayInputStream(sb.toString().getBytes(
+                Charset.defaultCharset()));
     }
 }

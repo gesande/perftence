@@ -71,13 +71,6 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
                 .start();
     }
 
-    class Fail extends Exception {
-
-        public Fail(final String message) {
-            super(message);
-        }
-    }
-
     private static Collection<TestAgent> agents(final int initialCapacity,
             final TestAgentFactory factory) {
         return agents(initialCapacity, factory, 10);
@@ -96,7 +89,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         TestAgent newTestAgent(final int id, final int sleepValue);
     }
 
-    class SleepingTestAgentFactory implements TestAgentFactory {
+    private class SleepingTestAgentFactory implements TestAgentFactory {
 
         @Override
         public TestAgent newTestAgent(final int id, final int sleepValue) {
@@ -104,7 +97,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
-    class SleepingTestAgent implements TestAgent {
+    private class SleepingTestAgent implements TestAgent {
         private final int id;
         private final int sleepValue;
         private TestTask firstTask;
@@ -127,11 +120,11 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
     }
 
-    enum SleepingTestCategory implements TestTaskCategory {
+    private enum SleepingTestCategory implements TestTaskCategory {
         SleepingAgent, AliveAgent, CounterAgent, DoubleAgent
     }
 
-    class SleepingTask implements TestTask {
+    private class SleepingTask implements TestTask {
 
         private final int sleep;
         private final boolean nextTask;
