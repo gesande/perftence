@@ -5,7 +5,6 @@ import java.util.Random;
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.Duration;
@@ -13,16 +12,15 @@ import net.sf.perftence.reporting.Duration;
 public final class MainEntryPointWayOfDoingThings implements
         TestFailureNotifier {
 
-    private FluentPerformanceTest performanceTest;
+    private final PerftenceApi runner;
     private final static Random RANDOM = new Random(System.currentTimeMillis());
 
     public MainEntryPointWayOfDoingThings() {
-        this.performanceTest = new FluentPerformanceTest(this);
+        this.runner = new PerftenceApi(this);
     }
 
     public static void main(final String[] args) throws Exception {
-        MainEntryPointWayOfDoingThings instance = new MainEntryPointWayOfDoingThings();
-        instance.doThings();
+        new MainEntryPointWayOfDoingThings().doThings();
     }
 
     private void doThings() throws Exception {
@@ -30,8 +28,8 @@ public final class MainEntryPointWayOfDoingThings implements
         test1(duration).start();
         test2(duration).start();
 
-        performanceTest().test("multiple-tests-concurrently")
-                .startable(test1(duration)).startable(test2(duration)).start();
+        runner().test("multiple-tests-concurrently").startable(test1(duration))
+                .startable(test2(duration)).start();
     }
 
     private MultithreadWorker test2(final int duration) throws Exception {
@@ -57,15 +55,15 @@ public final class MainEntryPointWayOfDoingThings implements
     }
 
     private TestBuilder test(final String id) {
-        return performanceTest().test(id);
+        return runner().test(id);
     }
 
     private PerformanceTestSetupBuilder setup() {
-        return performanceTest().setup();
+        return runner().setup();
     }
 
-    FluentPerformanceTest performanceTest() {
-        return this.performanceTest;
+    private PerftenceApi runner() {
+        return this.runner;
     }
 
     @Override
