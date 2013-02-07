@@ -42,6 +42,8 @@ task-done "last second throughput graph for agent based tests" $(tag feature)
 task-done "new line-reader project" $(tag development)
 task-done "provide line-reader project in distribution package" $(tag development)
 task-done "write unit tests for summary fields" $(tag code-quality)
+task-done "introduced perftence-api module" $(tag development-support)
+task-done "added perftence-api module to the continous and distribution builds" $(tag deployment)
 
 in-progress-title
 
