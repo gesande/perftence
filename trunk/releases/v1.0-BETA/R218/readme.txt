@@ -1,0 +1,5 @@
++task-done "first version of failures over test time -graph" $(tag feature)
++task-done "last second throughput graph for agent based tests" $(tag feature)
++task-done "new line-reader project" $(tag development)
++task-done "provide line-reader project in distribution package" $(tag development)
++task-done "write unit tests for summary fields" $(tag code-quality)
