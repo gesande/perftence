@@ -44,6 +44,7 @@ task-done "provide line-reader project in distribution package" $(tag developmen
 task-done "write unit tests for summary fields" $(tag code-quality)
 task-done "introduced perftence-api module" $(tag development-support)
 task-done "added perftence-api module to the continous and distribution builds" $(tag deployment)
+task-done "removed runtime junit dependency from perftence, use it only as testCompile" $(tag deployment)
 
 in-progress-title
 
