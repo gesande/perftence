@@ -26,6 +26,16 @@ public final class PerftenceApiTest implements TestFailureNotifier {
     }
 
     @Test
+    public void requirements() {
+        assertNotNull(new PerftenceApi(this).requirements());
+    }
+
+    @Test
+    public void setup() {
+        assertNotNull(new PerftenceApi(this).setup());
+    }
+
+    @Test
     public void failure() {
         FailIHave t = new FailIHave();
         new PerftenceApi(this).testFailed(t);
