@@ -12,6 +12,7 @@ continous-build perftence-linereader
 continous-build perftence-junit-utils
 continous-build perftence-classhelper
 continous-build perftence
+continous-build perftence-api
 continous-build responsecode-summaryappender
 continous-build perftence-junit
 end_time=`date +%s`

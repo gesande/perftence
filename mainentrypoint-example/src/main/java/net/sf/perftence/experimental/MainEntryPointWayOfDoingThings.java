@@ -13,11 +13,11 @@ import net.sf.perftence.reporting.Duration;
 public final class MainEntryPointWayOfDoingThings implements
         TestFailureNotifier {
 
-    private final PerftenceApi runner;
+    private final PerftenceApi api;
     private final static Random RANDOM = new Random(System.currentTimeMillis());
 
     public MainEntryPointWayOfDoingThings() {
-        this.runner = new PerftenceApi(this);
+        this.api = new PerftenceApi(this);
     }
 
     public static void main(final String[] args) throws Exception {
@@ -29,7 +29,7 @@ public final class MainEntryPointWayOfDoingThings implements
         test1(duration).start();
         test2(duration).start();
 
-        runner().test("multiple-tests-concurrently").startable(test1(duration))
+        test("multiple-tests-concurrently").startable(test1(duration))
                 .startable(test2(duration)).start();
     }
 
@@ -56,15 +56,15 @@ public final class MainEntryPointWayOfDoingThings implements
     }
 
     private TestBuilder test(final String id) {
-        return runner().test(id);
+        return api().test(id);
     }
 
     private PerformanceTestSetupBuilder setup() {
-        return runner().setup();
+        return api().setup();
     }
 
-    private PerftenceApi runner() {
-        return this.runner;
+    private PerftenceApi api() {
+        return this.api;
     }
 
     @Override
