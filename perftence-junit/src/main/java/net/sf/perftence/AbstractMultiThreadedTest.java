@@ -1,8 +1,6 @@
 package net.sf.perftence;
 
 import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
-import net.sf.perftence.agents.AgentBasedTest;
-import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 
 import org.junit.Rule;
@@ -11,21 +9,11 @@ import org.junit.rules.TestName;
 public abstract class AbstractMultiThreadedTest {
 
     private static TestFailureNotifier failureNotifier;
-    private final FluentPerformanceTest performanceTest;
-    private final AgentBasedTest agentBasedTest;
     private final FullyQualifiedMethodNameWithClassName idFactory = new FullyQualifiedMethodNameWithClassName();
+    private final PerftenceApi perftenceApi;
 
     public AbstractMultiThreadedTest() {
-        this.performanceTest = createPerformanceTest();
-        this.agentBasedTest = createAgentBasedTest();
-    }
-
-    private AgentBasedTest createAgentBasedTest() {
-        return new AgentBasedTest(failureNotifier());
-    }
-
-    private FluentPerformanceTest createPerformanceTest() {
-        return new FluentPerformanceTest(failureNotifier());
+        this.perftenceApi = new PerftenceApi(failureNotifier());
     }
 
     /**
@@ -33,14 +21,6 @@ public abstract class AbstractMultiThreadedTest {
      */
     @Rule
     public TestName name = new TestName();
-
-    private FluentPerformanceTest performanceTest() {
-        return this.performanceTest;
-    }
-
-    private AgentBasedTest newAgentBasedTest() {
-        return this.agentBasedTest;
-    }
 
     /**
      * Uses fully qualified method name (with class name) as the name of the
@@ -52,7 +32,11 @@ public abstract class AbstractMultiThreadedTest {
 
     protected final net.sf.perftence.agents.TestBuilder agentBasedTest(
             final String name) {
-        return newAgentBasedTest().test(name);
+        return perftenceApi().agentBasedTest(name);
+    }
+
+    private PerftenceApi perftenceApi() {
+        return this.perftenceApi;
     }
 
     @SuppressWarnings("static-method")
@@ -72,7 +56,7 @@ public abstract class AbstractMultiThreadedTest {
     }
 
     protected final net.sf.perftence.fluent.TestBuilder test(String id) {
-        return performanceTest().test(id);
+        return perftenceApi().test(id);
     }
 
     protected final String id() {
@@ -96,10 +80,10 @@ public abstract class AbstractMultiThreadedTest {
     }
 
     protected PerformanceRequirementsBuilder requirements() {
-        return performanceTest().requirements();
+        return perftenceApi().requirements();
     }
 
     protected PerformanceTestSetupBuilder setup() {
-        return performanceTest().setup();
+        return perftenceApi().setup();
     }
 }
