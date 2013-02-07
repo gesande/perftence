@@ -5,7 +5,8 @@ import java.awt.Paint;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 
-public final class LineChartGraphData implements GraphData<LineChartGraphData, Range> {
+public final class LineChartGraphData implements
+        GraphData<LineChartGraphData, Range> {
 
     private final XYSeries series;
     private final String title;

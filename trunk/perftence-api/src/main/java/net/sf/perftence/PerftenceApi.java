@@ -1,7 +1,6 @@
-package net.sf.perftence.experimental;
+package net.sf.perftence;
 
 import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
-import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.agents.AgentBasedTest;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
@@ -50,11 +49,11 @@ public final class PerftenceApi implements TestFailureNotifier {
         return performanceTest().test(name);
     }
 
-    protected PerformanceRequirementsBuilder requirements() {
+    public PerformanceRequirementsBuilder requirements() {
         return performanceTest().requirements();
     }
 
-    protected PerformanceTestSetupBuilder setup() {
+    public PerformanceTestSetupBuilder setup() {
         return performanceTest().setup();
     }
 

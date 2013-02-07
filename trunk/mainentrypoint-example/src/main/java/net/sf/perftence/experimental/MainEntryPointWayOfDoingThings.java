@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
+import net.sf.perftence.PerftenceApi;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;

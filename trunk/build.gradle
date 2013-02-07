@@ -283,6 +283,7 @@ project(':perftence-junit') {
 
     dependencies {
         compile project(':perftence')
+        compile project(':perftence-api')
         compile project(':perftence-bag')
         compile project(':junit-4.10')
         compile project(':commons-collections-3.2.1')
@@ -371,6 +372,30 @@ project(':build') {
     eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
 }
 
+project(':perftence-api') {
+    apply from:'../build/plugins/emma.gradle'
+
+    task('dist', type: Zip) {
+        dependsOn 'jar'
+        from jar.archivePath
+        from configurations.runtime
+        exclude 'slf4j-log4j12-1.6.1-1.0-BETA.jar','log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+    }
+    artifacts {
+        archives dist
+        archives sourcesJar
+    }
+
+    dependencies {
+        compile project(':perftence')
+        compile project(':commons-collections-3.2.1')
+        compile project(':slf4j-api-1.6.1')
+        compile project(':jfreechart-1.0.12')
+        compile project(':jcommon-1.0.15')
+        runtime project(':slf4j-log4j12-1.6.1')
+        runtime project(':log4j-1.2.16')
+    }
+}
 
 project(':mainentrypoint-example') {
 
@@ -387,6 +412,7 @@ project(':mainentrypoint-example') {
 
     dependencies {
         compile project(':perftence')
+        compile project(':perftence-api')
         compile project(':commons-collections-3.2.1')
         compile project(':slf4j-api-1.6.1')
         compile project(':jfreechart-1.0.12')
