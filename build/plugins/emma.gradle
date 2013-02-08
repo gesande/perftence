@@ -80,9 +80,9 @@ test {
           }
        }
        println "Test coverage reports available at $buildDir/reports/emma."
-       println "txt: $buildDir/reports/emma/coverage.txt"
-       println "Test $buildDir/reports/emma/coverage.html"
-       println "Test $buildDir/reports/emma/coverage.xml"
+       println "txt: file://$buildDir/reports/emma/coverage.txt"
+       println "Test file://$buildDir/reports/emma/coverage.html"
+       println "Test file://$buildDir/reports/emma/coverage.xml"
     }
 }
 

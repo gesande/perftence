@@ -3,10 +3,10 @@ set -eu
 
 continous-build() {
   local PROJECT=$1
-  gradle --info $PROJECT:clean $PROJECT:test $PROJECT:copy-pmd-settings $PROJECT:findbugsMain $PROJECT:pmdMain $PROJECT:jdependMain
+  gradle --info $PROJECT:test $PROJECT:copy-pmd-settings $PROJECT:findbugsMain $PROJECT:pmdMain $PROJECT:jdependMain
 }
 start_time=`date +%s`
-gradle clean
+gradle --info clean
 continous-build perftence-bag
 continous-build perftence-linereader
 continous-build perftence-fileutil
