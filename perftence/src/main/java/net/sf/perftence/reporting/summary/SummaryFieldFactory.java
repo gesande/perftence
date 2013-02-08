@@ -1,5 +1,7 @@
 package net.sf.perftence.reporting.summary;
 
+import net.sf.perftence.formatting.FieldFormatter;
+
 public class SummaryFieldFactory implements CustomSummaryFieldProvider {
 
     private final FieldFormatter fieldFormatter;

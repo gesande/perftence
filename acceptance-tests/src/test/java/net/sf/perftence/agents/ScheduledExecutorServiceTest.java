@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.AssertionFailedError;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
 
 import org.junit.Test;
 import org.slf4j.Logger;

@@ -8,9 +8,9 @@ import java.text.DecimalFormat;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 

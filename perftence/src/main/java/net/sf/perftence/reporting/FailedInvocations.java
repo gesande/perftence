@@ -2,6 +2,7 @@ package net.sf.perftence.reporting;
 
 import java.util.Set;
 
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.summary.AdjustedField;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;

@@ -17,15 +17,15 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.reporting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.DefaultInvocationReporterFactory;
 import net.sf.perftence.reporting.FailedInvocations;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -8,12 +8,13 @@ import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
-import net.sf.perftence.reporting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
 
@@ -30,12 +31,14 @@ public final class FluentPerformanceTest {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
-    private DefaultDatasetAdapterFactory datasetAdapterFactory;
+    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final EstimatedInvocations estimatedInvocations;
 
     public FluentPerformanceTest(final TestFailureNotifier failureNotifier) {
         validate(failureNotifier);
         this.failureNotifier = failureNotifier;
         this.runNotifier = new DefaultRunNotifier();
+        this.estimatedInvocations = new EstimatedInvocations();
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
         this.summaryBuilderFactory = newSummaryBuilderFactory(fieldFormatter,
@@ -55,11 +58,16 @@ public final class FluentPerformanceTest {
         return new AdjustedFieldBuilderFactory(fieldFormatter, fieldAdjuster);
     }
 
-    private static SummaryBuilderFactory newSummaryBuilderFactory(
+    private SummaryBuilderFactory newSummaryBuilderFactory(
             final FieldFormatter fieldFormatter,
             final FieldAdjuster fieldAdjuster) {
         return new SummaryBuilderFactory(SummaryFieldFactory.create(
-                fieldFormatter, fieldAdjuster), new TestSummaryLoggerFactory());
+                fieldFormatter, fieldAdjuster), new TestSummaryLoggerFactory(),
+                estimatedInvocations());
+    }
+
+    private EstimatedInvocations estimatedInvocations() {
+        return this.estimatedInvocations;
     }
 
     private FailedInvocationsFactory newFailedInvocationsFactory() {
@@ -81,7 +89,7 @@ public final class FluentPerformanceTest {
                 perfTestFailureFactory(), datasetAdapterFactory());
     }
 
-    private DefaultDatasetAdapterFactory datasetAdapterFactory() {
+    private DatasetAdapterFactory datasetAdapterFactory() {
         return this.datasetAdapterFactory;
     }
 

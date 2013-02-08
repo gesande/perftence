@@ -3,13 +3,13 @@ package net.sf.perftence.agents;
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.reporting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
 

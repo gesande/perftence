@@ -7,10 +7,11 @@ import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerformanceTestSetup;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.FieldFormatter;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

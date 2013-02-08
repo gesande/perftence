@@ -1,6 +1,8 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.reporting.graph.jfreechart;
 
 import java.awt.Paint;
+
+import net.sf.perftence.reporting.graph.GraphData;
 
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
@@ -33,7 +35,7 @@ public final class LineChartGraphData implements
         return this.paint;
     }
 
-    public void addSeries(Number x, Number y) {
+    public void addSeries(final Number x, final Number y) {
         series().add(x, y, false);
     }
 

@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 
 import java.text.DecimalFormat;
 
+import net.sf.perftence.formatting.FieldFormatter;
+
 import org.junit.Test;
 
 public class SummaryFieldBuilderForSingleValueTest {

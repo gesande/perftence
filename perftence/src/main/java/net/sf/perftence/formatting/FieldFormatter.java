@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.summary;
+package net.sf.perftence.formatting;
 
 import java.text.DecimalFormat;
 

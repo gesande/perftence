@@ -3,6 +3,7 @@ package net.sf.perftence.reporting.summary;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.RuntimeStatisticsProvider;
+import net.sf.perftence.formatting.FieldFormatter;
 
 import org.junit.Test;
 import org.slf4j.Logger;

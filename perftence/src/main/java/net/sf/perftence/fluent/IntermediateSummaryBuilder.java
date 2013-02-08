@@ -15,14 +15,17 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
     private final PerformanceTestSetup testSetup;
     private final SummaryFieldFactory summaryFieldFactory;
     private final CompositeCustomIntermediateSummaryProvider customIntermediateSummaryProvider;
+    private final EstimatedInvocations estimatedInvocations;
 
     IntermediateSummaryBuilder(final PerformanceTestSetup setUp,
             final RuntimeStatisticsProvider counter,
-            final SummaryFieldFactory summaryFieldFactory) {
+            final SummaryFieldFactory summaryFieldFactory,
+            final EstimatedInvocations estimatedInvocations) {
         super();
         this.testSetup = setUp;
         this.statisticsProvider = counter;
         this.summaryFieldFactory = summaryFieldFactory;
+        this.estimatedInvocations = estimatedInvocations;
         this.customIntermediateSummaryProvider = new CompositeCustomIntermediateSummaryProvider();
     }
 
@@ -41,9 +44,9 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
                     .estimatedSamples()
                     .samplesSoFar(sampleCount)
                     .estimatedSamples(
-                            EstimatedInvocations.calculate(currentThroughput,
-                                    testSetup().duration(), runtimeStatistics()
-                                            .sampleCount())));
+                            estimatedInvocations().calculate(currentThroughput,
+                                    testSetup().duration(),
+                                    runtimeStatistics().sampleCount())));
         }
         summary.field(max(runtimeStatistics().maxLatency()));
         summary.field(average(runtimeStatistics().averageLatency())
@@ -122,6 +125,10 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 
     private PerformanceTestSetup testSetup() {
         return this.testSetup;
+    }
+
+    private EstimatedInvocations estimatedInvocations() {
+        return this.estimatedInvocations;
     }
 
 }

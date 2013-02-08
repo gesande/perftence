@@ -10,13 +10,13 @@ import java.util.Collections;
 
 import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.RuntimeStatisticsProvider;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
@@ -35,7 +35,8 @@ public class IntermediateSummaryBuilderTest {
     @Test
     public void summaryOfADurationBasedTest() {
         final IntermediateSummaryBuilder builder = new IntermediateSummaryBuilder(
-                durationBased(), provider(), newSummaryFieldFactory());
+                durationBased(), provider(), newSummaryFieldFactory(),
+                new EstimatedInvocations());
         final String build = log(builder.build());
         assertNotNull("Summary was null!", build);
         assertTrue(
@@ -79,7 +80,8 @@ public class IntermediateSummaryBuilderTest {
     @Test
     public void summaryOfADurationBasedTestWithCustomSummaryProvider() {
         final IntermediateSummaryBuilder builder = new IntermediateSummaryBuilder(
-                durationBased(), provider(), newSummaryFieldFactory())
+                durationBased(), provider(), newSummaryFieldFactory(),
+                new EstimatedInvocations())
                 .customSummaryProviders(customProvider());
         final String build = log(builder.build());
         assertNotNull("Summary was null!", build);
@@ -127,7 +129,8 @@ public class IntermediateSummaryBuilderTest {
     @Test
     public void summaryOfAThreadBasedTest() {
         final IntermediateSummaryBuilder builder = new IntermediateSummaryBuilder(
-                threadBased(), provider(), newSummaryFieldFactory());
+                threadBased(), provider(), newSummaryFieldFactory(),
+                new EstimatedInvocations());
         final String build = log(builder.build());
         assertNotNull("Summary was null!", build);
         assertTrue("samples field is missing!",
@@ -171,7 +174,8 @@ public class IntermediateSummaryBuilderTest {
     @Test
     public void summaryOfAThreadBasedTestWithCustomSummaryProvider() {
         final IntermediateSummaryBuilder builder = new IntermediateSummaryBuilder(
-                threadBased(), provider(), newSummaryFieldFactory())
+                threadBased(), provider(), newSummaryFieldFactory(),
+                new EstimatedInvocations())
                 .customSummaryProviders(customProvider());
         final String build = log(builder.build());
         assertNotNull("Summary was null!", build);

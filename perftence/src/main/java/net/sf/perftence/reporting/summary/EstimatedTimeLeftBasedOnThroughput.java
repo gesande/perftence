@@ -1,5 +1,7 @@
 package net.sf.perftence.reporting.summary;
 
+import net.sf.perftence.formatting.FieldFormatter;
+
 public final class EstimatedTimeLeftBasedOnThroughput extends
         SummaryFieldImpl<String> {
     private final FieldFormatter fieldFormatter;

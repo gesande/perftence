@@ -9,21 +9,28 @@ import net.sf.perftence.reporting.summary.TestSummaryBuilder;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
 
-public final class SummaryBuilderFactory {
+final class SummaryBuilderFactory {
 
     private final TestSummaryLoggerFactory testSummaryLoggerFactory;
     private final SummaryFieldFactory summaryFieldFactory;
+    private final EstimatedInvocations estimatedInvocations;
 
     public SummaryBuilderFactory(final SummaryFieldFactory summaryFieldFactory,
-            final TestSummaryLoggerFactory testSummaryLoggerFactory) {
+            final TestSummaryLoggerFactory testSummaryLoggerFactory,
+            final EstimatedInvocations estimatedInvocations) {
         this.summaryFieldFactory = summaryFieldFactory;
         this.testSummaryLoggerFactory = testSummaryLoggerFactory;
+        this.estimatedInvocations = estimatedInvocations;
     }
 
     public TestSummaryLogger overAllSummaryBuilder(
             final PerformanceTestSetup setUp, final StatisticsProvider provider) {
         return newTestSummaryLogger(new OverallSummaryBuilder(setUp, provider,
-                summaryFieldFactory()));
+                summaryFieldFactory(), estimatedInvocations()));
+    }
+
+    private EstimatedInvocations estimatedInvocations() {
+        return this.estimatedInvocations;
     }
 
     public TestSummaryLogger intermediateSummaryBuilder(
@@ -31,7 +38,7 @@ public final class SummaryBuilderFactory {
             final RuntimeStatisticsProvider provider,
             final CustomIntermediateSummaryProvider... providers) {
         return newTestSummaryLogger(new IntermediateSummaryBuilder(setUp,
-                provider, summaryFieldFactory())
+                provider, summaryFieldFactory(), estimatedInvocations())
                 .customSummaryProviders(providers));
     }
 
