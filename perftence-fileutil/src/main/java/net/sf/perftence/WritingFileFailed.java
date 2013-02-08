@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence;
 
 public final class WritingFileFailed extends RuntimeException {
 

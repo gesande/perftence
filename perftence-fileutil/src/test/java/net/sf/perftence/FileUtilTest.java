@@ -1,8 +1,10 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
+
+import net.sf.perftence.FileUtil;
 
 import org.junit.Test;
 

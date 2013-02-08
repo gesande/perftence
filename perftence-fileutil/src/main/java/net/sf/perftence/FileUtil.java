@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ public class FileUtil {
         try {
             writeToFile(outFile, data);
         } catch (Exception e) {
-            throw new WritingFileFailed("Couldn't write to file: " + path, e);
+            throw newWritingFileFailed(path, e);
         }
     }
 
@@ -32,8 +32,9 @@ public class FileUtil {
     }
 
     private static WritingFileFailed newWritingFileFailed(final String path,
-            FileNotFoundException e) {
-        return new WritingFileFailed("Couldn't write to file: " + path, e);
+            final Throwable cause) {
+        return new WritingFileFailed("Couldn't write to file: '" + path + "' ",
+                cause);
     }
 
     public static void ensureDirectoryExists(final File dir)
@@ -45,8 +46,8 @@ public class FileUtil {
             }
             ensureDirectoryExists(parent);
             if (!dir.mkdir()) {
-                throw new WritingFileFailed("Not able to create directory '"
-                        + dir.getName() + "'");
+                throw new WritingFileFailed("Directory '" + dir.getName()
+                        + "' wasn't created!");
             }
         }
     }

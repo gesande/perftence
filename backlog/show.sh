@@ -46,6 +46,8 @@ task-done "introduced perftence-api module" $(tag development-support)
 task-done "added perftence-api module to the continous and distribution builds" $(tag deployment)
 task-done "removed runtime junit dependency from perftence, use it only as testCompile" $(tag deployment)
 task-done "added dependency analysis with tattletale" $(tag code-quality)
+task-done "introduced perftence-fileutil module" $(tag refactoring)
+task-done "added perftence-fileutil to the continous and distribution builds" $(tag refactoring)
 
 in-progress-title
 
