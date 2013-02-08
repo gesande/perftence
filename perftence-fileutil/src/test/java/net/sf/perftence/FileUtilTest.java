@@ -13,14 +13,14 @@ public class FileUtilTest {
     @SuppressWarnings("static-method")
     @Test
     public void writeToFile() {
-        FileUtil.writeToFile("target/content",
+        FileUtil.writeToFile("./target/content",
                 content().toString().getBytes(Charset.defaultCharset()));
     }
 
     @SuppressWarnings("static-method")
     @Test
     public void ensureDirectoryExists() throws FileNotFoundException {
-        FileUtil.ensureDirectoryExists(new File("target/daapa",
+        FileUtil.ensureDirectoryExists(new File("./target/daapa",
                 "diipa/directory"));
     }
 
