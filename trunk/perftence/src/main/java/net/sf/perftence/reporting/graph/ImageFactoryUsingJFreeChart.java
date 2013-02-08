@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.perftence.reporting.FileUtil;
+import net.sf.perftence.FileUtil;
+import net.sf.perftence.WritingFileFailed;
 import net.sf.perftence.reporting.HtmlReportDeployment;
 import net.sf.perftence.reporting.Statistics;
-import net.sf.perftence.reporting.WritingFileFailed;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;

@@ -9,6 +9,7 @@ start_time=`date +%s`
 gradle clean
 continous-build perftence-bag
 continous-build perftence-linereader
+continous-build perftence-fileutil
 continous-build perftence-junit-utils
 continous-build perftence-classhelper
 continous-build perftence

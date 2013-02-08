@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import net.sf.perftence.FileUtil;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
