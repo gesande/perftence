@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Map;
 import net.sf.perftence.reporting.FileUtil;
 import net.sf.perftence.reporting.HtmlReportDeployment;
 import net.sf.perftence.reporting.Statistics;
+import net.sf.perftence.reporting.WritingFileFailed;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -249,7 +251,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
                 showLegend(), noTooltips(), noUrls());
     }
 
-    static class LineGraphStatisticsGraphData {
+    final static class LineGraphStatisticsGraphData {
         private Map<String, LineChartGraphData> list = new HashMap<String, LineChartGraphData>();
 
         LineGraphStatisticsGraphData() {
@@ -291,7 +293,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             String link) {
         try {
             final OutputStream out = new FileOutputStream(indexFile, true);
-            out.write(link.getBytes());
+            out.write(link.getBytes(Charset.defaultCharset()));
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {

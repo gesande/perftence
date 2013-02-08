@@ -1,5 +1,6 @@
 package net.sf.perftence.reporting;
 
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -167,7 +168,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
         final String path = getPath() + "/"
                 + HtmlReportDeployment.reportAsHtml(id);
         log().debug("Writing summary to: " + path);
-        FileUtil.writeToFile(sb, path);
+        FileUtil.writeToFile(path,
+                sb.toString().getBytes(Charset.defaultCharset()));
     }
 
     private void buildSummary(final String name, final long elapsedTime,

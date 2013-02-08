@@ -2,6 +2,7 @@ package net.sf.perftence.reporting;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.Charset;
 
 import org.junit.Test;
 
@@ -10,7 +11,8 @@ public class FileUtilTest {
     @SuppressWarnings("static-method")
     @Test
     public void writeToFile() {
-        FileUtil.writeToFile(content(), "target/content");
+        FileUtil.writeToFile("target/content",
+                content().toString().getBytes(Charset.defaultCharset()));
     }
 
     @SuppressWarnings("static-method")

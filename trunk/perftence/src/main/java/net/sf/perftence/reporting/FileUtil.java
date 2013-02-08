@@ -3,50 +3,51 @@ package net.sf.perftence.reporting;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileUtil {
-    public static void writeToFile(final StringBuffer sb, final String path) {
+    public static void writeToFile(final String path, final byte[] data) {
         final File outFile = new File(path);
         try {
             ensureDirectoryExists(outFile.getParentFile());
         } catch (FileNotFoundException e) {
-            throw newRuntimeException("Couldn't write to file: " + path, e);
+            throw newWritingFileFailed(path, e);
         }
         try {
-            final FileOutputStream fos = new FileOutputStream(outFile);
-            try {
-                fos.write(sb.toString().getBytes());
-            } finally {
-                fos.flush();
-                fos.close();
-            }
-
+            writeToFile(outFile, data);
         } catch (Exception e) {
-            throw newRuntimeException("Couldn't write to file: " + path, e);
+            throw new WritingFileFailed("Couldn't write to file: " + path, e);
         }
+    }
+
+    private static void writeToFile(final File outFile, final byte[] data)
+            throws FileNotFoundException, IOException {
+        final FileOutputStream fos = new FileOutputStream(outFile);
+        try {
+            fos.write(data);
+        } finally {
+            fos.flush();
+            fos.close();
+        }
+    }
+
+    private static WritingFileFailed newWritingFileFailed(final String path,
+            FileNotFoundException e) {
+        return new WritingFileFailed("Couldn't write to file: " + path, e);
     }
 
     public static void ensureDirectoryExists(final File dir)
             throws FileNotFoundException {
         final File parent = dir.getParentFile();
         if (!dir.exists()) {
-            if (parent == null)
+            if (parent == null) {
                 throw new FileNotFoundException();
+            }
             ensureDirectoryExists(parent);
             if (!dir.mkdir()) {
-                throw newRuntimeException("Not able to create directory '"
+                throw new WritingFileFailed("Not able to create directory '"
                         + dir.getName() + "'");
             }
         }
     }
-
-    private static RuntimeException newRuntimeException(final String message) {
-        return new RuntimeException(message);
-    }
-
-    public static RuntimeException newRuntimeException(final String message,
-            final Throwable t) {
-        return new RuntimeException(message, t);
-    }
-
 }
