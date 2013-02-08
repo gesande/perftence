@@ -2,6 +2,8 @@ package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
 
+import net.sf.perftence.formatting.FieldFormatter;
+
 import org.junit.Test;
 
 public class AdjustedFieldBuilderTest {

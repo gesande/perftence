@@ -3,7 +3,7 @@ package net.sf.perftence.reporting.summary.html;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sf.perftence.reporting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.summary.StatisticsSummary;
 import net.sf.perftence.reporting.summary.Summary;
 

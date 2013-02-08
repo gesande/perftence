@@ -13,14 +13,17 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
     private final StatisticsProvider provider;
     private final PerformanceTestSetup setUp;
     private final SummaryFieldFactory summaryFieldFactory;
+    private final EstimatedInvocations estimatedInvocations;
 
     OverallSummaryBuilder(final PerformanceTestSetup setUp,
             final StatisticsProvider provider,
-            final SummaryFieldFactory summaryFieldFactory) {
+            final SummaryFieldFactory summaryFieldFactory,
+            final EstimatedInvocations estimatedInvocations) {
         super();
         this.setUp = setUp;
         this.provider = provider;
         this.summaryFieldFactory = summaryFieldFactory;
+        this.estimatedInvocations = estimatedInvocations;
     }
 
     @Override
@@ -37,8 +40,9 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
                     .estimatedSamples()
                     .samplesSoFar(sampleCount)
                     .estimatedSamples(
-                            EstimatedInvocations.calculate(throughput, setUp()
-                                    .duration(), provider().sampleCount())));
+                            estimatedInvocations().calculate(throughput,
+                                    setUp().duration(),
+                                    provider().sampleCount())));
         }
         summary.field(max(provider().maxLatency()));
         summary.field(average(provider().averageLatency()).asFormatted());
@@ -92,6 +96,10 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
 
     private StatisticsProvider provider() {
         return this.provider;
+    }
+
+    private EstimatedInvocations estimatedInvocations() {
+        return this.estimatedInvocations;
     }
 
 }

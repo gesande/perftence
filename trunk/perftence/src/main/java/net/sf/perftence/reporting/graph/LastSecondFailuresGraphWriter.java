@@ -5,6 +5,7 @@ import java.util.Date;
 
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.reporting.LastSecondFailures;
+import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,19 +3,18 @@ package net.sf.perftence.reporting.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.perftence.AsSynchronized;
+import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
-import org.apache.commons.collections.list.SynchronizedList;
-
 public final class LastSecondThroughput implements ValueReporter<Double> {
-    private List<Double> throughputs;
+    private final List<Double> throughputs;
     private final DatasetAdapterFactory datasetAdapterFactory;
 
-    @SuppressWarnings("unchecked")
     public LastSecondThroughput(
             final DatasetAdapterFactory datasetAdapterFactory) {
         this.datasetAdapterFactory = datasetAdapterFactory;
-        this.throughputs = SynchronizedList.decorate(new ArrayList<Double>());
+        this.throughputs = AsSynchronized.list(new ArrayList<Double>());
     }
 
     private List<Double> throughputs() {

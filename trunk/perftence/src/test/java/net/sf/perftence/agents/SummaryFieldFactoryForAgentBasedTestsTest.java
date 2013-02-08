@@ -2,8 +2,8 @@ package net.sf.perftence.agents;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.SummaryField;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 

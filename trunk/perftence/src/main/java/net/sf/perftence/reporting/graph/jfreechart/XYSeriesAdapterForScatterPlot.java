@@ -1,6 +1,8 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.reporting.graph.jfreechart;
 
 import java.awt.Paint;
+
+import net.sf.perftence.reporting.graph.DatasetAdapter;
 
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;

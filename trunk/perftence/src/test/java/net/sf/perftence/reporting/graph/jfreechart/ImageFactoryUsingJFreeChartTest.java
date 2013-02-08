@@ -1,15 +1,20 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.reporting.graph.jfreechart;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.reporting.DefaultInvocationStorage;
+import net.sf.perftence.reporting.FrequencyStorageFactory;
+import net.sf.perftence.reporting.InvocationStorage;
+import net.sf.perftence.reporting.ReportingOptionsFactory;
+import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactoryUsingJFreeChart;
-import net.sf.perftence.reporting.graph.ScatterPlotGraphData;
+import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.reporting.graph.jfreechart.ScatterPlotGraphData;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;

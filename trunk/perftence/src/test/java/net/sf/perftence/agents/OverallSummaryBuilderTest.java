@@ -8,8 +8,8 @@ import java.text.DecimalFormat;
 
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
-import net.sf.perftence.reporting.summary.FieldFormatter;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 
 import org.junit.Test;

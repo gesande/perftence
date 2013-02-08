@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.reporting.graph.jfreechart;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -17,6 +17,9 @@ import net.sf.perftence.FileUtil;
 import net.sf.perftence.WritingFileFailed;
 import net.sf.perftence.reporting.HtmlReportDeployment;
 import net.sf.perftence.reporting.Statistics;
+import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.reporting.graph.ImageFactory;
+import net.sf.perftence.reporting.graph.WriteImageRefToTheIndexFileFailed;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;

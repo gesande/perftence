@@ -1,5 +1,6 @@
 package net.sf.perftence.reporting;
 
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 
 public final class FailedInvocationsFactory {
