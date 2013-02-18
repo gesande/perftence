@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.Random;
 
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.reporting.DefaultInvocationStorage;
-import net.sf.perftence.reporting.FrequencyStorageFactory;
-import net.sf.perftence.reporting.InvocationStorage;
+import net.sf.perftence.common.DefaultInvocationStorage;
+import net.sf.perftence.common.FrequencyStorageFactory;
+import net.sf.perftence.common.InvocationStorage;
+import net.sf.perftence.common.Statistics;
 import net.sf.perftence.reporting.ReportingOptionsFactory;
-import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
 import net.sf.perftence.reporting.graph.ImageData;
 

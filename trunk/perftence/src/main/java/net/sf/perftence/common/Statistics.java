@@ -1,10 +1,13 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class Statistics {
+import net.sf.perftence.reporting.graph.StatisticsForGraphs;
+
+
+public final class Statistics implements StatisticsForGraphs {
 
     private List<Integer> latencies;
     private List<Integer> sortedLatencies;
@@ -31,6 +34,7 @@ public final class Statistics {
         return (invocationCount / (elapsedTime / 1000.00));
     }
 
+    @Override
     public int median() {
         return this.sortedLatencies.isEmpty() ? 0 : calculateMedian();
     }
@@ -60,6 +64,7 @@ public final class Statistics {
         return result;
     }
 
+    @Override
     public int percentile95() {
         return percentileValue(95);
     }
@@ -79,6 +84,7 @@ public final class Statistics {
         return (int) (i);
     }
 
+    @Override
     public double mean() {
         if (this.latencies.size() == 0) {
             return 0;

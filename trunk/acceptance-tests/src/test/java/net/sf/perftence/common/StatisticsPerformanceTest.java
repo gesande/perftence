@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
+import net.sf.perftence.common.Statistics;
 
 import org.junit.Ignore;
 import org.junit.Test;

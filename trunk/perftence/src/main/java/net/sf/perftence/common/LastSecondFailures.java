@@ -1,9 +1,10 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 

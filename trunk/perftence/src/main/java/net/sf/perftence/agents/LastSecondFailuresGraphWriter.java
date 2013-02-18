@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.perftence.TestTimeAware;
-import net.sf.perftence.reporting.LastSecondFailures;
+import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;

@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;

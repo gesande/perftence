@@ -1,5 +1,6 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
+import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 
 public final class InvocationStorageFactory {

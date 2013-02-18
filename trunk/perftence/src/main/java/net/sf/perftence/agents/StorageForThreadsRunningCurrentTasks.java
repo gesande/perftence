@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sf.perftence.common.Statistics;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.graph.GraphWriterProvider;
