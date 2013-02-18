@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.TestTimeAware;
-import net.sf.perftence.agents.LastSecondFailuresGraphWriter;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;

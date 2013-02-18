@@ -8,7 +8,6 @@ import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.agents.ActiveThreads;
 import net.sf.perftence.agents.StorageForThreadsRunningCurrentTasks;
 import net.sf.perftence.agents.TestAgent;
@@ -26,6 +25,7 @@ import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
+import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

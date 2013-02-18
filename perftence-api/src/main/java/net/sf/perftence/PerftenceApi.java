@@ -1,9 +1,9 @@
 package net.sf.perftence;
 
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.agents.AgentBasedTest;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
+import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 public final class PerftenceApi implements TestFailureNotifier {
     private final FluentPerformanceTest performanceTest;

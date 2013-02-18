@@ -11,8 +11,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import net.sf.perftence.PerformanceTestSetup;
-import net.sf.perftence.PerformanceTestSetupPojo;
+import net.sf.perftence.setup.PerformanceTestSetup;
+import net.sf.perftence.setup.PerformanceTestSetupPojo;
 
 import org.junit.Test;
 

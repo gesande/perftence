@@ -1,7 +1,7 @@
 package net.sf.perftence;
 
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
+import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 import org.junit.Rule;
 import org.junit.rules.TestName;

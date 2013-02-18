@@ -1,4 +1,4 @@
-package net.sf.perftence;
+package net.sf.perftence.setup;
 
 import java.io.Serializable;
 import java.util.ArrayList;

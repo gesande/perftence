@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import net.sf.perftence.PerformanceTestSetup;
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

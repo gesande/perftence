@@ -1,5 +1,6 @@
 package net.sf.perftence.fluent;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -14,6 +15,7 @@ import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.reporting.Duration;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -25,6 +27,12 @@ public class FluentPerformanceTestTest {
 
     @Rule
     public TestName name = new TestName();
+
+    @Before
+    public void before() {
+        this.testFailed = false;
+        this.testFailure = null;
+    }
 
     @Test
     public void sanityCheck() {
@@ -289,7 +297,7 @@ public class FluentPerformanceTestTest {
         final FluentPerformanceTest fluent = fluent();
         final MultithreadWorker durationWorker = fluent
                 .test(id() + ".1")
-                .setup(fluent.setup().threads(10).duration(Duration.seconds(4))
+                .setup(fluent.setup().threads(10).duration(Duration.seconds(2))
                         .build()).noInvocationGraph()
                 .executable(new Executable() {
                     @Override
@@ -308,7 +316,33 @@ public class FluentPerformanceTestTest {
                 durationWorker.includeInvocationGraph());
         startable.start();
         assertTrue(executed.get());
+    }
 
+    @Test
+    public void whenTestLastsMoreThanExpectedRunnerInterruptsTheThreads() {
+        final AtomicInteger i = new AtomicInteger();
+        final FluentPerformanceTest fluent = new FluentPerformanceTest(
+                new TestFailureNotifier() {
+
+                    @Override
+                    public void testFailed(final Throwable t) {
+                        FluentPerformanceTestTest.this.testFailed = true;
+                        FluentPerformanceTestTest.this.testFailure = t;
+                    }
+                });
+        fluent.test(id())
+                .noInvocationGraph()
+                .setup(fluent.setup().threads(6).duration(Duration.seconds(2))
+                        .build()).executable(new Executable() {
+                    @Override
+                    public void execute() throws Exception {
+                        Thread.sleep(i.get() == 6 ? 8000 : 600);
+                        i.incrementAndGet();
+                    }
+                }).start();
+        assertTrue(this.testFailed);
+        assertNotNull(this.testFailure);
+        assertEquals(InterruptedException.class, this.testFailure.getClass());
     }
 
     private FluentPerformanceTest fluent() {

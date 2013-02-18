@@ -12,7 +12,6 @@ import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirementValidator;
-import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
@@ -20,6 +19,7 @@ import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -469,10 +469,12 @@ public final class MultithreadWorker implements Startable {
                     public void run() {
                         if (latencyProvider().currentDuration() > setUp()
                                 .duration() + Duration.seconds(5)) {
-                            LOG.error("Execution time exceeded the duration given in the test setup, interrupting the test threads...");
+                            log().error(
+                                    "Execution time exceeded the duration given in the test setup, interrupting the test threads...");
                             runner().interruptThreads();
                         }
                     }
+
                 };
             }
 
@@ -641,5 +643,4 @@ public final class MultithreadWorker implements Startable {
     private List<CustomFailureReporter> customFailureReporters() {
         return this.customFailureReporters;
     }
-
 }

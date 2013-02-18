@@ -5,7 +5,7 @@ import java.io.ObjectInputStream.GetField;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 
-import net.sf.perftence.PerformanceTestSetup;
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 public class FilebasedTestSetup implements Serializable {
     private PerformanceTestSetup testSetup;

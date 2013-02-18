@@ -12,8 +12,6 @@ import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirementValidator;
 import net.sf.perftence.PerformanceRequirements;
-import net.sf.perftence.PerformanceTestSetup;
-import net.sf.perftence.PerformanceTestSetupPojo;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.Startable;
 import net.sf.perftence.StatisticsProvider;
@@ -28,6 +26,8 @@ import net.sf.perftence.reporting.graph.LastSecondThroughput;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
+import net.sf.perftence.setup.PerformanceTestSetup;
+import net.sf.perftence.setup.PerformanceTestSetupPojo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
