@@ -59,7 +59,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
-        setup.graphWriter(this.newStorage.graphWriter());
+        setup.graphWriter(this.newStorage.graphWriterFor(id()));
         setup.summaryAppender(this.newStorage.summaryAppender());
         this.newDefaultInvocationReporter = DefaultInvocationReporterFactory
                 .newDefaultInvocationReporter(this.latencyProvider, true,
@@ -85,9 +85,9 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                 this.latencyProvider.startTime());
     }
 
-    private StorageForThreadsRunningCurrentTasks newStorage() {
-        return StorageForThreadsRunningCurrentTasks.newStorage(id(),
-                new DefaultDatasetAdapterFactory());
+    private static StorageForThreadsRunningCurrentTasks newStorage() {
+        return StorageForThreadsRunningCurrentTasks
+                .newStorage(new DefaultDatasetAdapterFactory());
     }
 
     private static FailedInvocations newFailedInvocations() {
@@ -106,7 +106,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
-        setup.graphWriter(this.newStorage.graphWriter());
+        setup.graphWriter(this.newStorage.graphWriterFor(id()));
         setup.summaryAppender(this.newStorage.summaryAppender());
 
         this.newDefaultInvocationReporter = DefaultInvocationReporterFactory

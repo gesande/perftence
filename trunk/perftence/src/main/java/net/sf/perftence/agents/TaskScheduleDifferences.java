@@ -11,23 +11,21 @@ import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.GraphWriterProvider;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public final class TaskScheduleDifferences {
+public final class TaskScheduleDifferences implements GraphWriterProvider {
     private static final DecimalFormat DF = new DecimalFormat("####");
 
     private final StronglyTypedSortedBag<Long> differencies;
-    private final String name;
     private final ReportingOptions reportingOptions;
     private final DatasetAdapterFactory datasetAdapterFactory;
 
-    public TaskScheduleDifferences(final String name,
-            final ReportingOptions reportingOptions,
+    public TaskScheduleDifferences(final ReportingOptions reportingOptions,
             final DatasetAdapterFactory datasetAdapterFactory) {
-        this.name = name;
         this.reportingOptions = reportingOptions;
         this.differencies = StronglyTypedSortedBag.synchronizedTreeBag();
         this.datasetAdapterFactory = datasetAdapterFactory;
@@ -41,10 +39,6 @@ public final class TaskScheduleDifferences {
         return this.differencies;
     }
 
-    private String name() {
-        return this.name;
-    }
-
     /**
      * @param difference
      *            difference between scheduled and actual in nano time
@@ -53,9 +47,9 @@ public final class TaskScheduleDifferences {
         differencies().add(difference);
     }
 
-    public static TaskScheduleDifferences instance(final String name,
+    public static TaskScheduleDifferences instance(
             DatasetAdapterFactory datasetAdapterFactory) {
-        return new TaskScheduleDifferences(name, new ReportingOptions() {
+        return new TaskScheduleDifferences(new ReportingOptions() {
 
             @Override
             public String xAxisTitle() {
@@ -91,7 +85,7 @@ public final class TaskScheduleDifferences {
                 datasetAdapterFactory().forLineChart(
                         reportingOptions().legendTitle()));
         final Collection<Long> uniqueSet = uniqueSamples();
-        long max = 0;
+        long max = reportingOptions().range();
         for (final Long difference : uniqueSet) {
             final int value = count(difference);
             imageData.add(convertToMillis(difference), value);
@@ -107,20 +101,21 @@ public final class TaskScheduleDifferences {
     }
 
     private int count(final long value) {
-        return this.differencies.count(value);
+        return differencies().count(value);
     }
 
     private Collection<Long> uniqueSamples() {
-        return this.differencies.uniqueSamples();
+        return differencies().uniqueSamples();
     }
 
     @Override
     public String toString() {
-        return "size = " + this.differencies.size() + "\n"
-                + this.differencies.toString();
+        return "size = " + differencies().size() + "\n"
+                + differencies().toString();
     }
 
-    public GraphWriter graphWriter() {
+    @Override
+    public GraphWriter graphWriterFor(final String id) {
         return new GraphWriter() {
 
             @Override
@@ -130,12 +125,12 @@ public final class TaskScheduleDifferences {
 
             @Override
             public String id() {
-                return name() + "-task-schedule-differences";
+                return id + "-task-schedule-differences";
             }
 
             @Override
             public boolean hasSomethingToWrite() {
-                return !TaskScheduleDifferences.this.differencies.isEmpty();
+                return !differencies().isEmpty();
             }
         };
     }

@@ -1,13 +1,17 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.agents;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.TestTimeAware;
+import net.sf.perftence.agents.LastSecondFailuresGraphWriter;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.LastSecondFailures;
+import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
@@ -46,7 +50,7 @@ public class LastSecondFailuresGraphWriterTest {
                     }
                 }, new DefaultDatasetAdapterFactory());
         GraphWriter graphFor = lastSecondFailuresGraphWriter
-                .graphFor("testing-the-stuff");
+                .graphWriterFor("testing-the-stuff");
         assertTrue(graphFor.hasSomethingToWrite());
         assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
         final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart();

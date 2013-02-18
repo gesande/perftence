@@ -3,23 +3,17 @@ package net.sf.perftence.agents;
 import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.GraphWriterProvider;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 
-public final class LatencyVsConcurrentTasks {
+public final class LatencyVsConcurrentTasks implements GraphWriterProvider {
 
-    private final String name;
     private final ImageData imageData;
     private boolean hasSamples = false;
 
-    private LatencyVsConcurrentTasks(final String name,
-            final ImageData imageData) {
-        this.name = name;
+    private LatencyVsConcurrentTasks(final ImageData imageData) {
         this.imageData = imageData;
-    }
-
-    private String name() {
-        return this.name;
     }
 
     private ImageData imageData() {
@@ -37,9 +31,9 @@ public final class LatencyVsConcurrentTasks {
         return this.hasSamples;
     }
 
-    public static LatencyVsConcurrentTasks instance(final String name,
+    public static LatencyVsConcurrentTasks instance(
             final DatasetAdapterFactory datasetAdapterFactory) {
-        ReportingOptions reportingOptions = new ReportingOptions() {
+        final ReportingOptions reportingOptions = new ReportingOptions() {
 
             @Override
             public String xAxisTitle() {
@@ -67,7 +61,7 @@ public final class LatencyVsConcurrentTasks {
             }
         };
         final String legendTitle = reportingOptions.legendTitle();
-        return new LatencyVsConcurrentTasks(name,
+        return new LatencyVsConcurrentTasks(
                 ImageData.noStatistics(reportingOptions.title(),
                         reportingOptions.xAxisTitle(), datasetAdapterFactory
                                 .forScatterPlot(legendTitle, yAxisTitle())));
@@ -77,7 +71,8 @@ public final class LatencyVsConcurrentTasks {
         return "Latency";
     }
 
-    public GraphWriter graphWriter() {
+    @Override
+    public GraphWriter graphWriterFor(final String id) {
         return new GraphWriter() {
 
             @Override
@@ -87,7 +82,7 @@ public final class LatencyVsConcurrentTasks {
 
             @Override
             public String id() {
-                return name() + "-latencies-vs-concurrenttasks-scatter";
+                return id + "-latencies-vs-concurrenttasks-scatter";
             }
 
             @Override

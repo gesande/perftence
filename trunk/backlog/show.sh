@@ -52,6 +52,7 @@ task-done "provided unit tests for junit-utils module"  $(tag code-quality)
 task-done "provided unit tests for classhelper module"  $(tag code-quality)
 task-done "provided more unit tests for LatencyProvider" $(tag code-quality)
 task-done "removed static evil for EstimatedInvocations " $(tag refactoring)
+waiting "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 
 in-progress-title
 
@@ -59,7 +60,6 @@ waiting-title
 waiting "failures over test time, use DateAxis" $(tag feature)
 waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "provide success rate percentage for intermediate statistics" $(tag feature)
-waiting "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
 waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)
 waiting "split fluent and agent stuff into separate projects" $(tag refactoring)

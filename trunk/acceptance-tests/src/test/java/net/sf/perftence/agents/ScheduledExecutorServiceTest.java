@@ -112,8 +112,8 @@ public class ScheduledExecutorServiceTest {
         this.activeThreads = new ActiveThreads();
         final String name = "ScheduledExecutorServiceTest.scheduleJobs-"
                 + corePoolSize + "-" + tasks;
-        this.storage = StorageForThreadsRunningCurrentTasks.newStorage(name,
-                new DefaultDatasetAdapterFactory());
+        this.storage = StorageForThreadsRunningCurrentTasks
+                .newStorage(new DefaultDatasetAdapterFactory());
 
         log().info("Scheduling tasks...");
         for (int i = 0; i < tasks; i++) {
@@ -130,8 +130,8 @@ public class ScheduledExecutorServiceTest {
             this.service.shutdown();
             log().info("Shutdown");
         }
-        new ImageFactoryUsingJFreeChart().createXYLineChart(name,
-                this.storage.imageData());
+        this.storage.graphWriterFor(name).writeImage(
+                new ImageFactoryUsingJFreeChart());
     }
 
     private static Logger log() {
