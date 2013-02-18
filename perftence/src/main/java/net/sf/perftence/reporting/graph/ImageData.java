@@ -1,16 +1,15 @@
 package net.sf.perftence.reporting.graph;
 
-import net.sf.perftence.reporting.Statistics;
 
 public final class ImageData {
     private final String title;
     private final String xAxisTitle;
     private double range;
-    private final Statistics statistics;
+    private final StatisticsForGraphs statistics;
     private final DatasetAdapter<?> adapter;
 
     private ImageData(final String title, final String xAxisTitle,
-            final double range, final Statistics statistics,
+            final double range, final StatisticsForGraphs statistics,
             final DatasetAdapter<?> adapter) {
         this.title = title;
         this.xAxisTitle = xAxisTitle;
@@ -21,7 +20,8 @@ public final class ImageData {
 
     public static ImageData statistics(final String title,
             final String xAxisTitle, final double range,
-            final Statistics statistics, final DatasetAdapter<?> adapter) {
+            final StatisticsForGraphs statistics,
+            final DatasetAdapter<?> adapter) {
         return new ImageData(title, xAxisTitle, range, statistics, adapter);
     }
 
@@ -56,7 +56,7 @@ public final class ImageData {
         return this.range;
     }
 
-    public Statistics statistics() {
+    public StatisticsForGraphs statistics() {
         return this.statistics;
     }
 

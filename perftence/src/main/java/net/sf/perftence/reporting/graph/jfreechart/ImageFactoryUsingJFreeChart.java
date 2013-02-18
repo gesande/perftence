@@ -16,9 +16,9 @@ import java.util.Map;
 import net.sf.perftence.FileUtil;
 import net.sf.perftence.WritingFileFailed;
 import net.sf.perftence.reporting.HtmlReportDeployment;
-import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
+import net.sf.perftence.reporting.graph.StatisticsForGraphs;
 import net.sf.perftence.reporting.graph.WriteImageRefToTheIndexFileFailed;
 
 import org.jfree.chart.ChartFactory;
@@ -142,7 +142,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             final ImageData imageData,
             final LineChartGraphData lineChartGraphData) {
         log().debug("Gathering statistics");
-        final Statistics statistics = imageData.statistics();
+        final StatisticsForGraphs statistics = imageData.statistics();
         final double median = statistics.median();
         final double meanValue = statistics.mean();
         final double percentile95Value = statistics.percentile95();

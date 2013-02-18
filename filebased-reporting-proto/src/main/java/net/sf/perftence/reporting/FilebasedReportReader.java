@@ -10,6 +10,11 @@ import java.nio.charset.Charset;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LineReader;
 import net.sf.perftence.LineVisitor;
+import net.sf.perftence.common.FailedInvocations;
+import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.common.InvocationStorage;
+import net.sf.perftence.common.ThroughputStorage;
+import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 

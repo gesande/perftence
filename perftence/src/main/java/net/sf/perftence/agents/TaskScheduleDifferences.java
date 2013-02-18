@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import net.sf.perftence.bag.StronglyTypedSortedBag;
+import net.sf.perftence.common.Statistics;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.graph.GraphWriterProvider;

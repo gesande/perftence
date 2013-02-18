@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.graph.DatasetAdapter;

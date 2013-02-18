@@ -1,9 +1,10 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
 
 import java.util.ArrayList;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
@@ -11,8 +12,6 @@ import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
-import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics;
-import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingStatisticsProviderStatistics;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DefaultInvocationReporterFactory {
