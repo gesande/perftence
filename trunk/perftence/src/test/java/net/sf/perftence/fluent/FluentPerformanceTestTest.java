@@ -67,7 +67,8 @@ public class FluentPerformanceTestTest {
                     @Override
                     public void execute() throws Exception {
                         i.incrementAndGet();
-                        Thread.sleep(i.intValue() == 1 ? 100 : 201);
+                        // 201 will fail constantly in windows
+                        Thread.sleep(i.intValue() == 1 ? 100 : 202);
                     }
                 }).start();
         assertTrue(this.testFailed);
