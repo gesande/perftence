@@ -3,7 +3,6 @@ package net.sf.perftence.reporting;
 import java.util.ArrayList;
 
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
@@ -14,6 +13,7 @@ import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics;
 import net.sf.perftence.reporting.summary.html.StatisticsSummaryProviderUsingStatisticsProviderStatistics;
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DefaultInvocationReporterFactory {
 

@@ -1,6 +1,5 @@
 package net.sf.perftence.fluent;
 
-import net.sf.perftence.PerformanceTestSetup;
 import net.sf.perftence.RuntimeStatisticsProvider;
 import net.sf.perftence.reporting.summary.AbstractSummaryBuilder;
 import net.sf.perftence.reporting.summary.BuildableSummaryField;
@@ -9,6 +8,7 @@ import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.SummaryField;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummary;
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
     private final RuntimeStatisticsProvider statisticsProvider;

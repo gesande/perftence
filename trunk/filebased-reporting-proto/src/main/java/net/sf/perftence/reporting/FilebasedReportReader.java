@@ -10,8 +10,8 @@ import java.nio.charset.Charset;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LineReader;
 import net.sf.perftence.LineVisitor;
-import net.sf.perftence.PerformanceTestSetup;
-import net.sf.perftence.PerformanceTestSetupPojo;
+import net.sf.perftence.setup.PerformanceTestSetup;
+import net.sf.perftence.setup.PerformanceTestSetupPojo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -3,12 +3,12 @@ package net.sf.perftence.experimental;
 import java.util.Random;
 
 import net.sf.perftence.Executable;
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.PerftenceApi;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.Duration;
+import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 public final class MainEntryPointWayOfDoingThings implements
         TestFailureNotifier {

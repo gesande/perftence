@@ -3,8 +3,6 @@ package net.sf.perftence.fluent;
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.PerfTestFailureFactory;
-import net.sf.perftence.PerformanceTestSetupPojo;
-import net.sf.perftence.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
@@ -17,6 +15,8 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
+import net.sf.perftence.setup.PerformanceTestSetupPojo;
+import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 /**
  * Entry point class for fluent performance test
