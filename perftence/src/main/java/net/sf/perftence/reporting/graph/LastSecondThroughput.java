@@ -7,7 +7,8 @@ import net.sf.perftence.AsSynchronized;
 import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
-public final class LastSecondThroughput implements ValueReporter<Double> {
+public final class LastSecondThroughput implements ValueReporter<Double>,
+        GraphWriterProvider {
     private final List<Double> throughputs;
     private final DatasetAdapterFactory datasetAdapterFactory;
 
@@ -25,7 +26,8 @@ public final class LastSecondThroughput implements ValueReporter<Double> {
         return this.datasetAdapterFactory;
     }
 
-    public GraphWriter graphFor(final String name) {
+    @Override
+    public GraphWriter graphWriterFor(final String id) {
         return new GraphWriter() {
 
             @Override
@@ -54,7 +56,7 @@ public final class LastSecondThroughput implements ValueReporter<Double> {
 
             @Override
             public String id() {
-                return name + "-last-second-throughput";
+                return id + "-last-second-throughput";
             }
 
             @Override

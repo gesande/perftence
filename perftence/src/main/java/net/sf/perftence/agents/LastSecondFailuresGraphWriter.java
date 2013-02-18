@@ -1,16 +1,22 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.agents;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.reporting.LastSecondFailures;
+import net.sf.perftence.reporting.graph.DatasetAdapter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.GraphWriterProvider;
+import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LastSecondFailuresGraphWriter {
+public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
     protected static final Logger LOG = LoggerFactory
             .getLogger(LastSecondFailuresGraphWriter.class);
     private final LastSecondFailures failures;
@@ -25,7 +31,8 @@ public class LastSecondFailuresGraphWriter {
         this.datasetAdapterFactory = datasetAdapterFactory;
     }
 
-    public GraphWriter graphFor(final String id) {
+    @Override
+    public GraphWriter graphWriterFor(final String id) {
         return new GraphWriter() {
 
             @Override

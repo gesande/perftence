@@ -9,25 +9,25 @@ import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.reporting.graph.GraphWriterProvider;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public final class StorageForThreadsRunningCurrentTasks {
+public final class StorageForThreadsRunningCurrentTasks implements
+        GraphWriterProvider {
 
     private static final DecimalFormat DF = new DecimalFormat("####");
 
     private final ReportingOptions reportingOptions;
     private final List<Integer> threads;
     private final List<Long> times;
-    private final String name;
     private final DatasetAdapterFactory datasetAdapterFactory;
 
-    public StorageForThreadsRunningCurrentTasks(final String name,
+    public StorageForThreadsRunningCurrentTasks(
             final ReportingOptions reportingOptions,
             final DatasetAdapterFactory datasetAdapterFactory) {
-        this.name = name;
         this.reportingOptions = reportingOptions;
         this.datasetAdapterFactory = datasetAdapterFactory;
         this.threads = Collections.synchronizedList(new ArrayList<Integer>());
@@ -37,10 +37,6 @@ public final class StorageForThreadsRunningCurrentTasks {
     public synchronized void store(final long time, final int threads) {
         this.threads().add(threads);
         this.times().add(time);
-    }
-
-    private String name() {
-        return this.name;
     }
 
     private List<Long> times() {
@@ -55,7 +51,7 @@ public final class StorageForThreadsRunningCurrentTasks {
         return this.threads;
     }
 
-    public ImageData imageData() {
+    private ImageData imageData() {
         final ImageData imageData = ImageData.noStatistics(
                 reportingOptions().title(),
                 reportingOptions().xAxisTitle(),
@@ -87,34 +83,33 @@ public final class StorageForThreadsRunningCurrentTasks {
     }
 
     public static StorageForThreadsRunningCurrentTasks newStorage(
-            final String name, final DatasetAdapterFactory datasetAdapterFactory) {
-        return new StorageForThreadsRunningCurrentTasks(name,
-                new ReportingOptions() {
-                    @Override
-                    public String xAxisTitle() {
-                        return "Time";
-                    }
+            final DatasetAdapterFactory datasetAdapterFactory) {
+        return new StorageForThreadsRunningCurrentTasks(new ReportingOptions() {
+            @Override
+            public String xAxisTitle() {
+                return "Time";
+            }
 
-                    @Override
-                    public String title() {
-                        return "Threads running tasks currently";
-                    }
+            @Override
+            public String title() {
+                return "Threads running tasks currently";
+            }
 
-                    @Override
-                    public int range() {
-                        return 250;
-                    }
+            @Override
+            public int range() {
+                return 250;
+            }
 
-                    @Override
-                    public boolean provideStatistics() {
-                        return false;
-                    }
+            @Override
+            public boolean provideStatistics() {
+                return false;
+            }
 
-                    @Override
-                    public String legendTitle() {
-                        return "Threads";
-                    }
-                }, datasetAdapterFactory);
+            @Override
+            public String legendTitle() {
+                return "Threads";
+            }
+        }, datasetAdapterFactory);
     }
 
     public SummaryAppender summaryAppender() {
@@ -134,7 +129,8 @@ public final class StorageForThreadsRunningCurrentTasks {
         };
     }
 
-    public GraphWriter graphWriter() {
+    @Override
+    public GraphWriter graphWriterFor(final String id) {
         return new GraphWriter() {
 
             @Override
@@ -144,7 +140,7 @@ public final class StorageForThreadsRunningCurrentTasks {
 
             @Override
             public String id() {
-                return name() + "-threads-running-tasks-currently";
+                return id + "-threads-running-tasks-currently";
             }
 
             @Override

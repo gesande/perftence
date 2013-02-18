@@ -111,7 +111,7 @@ public final class TestBuilder {
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
                 lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
-                lastSecondThroughput.graphFor(invocationRunner().id()));
+                lastSecondThroughput.graphWriterFor(invocationRunner().id()));
         return new MultithreadWorker(invocationReporter(latencyProvider,
                 failedInvocations), invocationRunner(), setup, latencyProvider,
                 allowedExceptions(), newPerformanceRequirementValidator(

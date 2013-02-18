@@ -12,9 +12,6 @@ import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.Statistics;
 import net.sf.perftence.reporting.graph.DatasetAdapter;
 import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
-import net.sf.perftence.reporting.graph.jfreechart.ScatterPlotGraphData;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;

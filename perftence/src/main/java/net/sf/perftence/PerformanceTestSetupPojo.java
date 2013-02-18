@@ -118,7 +118,7 @@ public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
                 }
 
                 private RuntimeException noTestSetupDefined() {
-                    return new RuntimeException(
+                    return new NoTestSetupDefined(
                             "No test setup has been defined!");
                 }
             };

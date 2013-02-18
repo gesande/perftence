@@ -25,7 +25,6 @@ import net.sf.perftence.reporting.FailedInvocationsFactory;
 import net.sf.perftence.reporting.LastSecondFailures;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.LastSecondFailuresGraphWriter;
 import net.sf.perftence.reporting.graph.LastSecondThroughput;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
@@ -115,10 +114,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 categorySpecificReporterFactory, this);
         this.taskScheduleDifferences = taskScheduleDifferences;
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
-                .newStorage(id(), datasetAdapterFactory);
+                .newStorage(datasetAdapterFactory);
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
-        this.runningTasks = LatencyVsConcurrentTasks.instance(id(),
-                datasetAdapterFactory);
+        this.runningTasks = LatencyVsConcurrentTasks
+                .instance(datasetAdapterFactory);
         this.allowedExceptions = new AllowedExceptions();
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
@@ -516,18 +515,18 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
         if (includeThreadsRunningCurrentTasks()) {
             testSetupBuilder.graphWriter(threadsRunningCurrentTasks()
-                    .graphWriter());
+                    .graphWriterFor(id()));
         }
 
         if (includeTaskScheduleDifferencies()) {
             testSetupBuilder.graphWriter(taskScheduleDifferencies()
-                    .graphWriter());
+                    .graphWriterFor(id()));
         }
-        testSetupBuilder.graphWriter(runningTasks().graphWriter());
-        testSetupBuilder.graphWriter(lastSecondThroughput().graphFor(id()));
-
-        testSetupBuilder.graphWriter(lastSecondFailureGraphWriter().graphFor(
-                id()));
+        testSetupBuilder.graphWriter(runningTasks().graphWriterFor(id()));
+        testSetupBuilder.graphWriter(lastSecondThroughput()
+                .graphWriterFor(id()));
+        testSetupBuilder.graphWriter(lastSecondFailureGraphWriter()
+                .graphWriterFor(id()));
         return testSetupBuilder.build();
     }
 

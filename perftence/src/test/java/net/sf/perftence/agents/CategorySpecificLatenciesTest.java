@@ -11,6 +11,19 @@ import org.junit.Test;
 public final class CategorySpecificLatenciesTest implements
         ReporterFactoryForCategorySpecificLatencies {
 
+    @SuppressWarnings("unused")
+    @Test(expected = NullPointerException.class)
+    public void reporterFactoryNull() {
+        new CategorySpecificLatencies(null, this);
+    }
+
+    @SuppressWarnings({ "unused", "static-method" })
+    @Test(expected = NullPointerException.class)
+    public void invocationReporterNull() {
+        new CategorySpecificLatencies(
+                new DefaultCategorySpecificReporterFactory("id"), null);
+    }
+
     @Test
     public void empty() {
         assertFalse(new CategorySpecificLatencies(
