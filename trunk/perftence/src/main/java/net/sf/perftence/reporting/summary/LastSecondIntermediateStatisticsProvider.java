@@ -1,18 +1,17 @@
 package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
-import net.sf.perftence.reporting.graph.LastSecondThroughput;
 
 public final class LastSecondIntermediateStatisticsProvider implements
         CustomIntermediateSummaryProvider {
     private final AdjustedFieldBuilder fieldBuilder;
     private final RuntimeStatisticsProvider statistics;
-    private final LastSecondThroughput lastSecondThroughput;
+    private final ValueReporter<Double> lastSecondThroughput;
 
     public LastSecondIntermediateStatisticsProvider(
             final AdjustedFieldBuilder fieldBuilder,
             final RuntimeStatisticsProvider statistics,
-            final LastSecondThroughput lastSecondThroughput) {
+            final ValueReporter<Double> lastSecondThroughput) {
         this.fieldBuilder = fieldBuilder;
         this.statistics = statistics;
         this.lastSecondThroughput = lastSecondThroughput;
@@ -36,7 +35,11 @@ public final class LastSecondIntermediateStatisticsProvider implements
     }
 
     private void reportThroughput(final double throughput) {
-        this.lastSecondThroughput.report(throughput);
+        lastSecondThroughput().report(throughput);
+    }
+
+    private ValueReporter<Double> lastSecondThroughput() {
+        return this.lastSecondThroughput;
     }
 
     private RuntimeStatisticsProvider statistics() {

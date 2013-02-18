@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.perftence.AsSynchronized;
-import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
 public final class LastSecondThroughput implements ValueReporter<Double>,
@@ -37,10 +36,8 @@ public final class LastSecondThroughput implements ValueReporter<Double>,
 
             private ImageData throughputData() {
                 final String title = "Last second throughput";
-                final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
-                        .forLineChart(title);
                 final ImageData imageData = ImageData.noStatistics(title,
-                        "Seconds", adapter);
+                        "Seconds", datasetAdapterFactory().forLineChart(title));
                 final List<Double> throughputs = throughputs();
                 double max = 0;
                 for (int i = 0; i < throughputs.size(); i++) {
