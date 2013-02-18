@@ -5,7 +5,11 @@ tar-file() {
   local REVISION=$(svnversion)
   local VERSION=$(gradle perftence:show-version | grep -A1 :perftence:show-version | tail -1)
   local ARTIFACT=perftence-distribution-$VERSION-R$REVISION.tar
-  tar -cvf $ARTIFACT distribution
+  rm -rf tmp/artifact
+  mkdir -p tmp/artifact
+  tar -cvf tmp/artifact/$ARTIFACT distribution
+  mv distribution tmp/distribution
+  echo "Distribution package can be found from file://$(realpath tmp/artifact/$ARTIFACT)"
 }
 
 copy-to-distribution() {
@@ -15,12 +19,7 @@ copy-to-distribution() {
 }
 
 prepare-distribution() {
-  clean-distribution
   mkdir -p distribution/sources
-}
-
-clean-distribution() {
-  rm -rf distribution
 }
 
 build-packages() {
@@ -28,12 +27,7 @@ build-packages() {
   gradle clean perftence-bag:dist perftence-bag:sourcesJar perftence-api:dist perftence-api:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar perftence-classhelper:dist perftence-classhelper:sourcesJar perftence-linereader:dist perftence-linereader:sourcesJar perftence-fileutil:dist perftence-fileutil:sourcesJar perftence:dist perftence:sourcesJar responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit:dist perftence-junit:sourcesJar
 }
 
-start_time=`date +%s`
 build-packages
 prepare-distribution
 copy-to-distribution
 tar-file
-clean-distribution
-end_time=`date +%s`
-echo
-echo TOTAL BUILD TIME: `expr $end_time - $start_time` s.
