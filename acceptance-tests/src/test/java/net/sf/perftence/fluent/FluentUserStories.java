@@ -13,7 +13,6 @@ import net.sf.perftence.reporting.summary.SummaryAppender;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -118,21 +117,4 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
             }
         }).start();
     }
-
-    @Ignore
-    @Test
-    public void durationBasedTestWithWaitingMoreThanDuration() throws Exception {
-        test().setup(
-                setup().threads(100).duration(Duration.seconds(10)).build())
-                .executable(new Executable() {
-
-                    @Override
-                    public void execute() throws Exception {
-                        int wait = RANDOM.nextInt(100) + 1;
-                        log().debug("Wait time {}", wait);
-                        Thread.sleep(Duration.seconds(wait));
-                    }
-                }).start();
-    }
-
 }
