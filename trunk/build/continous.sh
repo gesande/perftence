@@ -3,9 +3,8 @@ set -eu
 
 continous-build() {
   local PROJECT=$1
-  gradle --info $PROJECT:test $PROJECT:copy-pmd-settings $PROJECT:findbugsMain $PROJECT:pmdMain $PROJECT:jdependMain
+  gradle --info $PROJECT:continous
 }
-start_time=`date +%s`
 gradle --info clean
 continous-build perftence-bag
 continous-build perftence-linereader
@@ -16,9 +15,6 @@ continous-build perftence
 continous-build perftence-api
 continous-build responsecode-summaryappender
 continous-build perftence-junit
-end_time=`date +%s`
-echo
-echo TOTAL BUILD TIME: `expr $end_time - $start_time` s.
 build/emma/report.sh
 build/findbugs/report.sh
 build/jdepend/report.sh

@@ -15,21 +15,21 @@ subprojects {
                 args = ['info']
                 standardOutput = os
             }
-        def outputAsString = os.toString()
-        def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
-        println "${matchLastChangedRev[0][1]}"
+            def outputAsString = os.toString()
+            def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
+            println "${matchLastChangedRev[0][1]}"
         }
     }
 
-    task "copy-pmd-settings"(type: Copy) { task ->
+    task copyPmdSettings(type: Copy) { task ->
         from file('../build/template/for/pmd/.pmd')
         into task.project.projectDir
     }
 
     pmd.ruleSetFiles = files(".pmd")
     pmd.ignoreFailures = 'false'
+    task pmdProductionCode(dependsOn: [ copyPmdSettings, pmdMain ])
 
-    //findbugs.ignoreFailures = true
     tasks.withType(FindBugs){
         ignoreFailures = true
     }
@@ -91,21 +91,15 @@ subprojects {
         classifier = 'javadoc'
         from javadoc.destinationDir
     }
-
-    /*
-    artifacts {
-        archives sourcesJar
-        archives testSourcesJar
-        archives javadocJar
-    }
-    */
-  
+ 
     task "init-libs" << { task ->
         def libDir = new File(task.project.projectDir, 'lib')
         libDir.mkdirs()
         def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
         libSourcesDir.mkdirs()
     }
+
+    task continous(dependsOn: [ test, findbugsMain, pmdProductionCode, jdependMain ])
 }
 
 project(':log4j-1.2.16') { prj ->
@@ -271,10 +265,13 @@ project(':perftence') {
         from configurations.runtime
         exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
     }
+
     artifacts {
         archives dist
         archives sourcesJar
     }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-junit') {
@@ -309,6 +306,8 @@ project(':perftence-junit') {
         archives dist
         archives sourcesJar
     }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':acceptance-tests') {
@@ -350,6 +349,7 @@ project(':perftence-bag'){
         testCompile project(':junit-4.10')
     }
 
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-experimental') {
@@ -404,6 +404,8 @@ project(':perftence-api') {
         runtime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
     }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':mainentrypoint-example') {
@@ -429,6 +431,7 @@ project(':mainentrypoint-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':fluent-based-example') {
@@ -454,6 +457,7 @@ project(':fluent-based-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':agent-based-example') {
@@ -479,6 +483,7 @@ project(':agent-based-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':responsecode-summaryappender') {
@@ -507,6 +512,7 @@ project(':responsecode-summaryappender') {
         compile project(':jcommon-1.0.15')
         testCompile project(':junit-4.10')
     }
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-junit-utils') {
@@ -530,6 +536,8 @@ project(':perftence-junit-utils') {
     }
 
     dependencies { compile project(':junit-4.10') }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project ('filebased-reporting-proto') {
@@ -559,6 +567,7 @@ project ('filebased-reporting-proto') {
         runtime project(':log4j-1.2.16')
     }
 
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-linereader'){
@@ -583,6 +592,8 @@ project(':perftence-linereader'){
     dependencies {
         testCompile project(':junit-4.10')
     }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-fileutil') {
@@ -608,6 +619,8 @@ project(':perftence-fileutil') {
     dependencies {
         testCompile project(':junit-4.10')
     }
+
+    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 
@@ -637,5 +650,7 @@ project(':perftence-classhelper') {
         testRuntime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
     }
+    task release(dependsOn: [ dist, sourcesJar ])
+
 }
 
