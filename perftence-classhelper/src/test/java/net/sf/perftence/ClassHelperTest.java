@@ -41,7 +41,7 @@ public class ClassHelperTest {
     @Test
     public void noClassesForAnUnknownPackage() throws IOException,
             ClassNotFoundException {
-        assertEquals(0, ClassHelper.getClasses("net.sf.unknown").length);
+        assertEquals(0, ClassHelper.getClasses("fail.i.have").length);
     }
 
     private static Logger log() {
