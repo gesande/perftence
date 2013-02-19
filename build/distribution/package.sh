@@ -4,12 +4,25 @@ set -e
 tar-file() {
   local REVISION=$(svnversion)
   local VERSION=$(gradle perftence:show-version | grep -A1 :perftence:show-version | tail -1)
-  local ARTIFACT=perftence-distribution-$VERSION-R$REVISION.tar
-  rm -rf tmp/artifact
-  mkdir -p tmp/artifact
-  tar -cvf tmp/artifact/$ARTIFACT distribution
-  mv distribution tmp/distribution
-  echo "Distribution package can be found from file://$(realpath tmp/artifact/$ARTIFACT)"
+  local ARTIFACT_VERSION="$VERSION-R$REVISION"
+  local ARTIFACT_FINAL="tmp/artifact-$ARTIFACT_VERSION/perftence-distribution-$ARTIFACT_VERSION.tar"
+
+  rm -rf tmp/artifact-$ARTIFACT_VERSION
+  rm -rf tmp/distribution-$ARTIFACT_VERSION
+
+  mkdir -p tmp/artifact-$ARTIFACT_VERSION
+
+  tar -cvf $ARTIFACT_FINAL distribution
+
+  mv distribution tmp/distribution-$ARTIFACT_VERSION
+  
+  echo "Distribution package can be found from $(in-green file://$(realpath $ARTIFACT_FINAL))"
+  echo "Exploded path for the distribution is here: $(in-green file://$(realpath tmp/distribution-$ARTIFACT_VERSION))"
+}
+
+in-green() {
+  local WHAT=$1
+  echo -e "\033[32m$WHAT\e[m"
 }
 
 copy-to-distribution() {
@@ -23,8 +36,8 @@ prepare-distribution() {
 }
 
 build-packages() {
-  gradle clean perftence-fileutil:test perftence-bag:test perftence:test responsecode-summaryappender:test perftence-api:test perftence-junit-utils:test perftence-classhelper:test perftence-linereader:test perftence-junit:test acceptance-tests:test
-  gradle clean perftence-bag:dist perftence-bag:sourcesJar perftence-api:dist perftence-api:sourcesJar perftence-junit-utils:dist perftence-junit-utils:sourcesJar perftence-classhelper:dist perftence-classhelper:sourcesJar perftence-linereader:dist perftence-linereader:sourcesJar perftence-fileutil:dist perftence-fileutil:sourcesJar perftence:dist perftence:sourcesJar responsecode-summaryappender:dist responsecode-summaryappender:sourcesJar perftence-junit:dist perftence-junit:sourcesJar
+  gradle clean perftence-fileutil:continous perftence-bag:continous perftence:continous responsecode-summaryappender:continous perftence-api:continous perftence-junit-utils:continous perftence-classhelper:continous perftence-linereader:continous perftence-junit:continous acceptance-tests:test
+  gradle clean perftence-bag:release perftence-api:release perftence-junit-utils:release perftence-classhelper:release perftence-linereader:release perftence-fileutil:release perftence:release responsecode-summaryappender:release perftence-junit:release
 }
 
 build-packages
