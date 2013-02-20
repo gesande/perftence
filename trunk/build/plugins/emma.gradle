@@ -88,11 +88,11 @@ task checkCoverage << {
     def report = new XmlParser().parse(reportFile)
     def coverage = report.data[0].all[0].coverage[3].@value
     logger.info "Test coverage was ${coverage}"
-    /*if(coverage < 90) {
+/*    if(coverage !=~ /d+%/ ) {
         throw new RuntimeException("Test coverage was lower than 90%, it was ${coverage}")
     }
     else {
-        logger.info "Nice job with the test coverage!"
+        logger.info "Nice job with the code coverage!"
     }*/
 }
 
