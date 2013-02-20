@@ -7,12 +7,13 @@ import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.DefaultInvocationReporterFactory;
+import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.InvocationStorage;
-import net.sf.perftence.common.InvocationStorageFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -50,9 +51,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                 new DefaultDoubleFormatter(),
                 adjustedFieldBuilderFactory.newInstance());
         final DefaultDatasetAdapterFactory datasetAdapterFactory = new DefaultDatasetAdapterFactory();
-        final InvocationStorage invocationStorage = InvocationStorageFactory
-                .newDefaultInvocationStorage(10000, 10000,
-                        datasetAdapterFactory);
+        final InvocationStorage invocationStorage = newDefaultInvocationStorage(
+                10000, 10000, datasetAdapterFactory);
 
         final FilebasedReportReader reader = new FilebasedReportReader(id(),
                 latencyProvider, invocationStorage, failedInvocations,
@@ -69,4 +69,14 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                 .elapsedTime(), reader.summary().sampleCount(), reader
                 .summary().startTime());
     }
+
+    private static InvocationStorage newDefaultInvocationStorage(
+            final int invocations, final int invocationRange,
+            DatasetAdapterFactory datasetAdapterFactory) {
+        return DefaultInvocationStorage.newDefaultStorage(invocations,
+                ReportingOptionsFactory
+                        .latencyOptionsWithStatistics(invocationRange),
+                datasetAdapterFactory);
+    }
+
 }
