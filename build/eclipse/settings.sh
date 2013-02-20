@@ -1,3 +1,3 @@
 #!/bin/bash
-gradle cleanEclipse eclipse
+gradle --info cleanEclipse eclipse
  
