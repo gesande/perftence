@@ -1,17 +1,15 @@
-subprojects {
-    apply plugin: "java"
-    apply plugin: "eclipse"
-    apply plugin: 'findbugs'
-    apply plugin: 'pmd'
-    apply plugin: "jdepend"
-    
-    ext {
-        libProjects=[ 'log4j-1.2.16-1.0-BETA.jar', 'jcommon-1.0.15-1.0-BETA.jar', 'jfreechart-1.0.12-1.0-BETA.jar',  'junit-4.10-1.0-BETA.jar', 'commons-collections-3.2.1-1.0-BETA.jar', 'slf4j-api-1.6.1-1.0-BETA.jar', 'slf4j-log4j12-1.6.1-1.0-BETA.jar' ] 
-    }
-    
-    eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
-    eclipse.classpath.defaultOutputDir = file('target/classes')
+ext.buildPlugins="$projectDir/build/plugins/"
+ext.libraryPlugin="$buildPlugins/library.gradle"
+ext.emmaPlugin="$buildPlugins/emma.gradle"
+ext.distributionPlugin="$buildPlugins/distribution.gradle"
 
+subprojects {
+    apply from: "$buildPlugins/java.gradle"
+    apply from: "$buildPlugins/eclipse.gradle"
+    apply from: "$buildPlugins/findbugs.gradle"
+    apply from: "$buildPlugins/jdepend.gradle"
+    apply from: "$buildPlugins/pmd.gradle"
+    
     task "show-revision" << {
         new ByteArrayOutputStream().withStream { os ->
             def result = exec {
@@ -25,75 +23,14 @@ subprojects {
         }
     }
 
-    task copyPmdSettings(type: Copy) { task ->
-        from file('../build/template/for/pmd/.pmd')
-        into task.project.projectDir
-    }
-    pmd.ruleSetFiles = files(".pmd")
-    pmd.ignoreFailures = 'false'
-    task pmdProductionCode(dependsOn: [ copyPmdSettings, pmdMain ])
-
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-    [findbugsMain, findbugsTest]*.reports {
-        xml.enabled false
-        html.enabled true
-    }
-
-    [jdependMain, jdependTest]*.reports {
-        xml.enabled true
-        text.enabled false
-    }
-
-    jdependMain.doLast {
-        File file = new File(jdepend.reportsDir, "main.xml");
-        assert file.exists() && file.isFile(), "File '$file' must exist"
-        def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
-        if (numberOfCycles > 0) {
-            logger.error "We have detected $numberOfCycles cycles. Checkout report file: $file."
-            assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
-        }
-        else {
-            logger.info "No cycles detected for project '$project.name' . Good work!"
-        }
-    }
-
     version = '1.0-BETA'
 
     task "show-version" << { println version }
 
     repositories { 
-        flatDir { dirs 'lib' } 
         mavenCentral()
     }
 
-    dependencies {
-        compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
-    }
-
-    task "create-dirs" << {
-        sourceSets*.java.srcDirs*.each { it.mkdirs() }
-        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-    }
-
-    task "remove-target" << { delete("target") }
-
-    task sourcesJar(type: Jar, dependsOn:classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task testSourcesJar(type: Jar, dependsOn:classes) {
-        classifier = 'tests'
-        from sourceSets.test.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
- 
     task "init-libs" << { task ->
         def libDir = new File(task.project.projectDir, 'lib')
         libDir.mkdirs()
@@ -105,14 +42,10 @@ subprojects {
 }
 
 project(':log4j-1.2.16') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/log4j-1.2.16.jar"
@@ -125,14 +58,10 @@ project(':log4j-1.2.16') { prj ->
 }
 
 project(':junit-4.10') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/junit-4.10.jar"
@@ -145,20 +74,18 @@ project(':junit-4.10') { prj ->
 }
 
 project(':jcommon-1.0.15') { prj ->
+    apply from: "$libraryPlugin"
+
     prj.ext.libraryProjectLibrary="jcommon-1.0.15.jar"
     prj.ext.libraryProjectSources="jcommon-1.0.15.zip"
+
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/${prj.ext.libraryProjectLibrary}"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/${prj.ext.libraryProjectSources}"
+                    def componentPath = "${projectDir}/lib/${prj.ext.libraryProjectLibrary}"
+                    def componentSourcePath = "${projectDir}/lib-sources/${prj.ext.libraryProjectSources}"
                     node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
                 }
             }
@@ -167,14 +94,10 @@ project(':jcommon-1.0.15') { prj ->
 }
 
 project(':jfreechart-1.0.12') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/jfreechart-1.0.12.jar"
@@ -187,14 +110,10 @@ project(':jfreechart-1.0.12') { prj ->
 }
 
 project(':slf4j-api-1.6.1') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/slf4j-api-1.6.1.jar"
@@ -207,14 +126,10 @@ project(':slf4j-api-1.6.1') { prj ->
 }
 
 project(':slf4j-log4j12-1.6.1') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/slf4j-log4j12-1.6.1.jar"
@@ -227,14 +142,10 @@ project(':slf4j-log4j12-1.6.1') { prj ->
 }
 
 project(':commons-collections-3.2.1') { prj ->
+    apply from: "$libraryPlugin"
     eclipse {
         classpath {
             file {
-                whenMerged { classpath ->
-                    classpath.entries.removeAll { entry ->
-                        entry.kind == 'lib'
-                    }
-                }
                 withXml {
                     def node = it.asNode()
                     def componentPath = "${prj.projectDir}/lib/commons-collections-3.2.1.jar"
@@ -247,13 +158,15 @@ project(':commons-collections-3.2.1') { prj ->
 }
 
 project(':perftence') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
     version = '1.0-BETA'
 
     tasks.withType(FindBugs){
         ignoreFailures = true
     }
+
     dependencies {
         compile project(':commons-collections-3.2.1')
         compile project(':slf4j-api-1.6.1')
@@ -265,24 +178,11 @@ project(':perftence') {
         testRuntime project(':slf4j-log4j12-1.6.1')
         testRuntime project(':log4j-1.2.16')
     }
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-junit') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
     version = '1.0'
 
@@ -298,20 +198,6 @@ project(':perftence-junit') {
         testRuntime project(':slf4j-log4j12-1.6.1')
         testRuntime project(':log4j-1.2.16')
     }
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':acceptance-tests') {
@@ -329,32 +215,20 @@ project(':acceptance-tests') {
 }
 
 project(':perftence-bag'){
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
     version ='1.0'
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
 
     dependencies {
         compile project(':commons-collections-3.2.1')
         compile project(':jcommon-1.0.15')
         testCompile project(':junit-4.10')
     }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-experimental') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
 
     dependencies {
         compile project(':perftence')
@@ -375,21 +249,10 @@ project(':build') {
 }
 
 project(':perftence-api') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
     version = '1.0'
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
 
     dependencies {
         compile project(':perftence')
@@ -402,22 +265,10 @@ project(':perftence-api') {
         testCompile project(':junit-4.10')
     }
 
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':mainentrypoint-example') {
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
+    apply from:"$distributionPlugin"
 
     dependencies {
         compile project(':perftence')
@@ -429,22 +280,12 @@ project(':mainentrypoint-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
-    task release(dependsOn: [ dist, sourcesJar ])
+
 }
 
 project(':fluent-based-example') {
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
+    apply from:"$distributionPlugin"
 
     dependencies {
         testCompile project(':perftence')
@@ -456,22 +297,10 @@ project(':fluent-based-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':agent-based-example') {
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
+    apply from:"$distributionPlugin"
 
     dependencies {
         testCompile project(':perftence')
@@ -483,24 +312,13 @@ project(':agent-based-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':responsecode-summaryappender') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
     version ='1.0'
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
 
     dependencies {
         compile project(':perftence')
@@ -509,44 +327,22 @@ project(':responsecode-summaryappender') {
         compile project(':jcommon-1.0.15')
         testCompile project(':junit-4.10')
     }
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-junit-utils') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
     version ='1.0'
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
-
     dependencies { compile project(':junit-4.10') }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project ('filebased-reporting-proto') {
-    apply from:'../build/plugins/emma.gradle'
-    version ='1.0'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
+    version ='1.0'
 
     dependencies {
         compile project(':perftence-linereader')
@@ -559,70 +355,37 @@ project ('filebased-reporting-proto') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-linereader'){
-    apply from:'../build/plugins/emma.gradle'
-    version ='1.0'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
+    version ='1.0'
 
     dependencies {
         testCompile project(':junit-4.10')
     }
 
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-fileutil') {
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
     version ='1.0'
-
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
 
     dependencies {
         testCompile project(':junit-4.10')
     }
-
-    task release(dependsOn: [ dist, sourcesJar ])
 }
 
 project(':perftence-classhelper') { 
-    apply from:'../build/plugins/emma.gradle'
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
     version ='1.0'
 
-    task('dist', type: Zip) {
-        dependsOn 'jar'
-        from jar.archivePath
-        from configurations.runtime
-        exclude project.ext.libProjects
-    }
-
-    artifacts {
-        archives dist
-        archives sourcesJar
-    }
     dependencies {
         testCompile project(':slf4j-api-1.6.1')
         testCompile project(':junit-4.10')
@@ -630,7 +393,6 @@ project(':perftence-classhelper') {
         testRuntime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
     }
-    task release(dependsOn: [ dist, sourcesJar ])
 
 }
 

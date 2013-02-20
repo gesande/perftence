@@ -1,0 +1,10 @@
+apply plugin: 'pmd'
+
+task copyPmdSettings(type: Copy) { task ->
+    from file('../build/template/for/pmd/.pmd')
+    into task.project.projectDir
+}
+pmd.ruleSetFiles = files(".pmd")
+pmd.ignoreFailures = 'false'
+task pmdProductionCode(dependsOn: [ copyPmdSettings, pmdMain ])
+

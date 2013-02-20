@@ -1,0 +1,20 @@
+apply plugin: "jdepend"
+
+[jdependMain, jdependTest]*.reports {
+    xml.enabled true
+    text.enabled false
+}
+
+jdependMain.doLast {
+    File file = new File(jdepend.reportsDir, "main.xml");
+    assert file.exists() && file.isFile(), "File '$file' must exist"
+    def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
+    if (numberOfCycles > 0) {
+        logger.error "We have detected $numberOfCycles cycles. Checkout report file: $file."
+        assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
+    }
+    else {
+        logger.info "No cycles detected for project '$project.name' . Good work!"
+    }
+}
+

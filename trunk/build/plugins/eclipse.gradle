@@ -1,0 +1,8 @@
+apply plugin: "eclipse"
+
+eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
+
+eclipse.classpath.defaultOutputDir = file('target/classes')
+
+task "remove-target" << { delete("target") }
+
