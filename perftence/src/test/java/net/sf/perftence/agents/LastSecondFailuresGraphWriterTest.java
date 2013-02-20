@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -52,13 +53,9 @@ public class LastSecondFailuresGraphWriterTest {
                 .graphWriterFor("testing-the-stuff");
         assertTrue(graphFor.hasSomethingToWrite());
         assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
-        final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart();
+        final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart(
+                new HtmlTestReport());
         graphFor.writeImage(new ImageFactory() {
-
-            @Override
-            public void updateIndexFile(final String id) {
-                throw new FailIHave("You shouldn't come here!");
-            }
 
             @Override
             public void createXYLineChart(final String id,

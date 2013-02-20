@@ -8,6 +8,4 @@ public interface ImageFactory {
 
     public void createScatterPlot(final String id, final ImageData imageData);
 
-    public void updateIndexFile(final String id);
-
 }

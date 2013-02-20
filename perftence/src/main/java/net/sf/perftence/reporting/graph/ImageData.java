@@ -1,6 +1,5 @@
 package net.sf.perftence.reporting.graph;
 
-
 public final class ImageData {
     private final String title;
     private final String xAxisTitle;

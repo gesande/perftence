@@ -13,14 +13,14 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
 
-    private StringBuffer sb;
+    private StringBuilder sb;
 
     public HtmlSummary start() {
         return init().append(htmlStart());
     }
 
     private HtmlSummary init() {
-        this.sb = new StringBuffer();
+        this.sb = new StringBuilder();
         return this;
     }
 
@@ -33,7 +33,7 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
         return this;
     }
 
-    public StringBuffer end() {
+    public StringBuilder end() {
         endOfLine();
         append(htmlEnd());
         return buffer();
@@ -95,7 +95,7 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
         return this;
     }
 
-    private StringBuffer buffer() {
+    private StringBuilder buffer() {
         return this.sb;
     }
 

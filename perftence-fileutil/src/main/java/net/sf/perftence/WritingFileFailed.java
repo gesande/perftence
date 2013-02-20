@@ -1,6 +1,6 @@
 package net.sf.perftence;
 
-public final class WritingFileFailed extends RuntimeException {
+public final class WritingFileFailed extends Exception {
 
     public WritingFileFailed(final String msg, final Throwable cause) {
         super(msg, cause);

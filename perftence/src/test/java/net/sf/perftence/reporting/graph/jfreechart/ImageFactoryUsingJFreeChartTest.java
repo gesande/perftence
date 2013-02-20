@@ -7,6 +7,7 @@ import java.util.Random;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.FrequencyStorageFactory;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.Statistics;
 import net.sf.perftence.reporting.ReportingOptionsFactory;
@@ -32,7 +33,7 @@ public class ImageFactoryUsingJFreeChartTest {
 
     @BeforeClass
     public static void beforeClass() {
-        imageFactory = new ImageFactoryUsingJFreeChart();
+        imageFactory = new ImageFactoryUsingJFreeChart(new HtmlTestReport());
     }
 
     private static InvocationStorage newDefaultInvocationStorage(final int value) {

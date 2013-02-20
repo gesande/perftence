@@ -90,8 +90,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
                         adapter);
         int i = 0;
         for (final Integer latency : invocations) {
-            final int value = latency == null ? -1 : latency;
-            imageData.add(i, value);
+            imageData.add(i, latency);
             i++;
         }
         return imageData;

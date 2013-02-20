@@ -4,19 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class FileUtil {
-    public static void writeToFile(final String path, final byte[] data) {
+    public static void writeToFile(final String path, final byte[] data)
+            throws WritingFileFailed {
         final File outFile = new File(path);
         try {
             ensureDirectoryExists(outFile.getParentFile());
-        } catch (FileNotFoundException e) {
-            throw newWritingFileFailed(path, e);
-        }
-        try {
             writeToFile(outFile, data);
-        } catch (Exception e) {
-            throw newWritingFileFailed(path, e);
+        } catch (final Throwable cause) {
+            throw newWritingFileFailed(path, cause);
         }
     }
 
@@ -25,30 +23,47 @@ public class FileUtil {
         final FileOutputStream fos = new FileOutputStream(outFile);
         try {
             fos.write(data);
-        } finally {
             fos.flush();
+        } finally {
             fos.close();
         }
     }
 
     private static WritingFileFailed newWritingFileFailed(final String path,
             final Throwable cause) {
-        return new WritingFileFailed("Couldn't write to file: '" + path + "' ",
+        return new WritingFileFailed("Couldn't write to file '" + path + "' ",
                 cause);
     }
 
     public static void ensureDirectoryExists(final File dir)
-            throws FileNotFoundException {
+            throws FileNotFoundException, DirectoryNotCreatedException {
         final File parent = dir.getParentFile();
         if (!dir.exists()) {
             if (parent == null) {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException(
+                        "Parent directory didn't exist!");
             }
             ensureDirectoryExists(parent);
             if (!dir.mkdir()) {
-                throw new WritingFileFailed("Directory '" + dir.getName()
-                        + "' wasn't created!");
+                throw new DirectoryNotCreatedException("Directory '"
+                        + dir.getName() + "' wasn't created!");
             }
+        }
+    }
+
+    public static void appendToFile(final String file, final byte[] bytes)
+            throws AppendToFileFailed {
+        try {
+            final OutputStream out = new FileOutputStream(file, true);
+            try {
+                out.write(bytes);
+                out.flush();
+            } finally {
+                out.close();
+            }
+        } catch (final Throwable t) {
+            throw new AppendToFileFailed("Failed to append to file '" + file
+                    + "' ", t);
         }
     }
 }
