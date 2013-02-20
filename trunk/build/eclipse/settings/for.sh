@@ -3,7 +3,7 @@ set -eu
 
 settings-for() {
   local PROJECT=$1
-  gradle :$PROJECT:cleanEclipse :$PROJECT:eclipse
+  gradle --info :$PROJECT:cleanEclipse :$PROJECT:eclipse
 } 
 
 settings-for $1
