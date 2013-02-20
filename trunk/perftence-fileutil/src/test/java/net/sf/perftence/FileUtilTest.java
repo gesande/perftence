@@ -10,19 +10,20 @@ public class FileUtilTest {
 
     @SuppressWarnings("static-method")
     @Test
-    public void writeToFile() {
+    public void writeToFile() throws WritingFileFailed {
         FileUtil.writeToFile("./target/content",
                 content().toString().getBytes(Charset.defaultCharset()));
     }
 
     @SuppressWarnings("static-method")
     @Test
-    public void ensureDirectoryExists() throws FileNotFoundException {
+    public void ensureDirectoryExists() throws FileNotFoundException,
+            DirectoryNotCreatedException {
         FileUtil.ensureDirectoryExists(new File("./target/daapa",
                 "diipa/directory"));
     }
 
-    private static StringBuffer content() {
-        return new StringBuffer("content");
+    private static StringBuilder content() {
+        return new StringBuilder("content");
     }
 }

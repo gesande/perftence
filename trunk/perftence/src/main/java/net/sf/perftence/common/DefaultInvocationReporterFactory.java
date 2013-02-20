@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.ImageData;
@@ -16,6 +17,7 @@ import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DefaultInvocationReporterFactory {
 
+    private final static TestReport TEST_REPORT = new HtmlTestReport();
     private final static DatasetAdapterFactory DATASET_ADAPTER_FACTORY = new DefaultDatasetAdapterFactory();
     private final static ThroughputStorageFactory THROUGHPUT_STORAGE_FACTORY = new ThroughputStorageFactory(
             DATASET_ADAPTER_FACTORY);
@@ -89,7 +91,11 @@ public final class DefaultInvocationReporterFactory {
                 setup.duration(), newFrequencyStorage,
                 setup.summaryAppenders(), includeInvocationGraph,
                 setup.graphWriters(), statisticsSummaryProvider,
-                failedInvocations);
+                failedInvocations, testReport());
+    }
+
+    private static TestReport testReport() {
+        return TEST_REPORT;
     }
 
     private static StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider(
@@ -116,7 +122,7 @@ public final class DefaultInvocationReporterFactory {
     }
 
     private static ImageFactory imageFactory() {
-        return new ImageFactoryUsingJFreeChart();
+        return new ImageFactoryUsingJFreeChart(testReport());
     }
 
     private static InvocationStorage defaultInvocationStorage(

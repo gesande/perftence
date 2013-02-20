@@ -20,6 +20,7 @@ import net.sf.perftence.common.DefaultInvocationReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.FrequencyStorage;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.TestRuntimeReporter;
@@ -76,9 +77,10 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         System.out.println("\ntasks run " + this.tasksRun.intValue());
         System.out.println("\ntasks failed " + this.tasksFailed.intValue());
 
-        new ImageFactoryUsingJFreeChart().createXYLineChart(
-                "printingAFrequencyGraphUsingPerfEngineTools",
-                storage.imageData());
+        new ImageFactoryUsingJFreeChart(new HtmlTestReport())
+                .createXYLineChart(
+                        "printingAFrequencyGraphUsingPerfEngineTools",
+                        storage.imageData());
     }
 
     @Test

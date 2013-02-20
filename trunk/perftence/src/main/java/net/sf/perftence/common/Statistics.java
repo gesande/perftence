@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.sf.perftence.reporting.graph.StatisticsForGraphs;
 
-
 public final class Statistics implements StatisticsForGraphs {
 
     private List<Integer> latencies;

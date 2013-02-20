@@ -3,23 +3,16 @@ package net.sf.perftence.reporting.graph.jfreechart;
 import java.awt.Color;
 import java.awt.Paint;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.perftence.FileUtil;
-import net.sf.perftence.WritingFileFailed;
-import net.sf.perftence.reporting.HtmlReportDeployment;
+import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.StatisticsForGraphs;
-import net.sf.perftence.reporting.graph.WriteImageRefToTheIndexFileFailed;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -39,6 +32,11 @@ import org.slf4j.LoggerFactory;
 public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ImageFactoryUsingJFreeChart.class);
+    private final TestReport testReport;
+
+    public ImageFactoryUsingJFreeChart(final TestReport testReport) {
+        this.testReport = testReport;
+    }
 
     @Override
     public void createXYLineChart(final String id, final ImageData imageData) {
@@ -55,7 +53,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         } else {
             addMainDataGraphToPlot(plot, mainData, 0);
         }
-        writeToFile(id, chart);
+        writeChartToFile(id, chart);
     }
 
     @Override
@@ -66,13 +64,13 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         log().info("Processing data...");
         final BarChartGraphData mainData = barGraphData(imageData, Color.GRAY);
         addMainDataGraphToPlot(plot, mainData, 0);
-        writeToFile(id, chart);
+        writeChartToFile(id, chart);
     }
 
     @Override
     public void createScatterPlot(final String id, final ImageData imageData) {
         log().info("Create line chart for: {}", id);
-        writeToFile(id, newScatterPlot(imageData));
+        writeChartToFile(id, newScatterPlot(imageData));
     }
 
     private static JFreeChart newScatterPlot(final ImageData imageData) {
@@ -190,7 +188,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         return new StandardXYItemRenderer();
     }
 
-    private static void writeToFile(final String id, final JFreeChart chart) {
+    private void writeChartToFile(final String id, final JFreeChart chart) {
         final String outputFilePath = reportDeploymentDirectory() + "/" + id
                 + ".png";
         log().info("Writing to file {}", outputFilePath);
@@ -199,10 +197,16 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart,
                     width(), height());
             log().info("Image successfully written to {}", outputFilePath);
-        } catch (Exception e) {
-            throw new WritingFileFailed("Writing file " + outputFilePath
-                    + " failed!", e);
+        } catch (final Exception e) {
+            throw new RuntimeException(logError(outputFilePath, e), e);
         }
+    }
+
+    private static String logError(final String outputFilePath,
+            final Exception e) {
+        final String errorMsg = "Writing file '" + outputFilePath + "' failed!";
+        log().error(errorMsg, e);
+        return errorMsg;
     }
 
     private static File newFile(final String path) {
@@ -284,40 +288,15 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         }
     }
 
-    @Override
-    public void updateIndexFile(final String id) {
-        writeImageRefToTheIndexFile(reportDeploymentDirectory() + "/"
-                + "index.html",
-                "<a href=" + HtmlReportDeployment.reportAsHtml(id) + ">" + id
-                        + "</a><br />");
-    }
-
-    private static void writeImageRefToTheIndexFile(final String indexFile,
-            String link) {
-        try {
-            final OutputStream out = new FileOutputStream(indexFile, true);
-            out.write(link.getBytes(Charset.defaultCharset()));
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            throw writingImageRefFailed(link, e);
-        } catch (IOException e) {
-            throw writingImageRefFailed(link, e);
-        }
-        log().info("Index file {} updated", indexFile);
-    }
-
-    private static RuntimeException writingImageRefFailed(final String link,
-            Throwable t) {
-        return new WriteImageRefToTheIndexFileFailed(
-                "Couldn't write image ref '" + link + "' to the index file!", t);
-    }
-
-    private static String reportDeploymentDirectory() {
-        return HtmlReportDeployment.deploymentDirectory();
+    private String reportDeploymentDirectory() {
+        return testReport().directory();
     }
 
     private static Logger log() {
         return LOGGER;
+    }
+
+    private TestReport testReport() {
+        return this.testReport;
     }
 }

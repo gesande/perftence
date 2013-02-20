@@ -1,12 +1,10 @@
 package net.sf.perftence.common;
 
-import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import net.sf.perftence.FileUtil;
-import net.sf.perftence.reporting.HtmlReportDeployment;
+import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.graph.ImageFactory;
@@ -33,6 +31,7 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
     private final FailedInvocations failedInvocations;
     private final Collection<GraphWriter> graphWriters;
     private final Collection<SummaryAppender> customSummaryAppenders;
+    private final TestReport testReport;
 
     public DefaultTestRuntimeReporter(
             final InvocationStorage invocationStorage,
@@ -43,7 +42,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
             final boolean includeInvocationGraph,
             final Collection<GraphWriter> graphWriters,
             final StatisticsSummaryProvider<HtmlSummary> statisticsProvider,
-            final FailedInvocations failedInvocations) {
+            final FailedInvocations failedInvocations,
+            final TestReport testReport) {
         this.invocationStorage = invocationStorage;
         this.throughputStorage = throughputStorage;
         this.imageFactory = imageFactory;
@@ -55,6 +55,7 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
         this.graphWriters = graphWriters;
         this.statisticsProvider = statisticsProvider;
         this.failedInvocations = failedInvocations;
+        this.testReport = testReport;
     }
 
     @Override
@@ -62,8 +63,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
         throughputStorage().store(currentDuration, throughput);
     }
 
-    private StringBuffer createSummary(final String id, final long elapsedTime,
-            final long invocationCount) {
+    private StringBuilder createSummary(final String id,
+            final long elapsedTime, final long invocationCount) {
         final HtmlSummary summary = startSummary();
         buildSummary(id, elapsedTime, invocationCount, summary);
         appendInvocationChart(id, summary);
@@ -167,12 +168,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
         return this.invocationStorage;
     }
 
-    private static void writeFile(final String id, final StringBuffer sb) {
-        final String path = getPath() + "/"
-                + HtmlReportDeployment.reportAsHtml(id);
-        log().debug("Writing summary to: " + path);
-        FileUtil.writeToFile(path,
-                sb.toString().getBytes(Charset.defaultCharset()));
+    private void writeSummary(final String id, final StringBuilder sb) {
+        testReport().writeSummary(id, sb.toString());
     }
 
     private void buildSummary(final String name, final long elapsedTime,
@@ -244,17 +241,17 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
                     id);
             return;
         }
-        writeFile(id, createSummary(id, elapsedTime, sampleCount));
-        imageFactory().updateIndexFile(id);
+        writeSummary(id, createSummary(id, elapsedTime, sampleCount));
+        updateIndexFile(id);
+    }
+
+    private void updateIndexFile(final String id) {
+        testReport().updateIndexFile(id);
     }
 
     @Override
     public synchronized void latency(final int latency) {
         invocationStorage().store(latency);
-    }
-
-    private static String getPath() {
-        return HtmlReportDeployment.deploymentDirectory();
     }
 
     @Override
@@ -264,6 +261,10 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 
     private FailedInvocations failedInvocations() {
         return this.failedInvocations;
+    }
+
+    private TestReport testReport() {
+        return this.testReport;
     }
 
 }
