@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
@@ -127,9 +128,9 @@ public final class DefaultInvocationReporterFactory {
 
     private static InvocationStorage defaultInvocationStorage(
             final PerformanceTestSetup setup) {
-        return InvocationStorageFactory.newDefaultInvocationStorage(
-                setup.invocations(), setup.invocationRange(),
-                datasetAdapterFactory());
+        return DefaultInvocationStorage.newDefaultStorage(setup.invocations(),
+                ReportingOptionsFactory.latencyOptionsWithStatistics(setup
+                        .invocationRange()), datasetAdapterFactory());
     }
 
     private static InvocationStorage invocationStorageWithNoSamples() {

@@ -57,6 +57,7 @@ waiting "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 in-progress-title
 
 waiting-title
+waiting "breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo" $(tag build)
 waiting "failures over test time, use DateAxis" $(tag feature)
 waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "provide success rate percentage for intermediate statistics" $(tag feature)

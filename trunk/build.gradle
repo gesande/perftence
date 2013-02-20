@@ -5,9 +5,12 @@ subprojects {
     apply plugin: 'pmd'
     apply plugin: "jdepend"
     
+    ext {
+        libProjects=[ 'log4j-1.2.16-1.0-BETA.jar', 'jcommon-1.0.15-1.0-BETA.jar', 'jfreechart-1.0.12-1.0-BETA.jar',  'junit-4.10-1.0-BETA.jar', 'commons-collections-3.2.1-1.0-BETA.jar', 'slf4j-api-1.6.1-1.0-BETA.jar', 'slf4j-log4j12-1.6.1-1.0-BETA.jar' ] 
+    }
+    
     eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
     eclipse.classpath.defaultOutputDir = file('target/classes')
-
     task "show-revision" << {
         new ByteArrayOutputStream().withStream { os ->
             def result = exec {
@@ -25,15 +28,13 @@ subprojects {
         from file('../build/template/for/pmd/.pmd')
         into task.project.projectDir
     }
-
     pmd.ruleSetFiles = files(".pmd")
     pmd.ignoreFailures = 'false'
     task pmdProductionCode(dependsOn: [ copyPmdSettings, pmdMain ])
 
     tasks.withType(FindBugs){
-        ignoreFailures = true
+        ignoreFailures = false
     }
-
     [findbugsMain, findbugsTest]*.reports {
         xml.enabled false
         html.enabled true
@@ -143,6 +144,8 @@ project(':junit-4.10') { prj ->
 }
 
 project(':jcommon-1.0.15') { prj ->
+    prj.ext.libraryProjectLibrary="jcommon-1.0.15.jar"
+    prj.ext.libraryProjectSources="jcommon-1.0.15.zip"
     eclipse {
         classpath {
             file {
@@ -153,8 +156,8 @@ project(':jcommon-1.0.15') { prj ->
                 }
                 withXml {
                     def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/jcommon-1.0.15.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jcommon-1.0.15.zip"
+                    def componentPath = "${prj.projectDir}/lib/${prj.ext.libraryProjectLibrary}"
+                    def componentSourcePath = "${prj.projectDir}/lib-sources/${prj.ext.libraryProjectSources}"
                     node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
                 }
             }
@@ -247,6 +250,9 @@ project(':perftence') {
 
     version = '1.0-BETA'
 
+    tasks.withType(FindBugs){
+        ignoreFailures = true
+    }
     dependencies {
         compile project(':commons-collections-3.2.1')
         compile project(':slf4j-api-1.6.1')
@@ -263,7 +269,7 @@ project(':perftence') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
 
     artifacts {
@@ -292,16 +298,13 @@ project(':perftence-junit') {
         testRuntime project(':log4j-1.2.16')
     }
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -327,17 +330,14 @@ project(':acceptance-tests') {
 project(':perftence-bag'){
     apply from:'../build/plugins/emma.gradle'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-
     version ='1.0'
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -378,15 +378,11 @@ project(':perftence-api') {
 
     version = '1.0'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'slf4j-log4j12-1.6.1-1.0-BETA.jar','log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
 
     artifacts {
@@ -414,8 +410,9 @@ project(':mainentrypoint-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'slf4j-log4j12-1.6.1-1.0-BETA.jar','log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -440,8 +437,9 @@ project(':fluent-based-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -466,8 +464,9 @@ project(':agent-based-example') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -489,17 +488,14 @@ project(':agent-based-example') {
 project(':responsecode-summaryappender') {
     apply from:'../build/plugins/emma.gradle'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-
     version ='1.0'
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
+
     artifacts {
         archives dist
         archives sourcesJar
@@ -519,15 +515,11 @@ project(':perftence-junit-utils') {
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-    
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
 
     artifacts {
@@ -548,7 +540,7 @@ project ('filebased-reporting-proto') {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
     artifacts {
         archives dist
@@ -574,15 +566,11 @@ project(':perftence-linereader'){
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
     artifacts {
         archives dist
@@ -600,15 +588,11 @@ project(':perftence-fileutil') {
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-    
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
 
     artifacts {
@@ -623,20 +607,15 @@ project(':perftence-fileutil') {
     task release(dependsOn: [ dist, sourcesJar ])
 }
 
-
-project(':perftence-classhelper') {
+project(':perftence-classhelper') { 
     apply from:'../build/plugins/emma.gradle'
     version ='1.0'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = false
-    }
-    
     task('dist', type: Zip) {
         dependsOn 'jar'
         from jar.archivePath
         from configurations.runtime
-        exclude 'log4j-1.2.16-1.0-BETA.jar','jcommon-1.0.15-1.0-BETA.jar','jfreechart-1.0.12-1.0-BETA.jar','junit-4.10-1.0-BETA.jar','commons-collections-3.2.1-1.0-BETA.jar','slf4j-api-1.6.1-1.0-BETA.jar','slf4j-log4j12-1.6.1-1.0-BETA.jar'
+        exclude project.ext.libProjects
     }
 
     artifacts {
