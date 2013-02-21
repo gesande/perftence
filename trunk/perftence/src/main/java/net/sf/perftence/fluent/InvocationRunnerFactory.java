@@ -1,5 +1,7 @@
 package net.sf.perftence.fluent;
 
+import java.util.concurrent.ThreadFactory;
+
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 
@@ -19,6 +21,8 @@ public final class InvocationRunnerFactory {
 
     public static InvocationRunner create(final RunNotifier runNotifier,
             final TestFailureNotifier failureNotifier, final String id) {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("perf-test-");
         return new InvocationRunner() {
             /**
              * Executing threads
@@ -75,13 +79,8 @@ public final class InvocationRunnerFactory {
             private void createThreads(final Invocation[] runnables) {
                 this.threads = new Thread[runnables.length];
                 for (int i = 0; i < threads().length; i++) {
-                    threads()[i] = new Thread(runnables[i],
-                            performanceTestThread(i));
+                    threads()[i] = threadFactory.newThread(runnables[i]);
                 }
-            }
-
-            private String performanceTestThread(final int index) {
-                return new StringBuffer("perf-test-").append(index).toString();
             }
 
             @Override
