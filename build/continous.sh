@@ -1,22 +1,8 @@
 #!/bin/bash
 set -eu
 
-continous-build() {
-  local PROJECT=$1
-  gradle --info $PROJECT:continous
-}
-
-gradle clean
-continous-build perftence-bag
-continous-build perftence-linereader
-continous-build perftence-fileutil
-continous-build perftence-junit-utils
-continous-build perftence-classhelper
-continous-build perftence
-continous-build perftence-api
-continous-build responsecode-summaryappender
-continous-build perftence-junit
-gradle --info acceptance-tests:test
+gradle clean perftence-bag:continous perftence-linereader:continous perftence-fileutil:continous perftence-junit-utils:continous perftence-classhelper:continous perftence:continous perftence-api:continous responsecode-summaryappender:continous perftence-junit:continous
+gradle acceptance-tests:test
 build/emma/report.sh
 build/findbugs/report.sh
 build/jdepend/report.sh
