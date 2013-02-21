@@ -6,5 +6,5 @@ task copyPmdSettings(type: Copy) { task ->
 }
 pmd.ruleSetFiles = files(".pmd")
 pmd.ignoreFailures = 'false'
-task pmdProductionCode(dependsOn: [ copyPmdSettings, pmdMain ])
+task pmdProductionCode(dependsOn: [copyPmdSettings, pmdMain])
 

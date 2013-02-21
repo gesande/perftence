@@ -12,5 +12,5 @@ artifacts {
     archives sourcesJar
 }
 
-task release(dependsOn: [ dist, sourcesJar ])
+task release(dependsOn: [dist, sourcesJar])
 

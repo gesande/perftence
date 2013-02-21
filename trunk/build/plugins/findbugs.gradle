@@ -1,8 +1,6 @@
 apply plugin: 'findbugs'
 
-tasks.withType(FindBugs){
-    ignoreFailures = false
-}
+tasks.withType(FindBugs){ ignoreFailures = false }
 
 [findbugsMain, findbugsTest]*.reports {
     xml.enabled false
