@@ -2,7 +2,7 @@
 set -e
 
 tar-file() {
-  local REVISION=$(svnversion)
+  local REVISION=$(gradle show-revision | head -2 | tail -1)
   local VERSION=$(gradle perftence:show-version | grep -A1 :perftence:show-version | tail -1)
   local ARTIFACT_VERSION="$VERSION-R$REVISION"
   local ARTIFACT_FINAL="tmp/artifact-$ARTIFACT_VERSION/perftence-distribution-$ARTIFACT_VERSION.tar"

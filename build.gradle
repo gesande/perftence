@@ -1,7 +1,9 @@
-ext.buildPlugins="$projectDir/build/plugins/"
+ext.buildScripts="$projectDir/build"
+ext.buildPlugins="$buildScripts/plugins/"
 ext.libraryPlugin="$buildPlugins/library.gradle"
 ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
+apply from: "$buildPlugins/svn.gradle"
 
 subprojects {
     apply from: "$buildPlugins/java.gradle"
@@ -10,19 +12,6 @@ subprojects {
     apply from: "$buildPlugins/jdepend.gradle"
     apply from: "$buildPlugins/pmd.gradle"
     
-    task "show-revision" << {
-        new ByteArrayOutputStream().withStream { os ->
-            def result = exec {
-                executable = 'svn'
-                args = ['info']
-                standardOutput = os
-            }
-            def outputAsString = os.toString()
-            def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
-            println "${matchLastChangedRev[0][1]}"
-        }
-    }
-
     version = '1.0-BETA'
 
     task "show-version" << { println version }
@@ -75,17 +64,13 @@ project(':junit-4.10') { prj ->
 
 project(':jcommon-1.0.15') { prj ->
     apply from: "$libraryPlugin"
-
-    prj.ext.libraryProjectLibrary="jcommon-1.0.15.jar"
-    prj.ext.libraryProjectSources="jcommon-1.0.15.zip"
-
     eclipse {
         classpath {
             file {
                 withXml {
                     def node = it.asNode()
-                    def componentPath = "${projectDir}/lib/${prj.ext.libraryProjectLibrary}"
-                    def componentSourcePath = "${projectDir}/lib-sources/${prj.ext.libraryProjectSources}"
+                    def componentPath = "${projectDir}/lib/jcommon-1.0.15.jar"
+                    def componentSourcePath = "${projectDir}/lib-sources/jcommon-1.0.15.zip"
                     node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
                 }
             }
@@ -106,6 +91,10 @@ project(':jfreechart-1.0.12') { prj ->
                 }
             }
         }
+    }
+
+    dependencies {
+        compile project(':jcommon-1.0.15')
     }
 }
 
@@ -222,7 +211,6 @@ project(':perftence-bag'){
 
     dependencies {
         compile project(':commons-collections-3.2.1')
-        compile project(':jcommon-1.0.15')
         testCompile project(':junit-4.10')
     }
 }
@@ -284,7 +272,6 @@ project(':mainentrypoint-example') {
 }
 
 project(':fluent-based-example') {
-
     apply from:"$distributionPlugin"
 
     dependencies {

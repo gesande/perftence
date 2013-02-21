@@ -1,0 +1,13 @@
+task "show-revision" << {
+    new ByteArrayOutputStream().withStream { os ->
+        def result = exec {
+            executable = 'svn'
+            args = ['info']
+            standardOutput = os
+        }
+        def outputAsString = os.toString()
+        def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
+        println "${matchLastChangedRev[0][1]}"
+    }
+}
+
