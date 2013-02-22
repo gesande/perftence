@@ -5,6 +5,16 @@ ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
 apply from: "$buildPlugins/svn.gradle"
 
+/*
+task ('archiveReports', type:Zip) {
+    def now=new Date().format("yyyyMMddHHmmss")
+    from '$projectDir/tmp/emma'
+    from '$projectDir/tmp/findbugs'
+    from '$projectDir/tmp/jdepend'
+    into 'report-artifacts'
+}
+*/
+
 subprojects {
     apply from: "$buildPlugins/java.gradle"
     apply from: "$buildPlugins/eclipse.gradle"
@@ -32,66 +42,26 @@ subprojects {
 
 project(':log4j-1.2.16') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/log4j-1.2.16.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/apache-log4j-1.2.16.zip"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='log4j-1.2.16.jar'
+    prj.ext.librarySources='apache-log4j-1.2.16.zip'
 }
 
 project(':junit-4.10') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/junit-4.10.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/junit-4.10-src.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='junit-4.10.jar'
+    prj.ext.librarySources='junit-4.10-src.jar'
 }
 
 project(':jcommon-1.0.15') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${projectDir}/lib/jcommon-1.0.15.jar"
-                    def componentSourcePath = "${projectDir}/lib-sources/jcommon-1.0.15.zip"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='jcommon-1.0.15.jar'
+    prj.ext.librarySources='jcommon-1.0.15.zip'
 }
 
 project(':jfreechart-1.0.12') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/jfreechart-1.0.12.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/jfreechart-1.0.12.zip"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='jfreechart-1.0.12.jar'
+    prj.ext.librarySources='jfreechart-1.0.12.zip'
 
     dependencies {
         compile project(':jcommon-1.0.15')
@@ -100,50 +70,20 @@ project(':jfreechart-1.0.12') { prj ->
 
 project(':slf4j-api-1.6.1') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/slf4j-api-1.6.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-api-1.6.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='slf4j-api-1.6.1.jar'
+    prj.ext.librarySources='slf4j-api-1.6.1-sources.jar'
 }
 
 project(':slf4j-log4j12-1.6.1') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/slf4j-log4j12-1.6.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/slf4j-log4j12-1.6.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='slf4j-log4j12-1.6.1.jar'
+    prj.ext.librarySources='slf4j-log4j12-1.6.1-sources.jar'
 }
 
 project(':commons-collections-3.2.1') { prj ->
     apply from: "$libraryPlugin"
-    eclipse {
-        classpath {
-            file {
-                withXml {
-                    def node = it.asNode()
-                    def componentPath = "${prj.projectDir}/lib/commons-collections-3.2.1.jar"
-                    def componentSourcePath = "${prj.projectDir}/lib-sources/commons-collections-3.2.1-sources.jar"
-                    node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
-                }
-            }
-        }
-    }
+    prj.ext.library='commons-collections-3.2.1.jar'
+    prj.ext.librarySources='commons-collections-3.2.1-sources.jar'
 }
 
 project(':perftence') {
