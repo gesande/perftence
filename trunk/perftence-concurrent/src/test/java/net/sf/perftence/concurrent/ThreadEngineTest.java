@@ -34,6 +34,39 @@ public class ThreadEngineTest {
         assertTrue(runned.get());
     }
 
+    @SuppressWarnings("static-method")
+    @Test
+    public void interruptThreads() throws InterruptedException {
+        final AtomicBoolean wasInterrupted = new AtomicBoolean(false);
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    wasInterrupted.set(true);
+                }
+            }
+        };
+        final ThreadEngine newEngineWithNamedThreadFactory = newEngineWithNamedThreadFactory();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                newEngineWithNamedThreadFactory.run(new Runnable[] { r });
+            }
+        }).start();
+        Thread.sleep(100);
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                newEngineWithNamedThreadFactory.interruptThreads();
+            }
+        }).start();
+        Thread.sleep(100);
+        assertTrue(wasInterrupted.get());
+    }
+
     private static ThreadEngine newEngineWithNamedThreadFactory() {
         return new ThreadEngine(
                 NamedThreadFactory.forNamePrefix("my-test-threads-"));
