@@ -5,6 +5,20 @@ ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
 apply from: "$buildPlugins/svn.gradle"
 
+
+task copyDistribution(type: Copy) {
+    def zips = fileTree("$projectDir/**/build/distributions/*.zip")
+    println "zips =$zips"
+    from 'COPYING' 
+    from "$zips"
+    into 'distribution'
+}
+
+task copyDistributionSources(type: Copy) {
+    from fileTree("$projectDir/**/build/libs/").include('**/*sources.jar')
+    into 'distribution/sources'
+}
+
 task tarReportArtifacts(type: Tar) {
     from 'tmp/emma'
     from 'tmp/findbugs'
