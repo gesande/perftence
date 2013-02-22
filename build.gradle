@@ -162,6 +162,7 @@ project(':perftence') {
         compile project(':jfreechart-1.0.12')
         compile project(':jcommon-1.0.15')
         compile project(':perftence-bag')
+        compile project(':perftence-concurrent')
         compile project(':perftence-fileutil')
         testCompile project(':junit-4.10')
         testRuntime project(':slf4j-log4j12-1.6.1')
@@ -353,10 +354,20 @@ project(':perftence-linereader'){
     dependencies {
         testCompile project(':junit-4.10')
     }
-
 }
 
 project(':perftence-fileutil') {
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
+    version ='1.0'
+
+    dependencies {
+        testCompile project(':junit-4.10')
+    }
+}
+
+project(':perftence-concurrent') {
     apply from:"$emmaPlugin"
     apply from:"$distributionPlugin"
 
