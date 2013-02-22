@@ -54,6 +54,7 @@ task-done "provided more unit tests for LatencyProvider" $(tag code-quality)
 task-done "removed static evil for EstimatedInvocations " $(tag refactoring)
 task-done "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 task-done "breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo" $(tag build)
+task-done "simplified thread run engine for finding out threading issues, perftence-concurrent provides this now" $(tag feature)
 
 in-progress-title
 
@@ -84,5 +85,3 @@ waiting "change" $(tag refactoring)
 intended-comment "public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY"
 waiting "ability to define the TPS is used defining it before running the test" $(tag feature)
 intended-comment "e.g. running at 500 TPS max when the test is running"
-waiting "simplified thread run engine for finding out threading issues" $(tag feature)
-intended-comment "introduce new project called perftence-thread-engine"
