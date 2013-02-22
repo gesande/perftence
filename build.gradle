@@ -5,15 +5,20 @@ ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
 apply from: "$buildPlugins/svn.gradle"
 
-/*
-task ('archiveReports', type:Zip) {
-    def now=new Date().format("yyyyMMddHHmmss")
-    from '$projectDir/tmp/emma'
-    from '$projectDir/tmp/findbugs'
-    from '$projectDir/tmp/jdepend'
-    into 'report-artifacts'
+task tarReportArtifacts(type: Tar) {
+    from 'tmp/emma'
+    from 'tmp/findbugs'
+    from 'tmp/jdepend'
+
+    // Set destination directory.
+    destinationDir = file("$projectDir/tmp/")
+
+    // Set filename properties.
+    baseName = 'report-artifacts'
+    extension = 'tar.gz'
+
+    compression = Compression.GZIP
 }
-*/
 
 subprojects {
     apply from: "$buildPlugins/java.gradle"
@@ -21,14 +26,12 @@ subprojects {
     apply from: "$buildPlugins/findbugs.gradle"
     apply from: "$buildPlugins/jdepend.gradle"
     apply from: "$buildPlugins/pmd.gradle"
-    
+
     version = '1.0-BETA'
 
     task "show-version" << { println version }
 
-    repositories { 
-        mavenCentral()
-    }
+    repositories {  mavenCentral() }
 
     task "init-libs" << { task ->
         def libDir = new File(task.project.projectDir, 'lib')
@@ -37,7 +40,12 @@ subprojects {
         libSourcesDir.mkdirs()
     }
 
-    task continous(dependsOn: [ test, findbugsMain, pmdProductionCode, jdependMain ])
+    task continous(dependsOn: [
+        test,
+        findbugsMain,
+        pmdProductionCode,
+        jdependMain
+    ])
 }
 
 project(':log4j-1.2.16') { prj ->
@@ -63,9 +71,7 @@ project(':jfreechart-1.0.12') { prj ->
     prj.ext.library='jfreechart-1.0.12.jar'
     prj.ext.librarySources='jfreechart-1.0.12.zip'
 
-    dependencies {
-        compile project(':jcommon-1.0.15')
-    }
+    dependencies { compile project(':jcommon-1.0.15') }
 }
 
 project(':slf4j-api-1.6.1') { prj ->
@@ -92,9 +98,7 @@ project(':perftence') {
 
     version = '1.0-BETA'
 
-    tasks.withType(FindBugs){
-        ignoreFailures = true
-    }
+    tasks.withType(FindBugs){ ignoreFailures = true }
 
     dependencies {
         compile project(':commons-collections-3.2.1')
@@ -193,7 +197,6 @@ project(':perftence-api') {
         runtime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
     }
-
 }
 
 project(':mainentrypoint-example') {
@@ -209,7 +212,6 @@ project(':mainentrypoint-example') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }
-
 }
 
 project(':fluent-based-example') {
@@ -291,9 +293,7 @@ project(':perftence-linereader'){
 
     version ='1.0'
 
-    dependencies {
-        testCompile project(':junit-4.10')
-    }
+    dependencies { testCompile project(':junit-4.10') }
 }
 
 project(':perftence-fileutil') {
@@ -302,9 +302,7 @@ project(':perftence-fileutil') {
 
     version ='1.0'
 
-    dependencies {
-        testCompile project(':junit-4.10')
-    }
+    dependencies { testCompile project(':junit-4.10') }
 }
 
 project(':perftence-concurrent') {
@@ -321,7 +319,7 @@ project(':perftence-concurrent') {
     }
 }
 
-project(':perftence-classhelper') { 
+project(':perftence-classhelper') {
     apply from:"$emmaPlugin"
     apply from:"$distributionPlugin"
 
@@ -334,6 +332,5 @@ project(':perftence-classhelper') {
         testRuntime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
     }
-
 }
 
