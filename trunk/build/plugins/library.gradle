@@ -15,6 +15,12 @@ eclipse {
                     entry.kind == 'lib'
                 }
             }
+            withXml {
+                def node = it.asNode()
+                def componentPath = "${projectDir}/lib/$library"
+                def componentSourcePath = "${projectDir}/lib-sources/$librarySources"
+                node.appendNode('classpathentry', [kind: 'lib', path: componentPath, exported: true, sourcepath: componentSourcePath ])
+            }
         }
     }
 }
