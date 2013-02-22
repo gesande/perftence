@@ -4,6 +4,8 @@ import java.util.concurrent.ThreadFactory;
 
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.concurrent.NamedThreadFactory;
+import net.sf.perftence.concurrent.ThreadEngine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +25,8 @@ public final class InvocationRunnerFactory {
             final TestFailureNotifier failureNotifier, final String id) {
         final ThreadFactory threadFactory = NamedThreadFactory
                 .forNamePrefix("perf-test-");
+        final ThreadEngine engine = new ThreadEngine(threadFactory);
         return new InvocationRunner() {
-            /**
-             * Executing threads
-             */
-            private Thread threads[] = null;
-
-            private Thread[] threads() {
-                return this.threads;
-            }
-
             @Override
             public String id() {
                 return id;
@@ -40,56 +34,12 @@ public final class InvocationRunnerFactory {
 
             @Override
             public void run(final Invocation[] runnables) {
-                validate(runnables);
-                createThreads(runnables);
-                startThreads();
-                joinThreads();
-                clearThreads();
-            }
-
-            private void validate(final Invocation[] runnables) {
-                if (runnables == null) {
-                    throw new IllegalArgumentException("runnables is null");
-                }
-            }
-
-            private void clearThreads() {
-                this.threads = null;
-                log().debug("Test threads 'cleared'.");
-            }
-
-            private void joinThreads() {
-                try {
-                    for (int i = 0; i < threads().length; i++) {
-                        threads()[i].join();
-                    }
-                } catch (InterruptedException ignore) {
-                    log().warn("Thread join interrupted");
-                }
-            }
-
-            private void startThreads() {
-                log().debug("Starting test threads...");
-                for (int i = 0; i < threads().length; i++) {
-                    threads()[i].start();
-                }
-                log().debug("Test threads started.");
-            }
-
-            private void createThreads(final Invocation[] runnables) {
-                this.threads = new Thread[runnables.length];
-                for (int i = 0; i < threads().length; i++) {
-                    threads()[i] = threadFactory.newThread(runnables[i]);
-                }
+                engine.run(runnables);
             }
 
             @Override
             public void interruptThreads() {
-                log().debug("Interrupting test threads...");
-                for (int i = 0; i < threads().length; i++) {
-                    threads()[i].interrupt();
-                }
-                log().debug("Test threads interrupted.");
+                engine.interruptThreads();
             }
 
             @Override

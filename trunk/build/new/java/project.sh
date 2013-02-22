@@ -7,7 +7,7 @@ new-java-project() {
   svn add $PROJECT
   ./build/svn/ignore.sh $PROJECT
   echo "Project put into svn"
-  gradle $PROJECT:copy-pmd-settings $PROJECT:eclipse
+  gradle $PROJECT:copyPmdSettings $PROJECT:eclipse
   echo "Eclipse settings done for $PROJECT"
   echo "Now import (without copying) the project into eclipse"
 }
