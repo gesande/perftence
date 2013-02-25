@@ -1,0 +1,31 @@
+task copyDistribution(type: Copy) {
+    def FileTree tree=fileTree("$projectDir")
+    tree.include '**/build/distributions/*.zip'
+    from 'COPYING'
+    from tree.getFiles()
+    into 'distribution'
+}
+
+task tarDistribution(type: Tar) {
+    from 'distribution'
+    destinationDir = file("$distributionDir")
+    baseName = "perftence-distribution"
+    extension = 'tar'
+}
+
+task copyDistributionSources(type: Copy) {
+    def FileTree tree=fileTree("$projectDir")
+    tree.include('**/build/libs/*sources.jar')
+    from tree.getFiles()
+    into 'distribution/sources'
+}
+
+task removeDistributionDir { delete("distribution") }
+
+task distributionPackage(dependsOn: [
+    copyDistribution,
+    copyDistributionSources,
+    tarDistribution,
+    removeDistributionDir]
+)
+

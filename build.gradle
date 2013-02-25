@@ -1,45 +1,20 @@
+
 ext.buildScripts="$projectDir/build"
 ext.buildPlugins="$buildScripts/plugins/"
 ext.libraryPlugin="$buildPlugins/library.gradle"
+ext.tmpDir="$projectDir/tmp"
+ext.reportDir="$projectDir/tmp"
 ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
+ext.distributionDir="$tmpDir"
+
 apply from: "$buildPlugins/svn.gradle"
-
-
-task copyDistribution(type: Copy) {
-    def zips = fileTree("$projectDir/**/build/distributions/*.zip")
-    println "zips =$zips"
-    from 'COPYING' 
-    from "$zips"
-    into 'distribution'
-}
-
-task copyDistributionSources(type: Copy) {
-    from fileTree("$projectDir/**/build/libs/").include('**/*sources.jar')
-    into 'distribution/sources'
-}
-
-task tarReportArtifacts(type: Tar) {
-    from 'tmp/emma'
-    from 'tmp/findbugs'
-    from 'tmp/jdepend'
-
-    // Set destination directory.
-    destinationDir = file("$projectDir/tmp/")
-
-    // Set filename properties.
-    baseName = 'report-artifacts'
-    extension = 'tar.gz'
-
-    compression = Compression.GZIP
-}
+apply from: "$buildPlugins/junit.gradle"
+apply from: "$buildPlugins/deployment.gradle"
+apply from: "$buildPlugins/artifact.gradle"
 
 subprojects {
-    apply from: "$buildPlugins/java.gradle"
-    apply from: "$buildPlugins/eclipse.gradle"
-    apply from: "$buildPlugins/findbugs.gradle"
-    apply from: "$buildPlugins/jdepend.gradle"
-    apply from: "$buildPlugins/pmd.gradle"
+    apply from: "$buildPlugins/continous.gradle"
 
     version = '1.0-BETA'
 
@@ -54,12 +29,6 @@ subprojects {
         libSourcesDir.mkdirs()
     }
 
-    task continous(dependsOn: [
-        test,
-        findbugsMain,
-        pmdProductionCode,
-        jdependMain
-    ])
 }
 
 project(':log4j-1.2.16') { prj ->

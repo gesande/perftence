@@ -2,6 +2,7 @@ package net.sf.perftence.experimental;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
@@ -19,6 +20,7 @@ import net.sf.perftence.agents.TimeSpecificationFactory;
 import net.sf.perftence.common.DefaultInvocationReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.concurrent.NamedThreadFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.TestRuntimeReporter;
@@ -52,6 +54,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
     @Test
     public void sleepingAgentStoryWithOneTaskWithDirectThreadModel()
             throws InterruptedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("onetask-thread-");
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
         this.latencyProvider = LatencyProvider.withSynchronized();
@@ -69,8 +73,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.latencyProvider.start();
         final List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < userCount; i++) {
-            threads.add(new Thread(new AnotherRunner(agentFactory
-                    .newTestAgent(userCount)), "onetask-thread-" + i));
+            threads.add(threadFactory.newThread(new AnotherRunner(agentFactory
+                    .newTestAgent(userCount))));
         }
         for (int i = 0; i < userCount; i++) {
             threads.get(i).start();
@@ -99,6 +103,9 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
     @Test
     public void sleepingAgentStoryWithTwoTasksWithDirectThreadModel()
             throws InterruptedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-");
+
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
         this.latencyProvider = LatencyProvider.withSynchronized();
@@ -116,9 +123,9 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         this.latencyProvider.start();
         List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < userCount; i++) {
-            threads.add(new Thread(new AnotherRunner(
+            threads.add(threadFactory.newThread(new AnotherRunner(
                     new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()
-                            .newTestAgent(userCount)), "thread-" + i));
+                            .newTestAgent(userCount))));
         }
         for (int i = 0; i < userCount; i++) {
             threads.get(i).start();

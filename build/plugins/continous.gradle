@@ -1,0 +1,20 @@
+import org.gradle.logging.StyledTextOutput;
+import org.gradle.logging.StyledTextOutputFactory;
+import static org.gradle.logging.StyledTextOutput.Style;
+
+apply from: "$buildPlugins/java.gradle"
+apply from: "$buildPlugins/eclipse.gradle"
+apply from: "$buildPlugins/findbugs.gradle"
+apply from: "$buildPlugins/jdepend.gradle"
+apply from: "$buildPlugins/pmd.gradle"
+
+task continous(dependsOn: [
+    test,
+    findbugsMain,
+    pmdProductionCode,
+    jdependMain
+]) << {
+    def outputFactory = services.get(StyledTextOutputFactory).create("continous")
+    outputFactory.withStyle(Style.Info).println("Continous build for $project passed, good job!")
+}
+

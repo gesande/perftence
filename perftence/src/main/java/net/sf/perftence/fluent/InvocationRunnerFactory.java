@@ -1,31 +1,23 @@
 package net.sf.perftence.fluent;
 
-import java.util.concurrent.ThreadFactory;
-
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.concurrent.NamedThreadFactory;
-import net.sf.perftence.concurrent.ThreadEngine;
+import net.sf.perftence.concurrent.ThreadEngineApi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class InvocationRunnerFactory {
-    private static final Logger LOG = LoggerFactory
+    private final static Logger LOG = LoggerFactory
             .getLogger(InvocationRunnerFactory.class);
+    private final ThreadEngineApi<Invocation> engineApi;
 
-    private InvocationRunnerFactory() {
+    public InvocationRunnerFactory(final ThreadEngineApi<Invocation> engineApi) {
+        this.engineApi = engineApi;
     }
 
-    private static Logger log() {
-        return LOG;
-    }
-
-    public static InvocationRunner create(final RunNotifier runNotifier,
+    public InvocationRunner create(final RunNotifier runNotifier,
             final TestFailureNotifier failureNotifier, final String id) {
-        final ThreadFactory threadFactory = NamedThreadFactory
-                .forNamePrefix("perf-test-");
-        final ThreadEngine engine = new ThreadEngine(threadFactory);
         return new InvocationRunner() {
             @Override
             public String id() {
@@ -34,12 +26,12 @@ public final class InvocationRunnerFactory {
 
             @Override
             public void run(final Invocation[] runnables) {
-                engine.run(runnables);
+                engineApi().with(runnables).run();
             }
 
             @Override
             public void interruptThreads() {
-                engine.interruptThreads();
+                engineApi().interrupt();
             }
 
             @Override
@@ -58,5 +50,13 @@ public final class InvocationRunnerFactory {
                 return runNotifier.isFinished(id);
             }
         };
+    }
+
+    private ThreadEngineApi<Invocation> engineApi() {
+        return InvocationRunnerFactory.this.engineApi;
+    }
+
+    private static Logger log() {
+        return LOG;
     }
 }

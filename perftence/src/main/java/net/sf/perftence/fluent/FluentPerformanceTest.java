@@ -6,6 +6,7 @@ import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.concurrent.ThreadEngineApi;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -33,12 +34,15 @@ public final class FluentPerformanceTest {
     private final PerfTestFailureFactory perfTestFailureFactory;
     private final DatasetAdapterFactory datasetAdapterFactory;
     private final EstimatedInvocations estimatedInvocations;
+    private final InvocationRunnerFactory invocationRunnerFactory;
 
     public FluentPerformanceTest(final TestFailureNotifier failureNotifier) {
         validate(failureNotifier);
         this.failureNotifier = failureNotifier;
         this.runNotifier = new DefaultRunNotifier();
         this.estimatedInvocations = new EstimatedInvocations();
+        this.invocationRunnerFactory = new InvocationRunnerFactory(
+                new ThreadEngineApi<Invocation>().with("perf-test"));
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
         this.summaryBuilderFactory = newSummaryBuilderFactory(fieldFormatter,
@@ -110,8 +114,12 @@ public final class FluentPerformanceTest {
     }
 
     private InvocationRunner newInvocationRunner(final String id) {
-        return InvocationRunnerFactory.create(runNotifier(), failureNotifier(),
-                id);
+        return invocationRunnerFactory().create(runNotifier(),
+                failureNotifier(), id);
+    }
+
+    private InvocationRunnerFactory invocationRunnerFactory() {
+        return this.invocationRunnerFactory;
     }
 
     private RunNotifier runNotifier() {
