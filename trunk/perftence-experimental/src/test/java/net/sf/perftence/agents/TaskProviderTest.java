@@ -5,11 +5,13 @@ import static junit.framework.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.Assert;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.concurrent.NamedThreadFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +51,10 @@ public class TaskProviderTest {
         log().debug("schedule second task");
         schedule(newTaskProvider, second);
         final List<Thread> threads = new ArrayList<Thread>();
-        final Thread newThread = newThread(newTaskProvider, "worker-0");
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("worker-");
+        final Thread newThread = threadFactory
+                .newThread(newWorker(newTaskProvider));
         threads.add(newThread);
         log().debug("start worker");
         newThread.start();
@@ -121,8 +126,9 @@ public class TaskProviderTest {
         log().debug("first task scheduled.");
         taskProvider.schedule(first);
         final List<Thread> threads = new ArrayList<Thread>();
-        final Thread t = new Thread(newWorker(taskProvider),
-                nameForWorkerThread(0));
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-worker-");
+        final Thread t = threadFactory.newThread(newWorker(taskProvider));
         threads.add(t);
         t.start();
         sleepingUntilUglyStop(1500);
@@ -134,6 +140,8 @@ public class TaskProviderTest {
     @Test
     public void schedule1TaskWithFutureTask() throws ScheduleFailedException,
             InterruptedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-worker-");
         final int tasks = 1;
         final TaskProvider taskProvider = newTaskProvider();
         startingTest(tasks);
@@ -141,7 +149,7 @@ public class TaskProviderTest {
         for (int i = 0; i < tasks; i++) {
             schedule(taskProvider,
                     sleepingTask(100, sleepingTask(100), inMillis(1000)));
-            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            final Thread t = threadFactory.newThread(newWorker(taskProvider));
             threads.add(t);
             t.start();
         }
@@ -204,11 +212,13 @@ public class TaskProviderTest {
     private void runTasksWithNextTasks(final TaskProvider taskProvider,
             final int tasks, int sleepUntilUglyStop)
             throws InterruptedException, ScheduleFailedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-worker-");
         startingTest(tasks);
         final List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < tasks; i++) {
             schedule(taskProvider, sleepingTask(1000, sleepingTask(1000)));
-            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            final Thread t = threadFactory.newThread(newWorker(taskProvider));
             threads.add(t);
             t.start();
         }
@@ -273,13 +283,15 @@ public class TaskProviderTest {
 
     private void runTasks(final TaskProvider taskProvider, final int tasks)
             throws InterruptedException, ScheduleFailedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-worker-");
         log().debug(
                 "Going to create and start {} worker threads for running the tasks.",
                 tasks);
         final List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < tasks; i++) {
             schedule(taskProvider, sleepingTask(1000));
-            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            final Thread t = threadFactory.newThread(newWorker(taskProvider));
             threads.add(t);
             t.start();
         }
@@ -327,13 +339,15 @@ public class TaskProviderTest {
 
     private void runTasks(final TaskProvider taskProvider, final int tasks,
             int sleep) throws InterruptedException, ScheduleFailedException {
+        final ThreadFactory threadFactory = NamedThreadFactory
+                .forNamePrefix("thread-worker-");
         log().debug(
                 "Going to create and start {} worker threads for running the tasks.",
                 tasks);
         final List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < tasks; i++) {
             schedule(taskProvider, sleepingTask(1000));
-            final Thread t = newThread(taskProvider, nameForWorkerThread(i));
+            final Thread t = threadFactory.newThread(newWorker(taskProvider));
             threads.add(t);
             t.start();
         }
@@ -384,14 +398,5 @@ public class TaskProviderTest {
 
     private static Logger log() {
         return LOG;
-    }
-
-    private static Thread newThread(final TaskProvider taskProvider,
-            final String name) {
-        return new Thread(newWorker(taskProvider), name);
-    }
-
-    private static String nameForWorkerThread(final int i) {
-        return "thread-worker-" + i;
     }
 }

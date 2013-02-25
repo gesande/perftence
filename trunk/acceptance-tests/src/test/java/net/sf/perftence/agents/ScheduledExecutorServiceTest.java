@@ -56,9 +56,9 @@ public class ScheduledExecutorServiceTest {
     @SuppressWarnings("static-method")
     @Test
     public void threadFailingTest() throws InterruptedException {
-        AtomicInteger success = new AtomicInteger();
-        AtomicInteger failed = new AtomicInteger();
-        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(
+        final AtomicInteger success = new AtomicInteger();
+        final AtomicInteger failed = new AtomicInteger();
+        final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(
                 1);
         executor.setMaximumPoolSize(Integer.MAX_VALUE);
 

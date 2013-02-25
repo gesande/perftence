@@ -3,8 +3,10 @@ package net.sf.perftence.agents;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ThreadFactory;
 
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.concurrent.NamedThreadFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ final class SchedulingServiceBasedOnTaskProvider implements
     private final RunnableAdapter runnableProvider;
     private final TestFailureNotifier testFailureNotifier;
     private int workerAmount;
+    private final ThreadFactory threadFactory;
 
     public SchedulingServiceBasedOnTaskProvider(
             final TaskProvider taskProvider,
@@ -30,6 +33,7 @@ final class SchedulingServiceBasedOnTaskProvider implements
         this.taskProvider = taskProvider;
         this.threads = new ArrayList<Thread>();
         this.workers = new ArrayList<Worker>();
+        this.threadFactory = NamedThreadFactory.forNamePrefix("worker-thread-");
     }
 
     private void workerAmount(final int workerAmount) {
@@ -105,7 +109,7 @@ final class SchedulingServiceBasedOnTaskProvider implements
     private void createWorkerThreads() {
         log().debug("Start creating {} worker threads.", workerAmount());
         for (int i = 0; i < workerAmount(); i++) {
-            addNewWorkerThread(i);
+            addNewWorkerThread();
         }
         log().debug("{} worker threads ready to be run.", workerAmount());
     }
@@ -134,28 +138,24 @@ final class SchedulingServiceBasedOnTaskProvider implements
         log().debug("Task scheduling done.");
     }
 
-    private void addNewWorkerThread(final int i) {
+    private void addNewWorkerThread() {
         threads().add(
-                newThread(addWorker(new Worker(taskProvider(),
-                        runnableProvider(), failureNotifier())),
-                        workerThreadName(i)));
+                threadFactory().newThread(
+                        addWorker(new Worker(taskProvider(),
+                                runnableProvider(), failureNotifier()))));
+    }
+
+    private ThreadFactory threadFactory() {
+        return this.threadFactory;
     }
 
     private TestFailureNotifier failureNotifier() {
         return this.testFailureNotifier;
     }
 
-    private static Thread newThread(final Runnable runnable, final String name) {
-        return new Thread(runnable, name);
-    }
-
     private Worker addWorker(final Worker worker) {
         workers().add(worker);
         return worker;
-    }
-
-    private static String workerThreadName(final int i) {
-        return "worker-thread-" + i;
     }
 
     @Override
