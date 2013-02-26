@@ -1,0 +1,32 @@
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
+
+
+task javaHome {
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("environment.javaHome")
+        outputFactory.withStyle(Style.Info).println("${System.getenv('JAVA_HOME')}")
+    }
+}
+
+task groovyHome {
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("environment.groovyHome")
+        outputFactory.withStyle(Style.Info).println("${System.getenv('GROOVY_HOME')}")
+    }
+}
+
+task gradleHome {
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("environment.gradleHome")
+        outputFactory.withStyle(Style.Info).println("${System.getenv('GRADLE_HOME')}")
+    }
+}
+
+task printOutEnvironment( dependsOn: [
+    javaHome,
+    groovyHome,
+    gradleHome
+])

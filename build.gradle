@@ -7,11 +7,13 @@ ext.reportDir="$projectDir/tmp"
 ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
 ext.distributionDir="$tmpDir"
+ext.toolsDir="$projectDir/tools"
 
 apply from: "$buildPlugins/svn.gradle"
 apply from: "$buildPlugins/junit.gradle"
 apply from: "$buildPlugins/deployment.gradle"
 apply from: "$buildPlugins/artifact.gradle"
+apply from: "$buildPlugins/environment.gradle"
 
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
