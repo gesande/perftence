@@ -1,21 +1,24 @@
-import org.gradle.logging.StyledTextOutput;
-import org.gradle.logging.StyledTextOutputFactory;
-import static org.gradle.logging.StyledTextOutput.Style;
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.api.tasks.bundling.Compression
+import org.gradle.api.tasks.bundling.Tar
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
 
 task archiveAggregateReports(type: Tar) {
-    from ("$reportDir/emma") { into ('emma') }
-    from ("$reportDir/findbugs") { into ('findbugs') }
-    from ("$reportDir/jdepend") { into 'jdepend' }
-    from ("$reportDir/junit") { into 'junit' }
-    // Set destination directory.
-    destinationDir = file("$reportDir")
-    // Set filename properties.
-    baseName = "report-artifacts"
-    extension = 'tar.gz'
-    compression = Compression.GZIP
-
     doLast {
-        def outputFactory = services.get(StyledTextOutputFactory).create("archiveAggregateReports")
+        from ("$reportDir/emma") { into ('emma') }
+        from ("$reportDir/findbugs") { into ('findbugs') }
+        from ("$reportDir/jdepend") { into 'jdepend' }
+        from ("$reportDir/junit") { into 'junit' }
+        // Set destination directory.
+        destinationDir = file("$reportDir")
+        // Set filename properties.
+        baseName = "report-artifacts"
+        extension = 'tar.gz'
+        compression = Compression.GZIP
+
+        def outputFactory = services.get(StyledTextOutputFactory).create("artifact.archiveAggregateReports")
         outputFactory.withStyle(Style.Info).println("Report artifact archive can be found from file://$reportDir/report-artifacts.tar.gz")
     }
 }

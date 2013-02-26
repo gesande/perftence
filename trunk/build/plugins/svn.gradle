@@ -1,4 +1,9 @@
-task "show-revision" << {
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
+
+task "showRevision" << {
     new ByteArrayOutputStream().withStream { os ->
         def result = exec {
             executable = 'svn'
@@ -6,8 +11,10 @@ task "show-revision" << {
             standardOutput = os
         }
         def outputAsString = os.toString()
+        println("outputAsString=${outputAsString}")
         def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
-        println "${matchLastChangedRev[0][1]}"
+        println("matchLastChangedRev=${matchLastChangedRev}")
+        def outputFactory = services.get(StyledTextOutputFactory).create("svn.show-revision")
+        outputFactory.withStyle(Style.Info).println("${matchLastChangedRev[0][1]}")
     }
 }
-

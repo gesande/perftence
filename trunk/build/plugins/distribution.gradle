@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.bundling.Zip
+
+
 apply plugin: "java"
 
 task('dist', type: Zip) {

@@ -28,7 +28,6 @@ subprojects {
         def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
         libSourcesDir.mkdirs()
     }
-
 }
 
 project(':log4j-1.2.16') { prj ->
@@ -161,7 +160,7 @@ project(':perftence-experimental') {
 
 
 project(':build') {
-    apply from:"$buildPlugins/gradle-plugins.gradle"
+    apply from:"$buildPlugins/gradlePlugins.gradle"
     eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
 }
 

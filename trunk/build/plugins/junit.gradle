@@ -1,6 +1,8 @@
-import org.gradle.logging.StyledTextOutput;
-import org.gradle.logging.StyledTextOutputFactory;
-import static org.gradle.logging.StyledTextOutput.Style;
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
+
 
 repositories{ mavenCentral() }
 
@@ -8,27 +10,27 @@ configurations {  antClasspath  }
 
 dependencies {  antClasspath 'org.apache.ant:ant-junit:1.8.2'  }
 
-ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
-configurations.antClasspath.each { File f ->
-    antClassLoader.addURL(f.toURI().toURL())
-}
+task aggregateTestReport {
+    doLast {
+        ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
+        configurations.antClasspath.each { File f ->
+            antClassLoader.addURL(f.toURI().toURL())
+        }
+        def targetDir = new File("$reportDir", 'junit')
+        targetDir.mkdirs()
+        def resultsDir="$reportDir/junit"
 
-task aggregateTestReport << {
-    def targetDir = new File("$reportDir", 'junit')
-    targetDir.mkdirs()
-    def resultsDir="$reportDir/junit"
+        ant.taskdef(
+                name: 'junitreport',
+                classname: 'org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator',
+                classpath: configurations.antClasspath.asPath
+                )
+        ant.junitreport(todir: resultsDir) {
+            fileset(dir: "$projectDir", includes: '**/build/test-results/TEST-*.xml')
+            report(todir: targetDir, format: "frames")
+        }
 
-    ant.taskdef(
-            name: 'junitreport',
-            classname: 'org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator',
-            classpath: configurations.antClasspath.asPath
-            )
-
-    ant.junitreport(todir: resultsDir) {
-        fileset(dir: "$projectDir", includes: '**/build/test-results/TEST-*.xml')
-        report(todir: targetDir, format: "frames")
+        def outputFactory = services.get(StyledTextOutputFactory).create("junit.aggregateTestReport")
+        outputFactory.withStyle(Style.Info).println("Aggregate test report can be found from file://$reportDir/junit/index.html")
     }
-
-    def outputFactory = services.get(StyledTextOutputFactory).create("aggregateTestReport")
-    outputFactory.withStyle(Style.Info).println("Aggregate test report can be found from file://$reportDir/junit/index.html")
 }

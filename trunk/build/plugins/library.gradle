@@ -1,8 +1,7 @@
 apply plugin: "java"
 apply plugin: "eclipse"
 
-repositories {  flatDir { dirs 'lib'
-    }  }
+repositories {  flatDir { dirs 'lib' }  }
 
 dependencies {
     compile fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
