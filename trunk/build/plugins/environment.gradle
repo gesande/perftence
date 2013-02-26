@@ -5,6 +5,8 @@ import org.gradle.logging.StyledTextOutputFactory
 
 
 task javaHome {
+    group = 'Environment'
+    description = "Prints out JAVA_HOME."
     doLast {
         def outputFactory = services.get(StyledTextOutputFactory).create("environment.javaHome")
         outputFactory.withStyle(Style.Info).println("${System.getenv('JAVA_HOME')}")
@@ -12,6 +14,8 @@ task javaHome {
 }
 
 task groovyHome {
+    group = 'Environment'
+    description = "Prints out GROOVY_HOME."
     doLast {
         def outputFactory = services.get(StyledTextOutputFactory).create("environment.groovyHome")
         outputFactory.withStyle(Style.Info).println("${System.getenv('GROOVY_HOME')}")
@@ -19,6 +23,8 @@ task groovyHome {
 }
 
 task gradleHome {
+    group = 'Environment'
+    description = "Prints out GRADLE_HOME."
     doLast {
         def outputFactory = services.get(StyledTextOutputFactory).create("environment.gradleHome")
         outputFactory.withStyle(Style.Info).println("${System.getenv('GRADLE_HOME')}")
@@ -29,4 +35,7 @@ task printOutEnvironment( dependsOn: [
     javaHome,
     groovyHome,
     gradleHome
-])
+]) {
+    group = 'Environment'
+    description = "Prints out environment variables like JAVA_HOME."
+}

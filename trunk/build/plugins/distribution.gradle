@@ -4,6 +4,8 @@ import org.gradle.api.tasks.bundling.Zip
 apply plugin: "java"
 
 task('dist', type: Zip) {
+    group = 'Distribution'
+    description = "Makes the project specific distribution archive."
     dependsOn 'jar'
     from jar.archivePath
     from configurations.runtime
@@ -15,5 +17,8 @@ artifacts {
     archives sourcesJar
 }
 
-task release(dependsOn: [dist, sourcesJar])
+task release(dependsOn: [dist, sourcesJar]) {
+    group = 'Distribution'
+    description = "Defines the project specific release distributions."
+}
 

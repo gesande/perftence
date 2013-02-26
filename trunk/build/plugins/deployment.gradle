@@ -3,6 +3,8 @@ import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.bundling.Tar
 
 task copyDistribution(type: Copy) {
+    group = 'Distribution'
+    description = 'Copies project specific distribution archives to distribution.'
     def FileTree tree=fileTree("$projectDir")
     tree.include '**/build/distributions/*.zip'
     from 'COPYING'
@@ -11,6 +13,8 @@ task copyDistribution(type: Copy) {
 }
 
 task archiveDistribution(type: Tar) {
+    group = 'Distribution'
+    description = "Makes the distribution artifact and copies it to ${distributionDir}."
     outputs.upToDateWhen { false }
 
     def revision =""
@@ -24,7 +28,6 @@ task archiveDistribution(type: Tar) {
     }
 
     def artifactRevision="${artifactVersion}-R${revision}"
-    println artifactRevision
     from 'distribution'
     destinationDir = file("$distributionDir")
     baseName = "perftence-distribution"
@@ -33,18 +36,28 @@ task archiveDistribution(type: Tar) {
 }
 
 task copyDistributionSources(type: Copy) {
+    group = 'Distribution'
+    description = "Copies project specific source jars to the distribution sources directory."
     def FileTree tree=fileTree("$projectDir")
     tree.include('**/build/libs/*sources.jar')
     from tree.getFiles()
     into 'distribution/sources'
 }
 
-task removeDistributionDir { doLast { delete("distribution") }}
+task removeDistributionDir { 
+	group = 'Distribution'
+	description = 'Removes distribution directory.'
+	doLast { delete("distribution") }
+}
 
 task makeDistributionPackage(dependsOn: [
     copyDistribution,
     copyDistributionSources,
     archiveDistribution,
     removeDistributionDir]
-)
+) {
+    group = 'Distribution'
+    description = "Makes the distribution package."
+	
+}
 

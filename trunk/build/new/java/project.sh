@@ -6,7 +6,7 @@ new-java-project() {
   echo "$PROJECT directory structure done."
   svn add $PROJECT
   ./build/svn/ignore.sh $PROJECT
-  echo "Project put into svn"
+  echo "Project $PROJECT put into svn"
   gradle $PROJECT:copyPmdSettings $PROJECT:eclipse
   echo "Eclipse settings done for $PROJECT"
   echo "Now import (without copying) the project into eclipse"
