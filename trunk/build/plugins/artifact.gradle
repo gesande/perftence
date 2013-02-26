@@ -5,6 +5,7 @@ import org.gradle.api.tasks.bundling.Tar
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
 
+
 task archiveAggregateReports(type: Tar) {
     doLast {
         from ("$reportDir/emma") { into ('emma') }

@@ -10,6 +10,9 @@ ext.distributionDir="$tmpDir"
 ext.toolsDir="$projectDir/tools"
 
 apply from: "$buildPlugins/svn.gradle"
+
+ext.artifactVersion='1.0-BETA'
+
 apply from: "$buildPlugins/junit.gradle"
 apply from: "$buildPlugins/deployment.gradle"
 apply from: "$buildPlugins/artifact.gradle"
@@ -18,9 +21,9 @@ apply from: "$buildPlugins/environment.gradle"
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
 
-    version = '1.0-BETA'
+    version = "$artifactVersion"
 
-    task "show-version" << { println version }
+    task "showVersion" << { println version }
 
     repositories {  mavenCentral() }
 
@@ -79,8 +82,6 @@ project(':commons-collections-3.2.1') { prj ->
 project(':perftence') {
     apply from:"$emmaPlugin"
     apply from:"$distributionPlugin"
-
-    version = '1.0-BETA'
 
     tasks.withType(FindBugs){ ignoreFailures = true }
 
