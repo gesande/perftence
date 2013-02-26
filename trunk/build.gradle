@@ -161,6 +161,7 @@ project(':perftence-experimental') {
 
 
 project(':build') {
+    apply from:"$buildPlugins/gradle-plugins.gradle"
     eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
 }
 

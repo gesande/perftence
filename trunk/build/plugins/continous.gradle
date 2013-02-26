@@ -14,7 +14,9 @@ task continous(dependsOn: [
     pmdProductionCode,
     jdependMain
 ]) << {
-    def outputFactory = services.get(StyledTextOutputFactory).create("continous")
-    outputFactory.withStyle(Style.Info).println("Continous build for $project passed, good job!")
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("continous")
+        outputFactory.withStyle(Style.Info).println("Continous build for $project passed, good job!")
+    }
 }
 
