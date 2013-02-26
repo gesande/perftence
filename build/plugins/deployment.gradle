@@ -2,7 +2,6 @@ import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.bundling.Tar
 
-
 task copyDistribution(type: Copy) {
     def FileTree tree=fileTree("$projectDir")
     tree.include '**/build/distributions/*.zip'
@@ -11,10 +10,25 @@ task copyDistribution(type: Copy) {
     into 'distribution'
 }
 
-task tarDistribution(type: Tar) {
+task archiveDistribution(type: Tar) {
+    outputs.upToDateWhen { false }
+
+    def revision =""
+    new ByteArrayOutputStream().withStream { os ->
+        def result = exec {
+            executable = 'svnversion'
+            args = ['']
+            standardOutput = os
+        }
+        revision = os.toString()
+    }
+
+    def artifactRevision="${artifactVersion}-R${revision}"
+    println artifactRevision
     from 'distribution'
     destinationDir = file("$distributionDir")
     baseName = "perftence-distribution"
+    version ="${artifactRevision}"
     extension = 'tar'
 }
 
@@ -25,12 +39,12 @@ task copyDistributionSources(type: Copy) {
     into 'distribution/sources'
 }
 
-task removeDistributionDir { delete("distribution") }
+task removeDistributionDir { doLast { delete("distribution") }}
 
-task distributionPackage(dependsOn: [
+task makeDistributionPackage(dependsOn: [
     copyDistribution,
     copyDistributionSources,
-    tarDistribution,
+    archiveDistribution,
     removeDistributionDir]
 )
 
