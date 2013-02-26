@@ -11,6 +11,9 @@ configurations {  antClasspath  }
 dependencies {  antClasspath 'org.apache.ant:ant-junit:1.8.2'  }
 
 task aggregateTestReport {
+    group = 'Verification'
+    description = "Makes aggregate test (junit) report."
+
     doLast {
         ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
         configurations.antClasspath.each { File f ->

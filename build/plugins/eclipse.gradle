@@ -4,5 +4,11 @@ eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.pr
 
 eclipse.classpath.defaultOutputDir = file('target/classes')
 
-task "remove-target" << { delete("target") }
+task "remove-target" {
+    group = 'IDE'
+    description = "Deletes project specific target directory."
+	doLast {
+		delete("target")
+	} 
+}
 

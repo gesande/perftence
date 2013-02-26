@@ -3,9 +3,12 @@ import org.gradle.api.tasks.Copy
 apply plugin: 'pmd'
 
 task copyPmdSettings(type: Copy) { task ->
+    group = 'Verification'
+    description = "Copies pmd rule file for the project."
     from file('../build/template/for/pmd/.pmd')
     into task.project.projectDir
 }
+
 pmd.ruleSetFiles = files(".pmd")
 pmd.ignoreFailures = 'false'
 task pmdProductionCode(dependsOn: [copyPmdSettings, pmdMain])
