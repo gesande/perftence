@@ -1,3 +1,9 @@
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
+
+
 apply plugin: "jdepend"
 
 [jdependMain, jdependTest]*.reports {
@@ -9,12 +15,13 @@ jdependMain.doLast {
     File file = new File(jdepend.reportsDir, "main.xml");
     assert file.exists() && file.isFile(), "File '$file' must exist"
     def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
+    def outputFactory = services.get(StyledTextOutputFactory).create("jdepend.jdependMain.doLast")
     if (numberOfCycles > 0) {
-        logger.error "We have detected $numberOfCycles cycles. Checkout report file: $file."
+        outputFactory.withStyle(Style.Error).println("We have detected $numberOfCycles cycles. Checkout report file: $file.")
         assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
     }
     else {
-        logger.info "No cycles detected for project '$project.name' . Good work!"
+        outputFactory.withStyle(Style.Info).println("No cycles detected for project '$project.name' . Good work!")
     }
 }
 

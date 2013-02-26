@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.bundling.Jar
+
+
 apply plugin: "java"
 
 task "create-dirs" << {

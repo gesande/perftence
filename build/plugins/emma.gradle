@@ -1,3 +1,8 @@
+import static org.gradle.logging.StyledTextOutput.Style
+
+import org.gradle.api.Project
+import org.gradle.logging.StyledTextOutputFactory
+
 apply plugin:'java'
 
 configurations{ emma }
@@ -75,10 +80,11 @@ test {
                 xml(outfile:"$buildDir/reports/emma/coverage.xml")
             }
         }
-        println "Test coverage reports available at $buildDir/reports/emma."
-        println "Text: file://$buildDir/reports/emma/coverage.txt"
-        println "Html: file://$buildDir/reports/emma/coverage.html"
-        println "Xml:  file://$buildDir/reports/emma/coverage.xml"
+        def outputFactory = services.get(StyledTextOutputFactory).create("emma.test")
+        outputFactory.withStyle(Style.Info).println("Test coverage reports available at $buildDir/reports/emma.")
+        outputFactory.withStyle(Style.Info).println("Text: file://$buildDir/reports/emma/coverage.txt")
+        outputFactory.withStyle(Style.Info).println("Html: file://$buildDir/reports/emma/coverage.html")
+        outputFactory.withStyle(Style.Info).println("Xml:  file://$buildDir/reports/emma/coverage.xml")
     }
 }
 
@@ -87,7 +93,8 @@ task checkCoverage << {
     def reportFile = file("$buildDir/reports/emma/coverage.xml")
     def report = new XmlParser().parse(reportFile)
     def coverage = report.data[0].all[0].coverage[3].@value
-    logger.info "Test coverage was ${coverage}"
+    def outputFactory = services.get(StyledTextOutputFactory).create("emma.checkCoverage")
+    outputFactory.withStyle(Style.Info).println("Test coverage was ${coverage}")
     /*    if(coverage !=~ /d+%/ ) {
      throw new RuntimeException("Test coverage was lower than 90%, it was ${coverage}")
      }
