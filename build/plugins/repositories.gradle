@@ -1,1 +1,4 @@
-allprojects { repositories {  mavenCentral() } }
+allprojects {
+    repositories { mavenCentral() //mavenRepo url: "file://${repositoryDir}/"
+    }
+}

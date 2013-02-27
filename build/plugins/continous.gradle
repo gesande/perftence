@@ -12,7 +12,7 @@ apply from: "$buildPlugins/pmd.gradle"
 task continous(dependsOn: [
     test,
     findbugsMain,
-    pmdProductionCode,
+    pmdMain,
     jdependMain
 ]) {
     group = 'Verification'
