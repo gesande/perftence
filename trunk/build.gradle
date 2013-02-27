@@ -18,35 +18,6 @@ apply from: "$buildPlugins/deployment.gradle"
 apply from: "$buildPlugins/artifact.gradle"
 apply from: "$buildPlugins/environment.gradle"
 
-apply plugin: "java"
-
-/*
-task "createSourceDirs" << {
-    sourceSets*.java.srcDirs*.each { it.mkdirs() }
-    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
-}
-
-task svnAdd { task ->
-    doLast {
-        println "project= ${task.project.name}"
-        new ByteArrayOutputStream().withStream { os ->
-            def result = exec {
-                executable = 'svn'
-                args = [ "add", "${task.project.name}" ]
-                standardOutput = os
-            }
-            revision = os.toString()
-        }
-    }
-}
-
-task newJavaProject(dependsOn: createSourceDirs,svnAdd) { task ->
-    doLast {
-        println "Project ${task.project.name} successfully created, now import (without copying) the project into Eclipse" 
-    }
-}
-*/
-
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
 
@@ -320,6 +291,7 @@ project(':perftence-fileutil') {
     dependencies { testCompile project(':junit-4.10') }
 }
 
+/*
 project(':perftence-concurrent') {
     apply from:"$emmaPlugin"
     apply from:"$distributionPlugin"
@@ -333,6 +305,7 @@ project(':perftence-concurrent') {
         testRuntime project(':log4j-1.2.16')
     }
 }
+*/
 
 project(':perftence-classhelper') {
     apply from:"$emmaPlugin"
