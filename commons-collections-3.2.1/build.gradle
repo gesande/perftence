@@ -1,0 +1,5 @@
+project(':commons-collections-3.2.1') { prj ->
+    apply from: "$libraryPlugin"
+    prj.ext.library='commons-collections-3.2.1.jar'
+    prj.ext.librarySources='commons-collections-3.2.1-sources.jar'
+}

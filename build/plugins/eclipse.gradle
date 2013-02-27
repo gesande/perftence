@@ -1,14 +1,17 @@
 apply plugin: "eclipse"
 
-eclipseJdt.inputFile=file('../build/template/for/eclipse/org.eclipse.jdt.core.prefs')
+eclipseJdt {
+    def jdtInputFile ="${buildTemplates}/for/eclipse/org.eclipse.jdt.core.prefs"
+    inputFile=file("${jdtInputFile}")
+    doLast { println "Forked eclipse.jdtInputFile from ${jdtInputFile}" }
+}
+
 
 eclipse.classpath.defaultOutputDir = file('target/classes')
 
 task "remove-target" {
     group = 'IDE'
     description = "Deletes project specific target directory."
-	doLast {
-		delete("target")
-	} 
+    doLast { delete("target") }
 }
 

@@ -1,0 +1,11 @@
+project(':perftence-bag'){
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
+    version ='1.0'
+
+    dependencies {
+        compile project(':commons-collections-3.2.1')
+        testCompile project(':junit-4.10')
+    }
+}

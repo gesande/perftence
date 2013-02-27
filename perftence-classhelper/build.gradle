@@ -1,0 +1,14 @@
+project(':perftence-classhelper') {
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
+
+    version ='1.0'
+
+    dependencies {
+        testCompile project(':slf4j-api-1.6.1')
+        testCompile project(':junit-4.10')
+        testRuntime project(':slf4j-log4j12-1.6.1')
+        testRuntime project(':log4j-1.2.16')
+        testCompile project(':junit-4.10')
+    }
+}

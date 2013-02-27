@@ -38,6 +38,7 @@ task copyDistributionArchives(dependsOn: copyDistributionSourceJars) {
 task archiveDistribution(type: Tar, dependsOn: copyDistributionArchives)  {
     group = 'Distribution'
     description = "Makes the distribution artifact and copies it to ${distributionDir}."
+    outputs.upToDateWhen { false }
     def revision =""
     new ByteArrayOutputStream().withStream { os ->
         def result = exec {
@@ -53,14 +54,13 @@ task archiveDistribution(type: Tar, dependsOn: copyDistributionArchives)  {
     baseName = "perftence-distribution"
     version ="${artifactRevision}"
     extension = 'tar'
-
     doLast {
         def outputFactory = services.get(StyledTextOutputFactory).create("deployment.archiveDistribution")
         outputFactory.withStyle(Style.Info).println("Archived distribution package can be found from file://${destinationDir}/perftence-distribution-${artifactRevision}.tar")
     }
 }
 
-task copyDistributionFiles {
+task copyDistributionFiles(dependsOn: archiveDistribution) {
     group = 'Distribution'
     description = "Copies the distribution artifact and copies it under ${distributionDir}."
     doLast {
@@ -89,20 +89,14 @@ task copyDistributionFiles {
     }
 }
 
-task removeDistributionDir {
-    group = 'Distribution'
-    description = 'Removes distribution directory.'
-    doLast { delete("distribution") }
-}
-
 task makeDistributionPackage(dependsOn: [
     archiveDistribution,
-    copyDistributionFiles,
-    removeDistributionDir]
+    copyDistributionFiles ]
 ) {
     group = 'Distribution'
     description = "Makes the distribution package."
     doLast {
+        delete("distribution")
         def outputFactory = services.get(StyledTextOutputFactory).create("deployment.makeDistributionPackage")
         outputFactory.withStyle(Style.Info).println( "Distribution package done.")
     }
