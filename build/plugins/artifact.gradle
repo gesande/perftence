@@ -9,7 +9,7 @@ import org.gradle.logging.StyledTextOutputFactory
 task archiveAggregateReports(type: Tar) {
     group = 'Archive'
     description = 'Archive aggregate reports including junit tests/pmd/findbugs/jdepend'
-	
+
     doLast {
         from ("$reportDir/emma") { into ('emma') }
         from ("$reportDir/findbugs") { into ('findbugs') }

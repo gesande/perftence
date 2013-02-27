@@ -21,6 +21,7 @@ apply from: "$buildPlugins/environment.gradle"
 
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
+    apply from: "$buildPlugins/testcode.gradle"
 
     version = "$artifactVersion"
 
