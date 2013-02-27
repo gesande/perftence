@@ -55,10 +55,12 @@ task-done "removed static evil for EstimatedInvocations " $(tag refactoring)
 task-done "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality)
 task-done "breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo" $(tag build)
 task-done "simplified thread run engine for finding out threading issues, perftence-concurrent provides this now" $(tag feature)
+task-done "fixed dist task, dist package didn't contain all zips" $(tag build)
 
 in-progress-title
 
 waiting-title
+
 waiting "failures over test time, use DateAxis" $(tag feature)
 waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "provide success rate percentage for intermediate statistics" $(tag feature)
@@ -73,8 +75,6 @@ intended-comment "second phase -> create test reports from intermediate format"
 waiting "provide means to define also Throwable/Error with allow() mechanism" $(tag feature)
 waiting "provide means to tell the Executable  also Throwable/Error with allow() mechanism" $(tag feature)
 waiting "upload test example distribution packages to project files (i.e. to source forge)" $(tag development-support)
-waiting "move build.gradle & settings.gradle under build project" $(tag build)
-waiting "make shell script library for build tasks" $(tag build)
 waiting "one intermediate summary statistics appender" $(tag refactoring)
 intended-comment "define each summary item as a separate 'plugin' which is registered to one implementation --> one summary builder for agent and executable -based tests, each define their own summary 'plugin'"
 waiting "latency frequencies -> ability to set the range for the graph e.g. using 99% percentile" $(tag feature)
