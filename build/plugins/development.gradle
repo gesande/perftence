@@ -1,0 +1,30 @@
+
+apply plugin: "java"
+
+allprojects {
+    task "createSourceDirs" << {
+        sourceSets*.java.srcDirs*.each { it.mkdirs() }
+        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    }
+
+    task svnAdd { task ->
+        doLast {
+            println "project= ${task.project.name}"
+            new ByteArrayOutputStream().withStream { os ->
+                def result = exec {
+                    executable = 'svn'
+                    args = [
+                        'add ',
+                        "${task.project.name}"
+                    ]
+                    standardOutput = os
+                }
+                revision = os.toString()
+            }
+        }
+    }
+
+    task newJavaProject(dependsOn: createSourceDirs,svnAdd) { task ->
+        doLast { println "Project ${task.project.name} successfully created, now import (without copying) the project into Eclipse" }
+    }
+}

@@ -1,22 +1,43 @@
-import org.gradle.api.file.FileTree
-import org.gradle.api.tasks.Copy
-import org.gradle.api.tasks.bundling.Tar
+import static org.gradle.logging.StyledTextOutput.Style
 
-task copyDistribution(type: Copy) {
+import org.gradle.api.file.FileTree
+import org.gradle.api.tasks.bundling.Tar
+import org.gradle.logging.StyledTextOutputFactory
+
+task copyDistributionSourceJars {
     group = 'Distribution'
-    description = 'Copies project specific distribution archives to distribution.'
-    def FileTree tree=fileTree("$projectDir")
-    tree.include '**/build/distributions/*.zip'
-    from 'COPYING'
-    from tree.getFiles()
-    into 'distribution'
+    description = "Copies project specific source jars to the distribution sources directory."
+    doLast {
+        def FileTree tree=fileTree("$projectDir")
+        tree.include('**/build/libs/*sources.jar')
+        tree.exclude('**/build/libs/*example*sources.jar')
+        tree.exclude('**/build/libs/*proto*sources.jar')
+        copy {
+            from tree.getFiles()
+            into 'distribution/sources'
+        }
+    }
 }
 
-task archiveDistribution(type: Tar) {
+task copyDistributionArchives(dependsOn: copyDistributionSourceJars) {
+    group = 'Distribution'
+    description = 'Copies project specific distribution archives to distribution.'
+    doLast {
+        def FileTree tree=fileTree("$projectDir")
+        tree.include '**/build/distributions/*.zip'
+        tree.exclude '**/build/distributions/*example*.zip'
+        tree.exclude '**/build/distributions/*proto*.zip'
+        copy {
+            from 'COPYING'
+            from tree.getFiles()
+            into 'distribution'
+        }
+    }
+}
+
+task archiveDistribution(type: Tar, dependsOn: copyDistributionArchives)  {
     group = 'Distribution'
     description = "Makes the distribution artifact and copies it to ${distributionDir}."
-    outputs.upToDateWhen { false }
-
     def revision =""
     new ByteArrayOutputStream().withStream { os ->
         def result = exec {
@@ -24,40 +45,66 @@ task archiveDistribution(type: Tar) {
             args = ['']
             standardOutput = os
         }
-        revision = os.toString()
+        revision = os.toString().trim()
     }
-
     def artifactRevision="${artifactVersion}-R${revision}"
     from 'distribution'
-    destinationDir = file("$distributionDir")
+    destinationDir = file("${distributionDir}/artifact-${artifactRevision}")
     baseName = "perftence-distribution"
     version ="${artifactRevision}"
     extension = 'tar'
+
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("deployment.archiveDistribution")
+        outputFactory.withStyle(Style.Info).println("Archived distribution package can be found from file://${destinationDir}/perftence-distribution-${artifactRevision}.tar")
+    }
 }
 
-task copyDistributionSources(type: Copy) {
+task copyDistributionFiles {
     group = 'Distribution'
-    description = "Copies project specific source jars to the distribution sources directory."
-    def FileTree tree=fileTree("$projectDir")
-    tree.include('**/build/libs/*sources.jar')
-    from tree.getFiles()
-    into 'distribution/sources'
+    description = "Copies the distribution artifact and copies it under ${distributionDir}."
+    doLast {
+        def revision =""
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'svnversion'
+                args = ['']
+                standardOutput = os
+            }
+            revision = os.toString().trim()
+        }
+
+        def artifactRevision="${artifactVersion}-R${revision}"
+        def targetDir ="${distributionDir}/distribution-${artifactRevision}"
+        file("${targetDir}").mkdirs()
+
+        outputs.upToDateWhen { false }
+
+        copy {
+            from 'distribution'
+            into "${targetDir}"
+        }
+        def outputFactory = services.get(StyledTextOutputFactory).create("deployment.copyDistributionFiles")
+        outputFactory.withStyle(Style.Info).println("Exploded path for the distribution can be found from file://${targetDir}")
+    }
 }
 
-task removeDistributionDir { 
-	group = 'Distribution'
-	description = 'Removes distribution directory.'
-	doLast { delete("distribution") }
+task removeDistributionDir {
+    group = 'Distribution'
+    description = 'Removes distribution directory.'
+    doLast { delete("distribution") }
 }
 
 task makeDistributionPackage(dependsOn: [
-    copyDistribution,
-    copyDistributionSources,
     archiveDistribution,
+    copyDistributionFiles,
     removeDistributionDir]
 ) {
     group = 'Distribution'
     description = "Makes the distribution package."
-	
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("deployment.makeDistributionPackage")
+        outputFactory.withStyle(Style.Info).println( "Distribution package done.")
+    }
 }
 
