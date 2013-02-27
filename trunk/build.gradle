@@ -9,6 +9,7 @@ ext.emmaPlugin="$buildPlugins/emma.gradle"
 ext.distributionPlugin="$buildPlugins/distribution.gradle"
 ext.distributionDir="$tmpDir"
 ext.toolsDir="$projectDir/tools"
+ext.repositoryDir="$projectDir/repository"
 
 ext.artifactVersion='1.0-BETA'
 

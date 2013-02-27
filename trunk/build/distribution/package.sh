@@ -37,10 +37,7 @@ prepare-distribution() {
 
 build-packages() {
   gradle --stacktrace clean perftence-concurrent:continous perftence-fileutil:continous perftence-bag:continous perftence:continous responsecode-summaryappender:continous perftence-api:continous perftence-junit-utils:continous perftence-classhelper:continous perftence-linereader:continous perftence-junit:continous acceptance-tests:test
-  gradle --stacktrace clean perftence-concurrent:release perftence-bag:release perftence-api:release perftence-junit-utils:release perftence-classhelper:release perftence-linereader:release perftence-fileutil:release perftence:release responsecode-summaryappender:release perftence-junit:release
+  gradle --stacktrace clean perftence-concurrent:release perftence-bag:release perftence-api:release perftence-junit-utils:release perftence-classhelper:release perftence-linereader:release perftence-fileutil:release perftence:release responsecode-summaryappender:release perftence-junit:release makeDistributionPackage
 }
 
 build-packages
-prepare-distribution
-copy-to-distribution
-tar-file
