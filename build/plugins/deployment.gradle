@@ -9,9 +9,7 @@ task copyDistributionSourceJars {
     description = "Copies project specific source jars to the distribution sources directory."
     doLast {
         def FileTree tree=fileTree("$projectDir")
-        tree.include('**/build/libs/*sources.jar')
-        tree.exclude('**/build/libs/*example*sources.jar')
-        tree.exclude('**/build/libs/*proto*sources.jar')
+        tree.include('**/build/libs/*-sources.jar')
         copy {
             from tree.getFiles()
             into 'distribution/sources'
@@ -25,8 +23,6 @@ task copyDistributionArchives(dependsOn: copyDistributionSourceJars) {
     doLast {
         def FileTree tree=fileTree("$projectDir")
         tree.include '**/build/distributions/*.zip'
-        tree.exclude '**/build/distributions/*example*.zip'
-        tree.exclude '**/build/distributions/*proto*.zip'
         copy {
             from 'COPYING'
             from tree.getFiles()
