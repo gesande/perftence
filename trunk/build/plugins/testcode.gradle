@@ -1,0 +1,19 @@
+import org.gradle.logging.StyledTextOutputFactory
+import org.gradle.logging.StyledTextOutput.Style
+
+apply from: "$buildPlugins/findbugs.gradle"
+apply from: "$buildPlugins/jdepend.gradle"
+apply from: "$buildPlugins/pmd.gradle"
+
+task testCodeAnalysis(dependsOn: [
+    findbugsTest,
+    pmdTest,
+    jdependTest
+]) {
+    group = 'Verification'
+    description = 'Analyze test code with pmd/findbugs/jdepend'
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("testcode.testCodeAnalysis")
+        outputFactory.withStyle(Style.Info).println("Test code analyzed for $project ")
+    }
+}

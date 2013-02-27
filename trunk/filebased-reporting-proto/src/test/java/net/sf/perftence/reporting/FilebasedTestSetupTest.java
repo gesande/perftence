@@ -28,10 +28,15 @@ public class FilebasedTestSetupTest {
         // Write to disk with FileOutputStream
         final FileOutputStream f_out = new FileOutputStream(new File("target",
                 "filebasedTestSetup.data"));
-        // Write object with ObjectOutputStream
         final ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
-        // Write object out to disk
-        obj_out.writeObject(myObject);
+        try {
+            // Write object with ObjectOutputStream
+            // Write object out to disk
+            obj_out.writeObject(myObject);
+        } finally {
+            obj_out.close();
+            f_out.close();
+        }
     }
 
     @SuppressWarnings("static-method")
@@ -42,14 +47,19 @@ public class FilebasedTestSetupTest {
                 .getResourceAsStream("/" + "filebasedTestSetup.data");
         // Read object using ObjectInputStream
         final ObjectInputStream obj_in = new ObjectInputStream(f_in);
-        // Read an object
-        final FilebasedTestSetup obj = (FilebasedTestSetup) obj_in.readObject();
-        assertTrue(obj.includeInvocationGraph());
-        assertNotNull(obj.testSetup());
-        assertEquals(100, obj.testSetup().threads());
-        assertEquals(1000, obj.testSetup().invocations());
-        assertEquals(1000, obj.testSetup().invocationRange());
-        assertEquals(200, obj.testSetup().throughputRange());
-
+        try {
+            // Read an object
+            final FilebasedTestSetup obj = (FilebasedTestSetup) obj_in
+                    .readObject();
+            assertTrue(obj.includeInvocationGraph());
+            assertNotNull(obj.testSetup());
+            assertEquals(100, obj.testSetup().threads());
+            assertEquals(1000, obj.testSetup().invocations());
+            assertEquals(1000, obj.testSetup().invocationRange());
+            assertEquals(200, obj.testSetup().throughputRange());
+        } finally {
+            obj_in.close();
+            f_in.close();
+        }
     }
 }

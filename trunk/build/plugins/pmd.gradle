@@ -1,3 +1,5 @@
+import org.gradle.api.plugins.quality.Pmd
+
 
 apply plugin: 'pmd'
 
