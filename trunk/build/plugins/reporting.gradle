@@ -1,5 +1,6 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
+import org.gradle.api.GradleException
 import org.gradle.api.file.FileTree
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
@@ -13,7 +14,7 @@ dependencies {  antClasspath 'org.apache.ant:ant-junit:1.8.2'  }
 
 task aggregateTestReport {
     group = 'Verification'
-    description = "Makes aggregate test (junit) report."
+    description = "Makes aggregate test report with ant-junit."
 
     doLast {
         ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
@@ -34,22 +35,43 @@ task aggregateTestReport {
             report(todir: targetDir, format: "frames")
         }
 
-        def outputFactory = services.get(StyledTextOutputFactory).create("junit.aggregateTestReport")
+        def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateTestReport")
         outputFactory.withStyle(Style.Info).println("Aggregate test report can be found from file://$reportDir/junit/index.html")
     }
 }
+task aggregateEmmaReport {
+    group = 'Verification'
+    description = "Makes aggregate coverage report with emma."
+    doLast {
+        def targetDir = new File("$reportDir", 'emma')
+        targetDir.deleteDir()
+        targetDir.mkdirs()
+        def FileTree metadata = fileTree("$projectDir").include('**/build/tmp/emma/**/*.emma')
+        def FileTree instrumented = fileTree("$projectDir").include('**/build/tmp/emma/*.emma')
+        def Set<File> emmaFiles = metadata.getFiles() + instrumented.getFiles()
+        def StringBuilder inArgs= new StringBuilder()
+        for(File emma : emmaFiles) {
+            inArgs.append("-in $emma ")
+        }
+        throw new GradleException("Not fully implemented yet")
+        //echo "-in = ${inArgs.toString()}"
 
+        //  java -cp tools/emma-2.1.5320-lib/emma.jar emma report -report html $SOURCEPATH  $IN -Dreport.out.file=tmp/emma/coverage.html
+    }
+}
 task aggregateJDependReport {
     group = 'Verification'
     description = "Makes aggregate jdepend report with tattletale."
     doLast {
         def targetDir = new File("$reportDir", 'jdepend')
-        targetDir.deleteDir();
+        targetDir.deleteDir()
         targetDir.mkdirs()
-        def jarsDir= new File("${targetDir}/analyzed-jars")
+        def jarsDir= new File("${reportDir}/analyzed-jars")
+        jarsDir.deleteDir()
         jarsDir.mkdirs()
         def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
         def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
+
         copy {
             from jars.getFiles() + libs.getFiles()
             into "$jarsDir"
@@ -68,11 +90,12 @@ task aggregateJDependReport {
                 standardOutput = os
             }
         }
-        echo "JDepend report can be found from file://${targetDir}/index.html)"
+        def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateJDependReport")
+        outputFactory.withStyle(Style.Info).println("JDepend report can be found from file://${targetDir}/index.html)")
     }
 }
 
-private void echo(final String msg){
+private void echo(final String msg) {
     println msg
 }
 
