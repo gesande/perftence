@@ -144,14 +144,15 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         TestAgent newTestAgent(int id);
     }
 
-    class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
+    final static class SleepingTestAgentFactoryWithNowFlavour implements
+            TestAgentFactory {
 
         @Override
         public TestAgent newTestAgent(final int id) {
             return new TestAgentWithNowFlavour();
         }
 
-        class TestAgentWithNowFlavour implements TestAgent {
+        final static class TestAgentWithNowFlavour implements TestAgent {
 
             public TestAgentWithNowFlavour() {
             }
@@ -163,15 +164,15 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         }
     }
 
-    class SleepingTestAgentFactoryWithNowFlavourHavingNextTask implements
-            TestAgentFactory {
+    final static class SleepingTestAgentFactoryWithNowFlavourHavingNextTask
+            implements TestAgentFactory {
 
         @Override
         public TestAgent newTestAgent(int id) {
             return new TestAgentWithTwoTasks();
         }
 
-        class TestAgentWithTwoTasks implements TestAgent {
+        final static class TestAgentWithTwoTasks implements TestAgent {
             @Override
             public TestTask firstTask() {
                 return newTask(0, 100, newTask(0, 100, null));

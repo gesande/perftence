@@ -66,14 +66,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
     }
 
-    class SleepingTestAgentFactoryWithNowFlavour implements TestAgentFactory {
+    final static class SleepingTestAgentFactoryWithNowFlavour implements
+            TestAgentFactory {
 
         @Override
         public TestAgent newTestAgent(final int id) {
             return new TestAgentWithNowFlavour();
         }
 
-        class TestAgentWithNowFlavour implements TestAgent {
+        final static class TestAgentWithNowFlavour implements TestAgent {
 
             public TestAgentWithNowFlavour() {
             }
@@ -85,15 +86,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
-    class SleepingTestAgentFactoryWithNowFlavourHavingNextTask implements
-            TestAgentFactory {
+    final static class SleepingTestAgentFactoryWithNowFlavourHavingNextTask
+            implements TestAgentFactory {
 
         @Override
         public TestAgent newTestAgent(int id) {
             return new TestAgentWithTwoTasks();
         }
 
-        class TestAgentWithTwoTasks implements TestAgent {
+        final static class TestAgentWithTwoTasks implements TestAgent {
             @Override
             public TestTask firstTask() {
                 return newTask(0, 100, newTask(0, 100, null));
@@ -173,14 +174,14 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         AliveAgent, SleepingAgent
     }
 
-    static class ConcurrentAgent implements TestAgent {
+    final static class ConcurrentAgent implements TestAgent {
 
         @Override
         public TestTask firstTask() {
             return new FirstTask();
         }
 
-        class FirstTask implements TestTask {
+        final static class FirstTask implements TestTask {
             private Thread currentThread;
 
             @Override
@@ -209,7 +210,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
             }
         }
 
-        class SecondTask implements TestTask {
+        final static class SecondTask implements TestTask {
             @Override
             public TestTaskCategory category() {
                 return TestCategory.AliveAgent;
@@ -242,7 +243,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         return LOG;
     }
 
-    class SleepingMs implements TestAgentFactory {
+    final static class SleepingMs implements TestAgentFactory {
 
         private final int sleep;
         private final int schedule;
@@ -294,7 +295,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
         }
     }
 
-    class FailingHalfTheTime implements TestAgent {
+    final static class FailingHalfTheTime implements TestAgent {
 
         private final TestTask first;
 

@@ -2,9 +2,11 @@
 apply plugin: "java"
 
 allprojects {
-    task "createSourceDirs" << {
-        sourceSets*.java.srcDirs*.each { it.mkdirs() }
-        sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+    task "createSourceDirs" {
+        doLast {
+            sourceSets*.java.srcDirs*.each { it.mkdirs() }
+            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+        }
     }
 
     task svnAdd { task ->

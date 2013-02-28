@@ -95,7 +95,7 @@ public class StatisticsPerformanceTest extends AbstractMultiThreadedTest {
         Statistics fromLatencies = Statistics.fromLatencies(sampleList);
         final long stop = System.nanoTime();
         log().info("Finished performance test for {} items in {} ms",
-                sampleList.size(), (double) ((stop - start) / 1000000));
+                sampleList.size(), ((stop - start) / 1000000.00));
         return fromLatencies;
     }
 
