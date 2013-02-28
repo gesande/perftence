@@ -1,5 +1,6 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
+import org.apache.tools.ant.types.FileSet
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileTree
 import org.gradle.logging.StyledTextOutput
@@ -53,10 +54,9 @@ task aggregateEmmaReport {
         for(File emma : emmaFiles) {
             inArgs.append("-in $emma ")
         }
-        throw new GradleException("Not fully implemented yet")
         //echo "-in = ${inArgs.toString()}"
-
         //  java -cp tools/emma-2.1.5320-lib/emma.jar emma report -report html $SOURCEPATH  $IN -Dreport.out.file=tmp/emma/coverage.html
+        throw new GradleException("Not fully implemented yet")
     }
 }
 task aggregateJDependReport {
