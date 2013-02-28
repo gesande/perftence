@@ -60,8 +60,6 @@ public class ScheduledExecutorServiceTest {
         final AtomicInteger failed = new AtomicInteger();
         final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(
                 1);
-        executor.setMaximumPoolSize(Integer.MAX_VALUE);
-
         executor.schedule(failTask(failed), 500, TimeUnit.MILLISECONDS);
         executor.schedule(successTask(success), 500, TimeUnit.MILLISECONDS);
         Thread.sleep(2500);

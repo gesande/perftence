@@ -51,8 +51,11 @@ public class FilebasedReporter implements TestRuntimeReporter {
 
     private BufferedWriter newBufferedWriterFor(final String fileName) {
         try {
-            return new BufferedWriter(new FileWriter(new File(
-                    reportDirectory(), fileName)));
+            File reportDirectory2 = reportDirectory();
+            File file = new File(reportDirectory2, fileName);
+            FileWriter out = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(out);
+            return bufferedWriter;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

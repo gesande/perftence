@@ -1,5 +1,6 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
+import org.gradle.api.file.FileTree
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
 
@@ -37,3 +38,41 @@ task aggregateTestReport {
         outputFactory.withStyle(Style.Info).println("Aggregate test report can be found from file://$reportDir/junit/index.html")
     }
 }
+
+task aggregateJDependReport {
+    group = 'Verification'
+    description = "Makes aggregate jdepend report with tattletale."
+    doLast {
+        def targetDir = new File("$reportDir", 'jdepend')
+        targetDir.deleteDir();
+        targetDir.mkdirs()
+        def jarsDir= new File("${targetDir}/analyzed-jars")
+        jarsDir.mkdirs()
+        def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
+        def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
+        copy {
+            from jars.getFiles() + libs.getFiles()
+            into "$jarsDir"
+        }
+        echo 'Creating JDepend report...'
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'java'
+                args = [
+                    '-Xmx1024m',
+                    '-jar',
+                    "$toolsDir/tattletale-1.1.2.Final/tattletale.jar",
+                    "${jarsDir}",
+                    "${targetDir}"
+                ]
+                standardOutput = os
+            }
+        }
+        echo "JDepend report can be found from file://${targetDir}/index.html)"
+    }
+}
+
+private void echo(final String msg){
+    println msg
+}
+

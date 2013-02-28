@@ -188,7 +188,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         }
     }
 
-    class TestAgentWithTwoTasks implements TestAgent {
+    final static class TestAgentWithTwoTasks implements TestAgent {
         @Override
         public TestTask firstTask() {
             return newTask(0, RANDOM.nextInt(100) + 1,

@@ -14,14 +14,14 @@ ext.repositoryDir="$projectDir/repository"
 ext.artifactVersion='1.0-BETA'
 
 apply from: "$buildPlugins/repositories.gradle"
-apply from: "$buildPlugins/junit.gradle"
+apply from: "$buildPlugins/reporting.gradle"
 apply from: "$buildPlugins/deployment.gradle"
 apply from: "$buildPlugins/artifact.gradle"
 apply from: "$buildPlugins/environment.gradle"
 
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
-    apply from: "$buildPlugins/testcode.gradle"
+    apply from: "$buildPlugins/codeAnalysis.gradle"
 
     version = "$artifactVersion"
 

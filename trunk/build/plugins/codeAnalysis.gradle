@@ -13,7 +13,20 @@ task testCodeAnalysis(dependsOn: [
     group = 'Verification'
     description = 'Analyze test code with pmd/findbugs/jdepend'
     doLast {
-        def outputFactory = services.get(StyledTextOutputFactory).create("testcode.testCodeAnalysis")
+        def outputFactory = services.get(StyledTextOutputFactory).create("codeAnalysis.testCodeAnalysis")
+        outputFactory.withStyle(Style.Info).println("Test code analyzed for $project ")
+    }
+}
+
+task mainCodeAnalysis(dependsOn: [
+    findbugsMain,
+    pmdMain,
+    jdependMain
+]) {
+    group = 'Verification'
+    description = 'Analyze main code with pmd/findbugs/jdepend'
+    doLast {
+        def outputFactory = services.get(StyledTextOutputFactory).create("codeAnalysis.mainCodeAnalysis")
         outputFactory.withStyle(Style.Info).println("Test code analyzed for $project ")
     }
 }
