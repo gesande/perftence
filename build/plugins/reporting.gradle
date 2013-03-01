@@ -25,6 +25,7 @@ task aggregateTestReport {
         def targetDir = new File("$reportDir", 'junit')
         targetDir.mkdirs()
         def resultsDir="$reportDir/junit"
+        echo 'Creating test report...'
 
         ant.taskdef(
                 name: 'junitreport',
@@ -111,6 +112,50 @@ task aggregateJDependReport {
             def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateJDependReport")
             outputFactory.withStyle(Style.Info).println("JDepend report can be found from file://${targetDir}/index.html)")
         }
+    }
+}
+
+task aggregateFindBugsReport {
+    group ='Verification'
+    description = 'Makes aggregate findbugs report.'
+    doLast {
+        def targetDir = new File("$reportDir", 'findbugs')
+        targetDir.deleteDir()
+        targetDir.mkdirs()
+        def jreHome = "${System.getenv('JAVA_HOME')}/jre"
+        echo 'Creating FindBugs report...'
+        def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
+        def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
+
+        def List<String> arguments = new ArrayList<String>()
+        arguments.add('-javahome')
+        arguments.add(jreHome)
+        arguments.add('-textui')
+        arguments.add('-html')
+        arguments.add('-output')
+        arguments.add( "${targetDir}/index.html")
+        arguments.add('-onlyAnalyze')
+        arguments.add('net.sf.perftence.-')
+        arguments.add('-auxclasspath')
+
+        for(File jarFile : jars ){
+            arguments.add(jarFile)
+        }
+        for(File libJar : libs){
+            arguments.add(libJar)
+        }
+        arguments.add("${jreHome}/lib/*.jar")
+        arguments.add("${toolsDir}/ext-libs-for-findbugs/*.jar")
+
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = "${toolsDir}/findbugs-2.0.2/bin/findbugs"
+                args = arguments
+                standardOutput = os
+            }
+        }
+        def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateFindBugsReport")
+        outputFactory.withStyle(Style.Info).println("Findbugs report can be found from file://${targetDir}/index.html)")
     }
 }
 
