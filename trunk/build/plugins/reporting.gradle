@@ -138,14 +138,14 @@ task aggregateFindBugsReport { Task task ->
         arguments.add( "${targetDir}/index.html")
         arguments.add('-onlyAnalyze')
         arguments.add('net.sf.perftence.-')
-
-        arguments.add('-sourcepath')
-        def List<String> sourcePathArgs= new ArrayList<String>()
-        def FileTree mainJava = fileTree("$projectDir").include('**/src/main/java')
-        for(File srcDir : mainJava) {
-            println srcDir
-            arguments.add(srcDir)
-        }
+        //TODO: this doesn't work, find out why...
+        //        arguments.add('-sourcepath')
+        //        def List<String> sourcePathArgs= new ArrayList<String>()
+        //        def FileTree mainJava = fileTree("$projectDir").include('**/src/main/java')
+        //        for(File srcDir : mainJava) {
+        //            println srcDir
+        //            arguments.add(srcDir)
+        //        }
 
         arguments.add('-auxclasspath')
 
