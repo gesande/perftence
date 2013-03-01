@@ -143,6 +143,7 @@ task aggregateFindBugsReport { Task task ->
         def List<String> sourcePathArgs= new ArrayList<String>()
         def FileTree mainJava = fileTree("$projectDir").include('**/src/main/java')
         for(File srcDir : mainJava) {
+            println srcDir
             arguments.add(srcDir)
         }
 
