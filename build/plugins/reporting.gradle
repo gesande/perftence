@@ -52,26 +52,20 @@ task aggregateEmmaReport { Task task ->
         def List<String> sourcePathArgs= new ArrayList<String>()
         for (Project sub : task.project.getSubprojects()) {
             def FileTree emmaTree = sub.fileTree('build').include('tmp/emma/metadata.emma').include('tmp/emma/instr/metadata.emma')
-            for(File emmaFile : emmaTree.files){
-                inArgs.add("-input $emmaFile")
+            for(File emmaFile : emmaTree.files) {
+                inArgs.add("-input")
+                inArgs.add(emmaFile)
             }
             def String sourceDir = sub.fileTree("src/main/java").getDir()
-            sourcePathArgs.add("-sourcepath $sourceDir")
+            sourcePathArgs.add("-sourcepath")
+            sourcePathArgs.add(sourceDir)
         }
-        //create a list of args
-        final List<String> arguments = new ArrayList<String>()
-        //        arguments.add("-cp")
-        //        arguments.add("${toolsDir}/emma-2.1.5320-lib/emma.jar")
-        //        arguments.add("emma")
+        def List<String> arguments = new ArrayList<String>()
         arguments.add("report")
         arguments.add("-report")
         arguments.add("html")
-        for(String value : inArgs){
-            arguments.add(value)
-        }
-        for(String value : sourcePathArgs){
-            arguments.add(value)
-        }
+        arguments.addAll(inArgs)
+        arguments.addAll(sourcePathArgs)
         arguments.add("-Dreport.out.file=${targetDir}/coverage.html")
 
         echo 'Creating coverage report...'
@@ -97,7 +91,6 @@ task aggregateJDependReport {
         jarsDir.mkdirs()
         def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
         def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
-
         copy {
             from jars.getFiles() + libs.getFiles()
             into "$jarsDir"
@@ -106,7 +99,7 @@ task aggregateJDependReport {
         new ByteArrayOutputStream().withStream { os ->
             def result = exec {
                 executable = 'java'
-                args = [
+                args =[
                     '-Xmx1024m',
                     '-jar',
                     "$toolsDir/tattletale-1.1.2.Final/tattletale.jar",
@@ -115,9 +108,9 @@ task aggregateJDependReport {
                 ]
                 standardOutput = os
             }
+            def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateJDependReport")
+            outputFactory.withStyle(Style.Info).println("JDepend report can be found from file://${targetDir}/index.html)")
         }
-        def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateJDependReport")
-        outputFactory.withStyle(Style.Info).println("JDepend report can be found from file://${targetDir}/index.html)")
     }
 }
 
