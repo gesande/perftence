@@ -115,7 +115,7 @@ task aggregateJDependReport {
     }
 }
 
-task aggregateFindBugsReport {
+task aggregateFindBugsReport { Task task ->
     group ='Verification'
     description = 'Makes aggregate findbugs report.'
     doLast {
@@ -126,6 +126,8 @@ task aggregateFindBugsReport {
         echo 'Creating FindBugs report...'
         def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
         def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
+        def FileTree jreLibs = fileTree("${jreHome}/lib/").include('*.jar')
+        def FileTree extLibs = fileTree("${toolsDir}/ext-libs-for-findbugs/").include('*.jar')
 
         def List<String> arguments = new ArrayList<String>()
         arguments.add('-javahome')
@@ -136,6 +138,14 @@ task aggregateFindBugsReport {
         arguments.add( "${targetDir}/index.html")
         arguments.add('-onlyAnalyze')
         arguments.add('net.sf.perftence.-')
+
+        arguments.add('-sourcepath')
+        def List<String> sourcePathArgs= new ArrayList<String>()
+        def FileTree mainJava = fileTree("$projectDir").include('**/src/main/java')
+        for(File srcDir : mainJava) {
+            arguments.add(srcDir)
+        }
+
         arguments.add('-auxclasspath')
 
         for(File jarFile : jars ){
@@ -144,8 +154,12 @@ task aggregateFindBugsReport {
         for(File libJar : libs){
             arguments.add(libJar)
         }
-        arguments.add("${jreHome}/lib/*.jar")
-        arguments.add("${toolsDir}/ext-libs-for-findbugs/*.jar")
+        for(File jar : jreLibs) {
+            arguments.add(jar)
+        }
+        for(File jar : extLibs) {
+            arguments.add(jar)
+        }
 
         new ByteArrayOutputStream().withStream { os ->
             def result = exec {
