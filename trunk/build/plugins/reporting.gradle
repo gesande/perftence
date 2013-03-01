@@ -1,7 +1,7 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
-import org.apache.tools.ant.types.FileSet
-import org.gradle.api.GradleException
+import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.file.FileTree
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
@@ -9,9 +9,9 @@ import org.gradle.logging.StyledTextOutputFactory
 
 repositories{ mavenCentral() }
 
-configurations {  antClasspath  }
+configurations { antClasspath }
 
-dependencies {  antClasspath 'org.apache.ant:ant-junit:1.8.2'  }
+dependencies { antClasspath 'org.apache.ant:ant-junit:1.8.2' }
 
 task aggregateTestReport {
     group = 'Verification'
@@ -40,25 +40,51 @@ task aggregateTestReport {
         outputFactory.withStyle(Style.Info).println("Aggregate test report can be found from file://$reportDir/junit/index.html")
     }
 }
-task aggregateEmmaReport {
+
+task aggregateEmmaReport { Task task ->
     group = 'Verification'
     description = "Makes aggregate coverage report with emma."
     doLast {
         def targetDir = new File("$reportDir", 'emma')
         targetDir.deleteDir()
         targetDir.mkdirs()
-        def FileTree metadata = fileTree("$projectDir").include('**/build/tmp/emma/**/*.emma')
-        def FileTree instrumented = fileTree("$projectDir").include('**/build/tmp/emma/*.emma')
-        def Set<File> emmaFiles = metadata.getFiles() + instrumented.getFiles()
-        def StringBuilder inArgs= new StringBuilder()
-        for(File emma : emmaFiles) {
-            inArgs.append("-in $emma ")
+        def List<String> inArgs= new ArrayList<String>()
+        def List<String> sourcePathArgs= new ArrayList<String>()
+        for (Project sub : task.project.getSubprojects()) {
+            def FileTree emmaTree = sub.fileTree('build').include('tmp/emma/metadata.emma').include('tmp/emma/instr/metadata.emma')
+            for(File emmaFile : emmaTree.files){
+                inArgs.add("-input $emmaFile")
+            }
+            def String sourceDir = sub.fileTree("src/main/java").getDir()
+            sourcePathArgs.add("-sourcepath $sourceDir")
         }
-        //echo "-in = ${inArgs.toString()}"
-        //  java -cp tools/emma-2.1.5320-lib/emma.jar emma report -report html $SOURCEPATH  $IN -Dreport.out.file=tmp/emma/coverage.html
-        throw new GradleException("Not fully implemented yet")
+        //create a list of args
+        final List<String> arguments = new ArrayList<String>()
+        //        arguments.add("-cp")
+        //        arguments.add("${toolsDir}/emma-2.1.5320-lib/emma.jar")
+        //        arguments.add("emma")
+        arguments.add("report")
+        arguments.add("-report")
+        arguments.add("html")
+        for(String value : inArgs){
+            arguments.add(value)
+        }
+        for(String value : sourcePathArgs){
+            arguments.add(value)
+        }
+        arguments.add("-Dreport.out.file=${targetDir}/coverage.html")
+
+        echo 'Creating coverage report...'
+        def exit = javaexec {
+            classpath "${toolsDir}/emma-2.1.5320-lib/emma.jar"
+            main = 'emma'
+            args = arguments
+        }
+        def outputFactory = services.get(StyledTextOutputFactory).create("reporting.aggregateJDependReport")
+        outputFactory.withStyle(Style.Info).println("Emma coverage report can be found from file://${targetDir}/coverage.html)")
     }
 }
+
 task aggregateJDependReport {
     group = 'Verification'
     description = "Makes aggregate jdepend report with tattletale."
