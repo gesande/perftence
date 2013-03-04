@@ -2,7 +2,7 @@
 set -eu
 HERE=$(dirname $0)
 . $HERE/stdout-lib.sh
-clear
+#clear
 
 title
 
