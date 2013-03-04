@@ -25,7 +25,7 @@ subprojects {
 
     version = "$artifactVersion"
 
-    task "showVersion" << { println version }
+    task "showVersion" { doLast {  println version  } }
 
     task "init-libs" << { task ->
         def libDir = new File(task.project.projectDir, 'lib')
@@ -35,5 +35,51 @@ subprojects {
     }
 }
 
+task continousBuild(type: GradleBuild, dependsOn: ['buildclean']) { Task task ->
+    group = 'Verification'
+    description ='Continous build for the whole thing.'
+    buildFile = 'build.gradle'
+    tasks << 'perftence-concurrent:continous'
+    tasks << 'perftence-bag:continous'
+    tasks << 'perftence-linereader:continous'
+    tasks << 'perftence-fileutil:continous'
+    tasks << 'perftence-junit-utils:continous'
+    tasks << 'perftence-classhelper:continous'
+    tasks << 'perftence:continous'
+    tasks << 'perftence-api:continous'
+    tasks << 'responsecode-summaryappender:continous'
+    tasks << 'perftence-junit:continous'
+    tasks << 'acceptance-tests:test'
+    tasks << 'aggregateTestReport'
 
+    tasks << 'aggregateJDependReport'
+    tasks << 'aggregateEmmaReport'
+    tasks << 'aggregateFindbugsReport'
 
+    doLast { println "Continous build passed, good work!" }
+}
+
+task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Task task ->
+    group = 'Distribution'
+    description = 'Distribution package for the whole thing including continous build.'
+    buildFile = 'build.gradle'
+    tasks << 'clean'
+    tasks << 'perftence-concurrent:release'
+    tasks << 'perftence-bag:release'
+    tasks << 'perftence-api:release'
+    tasks << 'perftence-junit-utils:release'
+    tasks << 'perftence-classhelper:release'
+    tasks << 'perftence-linereader:release'
+    tasks << 'perftence-fileutil:release'
+    tasks << 'perftence:release'
+    tasks << 'responsecode-summaryappender:release'
+    tasks << 'perftence-junit:release'
+    tasks << 'makeDistributionPackage'
+
+    doLast { println "Distribution package ready to be uploaded to the repository." }
+}
+
+task buildclean(type: GradleBuild) { Task task ->
+    buildFile = 'build.gradle'
+    tasks << 'clean'
+}
