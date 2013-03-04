@@ -91,12 +91,28 @@ task buildEclipseSettings(type: GradleBuild) { Task task ->
 task buildEclipseSettingsFor(type: GradleBuild) { GradleBuild task ->
     group = 'IDE'
     description = 'Build Eclipse settings for a specific module.'
-    println task.hasProperty('settingsFor')
     //  def String module=task.project.settingsFor
-    doLast { println "Eclipse settings ready for TODO. Now import the project (without copying it) into Eclipse." }
+    doLast { 
+        println task.hasProperty('settingsFor')
+        println "Eclipse settings ready for TODO. Now import the project (without copying it) into Eclipse." }
 }
 
 task buildclean(type: GradleBuild) { Task task ->
     buildFile = 'build.gradle'
     tasks << 'clean'
+}
+
+task showBacklog {
+    group = 'Misc'
+    description= 'Shows backlog.'
+    def backlog =''
+    new ByteArrayOutputStream().withStream { os ->
+        def result = exec {
+            executable = 'backlog/show.sh'
+            args = ['']
+            standardOutput = os
+        }
+        backlog = os.toString().trim()
+    }
+    doLast { println backlog }    
 }
