@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.GradleBuild;
 
 ext.buildScripts="$projectDir/build"
 ext.buildTemplates="$buildScripts/template"
@@ -25,7 +26,7 @@ subprojects {
 
     version = "$artifactVersion"
 
-    task "showVersion" { doLast {  println version  } }
+    task "showVersion" { doLast {  println version } }
 
     task "init-libs" << { task ->
         def libDir = new File(task.project.projectDir, 'lib')
@@ -84,20 +85,16 @@ task buildEclipseSettings(type: GradleBuild) { Task task ->
     description= 'Build Eclipse settings for all projects.'
     tasks << 'cleanEclipse'
     tasks << 'eclipse'
-    doLast {
-        println "Eclipse settings ready. Now import project (without copying them) into Eclipse." 
-    }
+    doLast { println "Eclipse settings ready. Now import project (without copying them) into Eclipse."  }
 }
 
-//task buildEclipseSettingsFor(type: GradleBuild) { Task task ->
-//    group = 'IDE'
-//    description = 'Build Eclipse settings for a specific module.'
-//    println task.project.hasProperty('settingsFor')
-//    def String module=task.project.settingsFor
-//    doLast {
-//        println "Eclipse settings ready for ${module}. Now import the project (without copying it) into Eclipse."     
-//}
-//}
+task buildEclipseSettingsFor(type: GradleBuild) { GradleBuild task ->
+    group = 'IDE'
+    description = 'Build Eclipse settings for a specific module.'
+    println task.hasProperty('settingsFor')
+    //  def String module=task.project.settingsFor
+    doLast { println "Eclipse settings ready for TODO. Now import the project (without copying it) into Eclipse." }
+}
 
 task buildclean(type: GradleBuild) { Task task ->
     buildFile = 'build.gradle'
