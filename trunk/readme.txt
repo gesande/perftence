@@ -26,8 +26,6 @@ see tool installation scripts (mainly for ubuntu) in install project:
 or install them manually
 
 build your eclipse settings:
-./build/eclipse/settings.sh 
+gradle buildEclipseSettings
 
 after that just import the projects to eclipse
-
-
