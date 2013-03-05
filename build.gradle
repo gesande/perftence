@@ -92,7 +92,7 @@ task buildEclipseSettingsFor()  { Task task ->
     group = 'IDE'
     description = 'Build Eclipse settings for a specific module.'
     println task.project.hasProperty('settingsFor')
-    settingsFor=task.project.getProperty('settingsFor')
+//    settingsFor=task.project.getProperty('settingsFor')
     doLast {
        // StartParameter params = project.gradle.startParameter.newBuild()
        // params.tasks = ["${settingsFor}:cleanEclipse", "${settingsFor}:eclipse"] 
