@@ -56,6 +56,11 @@ task-done "unit tests for PerformanceTestSetupPojo.noSetup()" $(tag code-quality
 task-done "breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo" $(tag build)
 task-done "simplified thread run engine for finding out threading issues, perftence-concurrent provides this now" $(tag feature)
 task-done "fixed dist task, dist package didn't contain all zips" $(tag build)
+task-done "gradle continousBuild" $(tag build)
+task-done "gradle aggregateReports" $(tag build)
+task-done "gradle distributionPackage" $(tag build)
+task-done "gradle main/testCodeAnalysis" $(tag build)
+task-done "gradle buildEclipseSettings" $(tag build)
 
 in-progress-title
 
