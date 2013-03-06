@@ -11,9 +11,11 @@ ext.distributionPlugin="$buildPlugins/java-distribution.gradle"
 ext.distributionDir="$tmpDir"
 ext.toolsDir="$projectDir/tools"
 ext.repositoryDir="$projectDir/repository"
+ext.svnIgnoreFile="$buildScripts/svn/svn-ignore"
 
 ext.artifactVersion='1.0-BETA'
 
+apply from: "$buildPlugins/java-development.gradle"
 apply from: "$buildPlugins/repositories.gradle"
 apply from: "$buildPlugins/reporting.gradle"
 apply from: "$buildPlugins/distribution-package.gradle"
