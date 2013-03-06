@@ -20,6 +20,7 @@ task newJavaProject(type: GradleBuild ) { GradleBuild task ->
     task.tasks << svnAdd
     task.tasks << svnIgnore
     task.tasks << eclipseSettingsFor
+
     doLast {
         printOutInfo("java-development.newJavaProject", "New Java project can now be found from ${task.project.buildDir}/${javaProject}")
     }
@@ -34,11 +35,13 @@ task newJavaLibProject(type: GradleBuild) { GradleBuild task ->
     String svnAdd = "${javaProject}:svnAdd"
     String svnIgnore = "${javaProject}:svnIgnore"
     String createLibDirs="${javaProject}:createLibDirs"
+
     task.tasks << createJavaDirs
     task.tasks << createLibDirs
     task.tasks << svnAdd
     task.tasks << svnIgnore
     task.tasks << eclipseSettingsFor
+
     doLast {
         printOutInfo("java-development.newJavaProject", "New Java project can now be found from ${task.project.buildDir}/${javaProject}")
     }
@@ -90,7 +93,7 @@ subprojects {
         group 'Development'
         description "Applies SVN ignore based on contents in ${svnIgnoreFile}."
         doLast {
-            def out= "" // svn propset svn:ignore -F $HERE/svn-ignore $1
+            def out= ""
             new ByteArrayOutputStream().withStream { os ->
                 def result = exec {
                     executable = 'svn'
