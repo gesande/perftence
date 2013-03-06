@@ -1,0 +1,23 @@
+import org.gradle.api.tasks.GradleBuild
+
+task buildEclipseSettings(type: GradleBuild) { GradleBuild task ->
+    task.group = 'IDE'
+    task.description= 'Build fresh Eclipse settings for all projects.'
+    task.tasks << 'cleanEclipse'
+    task.tasks << 'eclipse'
+    task.doLast { println "Eclipse settings ready. Now import project (without copying them) into Eclipse."  }
+}
+
+/*
+ task buildEclipseSettingsFor(type: GradleBuild)  { GradleBuild task ->
+ group = 'IDE'
+ description = 'Build Eclipse settings for a specific module.'
+ def settingsFor = task.project.property('settingsFor')
+ def cleanEclipse = "${settingsFor}:cleanEclipse"
+ def eclipse = "${settingsFor}:eclipse"
+ tasks << cleanEclipse
+ tasks << eclipse
+ doLast { println "Eclipse settings ready for ${settingsFor}. Now import the project (without copying it) into Eclipse." }
+ }
+ */
+
