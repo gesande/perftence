@@ -1,0 +1,14 @@
+import org.gradle.api.Task
+
+apply plugin: "eclipse"
+
+eclipse.classpath.defaultOutputDir = file('target/classes')
+
+task removeTarget { Task task ->
+    group = 'IDE'
+    description = "Deletes project specific target -directory."
+    doLast {
+        delete('target')
+        printOutInfo("eclipse.removeTarget", "Target -directory deleted from project ${task.project.name}.")
+    }
+}

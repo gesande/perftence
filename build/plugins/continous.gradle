@@ -5,7 +5,6 @@ import org.gradle.logging.StyledTextOutputFactory
 
 
 apply from: "$buildPlugins/java.gradle"
-apply from: "$buildPlugins/eclipse.gradle"
 apply from: "$buildPlugins/findbugs.gradle"
 apply from: "$buildPlugins/jdepend.gradle"
 apply from: "$buildPlugins/pmd.gradle"

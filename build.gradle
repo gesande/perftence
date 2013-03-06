@@ -24,6 +24,8 @@ apply from: "$buildPlugins/eclipseSettings.gradle"
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
     apply from: "$buildPlugins/codeAnalysis.gradle"
+    apply from: "$buildPlugins/eclipseJdt.gradle"
+    apply from: "$buildPlugins/eclipseClasspath.gradle"
 
     version = "$artifactVersion"
 
@@ -81,6 +83,20 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
 
     doLast { println "Distribution package ready to be uploaded to the repository." }
 }
+
+/*
+task buildEclipseSettingsFor(type: GradleBuild)  { GradleBuild task ->
+    group = 'IDE'
+    description = 'Build fresh Eclipse settings for a specific module.'
+    def settingsFor = task.project.property('settingsFor')
+    def cleanEclipse = "${settingsFor}:cleanEclipse"
+    def eclipse = "${settingsFor}:eclipse"
+    tasks << cleanEclipse
+    tasks << eclipse
+    doLast { println "Eclipse settings ready for ${settingsFor}. Now import the project (without copying it) into Eclipse." }
+}
+*/
+
 
 task buildclean(type: GradleBuild) { Task task ->
     buildFile = 'build.gradle'
