@@ -25,7 +25,37 @@ task newJavaProject(type: GradleBuild ) { GradleBuild task ->
     }
 }
 
+task newJavaLibProject(type: GradleBuild) { GradleBuild task ->
+    group ='Development'
+    description ="Creates a new Java library project putting it already to SVN and applying some SVN ignore magic from predefined file which seem to be ${svnIgnoreFile}."
+    def javaProject =  task.project.properties.newJavaProject
+    String createJavaDirs = "${javaProject}:createJavaDirs"
+    String eclipseSettingsFor = "${javaProject}:eclipseSettingsFor"
+    String svnAdd = "${javaProject}:svnAdd"
+    String svnIgnore = "${javaProject}:svnIgnore"
+    String createLibDirs="${javaProject}:createLibDirs"
+    task.tasks << createJavaDirs
+    task.tasks << createLibDirs
+    task.tasks << svnAdd
+    task.tasks << svnIgnore
+    task.tasks << eclipseSettingsFor
+    doLast {
+        printOutInfo("java-development.newJavaProject", "New Java project can now be found from ${task.project.buildDir}/${javaProject}")
+    }
+}
+
 subprojects {
+
+    task createLibDirs  { Task task ->
+        group 'Development'
+        description 'Creates lib and lib-sources -directories under the given project.'
+        doLast {
+            def libDir = new File(task.project.projectDir, 'lib')
+            libDir.mkdirs()
+            def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
+            libSourcesDir.mkdirs()
+        }
+    }
 
     task createJavaDirs() { Task task ->
         group 'Development'
