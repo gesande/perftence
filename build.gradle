@@ -88,20 +88,3 @@ task buildclean(type: GradleBuild) { Task task ->
     buildFile = 'build.gradle'
     tasks << 'clean'
 }
-
-task showBacklog {
-    group = 'Misc'
-    description= 'Shows backlog.'
-    doLast {
-        def backlog =''
-        new ByteArrayOutputStream().withStream { os ->
-            def result = exec {
-                executable = 'backlog/show.sh'
-                args = ['']
-                standardOutput = os
-            }
-            backlog = os.toString().trim()
-        }
-        println backlog 
-    }    
-}
