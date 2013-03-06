@@ -36,17 +36,6 @@ subprojects {
         description 'Prints out the version.'
         doLast {  println version } 
     }
-
-    task "init-libs"  { task ->
-        group 'Misc'
-        description 'Creates lib and lib-sources -directories under the project.'
-        doLast {
-            def libDir = new File(task.project.projectDir, 'lib')
-            libDir.mkdirs()
-            def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
-            libSourcesDir.mkdirs()
-        }
-    }
 }
 
 task continousBuild(type: GradleBuild, dependsOn: ['buildclean']) { Task task ->
