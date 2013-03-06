@@ -1,0 +1,13 @@
+import org.gradle.api.Task
+
+project(':backlog') {
+    apply from:"$buildPlugins/gradlePlugins.gradle"
+
+    task showBacklog { Task task ->
+        group = 'Backlog'
+        description= 'Shows backlog.'
+        doLast {
+            task.project.exec { commandLine = [ "${task.project.projectDir}/show.sh" ]}
+        }
+    }
+}
