@@ -1,19 +1,52 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
+import org.gradle.api.Task
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
 
 
-task "showRevision" << {
-    new ByteArrayOutputStream().withStream { os ->
-        def result = exec {
-            executable = 'svn'
-            args = ['info']
-            standardOutput = os
+task svnRevision { Task task ->
+    group ='Svn'
+    description ='Shows svn revision grepped from svn info.'
+    doLast {
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'svn'
+                args = ['info']
+                standardOutput = os
+            }
+            def outputAsString = os.toString()
+            def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
+            def outputFactory = services.get(StyledTextOutputFactory).create("svn.svnRevision")
+            outputFactory.withStyle(Style.Info).println("${matchLastChangedRev[0][1]}")
         }
-        def outputAsString = os.toString()
-        def matchLastChangedRev = outputAsString =~ /Last Changed Rev: (\d+)/
-        def outputFactory = services.get(StyledTextOutputFactory).create("svn.show-revision")
-        outputFactory.withStyle(Style.Info).println("${matchLastChangedRev[0][1]}")
+    }
+}
+
+task svnStatus  { Task task ->
+    group ='Svn'
+    description ='Shows svn st and svnversion nicely outputted.'
+    doLast {
+        def svnStatus=""
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'svn'
+                args = ['st']
+                standardOutput = os
+            }
+            svnStatus = os.toString()
+        }
+
+        def svnversion=""
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'svnversion'
+                standardOutput = os
+            }
+            svnversion = os.toString()
+        }
+        def outputFactory = services.get(StyledTextOutputFactory).create("svn.svnStatus")
+        outputFactory.withStyle(Style.Info).println("${svnStatus}")
+        outputFactory.withStyle(Style.Info).println("Revision: ${svnversion}")
     }
 }
