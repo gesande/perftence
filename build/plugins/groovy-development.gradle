@@ -1,14 +1,14 @@
 
-apply plugin: "java"
+apply plugin: "groovy"
 
 allprojects {
-    task "createSourceDirs" {
+
+    task createGroovyDirs() {
         doLast {
-            sourceSets*.java.srcDirs*.each { it.mkdirs() }
-            sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+            sourceSets*.groovy.srcDirs*.each { it.mkdirs() }
         }
     }
-
+/*
     task svnAdd { task ->
         doLast {
             println "project= ${task.project.name}"
@@ -25,8 +25,8 @@ allprojects {
             }
         }
     }
-
-    task newJavaProject(dependsOn: createSourceDirs,svnAdd) { task ->
+*/
+    task newGroovyProject() { task ->
         doLast { println "Project ${task.project.name} successfully created, now import (without copying) the project into Eclipse" }
     }
 }

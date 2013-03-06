@@ -1,4 +1,1 @@
-project(':build') {
-    apply from:"$buildPlugins/gradlePlugins.gradle"
-    //    eclipseJdt.inputFile=file('template/for/eclipse/org.eclipse.jdt.core.prefs')
-}
+project(':build') { apply from:"$buildPlugins/gradlePlugins.gradle" }
