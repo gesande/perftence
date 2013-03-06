@@ -1,4 +1,7 @@
 import org.gradle.api.Task
+import org.gradle.logging.StyledTextOutputFactory
+import org.gradle.logging.StyledTextOutput.Style
+
 
 apply plugin: "eclipse"
 
@@ -12,3 +15,8 @@ task removeTarget { Task task ->
         printOutInfo("eclipse.removeTarget", "Target -directory deleted from project ${task.project.name}.")
     }
 }
+
+void printOutInfo(String taskName, String msg){
+    services.get(StyledTextOutputFactory).create(taskName).withStyle(Style.Info).println(msg)
+}
+
