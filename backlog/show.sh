@@ -61,6 +61,8 @@ task-done "gradle aggregateReports" $(tag build)
 task-done "gradle distributionPackage" $(tag build)
 task-done "gradle main/testCodeAnalysis" $(tag build)
 task-done "gradle buildEclipseSettings" $(tag build)
+task-done "gradle newJavaProject" $(tag build)
+task-done "gradle newJavaLibProject" $(tag build)
 
 in-progress-title
 
