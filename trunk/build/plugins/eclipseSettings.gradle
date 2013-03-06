@@ -1,8 +1,7 @@
-import org.gradle.api.Task
+
 import org.gradle.api.tasks.GradleBuild
 import org.gradle.logging.StyledTextOutputFactory
 import org.gradle.logging.StyledTextOutput.Style
-
 
 apply plugin: "eclipse"
 
@@ -23,10 +22,9 @@ subprojects {
     }
 }
 
-void printOutInfo(String taskName, String msg) {
+void printOutInfo(String taskName, String msg){
     services.get(StyledTextOutputFactory).create(taskName).withStyle(Style.Info).println(msg)
 }
-
 
 
 

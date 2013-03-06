@@ -29,13 +29,21 @@ subprojects {
 
     version = "$artifactVersion"
 
-    task "showVersion" { doLast {  println version } }
+    task "showVersion" { 
+        group 'Misc'
+        description 'Prints out the version.'
+        doLast {  println version } 
+    }
 
-    task "init-libs" << { task ->
-        def libDir = new File(task.project.projectDir, 'lib')
-        libDir.mkdirs()
-        def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
-        libSourcesDir.mkdirs()
+    task "init-libs"  { task ->
+        group 'Misc'
+        description 'Creates lib and lib-sources -directories under the project.'
+        doLast {
+            def libDir = new File(task.project.projectDir, 'lib')
+            libDir.mkdirs()
+            def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
+            libSourcesDir.mkdirs()
+        }
     }
 }
 
@@ -83,20 +91,6 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
 
     doLast { println "Distribution package ready to be uploaded to the repository." }
 }
-
-/*
-task buildEclipseSettingsFor(type: GradleBuild)  { GradleBuild task ->
-    group = 'IDE'
-    description = 'Build fresh Eclipse settings for a specific module.'
-    def settingsFor = task.project.property('settingsFor')
-    def cleanEclipse = "${settingsFor}:cleanEclipse"
-    def eclipse = "${settingsFor}:eclipse"
-    tasks << cleanEclipse
-    tasks << eclipse
-    doLast { println "Eclipse settings ready for ${settingsFor}. Now import the project (without copying it) into Eclipse." }
-}
-*/
-
 
 task buildclean(type: GradleBuild) { Task task ->
     buildFile = 'build.gradle'
