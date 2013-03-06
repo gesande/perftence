@@ -1,0 +1,101 @@
+import org.gradle.api.Task
+import org.gradle.api.tasks.GradleBuild
+
+ext.buildScripts="$projectDir/build"
+ext.buildTemplates="$buildScripts/template"
+ext.buildPlugins="$buildScripts/plugins/"
+ext.libraryPlugin="$buildPlugins/library.gradle"
+ext.tmpDir="$projectDir/tmp"
+ext.reportDir="$projectDir/tmp"
+ext.emmaPlugin="$buildPlugins/emma.gradle"
+ext.distributionPlugin="$buildPlugins/java-distribution.gradle"
+ext.distributionDir="$tmpDir"
+ext.toolsDir="$projectDir/tools"
+ext.repositoryDir="$projectDir/repository"
+
+ext.artifactVersion='1.0-BETA'
+
+apply from: "$buildPlugins/repositories.gradle"
+apply from: "$buildPlugins/reporting.gradle"
+apply from: "$buildPlugins/distribution-package.gradle"
+apply from: "$buildPlugins/artifact.gradle"
+apply from: "$buildPlugins/environment.gradle"
+apply from: "$buildPlugins/eclipseSettings.gradle"
+
+subprojects {
+    apply from: "$buildPlugins/continous.gradle"
+    apply from: "$buildPlugins/codeAnalysis.gradle"
+    apply from: "$buildPlugins/eclipseJdt.gradle"
+    apply from: "$buildPlugins/eclipseClasspath.gradle"
+
+    version = "$artifactVersion"
+
+    task "showVersion" { doLast {  println version
+        } }
+
+    task "init-libs" << { task ->
+        def libDir = new File(task.project.projectDir, 'lib')
+        libDir.mkdirs()
+        def libSourcesDir = new File(task.project.projectDir, 'lib-sources')
+        libSourcesDir.mkdirs()
+    }
+}
+
+task continousBuild(type: GradleBuild, dependsOn: ['buildclean']) { Task task ->
+    group = 'Verification'
+    description ='Continous build for the whole thing.'
+    buildFile = 'build.gradle'
+    tasks << 'continous'
+    tasks << 'aggregateTestReport'
+    tasks << 'aggregateJDependReport'
+    tasks << 'aggregateEmmaReport'
+    tasks << 'aggregateFindbugsReport'
+
+    doLast { println "Continous build passed, good work!" }
+}
+
+task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Task task ->
+    group = 'Distribution'
+    description = 'Distribution package for the whole thing including continous build.'
+    buildFile = 'build.gradle'
+    tasks << 'clean'
+    tasks << 'release'
+    tasks << 'makeDistributionPackage'
+
+    doLast { println "Distribution package ready to be uploaded to the repository." }
+}
+
+/*
+ task buildEclipseSettingsFor(type: GradleBuild)  { GradleBuild task ->
+ group = 'IDE'
+ description = 'Build fresh Eclipse settings for a specific module.'
+ def settingsFor = task.project.property('settingsFor')
+ def cleanEclipse = "${settingsFor}:cleanEclipse"
+ def eclipse = "${settingsFor}:eclipse"
+ tasks << cleanEclipse
+ tasks << eclipse
+ doLast { println "Eclipse settings ready for ${settingsFor}. Now import the project (without copying it) into Eclipse." }
+ }
+ */
+
+task buildclean(type: GradleBuild) { Task task ->
+    buildFile = 'build.gradle'
+    tasks << 'clean'
+}
+
+task showBacklog {
+    group = 'Misc'
+    description= 'Shows backlog.'
+    doLast {
+        def backlog =''
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = 'backlog/show.sh'
+                args = ['']
+                standardOutput = os
+            }
+            backlog = os.toString().trim()
+        }
+        println backlog
+    }
+}
