@@ -22,6 +22,7 @@ apply from: "$buildPlugins/distribution-package.gradle"
 apply from: "$buildPlugins/artifact.gradle"
 apply from: "$buildPlugins/environment.gradle"
 apply from: "$buildPlugins/eclipseSettings.gradle"
+apply from: "$buildPlugins/svn.gradle"
 
 subprojects {
     apply from: "$buildPlugins/continous.gradle"
