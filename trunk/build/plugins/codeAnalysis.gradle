@@ -27,6 +27,6 @@ task mainCodeAnalysis(dependsOn: [
     description = 'Analyze main code with pmd/findbugs/jdepend'
     doLast {
         def outputFactory = services.get(StyledTextOutputFactory).create("codeAnalysis.mainCodeAnalysis")
-        outputFactory.withStyle(Style.Info).println("Test code analyzed for $project ")
+        outputFactory.withStyle(Style.Info).println("Main code analyzed for $project ")
     }
 }
