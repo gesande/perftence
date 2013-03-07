@@ -65,6 +65,8 @@ task-done "gradle newJavaProject" $(tag build)
 task-done "gradle newJavaLibProject" $(tag build)
 task-done "gradle svnRevision,svnStatus" $(tag build)
 task-done "gradle backlog:showBacklog" $(tag build)
+task-done "gradle backlog:hereIsSomethingTodo" $(tag build)
+task-done "gradle backlog:featuresWaiting" $(tag build)
 
 in-progress-title
 
