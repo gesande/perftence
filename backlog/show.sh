@@ -2,7 +2,6 @@
 set -eu
 HERE=$(dirname $0)
 . $HERE/stdout-lib.sh
-#clear
 
 title
 
@@ -70,6 +69,7 @@ task-done "gradle backlog:featuresWaiting" $(tag build)
 task-done "gradle svnfeaturesWaiting" $(tag build)
 task-done "gradle backlog:featuresWaiting" $(tag build)
 task-done "gradle addNewFilesToSvn,listFilesNotAddedToSvn" $(tag build)
+task-done "gradle printChangeLog" $(tag build)
 
 in-progress-title
 

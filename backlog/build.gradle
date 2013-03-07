@@ -21,6 +21,13 @@ project(':backlog') {
         description= 'Shows all features waiting for implementation.'
         task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-' | grep '#feature'"
     }
+
+    task printChangeLog(type:BashExec) {BashExec task ->
+        group = 'Backlog'
+        description= 'Change log for backlog.'
+        def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
+        task.args args
+    }
 }
 
 public class BashExec extends Exec {
