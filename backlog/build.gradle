@@ -6,13 +6,7 @@ project(':backlog') {
     task showBacklog { Task task ->
         group = 'Backlog'
         description= 'Shows backlog.'
-        doLast {
-            task.project.exec {
-                commandLine = [
-                    "${task.project.projectDir}/show.sh"
-                ]
-            }
-        }
+        doLast { println backlog(task) }
     }
 
     task hereIsSomethingTodo { Task task ->
@@ -20,22 +14,16 @@ project(':backlog') {
         description= 'Shows all stuff waiting for implementation.'
 
         doLast {
-            ByteArrayOutputStream stdOut = new ByteArrayOutputStream()
-            task.project.exec {
-                commandLine = [
-                    "${task.project.projectDir}/show.sh"
-                ]
-                standardOutput = stdOut
-            }
-            def ByteArrayInputStream stdIn = new ByteArrayInputStream(stdOut.buf)
-            stdOut = new ByteArrayOutputStream()
+            def ByteArrayOutputStream backlogOut = backlog(task)
+            def ByteArrayInputStream stdIn = new ByteArrayInputStream(backlogOut.buf)
+            def ByteArrayOutputStream somethingTodoOut = new ByteArrayOutputStream()
             task.project.exec {
                 standardInput = stdIn
-                standardOutput = stdOut
+                standardOutput = somethingTodoOut
                 commandLine = ['grep', '\\-\\-\\-']
             }
             println "Here's something you could do:"
-            println stdOut
+            println somethingTodoOut
         }
     }
 
@@ -43,22 +31,17 @@ project(':backlog') {
         group = 'Backlog'
         description= 'Shows all features waiting for implementation.'
         doLast {
-            ByteArrayOutputStream stdOut = new ByteArrayOutputStream()
+            def ByteArrayOutputStream backlogOut = backlog(task)
+            def ByteArrayInputStream somethingTodoIn = new ByteArrayInputStream(backlogOut.buf)
+            def ByteArrayOutputStream somethingTodoOut = new ByteArrayOutputStream()
             task.project.exec {
-                commandLine = [
-                    "${task.project.projectDir}/show.sh"
-                ]
-                standardOutput = stdOut
-            }
-            def ByteArrayInputStream stdIn = new ByteArrayInputStream(stdOut.buf)
-            stdOut = new ByteArrayOutputStream()
-            task.project.exec {
-                standardInput = stdIn
-                standardOutput = stdOut
+                standardInput = somethingTodoIn
+                standardOutput = somethingTodoOut
                 commandLine = ['grep', '\\-\\-\\-']
             }
-            stdIn = new ByteArrayInputStream(stdOut.buf)
-            stdOut = new ByteArrayOutputStream()
+
+            def ByteArrayInputStream stdIn = new ByteArrayInputStream(somethingTodoOut.buf)
+            def ByteArrayOutputStream stdOut = new ByteArrayOutputStream()
             task.project.exec {
                 commandLine = ['grep' , '#feature']
                 standardInput = stdIn
@@ -67,4 +50,15 @@ project(':backlog') {
             println stdOut
         }
     }
+}
+
+private ByteArrayOutputStream backlog(Task task) {
+    def ByteArrayOutputStream backlogOut = new ByteArrayOutputStream()
+    task.project.exec {
+        commandLine = [
+            "${task.project.projectDir}/show.sh"
+        ]
+        standardOutput = backlogOut
+    }
+    return backlogOut
 }
