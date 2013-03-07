@@ -1,4 +1,5 @@
-import org.gradle.api.tasks.GradleBuild;
+import org.gradle.api.Task
+import org.gradle.api.tasks.GradleBuild
 
 ext.buildScripts="$projectDir/build"
 ext.buildTemplates="$buildScripts/template"
@@ -32,10 +33,10 @@ subprojects {
 
     version = "$artifactVersion"
 
-    task "showVersion" { 
+    task "showVersion" {
         group 'Misc'
         description 'Prints out the version.'
-        doLast {  println version } 
+        doLast {  println version }
     }
 }
 
