@@ -1,6 +1,7 @@
 import static org.gradle.logging.StyledTextOutput.Style
 
 import org.gradle.api.Task
+import org.gradle.api.tasks.Exec
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
 
@@ -22,6 +23,17 @@ task svnRevision { Task task ->
         }
     }
 }
+task listFilesNotAddedToSvn(type: BashExec) { BashExec task ->
+    group ='Svn'
+    description ='List of files which are not added to svn yet.'
+    args  "for i in \$(svn st | grep ? | sed 's/?//'); do echo \$(realpath \$i); done;"
+}
+
+task addNewFilesToSvn(type: BashExec) { BashExec task ->
+    group ='Svn'
+    description ='Add the new files into svn.'
+    args  "for i in \$(svn st | grep ? | sed 's/?//'); do svn add \$i; done;"
+}
 
 task svnStatus  { Task task ->
     group ='Svn'
@@ -36,7 +48,6 @@ task svnStatus  { Task task ->
             }
             svnStatus = os.toString()
         }
-
         def svnversion=""
         new ByteArrayOutputStream().withStream { os ->
             def result = exec {
@@ -50,3 +61,12 @@ task svnStatus  { Task task ->
         outputFactory.withStyle(Style.Info).println("Revision: ${svnversion}")
     }
 }
+
+public class BashExec extends Exec {
+
+    BashExec() {
+        executable="bash"
+        args("-c")
+    }
+}
+
