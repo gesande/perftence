@@ -1,64 +1,31 @@
-import org.gradle.api.Task
+import org.gradle.api.tasks.Exec
 
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
 
-    task showBacklog { Task task ->
+    task showBacklog (type: BashExec) { BashExec task ->
         group = 'Backlog'
         description= 'Shows backlog.'
-        doLast { println backlog(task) }
+        task.args "${task.project.projectDir}/show.sh"
     }
 
-    task hereIsSomethingTodo { Task task ->
+    task hereIsSomethingTodo(type: BashExec) { BashExec task ->
         group = 'Backlog'
         description= 'Shows all stuff waiting for implementation.'
-
-        doLast {
-            def ByteArrayOutputStream backlogOut = backlog(task)
-            def ByteArrayInputStream stdIn = new ByteArrayInputStream(backlogOut.buf)
-            def ByteArrayOutputStream somethingTodoOut = new ByteArrayOutputStream()
-            task.project.exec {
-                standardInput = stdIn
-                standardOutput = somethingTodoOut
-                commandLine = ['grep', '\\-\\-\\-']
-            }
-            println "Here's something you could do:"
-            println somethingTodoOut
-        }
+        task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-'"
     }
 
-    task featuresWaiting { Task task ->
+    task featuresWaiting(type: BashExec) { BashExec task ->
         group = 'Backlog'
         description= 'Shows all features waiting for implementation.'
-        doLast {
-            def ByteArrayOutputStream backlogOut = backlog(task)
-            def ByteArrayInputStream somethingTodoIn = new ByteArrayInputStream(backlogOut.buf)
-            def ByteArrayOutputStream somethingTodoOut = new ByteArrayOutputStream()
-            task.project.exec {
-                standardInput = somethingTodoIn
-                standardOutput = somethingTodoOut
-                commandLine = ['grep', '\\-\\-\\-']
-            }
-
-            def ByteArrayInputStream stdIn = new ByteArrayInputStream(somethingTodoOut.buf)
-            def ByteArrayOutputStream stdOut = new ByteArrayOutputStream()
-            task.project.exec {
-                commandLine = ['grep' , '#feature']
-                standardInput = stdIn
-                standardOutput = stdOut
-            }
-            println stdOut
-        }
+        task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-' | grep '#feature'"
     }
 }
 
-private ByteArrayOutputStream backlog(Task task) {
-    def ByteArrayOutputStream backlogOut = new ByteArrayOutputStream()
-    task.project.exec {
-        commandLine = [
-            "${task.project.projectDir}/show.sh"
-        ]
-        standardOutput = backlogOut
+public class BashExec extends Exec {
+
+    BashExec() {
+        executable="bash"
+        args("-c")
     }
-    return backlogOut
 }
