@@ -1,0 +1,11 @@
+project(':threadengine-api-example') {
+    apply from:"$distributionPlugin"
+
+    dependencies {
+        testCompile project(':perftence-concurrent')
+        testCompile project(':slf4j-api-1.6.1')
+        testCompile project(':junit-4.10')
+        runtime project(':slf4j-log4j12-1.6.1')
+        runtime project(':log4j-1.2.16')
+    }
+}
