@@ -71,6 +71,7 @@ task-done "gradle backlog:featuresWaiting" $(tag build)
 task-done "gradle addNewFilesToSvn,listFilesNotAddedToSvn" $(tag build)
 task-done "gradle printChangeLog" $(tag build)
 task-done "gradle exportChangeLog" $(tag build)
+task-done "threadengine-api-example module" $(tag development-support)
 
 in-progress-title
 
