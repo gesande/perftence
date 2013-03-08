@@ -26,7 +26,7 @@ public final class InvocationRunnerFactory {
 
             @Override
             public void run(final Invocation[] runnables) {
-                engineApi().with(runnables).run();
+                engineApi().runnables(runnables).run();
             }
 
             @Override

@@ -20,8 +20,8 @@ public class ThreadEngineApiExample {
             }
 
         };
-        new ThreadEngineApi<Runnable>().with("threadname-prefix")
-                .with(runnable).run();
+        new ThreadEngineApi<Runnable>().threadNamePrefix("threadname-prefix")
+                .runnables(runnable).run();
     }
 
     private static Logger log() {

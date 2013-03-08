@@ -11,14 +11,14 @@ public class ThreadEngineApiTest {
     @SuppressWarnings("static-method")
     @Test(expected = IllegalArgumentException.class)
     public void nullRunnables() {
-        new ThreadEngineApi<Runnable>().with("my-test-threads-").run();
+        new ThreadEngineApi<Runnable>().threadNamePrefix("my-test-threads-").run();
     }
 
     @SuppressWarnings("static-method")
     @Test
     public void empty() {
-        new ThreadEngineApi<Runnable>().with("my-test-threads-")
-                .with(new Runnable[0]).run();
+        new ThreadEngineApi<Runnable>().threadNamePrefix("my-test-threads-")
+                .runnables(new Runnable[0]).run();
     }
 
     @SuppressWarnings("static-method")
@@ -31,8 +31,8 @@ public class ThreadEngineApiTest {
                 runned.set(true);
             }
         };
-        new ThreadEngineApi<Runnable>().with("my-test-threads-")
-                .with(new Runnable[] { r }).run();
+        new ThreadEngineApi<Runnable>().threadNamePrefix("my-test-threads-")
+                .runnables(new Runnable[] { r }).run();
         assertTrue(runned.get());
     }
 
@@ -55,8 +55,8 @@ public class ThreadEngineApiTest {
 
             @Override
             public void run() {
-                threadEngineApi.with("my-test-threads-")
-                        .with(new Runnable[] { r }).run();
+                threadEngineApi.threadNamePrefix("my-test-threads-")
+                        .runnables(new Runnable[] { r }).run();
             }
         }).start();
         Thread.sleep(100);

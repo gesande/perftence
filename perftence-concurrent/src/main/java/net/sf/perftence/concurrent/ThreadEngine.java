@@ -20,7 +20,11 @@ public final class ThreadEngine {
         return this.threads;
     }
 
-    public <T extends Runnable> void run(final T... runnables) {
+    /**
+     * Running the given runnables, this call is blocking until all threads are
+     * done.
+     */
+    public <RUNNABLE extends Runnable> void run(final RUNNABLE... runnables) {
         validate(runnables);
         if (runnables.length == 0) {
             log().info(

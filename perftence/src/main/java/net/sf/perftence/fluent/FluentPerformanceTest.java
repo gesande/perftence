@@ -42,7 +42,7 @@ public final class FluentPerformanceTest {
         this.runNotifier = new DefaultRunNotifier();
         this.estimatedInvocations = new EstimatedInvocations();
         this.invocationRunnerFactory = new InvocationRunnerFactory(
-                new ThreadEngineApi<Invocation>().with("perf-test"));
+                new ThreadEngineApi<Invocation>().threadNamePrefix("perf-test"));
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
         this.summaryBuilderFactory = newSummaryBuilderFactory(fieldFormatter,
