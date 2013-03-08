@@ -22,12 +22,24 @@ project(':backlog') {
         task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-' | grep '#feature'"
     }
 
-    task printChangeLog(type:BashExec) {BashExec task ->
+    task printChangeLog(type: BashExec) { BashExec task ->
         group = 'Backlog'
         description= 'Change log for backlog.'
-        def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
-        task.args args
+        task.args changeLogArgs(task)
     }
+
+    task exportChangeLog(type: BashExec) { BashExec task ->
+        group = 'Backlog'
+        description= 'Export changelog to given file.'
+        def String exportFileArg = "${distributionDir}/${task.project.properties.exportTo}"
+        task.args changeLogArgs(task) + " >> ${exportFileArg}"
+        doLast { println "Exported change log can be found from ${exportFileArg}" }
+    }
+}
+
+private String changeLogArgs(BashExec task){
+    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
+    return args
 }
 
 public class BashExec extends Exec {
