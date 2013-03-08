@@ -1,4 +1,4 @@
-package net.sf.perftence.experimental;
+package net.sf.perftence;
 
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerftenceApi;
