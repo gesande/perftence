@@ -40,10 +40,22 @@ subprojects {
     }
 }
 
-task continousBuild(type: GradleBuild, dependsOn: ['buildclean']) { Task task ->
+task continousBuild(type: GradleBuild) { Task task ->
     group = 'Verification'
     description ='Continous build for the whole thing.'
     buildFile = 'build.gradle'
+
+    tasks << 'perftence-concurrent:clean'
+    tasks << 'perftence-bag:clean'
+    tasks << 'perftence-linereader:clean'
+    tasks << 'perftence-fileutil:clean'
+    tasks << 'perftence-junit-utils:clean'
+    tasks << 'perftence-classhelper:clean'
+    tasks << 'perftence:clean'
+    tasks << 'perftence-api:clean'
+    tasks << 'responsecode-summaryappender:clean'
+    tasks << 'perftence-junit:clean'
+
     tasks << 'perftence-concurrent:continous'
     tasks << 'perftence-bag:continous'
     tasks << 'perftence-linereader:continous'
@@ -69,7 +81,17 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
     group = 'Distribution'
     description = 'Distribution package for the whole thing including continous build.'
     buildFile = 'build.gradle'
-    tasks << 'clean'
+    tasks << 'perftence-concurrent:clean'
+    tasks << 'perftence-bag:clean'
+    tasks << 'perftence-api:clean'
+    tasks << 'perftence-junit-utils:clean'
+    tasks << 'perftence-classhelper:clean'
+    tasks << 'perftence-linereader:clean'
+    tasks << 'perftence-fileutil:clean'
+    tasks << 'perftence:clean'
+    tasks << 'responsecode-summaryappender:clean'
+    tasks << 'perftence-junit:clean'
+
     tasks << 'perftence-concurrent:release'
     tasks << 'perftence-bag:release'
     tasks << 'perftence-api:release'
@@ -85,7 +107,3 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
     doLast { println "Distribution package ready to be uploaded to the repository." }
 }
 
-task buildclean(type: GradleBuild) { Task task ->
-    buildFile = 'build.gradle'
-    tasks << 'clean'
-}
