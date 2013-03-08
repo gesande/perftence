@@ -1,4 +1,4 @@
-package net.sf.perftence.experimental;
+package net.sf.perftence;
 
 import java.util.Random;
 
