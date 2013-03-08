@@ -14,7 +14,7 @@ configurations { antClasspath }
 dependencies { antClasspath 'org.apache.ant:ant-junit:1.8.2' }
 
 task aggregateTestReport {
-    group = 'Verification'
+    group = 'Reporting'
     description = "Makes aggregate test report with ant-junit."
 
     doLast {
@@ -43,7 +43,7 @@ task aggregateTestReport {
 }
 
 task aggregateEmmaReport { Task task ->
-    group = 'Verification'
+    group = 'Reporting'
     description = "Makes aggregate coverage report with emma."
     doLast {
         def targetDir = new File("$reportDir", 'emma')
@@ -81,7 +81,7 @@ task aggregateEmmaReport { Task task ->
 }
 
 task aggregateJDependReport {
-    group = 'Verification'
+    group = 'Reporting'
     description = "Makes aggregate jdepend report with tattletale."
     doLast {
         def targetDir = new File("$reportDir", 'jdepend')
@@ -116,7 +116,7 @@ task aggregateJDependReport {
 }
 
 task aggregateFindBugsReport { Task task ->
-    group ='Verification'
+    group ='Reporting'
     description = 'Makes aggregate findbugs report.'
     doLast {
         def targetDir = new File("$reportDir", 'findbugs')
