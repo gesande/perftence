@@ -70,6 +70,7 @@ task-done "gradle svnfeaturesWaiting" $(tag build)
 task-done "gradle backlog:featuresWaiting" $(tag build)
 task-done "gradle addNewFilesToSvn,listFilesNotAddedToSvn" $(tag build)
 task-done "gradle printChangeLog" $(tag build)
+task-done "gradle exportChangeLog" $(tag build)
 
 in-progress-title
 
