@@ -1,8 +1,5 @@
 package net.sf.perftence;
 
-import net.sf.perftence.Executable;
-import net.sf.perftence.PerftenceApi;
-import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.reporting.Duration;
 
 import org.slf4j.Logger;
