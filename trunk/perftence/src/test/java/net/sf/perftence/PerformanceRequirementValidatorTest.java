@@ -305,6 +305,286 @@ public class PerformanceRequirementValidatorTest {
                 "totalTimeFailed", 10001);
     }
 
+    @SuppressWarnings("static-method")
+    @Test(expected = PerfTestFailure.class)
+    public void medianFailed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().median(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 0;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 101;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 150;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 0;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "medianFailed", 10001);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void totalTimePassed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().totalTime(10001).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 0;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 0;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 101;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 150;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 10001;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "totalTimePassed", 10001);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void throughputPassed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().throughput(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 100;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 1001;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 101;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 150;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 10001;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 101;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "throughputPassed", 10001);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void averagePassed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().average(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 100;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 1001;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 101;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 150;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 10001;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 100;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "averagePassed", 10001);
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void medianPassed() {
+        final PerformanceRequirements requirements = PerformanceRequirementsPojo
+                .builder().median(100).build();
+        final StatisticsProvider statisticsProvider = new StatisticsProvider() {
+
+            @Override
+            public double throughput() {
+                return 100;
+            }
+
+            @Override
+            public long sampleCount() {
+                return 1001;
+            }
+
+            @Override
+            public long percentileLatency(int percentile) {
+                return 0;
+            }
+
+            @Override
+            public long minLatency() {
+                return 0;
+            }
+
+            @Override
+            public long median() {
+                return 100;
+            }
+
+            @Override
+            public long maxLatency() {
+                return 150;
+            }
+
+            @Override
+            public boolean hasSamples() {
+                return false;
+            }
+
+            @Override
+            public long duration() {
+                return 10001;
+            }
+
+            @Override
+            public double averageLatency() {
+                return 100;
+            }
+        };
+        newValidator(requirements, statisticsProvider).checkAllRequirements(
+                "medianPassed", 10001);
+    }
+
     private static PerformanceRequirementValidator newValidator(
             PerformanceRequirements requirements,
             StatisticsProvider statisticsProvider) {
