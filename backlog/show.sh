@@ -73,13 +73,13 @@ task-done "gradle printChangeLog" $(tag build)
 task-done "gradle exportChangeLog" $(tag build)
 task-done "threadengine-api-example module" $(tag development-support)
 task-done "gradle testCodeDist,testCodeRelease" $(tag development-support)
+task-done "added median check for PerformanceRequirements" $(tag feature)
 
 in-progress-title
 
 waiting-title
 
 waiting "failures over test time, use DateAxis" $(tag feature)
-waiting "add median check for PerformanceRequirements" $(tag feature)
 waiting "provide success rate percentage for intermediate statistics" $(tag feature)
 waiting "provide unit test for WritingFileFailed and other failure cases" $(tag code-quality)
 waiting "provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example" $(tag feature)

@@ -1,6 +1,12 @@
 package net.sf.perftence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public final class PerformanceRequirementValidator {
+
+    private final static Logger LOG = LoggerFactory
+            .getLogger(PerformanceRequirementValidator.class);
 
     private final PerfTestFailureFactory perfTestFailureFactory;
     private final PerformanceRequirements requirements;
@@ -45,13 +51,17 @@ public final class PerformanceRequirementValidator {
                         + " exceeded required maximum latency of "
                         + requiredMax + " ms. Measured: " + maxLatency + " ms");
             }
+            log().info("Test '{}' passed maximum latency check.", id);
         }
-        final long requiredTotalTime = requirements().totalTime();
-        if (requiredTotalTime >= 0 && elapsedTime > requiredTotalTime) {
-            throw newPerfTestFailure("Test " + id
-                    + " exceeded elapsed time of " + requiredTotalTime
-                    + " ms. Elapsed time was " + elapsedTime + " ms");
 
+        final long requiredTotalTime = requirements().totalTime();
+        if (requiredTotalTime >= 0) {
+            if (elapsedTime > requiredTotalTime) {
+                throw newPerfTestFailure("Test " + id
+                        + " exceeded elapsed time of " + requiredTotalTime
+                        + " ms. Elapsed time was " + elapsedTime + " ms");
+            }
+            log().info("Test '{}' passed total elapsed time check.", id);
         }
         final int requiredThroughput = requirements().throughput();
         if (requiredThroughput > 0) {
@@ -63,14 +73,28 @@ public final class PerformanceRequirementValidator {
                         + " calls per second, required: " + requiredThroughput
                         + " calls per second");
             }
+            log().info("Test '{}' passed throughput check.", id);
         }
         final int requiredAverage = requirements().average();
-        if (requiredAverage >= 0
-                && statistics().averageLatency() > requiredAverage) {
-            throw newPerfTestFailure("Average execution time of " + id
-                    + " exceeded the requirement of " + requiredAverage
-                    + " ms, measured " + statistics().averageLatency() + " ms");
+        if (requiredAverage >= 0) {
+            if (statistics().averageLatency() > requiredAverage) {
+                throw newPerfTestFailure("Average execution time of " + id
+                        + " exceeded the requirement of " + requiredAverage
+                        + " ms, measured " + statistics().averageLatency()
+                        + " ms");
+            }
+            log().info("Test '{}' passed average latency check.", id);
         }
+        final int requiredMedian = requirements().median();
+        if (requiredMedian >= 0) {
+            if (statistics().median() > requiredMedian) {
+                throw newPerfTestFailure("Median latency for " + id
+                        + " exceeded the requirement of " + requiredMedian
+                        + " ms, measured " + statistics().median() + " ms");
+            }
+            log().info("Test '{}' passed median latency check.", id);
+        }
+
         for (final PercentileRequirement percentile : requirements()
                 .percentileRequirements()) {
             final long measuredLatency = statistics().percentileLatency(
@@ -81,7 +105,13 @@ public final class PerformanceRequirementValidator {
                         + " exceeded the requirement of " + percentile.millis()
                         + " ms, measured " + measuredLatency + " ms");
             }
+            log().info("Test '{}' passed {} percentile check.", id,
+                    percentile.percentage());
         }
+    }
+
+    private static Logger log() {
+        return LOG;
     }
 
     private RuntimeException newPerfTestFailure(final String message) {
