@@ -74,6 +74,7 @@ task-done "gradle exportChangeLog" $(tag build)
 task-done "threadengine-api-example module" $(tag development-support)
 task-done "gradle testCodeDist,testCodeRelease" $(tag development-support)
 task-done "added median check for PerformanceRequirements" $(tag feature)
+task-done "gradle createChangeLogScript" $(tag build)
 
 in-progress-title
 
