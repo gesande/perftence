@@ -1,43 +1,96 @@
+import org.gradle.api.Task
 import org.gradle.api.tasks.Exec
 
 
-project(':backlog') {
-    apply from:"$buildPlugins/gradlePlugins.gradle"
+project(':backlog') { apply from:"$buildPlugins/gradlePlugins.gradle" }
 
-    task showBacklog (type: BashExec) { BashExec task ->
-        group = 'Backlog'
-        description= 'Shows backlog.'
-        task.args "${task.project.projectDir}/show.sh"
-    }
+task showBacklog (type: BashExec) { BashExec task ->
+    group = 'Backlog'
+    description= 'Shows backlog.'
+    task.args "${task.project.projectDir}/show.sh"
+}
 
-    task hereIsSomethingTodo(type: BashExec) { BashExec task ->
-        group = 'Backlog'
-        description= 'Shows all stuff waiting for implementation.'
-        task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-'"
-    }
+task hereIsSomethingTodo(type: BashExec) { BashExec task ->
+    group = 'Backlog'
+    description= 'Shows all stuff waiting for implementation.'
+    task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-'"
+}
 
-    task featuresWaiting(type: BashExec) { BashExec task ->
-        group = 'Backlog'
-        description= 'Shows all features waiting for implementation.'
-        task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-' | grep '#feature'"
-    }
+task featuresWaiting(type: BashExec) { BashExec task ->
+    group = 'Backlog'
+    description= 'Shows all features waiting for implementation.'
+    task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-' | grep '#feature'"
+}
 
-    task printChangeLog(type: BashExec) { BashExec task ->
-        group = 'Backlog'
-        description= 'Change log for backlog.'
-        task.args changeLogArgs(task)
-    }
+task printChangeLog(type: BashExec) { BashExec task ->
+    group = 'Backlog'
+    description= 'Change log for backlog.'
+    task.args changeLogArgs(task)
+}
 
-    task exportChangeLog(type: BashExec) { BashExec task ->
-        group = 'Backlog'
-        description= 'Export changelog to given file.'
-        def String exportFileArg = "${distributionDir}/${task.project.properties.exportTo}"
-        task.args changeLogArgs(task) + " >> ${exportFileArg}"
-        doLast { println "Exported change log can be found from ${exportFileArg}" }
+task exportChangeLog(type: BashExec) { BashExec task ->
+    group = 'Backlog'
+    description= 'Export changelog to given file.'
+    def String exportFileArg = "${distributionDir}/${task.project.properties.exportTo}"
+    task.args changeLogArgs(task) + " >> ${exportFileArg}"
+    doLast { println "Exported change log can be found from ${exportFileArg}" }
+}
+
+
+task copyStdLib() { Task task ->
+    group ='Backlog'
+    description = "Copies stdout-lib.sh for changelog scripts to ${distributionDir}."
+    doLast {
+        copy {
+            from "${task.project.projectDir}"
+            include 'stdout-lib.sh'
+            into distributionDir
+        }
     }
 }
 
-private String changeLogArgs(BashExec task){
+task createChangeLogScript(dependsOn: copyStdLib) { Task task ->
+    group ='Backlog'
+    description = 'Create a shell script for a specific changelog.'
+
+    doLast {
+        def String scriptFile = "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
+        def String inLine="#!/bin/bash\\nset -eu\\nHERE=\$(dirname \$0)\\n. \$HERE/stdout-lib.sh"
+        exec {
+            executable = 'bash'
+            args "-c"
+            args "echo '#!/bin/bash' > ${scriptFile}"
+        }
+        exec {
+            executable ='bash'
+            args "-c"
+            args "echo 'set -eu' >> ${scriptFile}"
+        }
+        exec {
+            executable ='bash'
+            args "-c"
+            args "echo 'HERE=\$(dirname \$0)' >> ${scriptFile}"
+        }
+        exec {
+            executable ='bash'
+            args "-c"
+            args "echo '. \$HERE/stdout-lib.sh' >> ${scriptFile}"
+        }
+        exec {
+            executable = 'bash'
+            args "-c"
+            args changeLogArgs(task) +" | sed 's/+//' " +" >> ${scriptFile}"
+        }
+        exec {
+            executable = 'chmod'
+            args "a+x"
+            args "${scriptFile}"
+        }
+        println "Get the change log by running the script from ${scriptFile}"
+    }
+}
+
+private String changeLogArgs(Task task){
     def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
     return args
 }
