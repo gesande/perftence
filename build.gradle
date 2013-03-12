@@ -40,6 +40,42 @@ subprojects {
     }
 }
 
+task continousBuildWithoutAcceptanceTests(type: GradleBuild) { Task task ->
+    group = 'Verification'
+    description ='Continous build without acceptance tests.'
+
+    buildFile = 'build.gradle'
+    tasks << 'perftence-concurrent:clean'
+    tasks << 'perftence-bag:clean'
+    tasks << 'perftence-linereader:clean'
+    tasks << 'perftence-fileutil:clean'
+    tasks << 'perftence-junit-utils:clean'
+    tasks << 'perftence-classhelper:clean'
+    tasks << 'perftence:clean'
+    tasks << 'perftence-api:clean'
+    tasks << 'responsecode-summaryappender:clean'
+    tasks << 'perftence-junit:clean'
+
+    tasks << 'perftence-concurrent:continous'
+    tasks << 'perftence-bag:continous'
+    tasks << 'perftence-linereader:continous'
+    tasks << 'perftence-fileutil:continous'
+    tasks << 'perftence-junit-utils:continous'
+    tasks << 'perftence-classhelper:continous'
+    tasks << 'perftence:continous'
+    tasks << 'perftence-api:continous'
+    tasks << 'responsecode-summaryappender:continous'
+    tasks << 'perftence-junit:continous'
+
+    tasks << 'aggregateTestReport'
+    tasks << 'aggregateJDependReport'
+    tasks << 'aggregateEmmaReport'
+    tasks << 'aggregateFindbugsReport'
+
+    doLast { println "Continous build without acceptance tests passed, good work!" }
+
+}
+
 task continousBuild(type: GradleBuild) { Task task ->
     group = 'Verification'
     description ='Continous build for the whole thing.'
