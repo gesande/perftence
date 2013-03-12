@@ -55,7 +55,6 @@ task createChangeLogScript(dependsOn: copyStdLib) { Task task ->
 
     doLast {
         def String scriptFile = "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
-        def String inLine="#!/bin/bash\\nset -eu\\nHERE=\$(dirname \$0)\\n. \$HERE/stdout-lib.sh"
         exec {
             executable = 'bash'
             args "-c"

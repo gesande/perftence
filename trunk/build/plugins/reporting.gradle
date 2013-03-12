@@ -122,13 +122,8 @@ task aggregateFindBugsReport { Task task ->
         def targetDir = new File("$reportDir", 'findbugs')
         targetDir.deleteDir()
         targetDir.mkdirs()
-        def jreHome = "${System.getenv('JAVA_HOME')}/jre"
+        def String jreHome = "${System.getenv('JAVA_HOME')}/jre"
         echo 'Creating FindBugs report...'
-        def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
-        def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
-        def FileTree jreLibs = fileTree("${jreHome}/lib/").include('*.jar')
-        def FileTree extLibs = fileTree("${toolsDir}/ext-libs-for-findbugs/").include('*.jar')
-
         def List<String> arguments = new ArrayList<String>()
         arguments.add('-javahome')
         arguments.add(jreHome)
@@ -149,17 +144,27 @@ task aggregateFindBugsReport { Task task ->
 
         arguments.add('-auxclasspath')
 
-        for(File jarFile : jars ){
-            arguments.add(jarFile)
-        }
+        def StringBuilder auxClasspath = new StringBuilder()
+        def FileTree libs = fileTree("$projectDir").exclude('tools').include('**/lib/*.jar')
+        def FileTree jreLibs = fileTree("${jreHome}/lib/").include('*.jar')
+        def FileTree extLibs = fileTree("${toolsDir}/ext-libs-for-findbugs/").include('*.jar')
         for(File libJar : libs){
-            arguments.add(libJar)
+            auxClasspath.append(libJar.getPath())
+            auxClasspath.append(File.pathSeparator)
         }
         for(File jar : jreLibs) {
-            arguments.add(jar)
+            auxClasspath.append(jar.getPath())
+            auxClasspath.append(File.pathSeparator)
         }
         for(File jar : extLibs) {
-            arguments.add(jar)
+            auxClasspath.append(jar.getPath())
+            auxClasspath.append(File.pathSeparator)
+        }
+        arguments.add(auxClasspath.toString())
+
+        def FileTree jars = fileTree("$projectDir").include('**/build/libs/*.jar')
+        for(File jarFile : jars ){
+            arguments.add(jarFile.getPath())
         }
 
         new ByteArrayOutputStream().withStream { os ->

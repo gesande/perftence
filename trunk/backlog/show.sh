@@ -75,6 +75,10 @@ task-done "threadengine-api-example module" $(tag development-support)
 task-done "gradle testCodeDist,testCodeRelease" $(tag development-support)
 task-done "added median check for PerformanceRequirements" $(tag feature)
 task-done "gradle createChangeLogScript" $(tag build)
+task-done "fixed gradle aggregateFindBugsReport auxclasspath" $(tag build)
+task-done "gradle emma output test coverage after the tests" $(tag build)
+task-done "gradle continousBuildWithoutAcceptanceTests" $(tag build)
+task-done "backlog/build.gradle cleanup" $(tag build)
 
 in-progress-title
 
