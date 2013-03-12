@@ -28,15 +28,6 @@ task printChangeLog(type: BashExec) { BashExec task ->
     task.args changeLogArgs(task)
 }
 
-task exportChangeLog(type: BashExec) { BashExec task ->
-    group = 'Backlog'
-    description= 'Export changelog to given file.'
-    def String exportFileArg = "${distributionDir}/${task.project.properties.exportTo}"
-    task.args changeLogArgs(task) + " >> ${exportFileArg}"
-    doLast { println "Exported change log can be found from ${exportFileArg}" }
-}
-
-
 task copyStdLib() { Task task ->
     group ='Backlog'
     description = "Copies stdout-lib.sh for changelog scripts to ${distributionDir}."
@@ -87,6 +78,25 @@ task createChangeLogScript(dependsOn: copyStdLib) { Task task ->
         }
         println "Get the change log by running the script from ${scriptFile}"
     }
+}
+
+task exportChangeLog(type: BashExec, dependsOn: createChangeLogScript) { BashExec task ->
+    group = 'Backlog'
+    description= 'Exports changelog.'
+    task.args generatedScriptFile() + replaceBacklogPlus()
+}
+
+task exportChangeLogTo(type: BashExec, dependsOn: createChangeLogScript) { BashExec task ->
+    group = 'Backlog'
+    description= 'Exports changelog.'
+    task.args generatedScriptFile() + replaceBacklogPlus() + " >> $exportTo"
+}
+
+private String generatedScriptFile() {
+    return "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
+}
+private String replaceBacklogPlus(){
+    return " | sed 's/ +++ //' | sed 's/ +++ /|/'"
 }
 
 private String changeLogArgs(Task task){
