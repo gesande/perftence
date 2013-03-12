@@ -1,0 +1,105 @@
+Backlog for pertence test tool:
+
+
+[32m DONE:
+
+[32m +++ created mainentrypoint-example project with source example +++ #development-support [m
+[32m +++ add eclipse formatter settings under build project +++ #ide [m
+[32m +++ additional build scripts for source jars +++ #development-support [m
+[32m +++ additional build scripts for distribution +++ #development-support [m
+[32m +++ publish to sourceforge +++ #development [m
+[32m +++ rename TPS -> throughput +++ #refactoring [m
+[32m +++ provide fluent based test examples with sources +++ #development-support [m
+[32m +++ provide agent based test examples with sources +++ #development-support [m
+[32m +++ provide distribution for test examples with sources +++ #development-support [m
+[32m +++ fix the source packages for 3rd party libs +++ #development-support [m
+[32m +++ removed unnecessary jars from the distribution packages +++ #development-support [m
+[32m +++ last second statistics for agent based tests +++ #feature [m
+[32m +++ removed custom intermediate summary redundancy from intermediate summary builders +++ #refactoring [m
+[32m +++ created perftence-junit-utils and responsecode-summaryappender projects +++ #refactoring [m
+[32m +++ added some unit tests for the obvious ones +++ #development [m
+[32m +++ distribution package for sourceforge +++ #development-support [m
+[32m +++ last second throughput graph for fluent based tests +++ #feature [m
+[32m +++ added change log capabilities through svn diffing backlog +++ #infrastructure [m
+[32m +++ added noInvocationGraph also for agent based test for overall statistics +++ #feature [m
+[32m +++ enabled last second throughput graph writing also for agent based tests +++ #feature [m
+[32m +++ agent based tests: category specific invocation reporters also respect noInvocationGraph() setting +++ #feature [m
+[32m +++ agent based tests: optimize graph, no same graphs from overall to  category specific reports +++ #feature [m
+[32m +++ agent based tests: Ability to turn off 'threads running current tasks' and task schedule differencies' measurements +++ #feature [m
+[32m +++ acceptance-tests are also run when making a distribution package +++ #deployment [m
+[32m +++ XYSeriesFactory in use, gave up using autoSort on XySeries +++ #feature [m
+[32m +++ use emma to figure out where to put some more unit tests +++ #code-quality [m
+[32m +++ provided unit test for AdjustedFieldBuilder +++ #code-quality [m
+[32m +++ put perftence-bag into use all over the perftence +++ #refactoring [m
+[32m +++ introduced perftence-junit module +++ #refactoring [m
+[32m +++ empty unit test for Statistics +++ #code-quality [m
+[32m +++ first version of failures over test time -graph +++ #feature [m
+[32m +++ last second throughput graph for agent based tests +++ #feature [m
+[32m +++ new line-reader project +++ #development [m
+[32m +++ provide line-reader project in distribution package +++ #development [m
+[32m +++ write unit tests for summary fields +++ #code-quality [m
+[32m +++ introduced perftence-api module +++ #development-support [m
+[32m +++ added perftence-api module to the continous and distribution builds +++ #deployment [m
+[32m +++ removed runtime junit dependency from perftence, use it only as testCompile +++ #deployment [m
+[32m +++ added dependency analysis with tattletale +++ #code-quality [m
+[32m +++ introduced perftence-fileutil module +++ #refactoring [m
+[32m +++ added perftence-fileutil to the continous and distribution builds +++ #refactoring [m
+[32m +++ provided unit tests for junit-utils module +++ #code-quality [m
+[32m +++ provided unit tests for classhelper module +++ #code-quality [m
+[32m +++ provided more unit tests for LatencyProvider +++ #code-quality [m
+[32m +++ removed static evil for EstimatedInvocations  +++ #refactoring [m
+[32m +++ unit tests for PerformanceTestSetupPojo.noSetup() +++ #code-quality [m
+[32m +++ breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo +++ #build [m
+[32m +++ simplified thread run engine for finding out threading issues, perftence-concurrent provides this now +++ #feature [m
+[32m +++ fixed dist task, dist package didn't contain all zips +++ #build [m
+[32m +++ gradle continousBuild +++ #build [m
+[32m +++ gradle aggregateReports +++ #build [m
+[32m +++ gradle distributionPackage +++ #build [m
+[32m +++ gradle main/testCodeAnalysis +++ #build [m
+[32m +++ gradle buildEclipseSettings +++ #build [m
+[32m +++ gradle newJavaProject +++ #build [m
+[32m +++ gradle newJavaLibProject +++ #build [m
+[32m +++ gradle svnRevision,svnStatus +++ #build [m
+[32m +++ gradle backlog:showBacklog +++ #build [m
+[32m +++ gradle backlog:hereIsSomethingTodo +++ #build [m
+[32m +++ gradle backlog:featuresWaiting +++ #build [m
+[32m +++ gradle svnfeaturesWaiting +++ #build [m
+[32m +++ gradle backlog:featuresWaiting +++ #build [m
+[32m +++ gradle addNewFilesToSvn,listFilesNotAddedToSvn +++ #build [m
+[32m +++ gradle printChangeLog +++ #build [m
+[32m +++ gradle exportChangeLog +++ #build [m
+[32m +++ threadengine-api-example module +++ #development-support [m
+[32m +++ gradle testCodeDist,testCodeRelease +++ #development-support [m
+[32m +++ added median check for PerformanceRequirements +++ #feature [m
+[32m +++ gradle createChangeLogScript +++ #build [m
+[32m +++ fixed gradle aggregateFindBugsReport auxclasspath +++ #build [m
+[32m +++ gradle emma output test coverage after the tests +++ #build [m
+[32m +++ gradle continousBuildWithoutAcceptanceTests +++ #build [m
+[32m +++ backlog/build.gradle cleanup +++ #build [m
+[32m +++ new typeof gradle exportChangeLog +++ #build [m
+
+[33m IN PROGRESS: [m
+
+
+[31m WAITING: [m
+
+[31m --- failures over test time, use DateAxis --- #feature [m
+[31m --- provide success rate percentage for intermediate statistics --- #feature [m
+[31m --- provide unit test for WritingFileFailed and other failure cases --- #code-quality [m
+[31m --- provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example --- #feature [m
+[31m --- split fluent and agent stuff into separate projects --- #refactoring [m
+[31m  * may reflect to need of: separate 'perftence' and 'report' stuff  [m
+[31m --- provide means to create test results in an intermediate format --- #feature [m
+[31m  * two-phased construction -> first tests -> produce results to an intermediate format  [m
+[31m --- provide means to create test report from an intermediate format --- #feature [m
+[31m  * second phase -> create test reports from intermediate format  [m
+[31m --- provide means to define also Throwable/Error with allow() mechanism --- #feature [m
+[31m --- provide means to tell the Executable  also Throwable/Error with allow() mechanism --- #feature [m
+[31m --- upload test example distribution packages to project files (i.e. to source forge) --- #development-support [m
+[31m --- one intermediate summary statistics appender --- #refactoring [m
+[31m  * define each summary item as a separate 'plugin' which is registered to one implementation --> one summary builder for agent and executable -based tests, each define their own summary 'plugin'  [m
+[31m --- latency frequencies -> ability to set the range for the graph e.g. using 99% percentile --- #feature [m
+[31m --- statistics enhancement: define a latency rate --- #feature [m
+[31m --- statistics enhancement: print out statistics for latencies over the defined rate i.e. statistics over statistics --- #feature [m
+[31m --- study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY --- #refactoring [m
+[31m --- ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running --- #feature [m
