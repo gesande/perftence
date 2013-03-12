@@ -101,10 +101,7 @@ waiting "upload test example distribution packages to project files (i.e. to sou
 waiting "one intermediate summary statistics appender" $(tag refactoring)
 intended-comment "define each summary item as a separate 'plugin' which is registered to one implementation --> one summary builder for agent and executable -based tests, each define their own summary 'plugin'"
 waiting "latency frequencies -> ability to set the range for the graph e.g. using 99% percentile" $(tag feature)
-waiting "statistics enhancement" $(tag feature)
-intended-comment "define a latency rate"
-intended-comment "print out statistics for latencies over the defined rate i.e. statistics over statistics"
-waiting "change" $(tag refactoring)
-intended-comment "public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY"
-waiting "ability to define the TPS is used defining it before running the test" $(tag feature)
-intended-comment "e.g. running at 500 TPS max when the test is running"
+waiting "statistics enhancement: define a latency rate" $(tag feature)
+waiting "statistics enhancement: print out statistics for latencies over the defined rate i.e. statistics over statistics" $(tag feature)
+waiting "study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY" $(tag refactoring)
+waiting "ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running" $(tag feature)

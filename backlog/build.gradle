@@ -80,16 +80,28 @@ task createChangeLogScript(dependsOn: copyStdLib) { Task task ->
     }
 }
 
-task exportChangeLog(type: BashExec, dependsOn: createChangeLogScript) { BashExec task ->
+task exportChangeLog(dependsOn: createChangeLogScript)  { Task task ->
     group = 'Backlog'
     description= 'Exports changelog.'
-    task.args generatedScriptFile() + replaceBacklogPlus()
+    doLast {
+        exec {
+            executable = "bash"
+            args "-c"
+            args generatedScriptFile() + replaceBacklogPlus()
+        }
+    }
 }
 
-task exportChangeLogTo(type: BashExec, dependsOn: createChangeLogScript) { BashExec task ->
+task exportChangeLogTo(dependsOn: createChangeLogScript) << { Task task ->
     group = 'Backlog'
-    description= 'Exports changelog.'
-    task.args generatedScriptFile() + replaceBacklogPlus() + " >> $exportTo"
+    description= 'Exports changelog to given file.'
+    doLast{
+        exec {
+            executable = "bash"
+            args "-c"
+            args generatedScriptFile() + replaceBacklogPlus() + " >> $exportTo"
+        }
+    }
 }
 
 private String generatedScriptFile() {
