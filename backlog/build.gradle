@@ -97,7 +97,7 @@ task exportChangeLog(dependsOn: createChangeLogScript)  { Task task ->
     }
 }
 
-task exportChangeLogTo(dependsOn: createChangeLogScript) << { Task task ->
+task exportChangeLogTo(dependsOn: createChangeLogScript)  { Task task ->
     group = 'Backlog'
     description= 'Exports changelog to given file.'
     doLast{
