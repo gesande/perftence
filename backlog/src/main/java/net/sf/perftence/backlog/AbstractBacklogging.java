@@ -2,8 +2,8 @@ package net.sf.perftence.backlog;
 
 public abstract class AbstractBacklogging {
     @SuppressWarnings("static-method")
-    protected final InProgressTask inProgress(final String title, final Tag tag) {
-        return new InProgressTask() {
+    protected final InProgress inProgress(final String title, final Tag tag) {
+        return new InProgress() {
 
             @Override
             public String title() {
@@ -19,8 +19,8 @@ public abstract class AbstractBacklogging {
     }
 
     @SuppressWarnings("static-method")
-    protected final WaitingTask waiting(final String title, final Tag tag) {
-        return new WaitingTask() {
+    protected final Waiting waiting(final String title, final Tag tag) {
+        return new Waiting() {
 
             @Override
             public String title() {
@@ -36,8 +36,8 @@ public abstract class AbstractBacklogging {
     }
 
     @SuppressWarnings("static-method")
-    protected final DoneTask done(final String title, final Tag tag) {
-        return new DoneTask() {
+    protected final Done done(final String title, final Tag tag) {
+        return new Done() {
 
             @Override
             public String title() {

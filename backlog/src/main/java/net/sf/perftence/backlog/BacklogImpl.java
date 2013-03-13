@@ -21,12 +21,12 @@ public class BacklogImpl implements Backlog {
     }
 
     @Override
-    public TaskList<Backlog, DoneTask> done(String title) {
+    public TaskList<Backlog, Done> done(String title) {
         appender().subTitle(title);
-        return new TaskList<Backlog, DoneTask>() {
+        return new TaskList<Backlog, Done>() {
 
             @Override
-            public Backlog tasks(final DoneTask... tasks) {
+            public Backlog tasks(final Done... tasks) {
                 appender().done(tasks);
                 return BacklogImpl.this;
             }
@@ -39,12 +39,12 @@ public class BacklogImpl implements Backlog {
     }
 
     @Override
-    public TaskList<Backlog, WaitingTask> waiting(final String title) {
+    public TaskList<Backlog, Waiting> waiting(final String title) {
         appender().subTitle(title);
-        return new TaskList<Backlog, WaitingTask>() {
+        return new TaskList<Backlog, Waiting>() {
 
             @Override
-            public Backlog tasks(final WaitingTask... tasks) {
+            public Backlog tasks(final Waiting... tasks) {
                 appender().waiting(tasks);
                 return BacklogImpl.this;
             }
@@ -57,12 +57,12 @@ public class BacklogImpl implements Backlog {
     }
 
     @Override
-    public TaskList<Backlog, InProgressTask> inProgress(final String title) {
+    public TaskList<Backlog, InProgress> inProgress(final String title) {
         appender().subTitle(title);
-        return new TaskList<Backlog, InProgressTask>() {
+        return new TaskList<Backlog, InProgress>() {
 
             @Override
-            public Backlog tasks(final InProgressTask... tasks) {
+            public Backlog tasks(final InProgress... tasks) {
                 appender().inProgress(tasks);
                 return BacklogImpl.this;
             }
