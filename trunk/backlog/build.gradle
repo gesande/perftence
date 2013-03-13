@@ -6,7 +6,10 @@ project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
     apply from:"$buildPlugins/emma.gradle"
 
-    dependencies { testCompile project(':junit-4.10') }
+    dependencies {
+        compile project(':simple-backlog')
+        testCompile project(':junit-4.10')
+    }
 }
 
 task showBacklog (type: BashExec) { BashExec task ->
