@@ -1,4 +1,4 @@
-package net.sf.perftence.backlog;
+package net.sf.simplebacklog;
 
 public class SysoutBacklogDisplay implements BacklogDisplay {
 

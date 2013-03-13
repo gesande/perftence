@@ -1,4 +1,4 @@
-package net.sf.perftence.backlog;
+package net.sf.simplebacklog;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -6,6 +6,14 @@ import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.simplebacklog.BacklogAppender;
+import net.sf.simplebacklog.BacklogDisplay;
+import net.sf.simplebacklog.BacklogImpl;
+import net.sf.simplebacklog.Done;
+import net.sf.simplebacklog.InProgress;
+import net.sf.simplebacklog.Tag;
+import net.sf.simplebacklog.Waiting;
 
 import org.junit.Test;
 

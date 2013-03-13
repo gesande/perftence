@@ -1,4 +1,4 @@
-package net.sf.perftence.backlog;
+package net.sf.simplebacklog;
 
 public class BacklogImpl implements Backlog {
     private final BacklogAppender appender;
