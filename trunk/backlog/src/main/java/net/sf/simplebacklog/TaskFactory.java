@@ -1,8 +1,8 @@
-package net.sf.perftence.backlog;
+package net.sf.simplebacklog;
 
-public abstract class AbstractBacklogging {
+public final class TaskFactory {
     @SuppressWarnings("static-method")
-    protected final InProgress inProgress(final String title, final Tag tag) {
+    public InProgress inProgress(final String title, final Tag tag) {
         return new InProgress() {
 
             @Override
@@ -19,7 +19,7 @@ public abstract class AbstractBacklogging {
     }
 
     @SuppressWarnings("static-method")
-    protected final Waiting waiting(final String title, final Tag tag) {
+    public Waiting waiting(final String title, final Tag tag) {
         return new Waiting() {
 
             @Override
@@ -36,7 +36,7 @@ public abstract class AbstractBacklogging {
     }
 
     @SuppressWarnings("static-method")
-    protected final Done done(final String title, final Tag tag) {
+    public Done done(final String title, final Tag tag) {
         return new Done() {
 
             @Override
@@ -51,7 +51,5 @@ public abstract class AbstractBacklogging {
         };
 
     }
-
-    protected abstract Backlog backlog();
 
 }
