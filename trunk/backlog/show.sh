@@ -80,6 +80,8 @@ task-done "gradle emma output test coverage after the tests" $(tag build)
 task-done "gradle continousBuildWithoutAcceptanceTests" $(tag build)
 task-done "backlog/build.gradle cleanup" $(tag build)
 task-done "new typeof gradle exportChangeLog" $(tag build)
+task-done "java based backlogging" $(tag backlog)
+task-done "simple-backlog module" $(tag backlog)
 
 in-progress-title
 
