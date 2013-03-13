@@ -1,6 +1,11 @@
 package net.sf.perftence.backlog;
 
 public class PerftenceBacklog extends AbstractBacklogging {
+    private final BacklogFactory backlogFactory;
+
+    public PerftenceBacklog(final BacklogFactory factory) {
+        this.backlogFactory = factory;
+    }
 
     public void show() {
         backlog()
@@ -66,7 +71,7 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("empty unit test for Statistics", Tag.codeQuality),
                         done("first version of failures over test time -graph",
                                 Tag.feature),
-                        done("last second throughput graph for agent based tests",
+                        done("last second throudisplayghput graph for agent based tests",
                                 Tag.feature),
                         done("new line-reader project", Tag.development),
                         done("provide line-reader project in distribution package",
@@ -176,7 +181,6 @@ public class PerftenceBacklog extends AbstractBacklogging {
 
     @Override
     protected Backlog backlog() {
-        return null;
+        return this.backlogFactory.newBacklog();
     }
-
 }
