@@ -5,6 +5,8 @@ import org.gradle.api.tasks.Exec
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
     apply from:"$buildPlugins/emma.gradle"
+
+    dependencies { testCompile project(':junit-4.10') }
 }
 
 task showBacklog (type: BashExec) { BashExec task ->

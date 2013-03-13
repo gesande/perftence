@@ -6,11 +6,11 @@ public interface BacklogAppender {
 
     void subTitle(final String title);
 
-    void done(final DoneTask... tasks);
+    void done(final Done... tasks);
 
-    void waiting(final WaitingTask... tasks);
+    void waiting(final Waiting... tasks);
 
-    void inProgress(final InProgressTask... tasks);
+    void inProgress(final InProgress... tasks);
 
     String build();
 }
