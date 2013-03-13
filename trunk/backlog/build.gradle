@@ -2,7 +2,10 @@ import org.gradle.api.Task
 import org.gradle.api.tasks.Exec
 
 
-project(':backlog') { apply from:"$buildPlugins/gradlePlugins.gradle" }
+project(':backlog') {
+    apply from:"$buildPlugins/gradlePlugins.gradle"
+    apply from:"$buildPlugins/emma.gradle"
+}
 
 task showBacklog (type: BashExec) { BashExec task ->
     group = 'Backlog'
