@@ -11,6 +11,15 @@ project(':backlog') {
         testCompile project(':junit-4.10')
     }
 }
+task showBacklogAlt (dependsOn: classes) { Task task ->
+    doLast {
+        javaexec {
+            main = 'net.sf.perftence.backlog.PerftenceBacklogMain'
+            classpath  sourceSets.main.output.classesDir
+            classpath configurations.runtime
+        }
+    }
+}
 
 task showBacklog (type: BashExec) { BashExec task ->
     group = 'Backlog'

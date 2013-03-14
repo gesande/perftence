@@ -1,33 +1,50 @@
 package net.sf.simplebacklog;
 
+import net.sf.simplebacklog.ChalkBox.Chalk;
+
 public class DefaultBacklogAppender implements BacklogAppender {
 
     private final StringBuilder sb = new StringBuilder();
     private final DoneAppender doneTaskAppender;
     private final InProgressAppender inProgressAppender;
     private final WaitingAppender waitingAppender;
+    private final ChalkBox chalkBox = new ChalkBox();
 
     public DefaultBacklogAppender() {
-        this.doneTaskAppender = new DoneAppender(appender());
-        this.inProgressAppender = new InProgressAppender(appender());
-        this.waitingAppender = new WaitingAppender(appender());
+        this.doneTaskAppender = new DoneAppender(appender(), chalkBox().green());
+        this.inProgressAppender = new InProgressAppender(appender(), chalkBox()
+                .yellow());
+        this.waitingAppender = new WaitingAppender(appender(), chalkBox().red());
+    }
+
+    private ChalkBox chalkBox() {
+        return this.chalkBox;
     }
 
     private static class DoneAppender implements TaskAppender<Done> {
 
-        private StringBuilder parent;
+        private final StringBuilder parent;
+        private final Chalk chalk;
 
-        public DoneAppender(final StringBuilder parent) {
+        public DoneAppender(final StringBuilder parent, Chalk chalk) {
             this.parent = parent;
+            this.chalk = chalk;
+        }
+
+        private Chalk chalk() {
+            return this.chalk;
         }
 
         @Override
         public void append(final Done... tasks) {
             for (final Done task : tasks) {
-                parent().append(tab()).append("+++ ").append(task.title())
-                        .append(" +++ ").append("#").append(task.tag().name())
-                        .append(endOfLine());
+                final StringBuilder taskLine = new StringBuilder();
+                taskLine.append(tab()).append("+++ ").append(task.title())
+                        .append(" +++ ").append("#").append(task.tag().name());
+                parent().append(chalk().color(taskLine.toString())).append(
+                        endOfLine());
             }
+            parent().append(endOfLine());
         }
 
         private StringBuilder parent() {
@@ -37,19 +54,27 @@ public class DefaultBacklogAppender implements BacklogAppender {
 
     private static class InProgressAppender implements TaskAppender<InProgress> {
 
-        private StringBuilder parent;
+        private final StringBuilder parent;
+        private final Chalk chalk;
 
-        public InProgressAppender(final StringBuilder parent) {
+        public InProgressAppender(final StringBuilder parent, final Chalk chalk) {
             this.parent = parent;
+            this.chalk = chalk;
         }
 
         @Override
         public void append(final InProgress... tasks) {
             for (final InProgress task : tasks) {
-                parent().append(tab()).append("    ").append(task.title())
+                final StringBuilder line = new StringBuilder();
+                line.append(tab()).append("    ").append(task.title())
                         .append("     ").append("#").append(task.tag().name())
                         .append(endOfLine());
+                parent().append(chalk().color(line.toString()));
             }
+        }
+
+        private Chalk chalk() {
+            return this.chalk;
         }
 
         private StringBuilder parent() {
@@ -59,19 +84,27 @@ public class DefaultBacklogAppender implements BacklogAppender {
 
     private static class WaitingAppender implements TaskAppender<Waiting> {
 
-        private StringBuilder parent;
+        private final StringBuilder parent;
+        private final Chalk chalk;
 
-        public WaitingAppender(final StringBuilder parent) {
+        public WaitingAppender(final StringBuilder parent, Chalk chalk) {
             this.parent = parent;
+            this.chalk = chalk;
         }
 
         @Override
         public void append(final Waiting... tasks) {
             for (final Waiting task : tasks) {
-                parent().append(tab()).append("--- ").append(task.title())
+                final StringBuilder line = new StringBuilder();
+                line.append(tab()).append("--- ").append(task.title())
                         .append(" --- ").append("#").append(task.tag().name())
                         .append(endOfLine());
+                parent().append(chalk().color(line.toString()));
             }
+        }
+
+        private Chalk chalk() {
+            return this.chalk;
         }
 
         private StringBuilder parent() {
@@ -133,4 +166,5 @@ public class DefaultBacklogAppender implements BacklogAppender {
     private InProgressAppender inProgress() {
         return this.inProgressAppender;
     }
+
 }
