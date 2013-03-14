@@ -23,9 +23,12 @@ public class DefaultBacklogAppenderTest {
         };
         backlogAppender.title("title");
         backlogAppender.inProgress(taskFactory().inProgress("inprogress", tag));
-        String result = "title\n\n" + "      inprogress     #inprogress tag\n";
+        String result = "title\n\n"
+                + "[33m      inprogress     #inprogress tag\n[m\n\n";
 
-        assertEquals(result, backlogAppender.build());
+        final String build = backlogAppender.build();
+        System.out.println(build);
+        assertEquals(result, build);
     }
 
     private TaskFactory taskFactory() {
