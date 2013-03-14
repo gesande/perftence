@@ -14,21 +14,6 @@ public class ChalkBox {
         }
     }
 
-    private static String green(final String text) {
-        return new StringBuilder(PREFIX).append(AnsiColor.Green.ansiValue())
-                .append(SUFFIX).append(text).append(END).toString();
-    }
-
-    private static String red(final String text) {
-        return new StringBuilder(PREFIX).append(AnsiColor.Red.ansiValue())
-                .append(SUFFIX).append(text).append(END).toString();
-    }
-
-    private static String yellow(final String text) {
-        return new StringBuilder(PREFIX).append(AnsiColor.Yellow.ansiValue())
-                .append(SUFFIX).append(text).append(END).toString();
-    }
-
     @SuppressWarnings("static-method")
     public Chalk green() {
         return Chalks.Green;
@@ -45,31 +30,23 @@ public class ChalkBox {
     }
 
     private enum Chalks implements Chalk {
-        Green {
-            @Override
-            public String color(String text) {
-                return green(text);
-            }
-        },
-        Red {
-            @Override
-            public String color(String text) {
-                return red(text);
-            }
-        },
-        Yellow {
-            @Override
-            public String color(String text) {
-                return yellow(text);
-            }
-        };
+        Green(AnsiColor.Green), Red(AnsiColor.Red), Yellow(AnsiColor.Yellow);
+
+        private AnsiColor color;
+
+        private Chalks(final AnsiColor color) {
+            this.color = color;
+        }
 
         @Override
-        public abstract String color(String text);
-    }
+        public String write(final String text) {
+            return new StringBuilder(PREFIX).append(ansiColor().ansiValue())
+                    .append(SUFFIX).append(text).append(END).toString();
+        }
 
-    public interface Chalk {
-        String color(String text);
+        private AnsiColor ansiColor() {
+            return this.color;
+        }
     }
 
 }

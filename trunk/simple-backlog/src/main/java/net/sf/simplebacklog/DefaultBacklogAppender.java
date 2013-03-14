@@ -1,6 +1,5 @@
 package net.sf.simplebacklog;
 
-import net.sf.simplebacklog.ChalkBox.Chalk;
 
 public class DefaultBacklogAppender implements BacklogAppender {
 
@@ -41,7 +40,7 @@ public class DefaultBacklogAppender implements BacklogAppender {
                 final StringBuilder taskLine = new StringBuilder();
                 taskLine.append(tab()).append("+++ ").append(task.title())
                         .append(" +++ ").append("#").append(task.tag().name());
-                parent().append(chalk().color(taskLine.toString())).append(
+                parent().append(chalk().write(taskLine.toString())).append(
                         endOfLine());
             }
             parent().append(endOfLine());
@@ -69,7 +68,7 @@ public class DefaultBacklogAppender implements BacklogAppender {
                 line.append(tab()).append("    ").append(task.title())
                         .append("     ").append("#").append(task.tag().name())
                         .append(endOfLine());
-                parent().append(chalk().color(line.toString()));
+                parent().append(chalk().write(line.toString()));
             }
         }
 
@@ -99,7 +98,7 @@ public class DefaultBacklogAppender implements BacklogAppender {
                 line.append(tab()).append("--- ").append(task.title())
                         .append(" --- ").append("#").append(task.tag().name())
                         .append(endOfLine());
-                parent().append(chalk().color(line.toString()));
+                parent().append(chalk().write(line.toString()));
             }
         }
 
