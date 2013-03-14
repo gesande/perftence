@@ -14,9 +14,9 @@ public class ChalkBoxTest {
     public void test() throws FileNotFoundException, IOException {
         StringBuilder sb = new StringBuilder();
         ChalkBox box = new ChalkBox();
-        sb.append(box.green().color("green")).append("\n");
-        sb.append(box.red().color("red")).append("\n");
-        sb.append(box.yellow().color("yellow")).append("\n");
+        sb.append(box.green().write("green")).append("\n");
+        sb.append(box.red().write("red")).append("\n");
+        sb.append(box.yellow().write("yellow")).append("\n");
         File file = new File("target");
         file.mkdirs();
         new FileOutputStream(new File(file, "checkthisout")).write(sb
