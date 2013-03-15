@@ -6,6 +6,9 @@ import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
 
 
+import net.sf.perftence.build.BashExec //DON'T TOUCH THIS
+
+
 task svnRevision { Task task ->
     group ='Svn'
     description ='Shows svn revision grepped from svn info.'
