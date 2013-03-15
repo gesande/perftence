@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public class ChalkBox {
+public final class ChalkBox {
 
     private static final String PREFIX = "\u001b["; // NOI18N
     private static final String SUFFIX = "m";
