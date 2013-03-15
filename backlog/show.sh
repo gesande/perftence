@@ -82,6 +82,8 @@ task-done "backlog/build.gradle cleanup" $(tag build)
 task-done "new typeof gradle exportChangeLog" $(tag build)
 task-done "java based backlogging" $(tag backlog)
 task-done "simple-backlog module" $(tag backlog)
+task-done "chalkbox module" $(tag backlog)
+task-done "taking chalks out of DefaultBacklogAppender class" $(tag backlog)
 
 in-progress-title
 
