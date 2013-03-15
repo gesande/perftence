@@ -1,6 +1,8 @@
 import org.gradle.api.Task
 import org.gradle.api.tasks.Exec
 
+import net.sf.perftence.build.BashExec //DON'T TOUCH THIS
+
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
     apply from:"$buildPlugins/emma.gradle"
@@ -130,12 +132,4 @@ private String replaceBacklogPlus(){
 private String changeLogArgs(Task task){
     def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
     return args
-}
-
-public class BashExec extends Exec {
-
-    BashExec() {
-        executable="bash"
-        args("-c")
-    }
 }
