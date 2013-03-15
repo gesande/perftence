@@ -1,0 +1,6 @@
+
+project(':chalkbox') {
+    apply from:"$buildPlugins/emma.gradle"
+    version = "1.0"
+    dependencies { testCompile project(':junit-4.10') }
+}

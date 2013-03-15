@@ -1,6 +1,9 @@
 
 project(':simple-backlog') {
     apply from:"$buildPlugins/emma.gradle"
-
-    dependencies { testCompile project(':junit-4.10') }
+    version = "1.0"
+    dependencies {
+        compile project(':chalkbox')
+        testCompile project(':junit-4.10')
+    }
 }
