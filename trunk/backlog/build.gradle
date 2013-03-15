@@ -1,6 +1,4 @@
 import org.gradle.api.Task
-import org.gradle.api.tasks.Exec
-
 
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
@@ -133,10 +131,3 @@ private String changeLogArgs(Task task){
     return args
 }
 
-public class BashExec extends Exec {
-
-    BashExec() {
-        executable="bash"
-        args("-c")
-    }
-}
