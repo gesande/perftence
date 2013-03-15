@@ -8,7 +8,7 @@ apply plugin: "java"
 
 task newJavaProject(type: GradleBuild ) { GradleBuild task ->
     group ='Development'
-    description ="Creates a new Java project putting it already to SVN and applying some SVN ignore magic from predefined file which seem to be ${svnIgnoreFile}."
+    description ="Creates a new Java project putting it already to SVN and applying some SVN ignore magic from predefined file which seem to be ${svnIgnoreFile}. Needs -PnewJavaProject argument."
 
     def javaProject =  task.project.properties.newJavaProject
     String createJavaDirs = "${javaProject}:createJavaDirs"
