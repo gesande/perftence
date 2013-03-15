@@ -19,7 +19,7 @@ public abstract class AbstractBacklogging {
         return taskFactory().done(title, tag);
     }
 
-    protected abstract Backlog backlog();
+    protected abstract Backlog newBacklog();
 
     private TaskFactory taskFactory() {
         return this.taskFactory;
