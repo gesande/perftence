@@ -16,6 +16,8 @@ dependencies {
     groovy localGroovy()
 }
 
+eclipse.classpath.defaultOutputDir = file('target/classes')
+
 eclipse {
     classpath {
         file {
