@@ -1,7 +1,6 @@
-import org.gradle.api.Task
-import org.gradle.api.tasks.Exec
+import net.sf.perftence.build.BashExec
 
-import net.sf.perftence.build.BashExec //DON'T TOUCH THIS
+import org.gradle.api.Task
 
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
@@ -10,6 +9,7 @@ project(':backlog') {
     dependencies {
         compile project(':simple-backlog')
         testCompile project(':junit-4.10')
+        compile project(':buildSrc')
     }
 }
 task showBacklogAlt (dependsOn: classes) { Task task ->
@@ -127,6 +127,11 @@ private String generatedScriptFile() {
 }
 private String replaceBacklogPlus(){
     return " | sed 's/ +++ //' | sed 's/ +++ /|/'"
+}
+
+private String changeLogArgsForJavaBacklog(Task task) {
+    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/src/main/java/net/sf/perftence/backlog/PerftenceBacklog.java | grep 'done(' | grep '+' | sed 's/+                        //'"
+    return args
 }
 
 private String changeLogArgs(Task task){

@@ -1,12 +1,9 @@
 import static org.gradle.logging.StyledTextOutput.Style
+import net.sf.perftence.build.BashExec
 
 import org.gradle.api.Task
-import org.gradle.api.tasks.Exec
 import org.gradle.logging.StyledTextOutput
 import org.gradle.logging.StyledTextOutputFactory
-
-
-import net.sf.perftence.build.BashExec //DON'T TOUCH THIS
 
 
 task svnRevision { Task task ->
@@ -62,12 +59,5 @@ task svnStatus  { Task task ->
         def outputFactory = services.get(StyledTextOutputFactory).create("svn.svnStatus")
         outputFactory.withStyle(Style.Info).println("${svnStatus}")
         outputFactory.withStyle(Style.Info).println("Revision: ${svnversion}")
-    }
-}
-public class BashExec extends Exec {
-
-    BashExec() {
-        executable="bash"
-        args("-c")
     }
 }

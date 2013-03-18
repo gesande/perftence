@@ -1,6 +1,7 @@
 import org.gradle.logging.StyledTextOutputFactory
 import org.gradle.logging.StyledTextOutput.Style
 
+
 apply from: "$buildPlugins/findbugs.gradle"
 apply from: "$buildPlugins/jdepend.gradle"
 apply from: "$buildPlugins/pmd.gradle"
