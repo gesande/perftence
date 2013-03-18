@@ -25,3 +25,16 @@ jdependMain.doLast {
     }
 }
 
+jdependTest.doLast {
+    File file = new File(jdepend.reportsDir, "test.xml");
+    assert file.exists() && file.isFile(), "File '$file' must exist"
+    def numberOfCycles = new XmlSlurper().parse(file).Cycles.Package.size()
+    def outputFactory = services.get(StyledTextOutputFactory).create("jdepend.jdependTest.doLast")
+    if (numberOfCycles > 0) {
+        outputFactory.withStyle(Style.Error).println("We have detected $numberOfCycles cycles. Checkout report file: $file.")
+        //assert numberOfCycles == 0, """We have detected $numberOfCycles cycles. Checkout report file: $file."""
+    }
+    else {
+        outputFactory.withStyle(Style.Info).println("No cycles detected for project '$project.name' . Good work!")
+    }
+}

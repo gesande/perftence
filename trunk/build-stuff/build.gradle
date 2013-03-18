@@ -1,1 +1,6 @@
-project(':build-stuff') { apply from:"$buildPlugins/gradlePlugins.gradle" }
+
+project(':build-stuff') {
+    apply from:"$buildPlugins/gradlePlugins.gradle"
+
+    dependencies { compile project(':buildSrc') }
+}
