@@ -1,6 +1,7 @@
 
 project(':chalkbox') {
-    apply from:"$buildPlugins/emma.gradle"
+    apply from:"$emmaPlugin"
+    apply from:"$distributionPlugin"
     version = "1.0"
     dependencies { testCompile project(':junit-4.10') }
 }
