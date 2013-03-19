@@ -1,6 +1,16 @@
 package net.sf.simplebacklog;
 
-public class BacklogFactoryUsingSysoutAndChalks implements BacklogFactory {
+public class BacklogFactoryUsingChalks implements BacklogFactory {
+
+    private final BacklogDisplay display;
+
+    private BacklogFactoryUsingChalks(final BacklogDisplay display) {
+        this.display = display;
+    }
+
+    public static BacklogFactory displayedBy(final BacklogDisplay display) {
+        return new BacklogFactoryUsingChalks(display);
+    }
 
     @Override
     public Backlog newBacklog() {
@@ -89,8 +99,11 @@ public class BacklogFactoryUsingSysoutAndChalks implements BacklogFactory {
                 };
             }
         };
-        return new BacklogImpl(backlogAppender, new SysoutBacklogDisplay(),
-                taskListFactory);
+        return new BacklogImpl(backlogAppender, display(), taskListFactory);
+    }
+
+    private BacklogDisplay display() {
+        return this.display;
     }
 
     private interface Appendable<TASK extends Task> {

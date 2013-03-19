@@ -76,6 +76,34 @@ task continousBuildWithoutAcceptanceTests(type: GradleBuild) { Task task ->
 
 }
 
+task continousBuildForBacklog(type: GradleBuild) { Task task ->
+    group = 'Verification'
+    description ='Continous build for the backlog thing.'
+    buildFile = 'build.gradle'
+    tasks << 'simple-backlog:clean'
+    tasks << 'chalkbox:clean'
+
+    tasks << 'simple-backlog:continous'
+    tasks << 'chalkbox:continous'
+
+    tasks << 'aggregateTestReport'
+    tasks << 'aggregateJDependReport'
+    tasks << 'aggregateEmmaReport'
+    tasks << 'aggregateFindbugsReport'
+
+    doLast { println "Continous build for backlog stuff passed, good work!" }
+}
+
+task distributionPackageForBacklog(type: GradleBuild, dependsOn: ['continousBuildForBacklog']) { Task task ->
+    group = 'Distribution'
+    description = 'Distribution package for the whole thing including continous build.'
+    buildFile = 'build.gradle'
+    tasks << 'simple-backlog:release'
+    tasks << 'simple-backlog:release'
+    doLast { println "Distribution package for backlog ready to be uploaded to the repository." }
+}
+
+
 task continousBuild(type: GradleBuild) { Task task ->
     group = 'Verification'
     description ='Continous build for the whole thing.'
