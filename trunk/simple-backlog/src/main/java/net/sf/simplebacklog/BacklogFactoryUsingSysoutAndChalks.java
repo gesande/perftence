@@ -6,15 +6,91 @@ public class BacklogFactoryUsingSysoutAndChalks implements BacklogFactory {
     public Backlog newBacklog() {
         final ChalkBox chalkBox = new ChalkBox();
         final StringBuilderAppender appender = new StringBuilderAppender();
+        final Chalk green = chalkBox.green();
         final DoneAppender doneAppender = new DoneAppender(appender,
-                new AppendableDoneWithChalk(chalkBox.green()));
+                new AppendableDoneWithChalk(green));
+        final Chalk yellow = chalkBox.yellow();
         final TaskAppender<InProgress> inProgressAppender = new InProgressAppender(
-                appender, new AppendableInProgressWithChalk(chalkBox.yellow()));
+                appender, new AppendableInProgressWithChalk(yellow));
+        final Chalk red = chalkBox.red();
         final TaskAppender<Waiting> waitingAppender = new WaitingAppender(
-                appender, new AppendableWaitingWithChalk(chalkBox.red()));
-        return new BacklogImpl(new DefaultBacklogAppender(appender,
-                doneAppender, inProgressAppender, waitingAppender),
-                new SysoutBacklogDisplay());
+                appender, new AppendableWaitingWithChalk(red));
+        final BacklogAppender backlogAppender = new DefaultBacklogAppender(
+                appender, doneAppender, inProgressAppender, waitingAppender);
+        final TaskListFactory taskListFactory = new TaskListFactory() {
+            @Override
+            public TaskList<Backlog, Done> forDone(final Backlog backlog) {
+                return new TaskList<Backlog, Done>() {
+
+                    @Override
+                    public Backlog tasks(final Done... tasks) {
+                        backlogAppender.done(tasks);
+                        return backlog;
+                    }
+
+                    @Override
+                    public Backlog noTasks() {
+                        return backlog;
+                    }
+
+                    @Override
+                    public TaskList<Backlog, Done> title(final String title) {
+                        backlogAppender.subTitle(green.write(title));
+                        return this;
+                    }
+                };
+            }
+
+            @Override
+            public TaskList<Backlog, Waiting> forWaiting(final Backlog backlog) {
+                return new TaskList<Backlog, Waiting>() {
+
+                    @Override
+                    public Backlog tasks(final Waiting... tasks) {
+                        backlogAppender.waiting(tasks);
+                        return backlog;
+                    }
+
+                    @Override
+                    public Backlog noTasks() {
+                        return backlog;
+                    }
+
+                    @Override
+                    public TaskList<Backlog, Waiting> title(final String title) {
+                        backlogAppender.subTitle(red.write(title));
+                        return this;
+                    }
+                };
+            }
+
+            @Override
+            public TaskList<Backlog, InProgress> forInProgress(
+                    final Backlog backlog) {
+                return new TaskList<Backlog, InProgress>() {
+
+                    @Override
+                    public Backlog tasks(final InProgress... tasks) {
+                        backlogAppender.inProgress(tasks);
+                        return backlog;
+                    }
+
+                    @Override
+                    public Backlog noTasks() {
+                        return backlog;
+                    }
+
+                    @Override
+                    public TaskList<Backlog, InProgress> title(
+                            final String title) {
+                        backlogAppender.subTitle(yellow.write(title));
+                        return this;
+                    }
+                };
+            }
+        };
+        return new BacklogImpl(backlogAppender, new SysoutBacklogDisplay(),
+                taskListFactory);
     }
 
     private interface Appendable<TASK extends Task> {

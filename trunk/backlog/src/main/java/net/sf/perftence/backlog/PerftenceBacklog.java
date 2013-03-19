@@ -14,7 +14,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
     public void show() {
         newBacklog()
                 .title("Backlog for pertence test tool:")
-                .done("DONE:")
+                .done()
+                .title("DONE:")
                 .tasks(done(
                         "created mainentrypoint-example project with source example",
                         developmentSupport()),
@@ -147,10 +148,12 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("taking chalks out of DefaultBacklogAppender class",
                                 backlog()))
 
-                .inProgress("IN PROGRESS:")
+                .inProgress()
+                .title("IN PROGRESS:")
                 .noTasks()
 
-                .waiting("WAITING:")
+                .waiting()
+                .title("WAITING:")
                 .tasks(waiting("failures over test time, use DateAxis",
                         feature()),
                         waiting("provide success rate percentage for intermediate statistics",
@@ -196,43 +199,43 @@ public class PerftenceBacklog extends AbstractBacklogging {
         return this.backlogFactory;
     }
 
-    private static PerftenceTaskTag build() {
-        return PerftenceTaskTag.build;
+    private static PerftenceTag build() {
+        return PerftenceTag.build;
     }
 
-    private static PerftenceTaskTag codeQuality() {
-        return PerftenceTaskTag.codeQuality;
+    private static PerftenceTag codeQuality() {
+        return PerftenceTag.codeQuality;
     }
 
-    private static PerftenceTaskTag deployment() {
-        return PerftenceTaskTag.deployment;
+    private static PerftenceTag deployment() {
+        return PerftenceTag.deployment;
     }
 
-    private static PerftenceTaskTag infrastructure() {
-        return PerftenceTaskTag.infrastructure;
+    private static PerftenceTag infrastructure() {
+        return PerftenceTag.infrastructure;
     }
 
-    private static PerftenceTaskTag feature() {
-        return PerftenceTaskTag.feature;
+    private static PerftenceTag feature() {
+        return PerftenceTag.feature;
     }
 
-    private static PerftenceTaskTag refactoring() {
-        return PerftenceTaskTag.refactoring;
+    private static PerftenceTag refactoring() {
+        return PerftenceTag.refactoring;
     }
 
-    private static PerftenceTaskTag development() {
-        return PerftenceTaskTag.development;
+    private static PerftenceTag development() {
+        return PerftenceTag.development;
     }
 
-    private static PerftenceTaskTag ide() {
-        return PerftenceTaskTag.ide;
+    private static PerftenceTag ide() {
+        return PerftenceTag.ide;
     }
 
-    private static PerftenceTaskTag developmentSupport() {
-        return PerftenceTaskTag.developmentSupport;
+    private static PerftenceTag developmentSupport() {
+        return PerftenceTag.developmentSupport;
     }
 
-    private static PerftenceTaskTag backlog() {
-        return PerftenceTaskTag.backlog;
+    private static PerftenceTag backlog() {
+        return PerftenceTag.backlog;
     }
 }

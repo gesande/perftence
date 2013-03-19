@@ -3,11 +3,13 @@ package net.sf.simplebacklog;
 public class BacklogImpl implements Backlog {
     private final BacklogAppender appender;
     private final BacklogDisplay display;
+    private final TaskListFactory taskListFactory;
 
     public BacklogImpl(final BacklogAppender appender,
-            final BacklogDisplay display) {
+            final BacklogDisplay display, final TaskListFactory taskListFactory) {
         this.appender = appender;
         this.display = display;
+        this.taskListFactory = taskListFactory;
     }
 
     @Override
@@ -16,62 +18,19 @@ public class BacklogImpl implements Backlog {
         return this;
     }
 
-    private BacklogAppender appender() {
-        return this.appender;
+    @Override
+    public TaskList<Backlog, Done> done() {
+        return taskListFactory().forDone(this);
     }
 
     @Override
-    public TaskList<Backlog, Done> done(String title) {
-        appender().subTitle(title);
-        return new TaskList<Backlog, Done>() {
-
-            @Override
-            public Backlog tasks(final Done... tasks) {
-                appender().done(tasks);
-                return BacklogImpl.this;
-            }
-
-            @Override
-            public Backlog noTasks() {
-                return BacklogImpl.this;
-            }
-        };
+    public TaskList<Backlog, Waiting> waiting() {
+        return taskListFactory().forWaiting(this);
     }
 
     @Override
-    public TaskList<Backlog, Waiting> waiting(final String title) {
-        appender().subTitle(title);
-        return new TaskList<Backlog, Waiting>() {
-
-            @Override
-            public Backlog tasks(final Waiting... tasks) {
-                appender().waiting(tasks);
-                return BacklogImpl.this;
-            }
-
-            @Override
-            public Backlog noTasks() {
-                return BacklogImpl.this;
-            }
-        };
-    }
-
-    @Override
-    public TaskList<Backlog, InProgress> inProgress(final String title) {
-        appender().subTitle(title);
-        return new TaskList<Backlog, InProgress>() {
-
-            @Override
-            public Backlog tasks(final InProgress... tasks) {
-                appender().inProgress(tasks);
-                return BacklogImpl.this;
-            }
-
-            @Override
-            public Backlog noTasks() {
-                return BacklogImpl.this;
-            }
-        };
+    public TaskList<Backlog, InProgress> inProgress() {
+        return taskListFactory().forInProgress(this);
     }
 
     @Override
@@ -83,4 +42,11 @@ public class BacklogImpl implements Backlog {
         return this.display;
     }
 
+    private BacklogAppender appender() {
+        return this.appender;
+    }
+
+    private TaskListFactory taskListFactory() {
+        return this.taskListFactory;
+    }
 }
