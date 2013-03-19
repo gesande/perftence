@@ -11,7 +11,8 @@ public class ThreadEngineApiTest {
     @SuppressWarnings("static-method")
     @Test(expected = IllegalArgumentException.class)
     public void nullRunnables() {
-        new ThreadEngineApi<Runnable>().threadNamePrefix("my-test-threads-").run();
+        new ThreadEngineApi<Runnable>().threadNamePrefix("my-test-threads-")
+                .run();
     }
 
     @SuppressWarnings("static-method")
