@@ -37,8 +37,8 @@ public class SimpleBacklogTest extends AbstractBacklogging {
 
     @Test
     public void withSysoutAndChalks() {
-        final Backlog newBacklog = BacklogFactoryUsingChalks
-                .displayedBy(display()).newBacklog();
+        final Backlog newBacklog = BacklogFactoryUsingChalks.displayedBy(
+                display()).newBacklog();
 
         newBacklog.title("simple backlog")
 
