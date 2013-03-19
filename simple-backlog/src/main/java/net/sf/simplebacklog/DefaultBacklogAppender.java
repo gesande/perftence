@@ -18,12 +18,12 @@ public class DefaultBacklogAppender implements BacklogAppender {
     }
 
     @Override
-    public void title(String title) {
+    public void title(final String title) {
         appender().append(title).newLine().newLine();
     }
 
     @Override
-    public void subTitle(String title) {
+    public void subTitle(final String title) {
         appender().tab().append(title).newLine().newLine();
     }
 

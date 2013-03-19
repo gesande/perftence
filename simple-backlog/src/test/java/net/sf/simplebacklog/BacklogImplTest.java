@@ -7,14 +7,6 @@ import static junit.framework.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.simplebacklog.BacklogAppender;
-import net.sf.simplebacklog.BacklogDisplay;
-import net.sf.simplebacklog.BacklogImpl;
-import net.sf.simplebacklog.Done;
-import net.sf.simplebacklog.InProgress;
-import net.sf.simplebacklog.Tag;
-import net.sf.simplebacklog.Waiting;
-
 import org.junit.Test;
 
 public class BacklogImplTest {
@@ -63,9 +55,10 @@ public class BacklogImplTest {
                 assertEquals("build", appender.build());
             }
         };
-        new BacklogImpl(backlogAppender, display).title("title").done("done")
-                .noTasks().inProgress("inprogress").noTasks()
-                .waiting("waiting").noTasks().show();
+        new BacklogImpl(backlogAppender, display, new DefaultTaskListFactory(
+                backlogAppender)).title("title").done().title("done").noTasks()
+                .inProgress().title("inprogress").noTasks().waiting()
+                .title("waiting").noTasks().show();
         assertEquals(3, subtitles.size());
         assertEquals("done", subtitles.get(0));
         assertEquals("inprogress", subtitles.get(1));
@@ -143,7 +136,8 @@ public class BacklogImplTest {
                 assertEquals("build", appender.build());
             }
         };
-        new BacklogImpl(backlogAppender, display).title("title").done("done")
+        new BacklogImpl(backlogAppender, display, new DefaultTaskListFactory(
+                backlogAppender)).title("title").done().title("done")
                 .tasks(new Done() {
 
                     @Override
@@ -155,7 +149,7 @@ public class BacklogImplTest {
                     public Tag tag() {
                         return done;
                     }
-                }).inProgress("inProgress").tasks(new InProgress() {
+                }).inProgress().title("inProgress").tasks(new InProgress() {
 
                     @Override
                     public String title() {
@@ -166,7 +160,7 @@ public class BacklogImplTest {
                     public Tag tag() {
                         return inProgress;
                     }
-                }).waiting("waiting").tasks(new Waiting() {
+                }).waiting().title("waiting").tasks(new Waiting() {
 
                     @Override
                     public String title() {
