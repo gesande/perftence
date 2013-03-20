@@ -1,5 +1,8 @@
 package net.sf.perftence.backlog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.sf.simplebacklog.AppendableWaitingWithChalk;
 import net.sf.simplebacklog.Backlog;
 import net.sf.simplebacklog.BacklogAppender;
@@ -13,6 +16,7 @@ import net.sf.simplebacklog.Done;
 import net.sf.simplebacklog.InProgress;
 import net.sf.simplebacklog.StringBuilderAppender;
 import net.sf.simplebacklog.SysoutBacklogDisplay;
+import net.sf.simplebacklog.Tag;
 import net.sf.simplebacklog.TaskAppender;
 import net.sf.simplebacklog.TaskList;
 import net.sf.simplebacklog.TaskListFactory;
@@ -22,17 +26,48 @@ import net.sf.simplebacklog.WaitingAppender;
 public class BacklogWaitingForImplementation {
 
     public static void main(final String[] args) {
-        new PerftenceBacklog(
-                WaitingForImplementation
-                        .displayedBy(new SysoutBacklogDisplay())).show();
+        final List<Tag> tags = toTags(args);
+        new PerftenceBacklog(WaitingForImplementation.displayedBy(
+                new SysoutBacklogDisplay(), tags)).show();
+    }
+
+    private static List<Tag> toTags(final String[] args) {
+        final List<Tag> tags = new ArrayList<Tag>();
+        if (args.length > 0) {
+            for (String value : args) {
+                tags.add(PerftenceTag.valueOf(value));
+            }
+        } else {
+            for (final Tag tag : PerftenceTag.values()) {
+                tags.add(tag);
+            }
+        }
+        return tags;
     }
 
     private static class WaitingForImplementation implements BacklogFactory {
 
         private final BacklogDisplay display;
+        private final List<Tag> waitingTags = new ArrayList<Tag>();
 
-        public WaitingForImplementation(final BacklogDisplay display) {
+        public WaitingForImplementation(final BacklogDisplay display,
+                final List<Tag> waitingTags) {
             this.display = display;
+            waitingTasks().addAll(waitingTags);
+        }
+
+        private Waiting[] filtered(final Waiting[] tasks) {
+            List<Waiting> filtered = new ArrayList<Waiting>();
+            for (Waiting task : tasks) {
+                if (waitingTasks().contains(task.tag())) {
+                    filtered.add(task);
+                }
+            }
+            return filtered.toArray(new Waiting[] {});
+        }
+
+        private List<Tag> waitingTasks() {
+            return this.waitingTags;
         }
 
         @Override
@@ -64,7 +99,7 @@ public class BacklogWaitingForImplementation {
 
                         @Override
                         public Backlog tasks(final Waiting... tasks) {
-                            backlogAppender.waiting(tasks);
+                            backlogAppender.waiting(filtered(tasks));
                             return backlog;
                         }
 
@@ -133,8 +168,9 @@ public class BacklogWaitingForImplementation {
             return this.display;
         }
 
-        public static BacklogFactory displayedBy(final BacklogDisplay display) {
-            return new WaitingForImplementation(display);
+        public static BacklogFactory displayedBy(final BacklogDisplay display,
+                final List<Tag> waitingTags) {
+            return new WaitingForImplementation(display, waitingTags);
         }
     }
 }
