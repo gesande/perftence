@@ -12,7 +12,7 @@ project(':backlog') {
         compile project(':buildSrc')
     }
 }
-task showBacklogAlt (dependsOn: classes) { Task task ->
+task showBacklog (dependsOn: classes) { Task task ->
     doLast {
         javaexec {
             main = 'net.sf.perftence.backlog.PerftenceBacklogMain'
@@ -21,18 +21,25 @@ task showBacklogAlt (dependsOn: classes) { Task task ->
         }
     }
 }
-
-task showBacklog (type: BashExec) { BashExec task ->
-    group = 'Backlog'
-    description= 'Shows backlog.'
-    task.args "${task.project.projectDir}/show.sh"
-}
-
-task hereIsSomethingTodo(type: BashExec) { BashExec task ->
+task waitingForImplementation (dependsOn: classes) { Task task ->
     group = 'Backlog'
     description= 'Shows all stuff waiting for implementation.'
-    task.args "${task.project.projectDir}/show.sh | grep '\\-\\-\\-'"
+    doLast {
+        javaexec {
+            main = 'net.sf.perftence.backlog.BacklogWaitingForImplementation'
+            classpath  sourceSets.main.output.classesDir
+            classpath configurations.runtime
+        }
+    }
 }
+
+/*
+ task showBacklog (type: BashExec) { BashExec task ->
+ group = 'Backlog'
+ description= 'Shows backlog.'
+ task.args "${task.project.projectDir}/show.sh"
+ }
+ */
 
 task featuresWaiting(type: BashExec) { BashExec task ->
     group = 'Backlog'

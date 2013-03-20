@@ -106,32 +106,6 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
         return this.display;
     }
 
-    private interface Appendable<TASK extends Task> {
-        String build(TASK task);
-    }
-
-    private static class AppendableWaitingWithChalk implements
-            Appendable<Waiting> {
-        private final Chalk chalk;
-
-        public AppendableWaitingWithChalk(final Chalk chalk) {
-            this.chalk = chalk;
-
-        }
-
-        @Override
-        public String build(final Waiting task) {
-            final StringBuilderAppender line = new StringBuilderAppender();
-            line.tab().append("--- ").append(task.title()).append(" --- ")
-                    .append("#").append(task.tag().name());
-            return chalk().write(line.build());
-        }
-
-        private Chalk chalk() {
-            return this.chalk;
-        }
-    }
-
     private static class AppendableInProgressWithChalk implements
             Appendable<InProgress> {
         private final Chalk chalk;
@@ -222,34 +196,6 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
 
         private Appendable<InProgress> appendable() {
             return this.inProgressAppendable;
-        }
-
-        private Appender parent() {
-            return this.parent;
-        }
-    }
-
-    private static class WaitingAppender implements TaskAppender<Waiting> {
-
-        private final Appender parent;
-        private final Appendable<Waiting> appendableWaiting;
-
-        public WaitingAppender(final Appender parent,
-                Appendable<Waiting> appendableWaiting) {
-            this.parent = parent;
-            this.appendableWaiting = appendableWaiting;
-        }
-
-        @Override
-        public void append(final Waiting... tasks) {
-            for (final Waiting task : tasks) {
-                parent().append(appendable().build(task)).newLine();
-            }
-            parent().newLine();
-        }
-
-        private Appendable<Waiting> appendable() {
-            return this.appendableWaiting;
         }
 
         private Appender parent() {
