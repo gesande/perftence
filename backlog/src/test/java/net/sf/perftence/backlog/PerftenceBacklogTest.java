@@ -15,4 +15,11 @@ public class PerftenceBacklogTest {
     public void showWaitingForImplementation() {
         BacklogWaitingForImplementation.main(new String[] {});
     }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void showFeaturesWaitingForImplementation() {
+        BacklogWaitingForImplementation.main(new String[] { "feature" });
+    }
+
 }
