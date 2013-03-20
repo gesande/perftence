@@ -13,7 +13,7 @@ public class SimpleBacklogTest extends AbstractBacklogging {
     public void before() {
         this.display = new MyBacklogDisplay(new SysoutBacklogDisplay());
     }
-
+    
     @Test
     public void simpleBacklog() {
         final Backlog newBacklog = newBacklog();
@@ -33,28 +33,6 @@ public class SimpleBacklogTest extends AbstractBacklogging {
         assertEquals(
                 "simple backlog\n\n  done:\n\n  first task|first\n\n  in progress:\n\n  second task|second\n\n  waiting:\n\n  third task|third\n\n",
                 this.display.result());
-    }
-
-    @Test
-    public void withSysoutAndChalks() {
-        final Backlog newBacklog = BacklogFactoryUsingChalks.displayedBy(
-                display()).newBacklog();
-
-        newBacklog.title("simple backlog")
-
-        .done().title("done:").tasks(done("first task", MyTag.first))
-
-        .inProgress().title("in progress:")
-                .tasks(inProgress("second task", MyTag.second))
-
-                .waiting().title("waiting:")
-                .tasks(waiting("third task", MyTag.third))
-
-                .show();
-        assertEquals(
-                "simple backlog\n\n  [32mdone:[m\n\n[32m  +++ first task +++ #first[m\n\n  [33min progress:[m\n\n[33m      second task     #second[m\n\n  [31mwaiting:[m\n\n[31m  --- third task --- #third[m\n\n",
-                this.display.result());
-
     }
 
     enum MyTag implements Tag {

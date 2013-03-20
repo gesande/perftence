@@ -9,4 +9,10 @@ public class PerftenceBacklogTest {
     public void show() {
         PerftenceBacklogMain.main(new String[] {});
     }
+
+    @SuppressWarnings("static-method")
+    @Test
+    public void showWaitingForImplementation() {
+        BacklogWaitingForImplementation.main(new String[] {});
+    }
 }
