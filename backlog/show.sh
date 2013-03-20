@@ -84,6 +84,7 @@ task-done "java based backlogging" $(tag backlog)
 task-done "simple-backlog module" $(tag backlog)
 task-done "chalkbox module" $(tag backlog)
 task-done "taking chalks out of DefaultBacklogAppender class" $(tag backlog)
+task-done "gradle waitingForImplementation" $(tag backlog)
 
 in-progress-title
 
