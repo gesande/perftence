@@ -16,17 +16,25 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
     public Backlog newBacklog() {
         final ChalkBox chalkBox = new ChalkBox();
         final StringBuilderAppender appender = new StringBuilderAppender();
+
         final Chalk green = chalkBox.green();
-        final DoneAppender doneAppender = new DoneAppender(appender,
-                new AppendableDoneWithChalk(green));
+        final TaskAppender<Done> doneAppender = new DoneAppender(appender,
+                new ChalkedDone(green, new DoneAsAppender()));
+
         final Chalk yellow = chalkBox.yellow();
         final TaskAppender<InProgress> inProgressAppender = new InProgressAppender(
-                appender, new AppendableInProgressWithChalk(yellow));
+                appender, new ChalkedInProgress(yellow,
+                        new InProgressAsAppender()));
+
         final Chalk red = chalkBox.red();
         final TaskAppender<Waiting> waitingAppender = new WaitingAppender(
-                appender, new AppendableWaitingWithChalk(red));
+                appender, new ChalkedWaiting(red, new WaitingAsAppender()));
+
+
         final BacklogAppender backlogAppender = new DefaultBacklogAppender(
                 appender, doneAppender, inProgressAppender, waitingAppender);
+
+        
         final TaskListFactory taskListFactory = new TaskListFactory() {
             @Override
             public TaskList<Backlog, Done> forDone(final Backlog backlog) {
@@ -104,103 +112,6 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
 
     private BacklogDisplay display() {
         return this.display;
-    }
-
-    private static class AppendableInProgressWithChalk implements
-            Appendable<InProgress> {
-        private final Chalk chalk;
-
-        public AppendableInProgressWithChalk(final Chalk chalk) {
-            this.chalk = chalk;
-        }
-
-        @Override
-        public String build(final InProgress task) {
-            final StringBuilderAppender line = new StringBuilderAppender();
-            line.tab().append("    ").append(task.title()).append("     ")
-                    .append("#").append(task.tag().name());
-            return chalk().write(line.build());
-        }
-
-        private Chalk chalk() {
-            return this.chalk;
-        }
-    }
-
-    private static class AppendableDoneWithChalk implements Appendable<Done> {
-        private final Chalk chalk;
-
-        public AppendableDoneWithChalk(final Chalk chalk) {
-            this.chalk = chalk;
-        }
-
-        @Override
-        public String build(final Done task) {
-            final StringBuilderAppender line = new StringBuilderAppender();
-            line.tab().append("+++ ").append(task.title()).append(" +++ ")
-                    .append("#").append(task.tag().name());
-            return chalk().write(line.build());
-        }
-
-        private Chalk chalk() {
-            return this.chalk;
-        }
-    }
-
-    private static class DoneAppender implements TaskAppender<Done> {
-
-        private final Appender parent;
-        private final Appendable<Done> doneAppendable;
-
-        public DoneAppender(final Appender parent,
-                final Appendable<Done> doneAppendable) {
-            this.parent = parent;
-            this.doneAppendable = doneAppendable;
-        }
-
-        @Override
-        public void append(final Done... tasks) {
-            for (final Done task : tasks) {
-                parent().append(appendable().build(task)).newLine();
-            }
-            parent().newLine();
-        }
-
-        private Appendable<Done> appendable() {
-            return this.doneAppendable;
-        }
-
-        private Appender parent() {
-            return this.parent;
-        }
-    }
-
-    private static class InProgressAppender implements TaskAppender<InProgress> {
-
-        private final Appender parent;
-        private final Appendable<InProgress> inProgressAppendable;
-
-        public InProgressAppender(final Appender parent,
-                final Appendable<InProgress> inProgressAppendable) {
-            this.parent = parent;
-            this.inProgressAppendable = inProgressAppendable;
-        }
-
-        @Override
-        public void append(final InProgress... tasks) {
-            for (final InProgress task : tasks) {
-                parent().append(appendable().build(task)).newLine();
-            }
-            parent().newLine();
-        }
-
-        private Appendable<InProgress> appendable() {
-            return this.inProgressAppendable;
-        }
-
-        private Appender parent() {
-            return this.parent;
-        }
     }
 
 }

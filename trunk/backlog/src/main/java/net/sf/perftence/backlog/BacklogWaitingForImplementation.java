@@ -3,7 +3,6 @@ package net.sf.perftence.backlog;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.simplebacklog.AppendableWaitingWithChalk;
 import net.sf.simplebacklog.Backlog;
 import net.sf.simplebacklog.BacklogAppender;
 import net.sf.simplebacklog.BacklogDisplay;
@@ -11,6 +10,7 @@ import net.sf.simplebacklog.BacklogFactory;
 import net.sf.simplebacklog.BacklogImpl;
 import net.sf.simplebacklog.Chalk;
 import net.sf.simplebacklog.ChalkBox;
+import net.sf.simplebacklog.ChalkedWaiting;
 import net.sf.simplebacklog.DefaultBacklogAppender;
 import net.sf.simplebacklog.Done;
 import net.sf.simplebacklog.InProgress;
@@ -22,6 +22,7 @@ import net.sf.simplebacklog.TaskList;
 import net.sf.simplebacklog.TaskListFactory;
 import net.sf.simplebacklog.Waiting;
 import net.sf.simplebacklog.WaitingAppender;
+import net.sf.simplebacklog.WaitingAsAppender;
 
 public class BacklogWaitingForImplementation {
 
@@ -34,7 +35,7 @@ public class BacklogWaitingForImplementation {
     private static List<Tag> toTags(final String[] args) {
         final List<Tag> tags = new ArrayList<Tag>();
         if (args.length > 0) {
-            for (String value : args) {
+            for (final String value : args) {
                 tags.add(PerftenceTag.valueOf(value));
             }
         } else {
@@ -87,7 +88,7 @@ public class BacklogWaitingForImplementation {
 
             final Chalk red = chalkBox.red();
             final TaskAppender<Waiting> waitingAppender = new WaitingAppender(
-                    appender, new AppendableWaitingWithChalk(red));
+                    appender, new ChalkedWaiting(red, new WaitingAsAppender()));
             final BacklogAppender backlogAppender = new DefaultBacklogAppender(
                     appender, doneAppender, inProgressAppender, waitingAppender);
             final TaskListFactory taskListFactory = new TaskListFactory() {
