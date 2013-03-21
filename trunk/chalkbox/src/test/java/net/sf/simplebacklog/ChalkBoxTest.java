@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import net.sf.chalkbox.ChalkBox;
+
 import org.junit.Test;
 
 public class ChalkBoxTest {

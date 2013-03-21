@@ -1,5 +1,7 @@
 package net.sf.simplebacklog;
 
+import net.sf.chalkbox.ChalkBox;
+
 public class BacklogFactoryUsingChalks implements BacklogFactory {
 
     private final BacklogDisplay display;

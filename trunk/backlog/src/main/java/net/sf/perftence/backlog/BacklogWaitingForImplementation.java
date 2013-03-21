@@ -3,12 +3,12 @@ package net.sf.perftence.backlog;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.chalkbox.ChalkBox;
 import net.sf.simplebacklog.Backlog;
 import net.sf.simplebacklog.BacklogAppender;
 import net.sf.simplebacklog.BacklogDisplay;
 import net.sf.simplebacklog.BacklogFactory;
 import net.sf.simplebacklog.BacklogImpl;
-import net.sf.simplebacklog.ChalkBox;
 import net.sf.simplebacklog.ChalkedTaskAppender;
 import net.sf.simplebacklog.DefaultBacklogAppender;
 import net.sf.simplebacklog.Done;
