@@ -1,4 +1,4 @@
-package net.sf.simplebacklog;
+package net.sf.chalkbox;
 
 public final class ChalkBox {
 

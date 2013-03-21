@@ -1,5 +1,7 @@
 package net.sf.simplebacklog;
 
+import net.sf.chalkbox.Chalk;
+
 @SuppressWarnings("static-method")
 public final class ChalkedTaskAppender {
 

@@ -1,5 +1,7 @@
 package net.sf.simplebacklog;
 
+import net.sf.chalkbox.Chalk;
+
 final class ChalkedWaiting implements Appendable<Waiting> {
 
     private final Chalk chalk;
