@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class DoneAsAppender implements AppenderAs<Done> {
+final class DoneAsAppender implements AppenderAs<Done> {
 
     @Override
     public Appender task(final Done task) {

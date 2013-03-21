@@ -16,25 +16,18 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
     public Backlog newBacklog() {
         final ChalkBox chalkBox = new ChalkBox();
         final StringBuilderAppender appender = new StringBuilderAppender();
+        final ChalkedTaskAppender chalkedTaskAppender = new ChalkedTaskAppender();
+        final TaskAppender<Done> doneAppender = chalkedTaskAppender.forDone(
+                appender, chalkBox.green());
+        final TaskAppender<InProgress> inProgressAppender = chalkedTaskAppender
+                .forInProgress(appender, chalkBox.yellow());
 
-        final Chalk green = chalkBox.green();
-        final TaskAppender<Done> doneAppender = new DoneAppender(appender,
-                new ChalkedDone(green, new DoneAsAppender()));
-
-        final Chalk yellow = chalkBox.yellow();
-        final TaskAppender<InProgress> inProgressAppender = new InProgressAppender(
-                appender, new ChalkedInProgress(yellow,
-                        new InProgressAsAppender()));
-
-        final Chalk red = chalkBox.red();
-        final TaskAppender<Waiting> waitingAppender = new WaitingAppender(
-                appender, new ChalkedWaiting(red, new WaitingAsAppender()));
-
+        final TaskAppender<Waiting> waitingAppender = chalkedTaskAppender
+                .forWaiting(appender, chalkBox.red());
 
         final BacklogAppender backlogAppender = new DefaultBacklogAppender(
                 appender, doneAppender, inProgressAppender, waitingAppender);
 
-        
         final TaskListFactory taskListFactory = new TaskListFactory() {
             @Override
             public TaskList<Backlog, Done> forDone(final Backlog backlog) {
@@ -53,7 +46,7 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
 
                     @Override
                     public TaskList<Backlog, Done> title(final String title) {
-                        backlogAppender.subTitle(green.write(title));
+                        backlogAppender.subTitle(chalkBox.green().write(title));
                         return this;
                     }
                 };
@@ -76,7 +69,7 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
 
                     @Override
                     public TaskList<Backlog, Waiting> title(final String title) {
-                        backlogAppender.subTitle(red.write(title));
+                        backlogAppender.subTitle(chalkBox.red().write(title));
                         return this;
                     }
                 };
@@ -101,7 +94,8 @@ public class BacklogFactoryUsingChalks implements BacklogFactory {
                     @Override
                     public TaskList<Backlog, InProgress> title(
                             final String title) {
-                        backlogAppender.subTitle(yellow.write(title));
+                        backlogAppender
+                                .subTitle(chalkBox.yellow().write(title));
                         return this;
                     }
                 };

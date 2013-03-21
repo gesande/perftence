@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class ChalkedWaiting implements Appendable<Waiting> {
+final class ChalkedWaiting implements Appendable<Waiting> {
 
     private final Chalk chalk;
     private final AppenderAs<Waiting> appendable;

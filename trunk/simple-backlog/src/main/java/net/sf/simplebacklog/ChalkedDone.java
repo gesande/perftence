@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class ChalkedDone implements Appendable<Done> {
+final class ChalkedDone implements Appendable<Done> {
     private final Chalk chalk;
     private final AppenderAs<Done> appendable;
 
