@@ -15,10 +15,10 @@ final class ChalkedWaiting implements Appendable<Waiting> {
 
     @Override
     public String build(final Waiting task) {
-        return chalk().write(appendable().task(task).build());
+        return chalk().write(appenderAs().task(task).build());
     }
 
-    private AppenderAs<Waiting> appendable() {
+    private AppenderAs<Waiting> appenderAs() {
         return this.appendable;
     }
 

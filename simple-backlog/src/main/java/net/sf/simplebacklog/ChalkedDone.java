@@ -13,10 +13,10 @@ final class ChalkedDone implements Appendable<Done> {
 
     @Override
     public String build(final Done task) {
-        return chalk().write(appendable().task(task).build());
+        return chalk().write(appenderAs().task(task).build());
     }
 
-    private AppenderAs<Done> appendable() {
+    private AppenderAs<Done> appenderAs() {
         return this.appendable;
     }
 

@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class TaskFactory {
+final class TaskFactory {
     @SuppressWarnings("static-method")
     public InProgress inProgress(final String title, final Tag tag) {
         return new InProgress() {
