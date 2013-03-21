@@ -77,6 +77,6 @@ public class DefaultTaskListFactory implements TaskListFactory {
     }
 
     private BacklogAppender backlogAppender() {
-        return DefaultTaskListFactory.this.appender;
+        return this.appender;
     }
 }

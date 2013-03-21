@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-class InProgressAppender implements TaskAppender<InProgress> {
+final class InProgressAppender implements TaskAppender<InProgress> {
 
     private final Appender parent;
     private final Appendable<InProgress> inProgressAppendable;
