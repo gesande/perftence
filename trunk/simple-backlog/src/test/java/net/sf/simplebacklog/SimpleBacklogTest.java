@@ -13,7 +13,7 @@ public class SimpleBacklogTest extends AbstractBacklogging {
     public void before() {
         this.display = new MyBacklogDisplay(new SysoutBacklogDisplay());
     }
-    
+
     @Test
     public void simpleBacklog() {
         final Backlog newBacklog = newBacklog();
