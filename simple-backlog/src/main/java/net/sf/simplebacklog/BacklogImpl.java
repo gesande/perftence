@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public class BacklogImpl implements Backlog {
+public final class BacklogImpl implements Backlog {
     private final BacklogAppender appender;
     private final BacklogDisplay display;
     private final TaskListFactory taskListFactory;

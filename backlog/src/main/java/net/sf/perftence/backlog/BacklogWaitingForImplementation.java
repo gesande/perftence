@@ -8,9 +8,8 @@ import net.sf.simplebacklog.BacklogAppender;
 import net.sf.simplebacklog.BacklogDisplay;
 import net.sf.simplebacklog.BacklogFactory;
 import net.sf.simplebacklog.BacklogImpl;
-import net.sf.simplebacklog.Chalk;
 import net.sf.simplebacklog.ChalkBox;
-import net.sf.simplebacklog.ChalkedWaiting;
+import net.sf.simplebacklog.ChalkedTaskAppender;
 import net.sf.simplebacklog.DefaultBacklogAppender;
 import net.sf.simplebacklog.Done;
 import net.sf.simplebacklog.InProgress;
@@ -21,8 +20,6 @@ import net.sf.simplebacklog.TaskAppender;
 import net.sf.simplebacklog.TaskList;
 import net.sf.simplebacklog.TaskListFactory;
 import net.sf.simplebacklog.Waiting;
-import net.sf.simplebacklog.WaitingAppender;
-import net.sf.simplebacklog.WaitingAsAppender;
 
 public class BacklogWaitingForImplementation {
 
@@ -75,6 +72,7 @@ public class BacklogWaitingForImplementation {
         public Backlog newBacklog() {
             final ChalkBox chalkBox = new ChalkBox();
             final StringBuilderAppender appender = new StringBuilderAppender();
+            final ChalkedTaskAppender chalkedTaskAppender = new ChalkedTaskAppender();
             final TaskAppender<Done> doneAppender = new TaskAppender<Done>() {
                 @Override
                 public void append(final Done... tasks) { //
@@ -86,9 +84,8 @@ public class BacklogWaitingForImplementation {
                 }
             };
 
-            final Chalk red = chalkBox.red();
-            final TaskAppender<Waiting> waitingAppender = new WaitingAppender(
-                    appender, new ChalkedWaiting(red, new WaitingAsAppender()));
+            final TaskAppender<Waiting> waitingAppender = chalkedTaskAppender
+                    .forWaiting(appender, chalkBox.red());
             final BacklogAppender backlogAppender = new DefaultBacklogAppender(
                     appender, doneAppender, inProgressAppender, waitingAppender);
             final TaskListFactory taskListFactory = new TaskListFactory() {
@@ -112,7 +109,8 @@ public class BacklogWaitingForImplementation {
                         @Override
                         public TaskList<Backlog, Waiting> title(
                                 final String title) {
-                            backlogAppender.subTitle(red.write(title));
+                            backlogAppender.subTitle(chalkBox.red()
+                                    .write(title));
                             return this;
                         }
                     };

@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class ChalkedInProgress implements Appendable<InProgress> {
+final class ChalkedInProgress implements Appendable<InProgress> {
     private final Chalk chalk;
     private final AppenderAs<InProgress> appenderAs;
 

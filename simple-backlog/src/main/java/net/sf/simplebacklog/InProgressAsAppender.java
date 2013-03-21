@@ -1,6 +1,6 @@
 package net.sf.simplebacklog;
 
-public final class InProgressAsAppender implements AppenderAs<InProgress> {
+final class InProgressAsAppender implements AppenderAs<InProgress> {
 
     @Override
     public Appender task(final InProgress task) {
