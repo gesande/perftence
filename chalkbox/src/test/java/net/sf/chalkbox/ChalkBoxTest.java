@@ -1,4 +1,4 @@
-package net.sf.simplebacklog;
+package net.sf.chalkbox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
