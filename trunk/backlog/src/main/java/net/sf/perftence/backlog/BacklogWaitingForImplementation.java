@@ -54,7 +54,7 @@ public class BacklogWaitingForImplementation {
             waitingTasks().addAll(waitingTags);
         }
 
-        private Waiting[] filtered(final Waiting[] tasks) {
+        Waiting[] filtered(final Waiting[] tasks) {
             List<Waiting> filtered = new ArrayList<Waiting>();
             for (Waiting task : tasks) {
                 if (waitingTasks().contains(task.tag())) {

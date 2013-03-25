@@ -123,11 +123,11 @@ public final class BacklogFactoryUsingChalks implements BacklogFactory {
             };
         }
 
-        private BacklogAppender backlogAppender() {
+        BacklogAppender backlogAppender() {
             return this.backlogAppender;
         }
 
-        private ChalkBox chalkbox() {
+        ChalkBox chalkbox() {
             return this.chalkBox;
         }
     }

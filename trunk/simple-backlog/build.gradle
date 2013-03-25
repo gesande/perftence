@@ -4,7 +4,7 @@ project(':simple-backlog') {
     apply from:"$distributionPlugin"
     version = "1.0"
     dependencies {
-        compile project(':chalkbox')
+        compile project(':chalkbox-1.0.0')
         testCompile project(':junit-4.10')
     }
 }

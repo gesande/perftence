@@ -9,6 +9,7 @@ project(':backlog') {
 
     dependencies {
         compile project(':simple-backlog')
+        compile project(':chalkbox-1.0.0')
         testCompile project(':junit-4.10')
         compile project(':buildSrc')
     }
