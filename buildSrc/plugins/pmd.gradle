@@ -3,16 +3,16 @@ import org.gradle.api.plugins.quality.Pmd
 
 apply plugin: 'pmd'
 
+pmd.ruleSetFiles = files(".pmd")
+pmd.ignoreFailures = 'false'
+
 tasks.withType(Pmd) {
     doFirst { task ->
         copy {
             from file("${buildTemplates}/for/pmd/.pmd")
             into task.project.projectDir
         }
-        println "Pmd template file copied for project $task.project.name"
     }
+
+    doLast { println "Pmd template file copied for project $project.name" }
 }
-
-pmd.ruleSetFiles = files(".pmd")
-pmd.ignoreFailures = 'false'
-
