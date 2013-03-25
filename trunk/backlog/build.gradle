@@ -14,6 +14,7 @@ project(':backlog') {
         compile project(':buildSrc')
     }
 }
+
 task showBacklog (dependsOn: classes) { Task task ->
     group = 'Backlog'
     description= 'Shows the backlog.'
@@ -25,6 +26,21 @@ task showBacklog (dependsOn: classes) { Task task ->
         }
     }
 }
+
+task exportBacklog (dependsOn: classes) { Task task ->
+    group = 'Backlog'
+    description= 'Shows the backlog.'
+    doLast {
+        def OutputStream backlog = new FileOutputStream("backlog.txt")
+        javaexec {
+            main = 'net.sf.perftence.backlog.PerftenceBacklogMain'
+            classpath  sourceSets.main.output.classesDir
+            classpath configurations.runtime
+            standardOutput = backlog
+        }
+    }
+}
+
 task waitingForImplementation (dependsOn: classes) { Task task ->
     group = 'Backlog'
     description= 'Shows all stuff waiting for implementation.'
