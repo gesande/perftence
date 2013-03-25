@@ -45,9 +45,7 @@ task continousBuildWithoutAcceptanceTests(type: GradleBuild) { Task task ->
     description ='Continous build without acceptance tests.'
 
     buildFile = 'build.gradle'
-    tasks << 'chalkbox:clean'
     tasks << 'simple-backlog:clean'
-
     tasks << 'perftence-concurrent:clean'
     tasks << 'perftence-bag:clean'
     tasks << 'perftence-linereader:clean'
@@ -59,7 +57,6 @@ task continousBuildWithoutAcceptanceTests(type: GradleBuild) { Task task ->
     tasks << 'responsecode-summaryappender:clean'
     tasks << 'perftence-junit:clean'
 
-    tasks << 'chalkbox:continous'
     tasks << 'simple-backlog:continous'
     tasks << 'perftence-concurrent:continous'
     tasks << 'perftence-bag:continous'
@@ -86,7 +83,6 @@ task continousBuild(type: GradleBuild) { Task task ->
     description ='Continous build for the whole thing.'
     buildFile = 'build.gradle'
 
-    tasks << 'chalkbox:clean'
     tasks << 'simple-backlog:clean'
     tasks << 'perftence-concurrent:clean'
     tasks << 'perftence-bag:clean'
@@ -99,7 +95,6 @@ task continousBuild(type: GradleBuild) { Task task ->
     tasks << 'responsecode-summaryappender:clean'
     tasks << 'perftence-junit:clean'
 
-    tasks << 'chalkbox:continous'
     tasks << 'simple-backlog:continous'
     tasks << 'perftence-concurrent:continous'
     tasks << 'perftence-bag:continous'
@@ -127,9 +122,7 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
     description = 'Distribution package for the whole thing including continous build.'
     buildFile = 'build.gradle'
 
-    tasks << 'chalkbox:clean'
     tasks << 'simple-backlog:clean'
-
     tasks << 'perftence-concurrent:clean'
     tasks << 'perftence-bag:clean'
     tasks << 'perftence-api:clean'
@@ -141,7 +134,6 @@ task distributionPackage(type: GradleBuild, dependsOn: ['continousBuild']) { Tas
     tasks << 'responsecode-summaryappender:clean'
     tasks << 'perftence-junit:clean'
 
-    tasks << 'chalkbox:release'
     tasks << 'simple-backlog:release'
     tasks << 'perftence-concurrent:release'
     tasks << 'perftence-bag:release'
