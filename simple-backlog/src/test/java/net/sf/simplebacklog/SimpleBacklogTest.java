@@ -107,7 +107,7 @@ public class SimpleBacklogTest extends AbstractBacklogging {
         };
     }
 
-    private MyBacklogDisplay display() {
+    MyBacklogDisplay display() {
         return this.display;
     }
 
@@ -131,7 +131,7 @@ public class SimpleBacklogTest extends AbstractBacklogging {
         }
     }
 
-    private static void appendTask(final Appender appender, final Task task) {
+    static void appendTask(final Appender appender, final Task task) {
         appender.tab().append(task.title()).append("|")
                 .append(task.tag().name()).newLine();
     }
