@@ -29,7 +29,7 @@ task showBacklog (dependsOn: classes) { Task task ->
 
 task exportBacklog (dependsOn: classes) { Task task ->
     group = 'Backlog'
-    description= 'Shows the backlog.'
+    description= 'Exports the backlog to backlog.txt.'
     doLast {
         def OutputStream backlog = new FileOutputStream("backlog.txt")
         javaexec {
