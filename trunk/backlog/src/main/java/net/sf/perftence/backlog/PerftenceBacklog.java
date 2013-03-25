@@ -147,7 +147,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("chalkbox module", backlog()),
                         done("taking chalks out of DefaultBacklogAppender class",
                                 backlog()),
-                        done("gradle waitingForImplementation", backlog()))
+                        done("gradle waitingForImplementation", backlog()),
+                        done("replaced chalkbox with chalkbox-1.0.0", backlog()),
+                        done("fixed eclipseJdt", ide()))
 
                 .inProgress()
                 .title("IN PROGRESS:")
