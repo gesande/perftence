@@ -2,9 +2,7 @@ apply plugin: "eclipse"
 
 eclipseJdt {
     def jdtInputFile ="${buildTemplates}/for/eclipse/org.eclipse.jdt.core.prefs"
+    inputFile=file("${jdtInputFile}")
 
-    doLast {
-        inputFile=file("${jdtInputFile}")
-        println "Forked eclipseJdt.inputFile from ${jdtInputFile}"
-    }
+    doLast { println "Forked eclipseJdt.inputFile from ${jdtInputFile}" }
 }
