@@ -1,7 +1,7 @@
 import org.gradle.api.Task
 import org.gradle.api.tasks.GradleBuild
 
-ext.buildScripts="$projectDir/build-stuff"
+ext.buildScripts="$projectDir/buildSrc"
 ext.buildTemplates="$buildScripts/template"
 ext.buildPlugins="$buildScripts/plugins/"
 ext.libraryPlugin="$buildPlugins/library.gradle"
