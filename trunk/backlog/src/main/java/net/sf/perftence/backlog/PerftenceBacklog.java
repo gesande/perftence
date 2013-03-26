@@ -152,6 +152,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("fixed eclipseJdt", ide()),
                         done("gradle licenseToCommit", build()),
                         done("removed build-stuff module and moved stuff to buildSrc",
+                                build()),
+                        done("gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects.",
                                 build()))
 
                 .inProgress()
