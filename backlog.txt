@@ -83,6 +83,8 @@ Backlog for pertence test tool:
 [32m  +++ gradle waitingForImplementation +++ #backlog[m
 [32m  +++ replaced chalkbox with chalkbox-1.0.0 +++ #backlog[m
 [32m  +++ fixed eclipseJdt +++ #ide[m
+[32m  +++ gradle licenseToCommit +++ #build[m
+[32m  +++ removed build-stuff module and moved stuff to buildSrc +++ #build[m
 
   [33mIN PROGRESS:[m
 

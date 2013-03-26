@@ -149,7 +149,10 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 backlog()),
                         done("gradle waitingForImplementation", backlog()),
                         done("replaced chalkbox with chalkbox-1.0.0", backlog()),
-                        done("fixed eclipseJdt", ide()))
+                        done("fixed eclipseJdt", ide()),
+                        done("gradle licenseToCommit", build()),
+                        done("removed build-stuff module and moved stuff to buildSrc",
+                                build()))
 
                 .inProgress()
                 .title("IN PROGRESS:")
