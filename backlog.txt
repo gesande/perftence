@@ -85,6 +85,7 @@ Backlog for pertence test tool:
 [32m  +++ fixed eclipseJdt +++ #ide[m
 [32m  +++ gradle licenseToCommit +++ #build[m
 [32m  +++ removed build-stuff module and moved stuff to buildSrc +++ #build[m
+[32m  +++ gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects. +++ #build[m
 
   [33mIN PROGRESS:[m
 
