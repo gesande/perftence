@@ -1,5 +1,5 @@
 
-project(':simple-backlog') {
+project(':mybacklog') {
     apply from:"$emmaPlugin"
     apply from:"$distributionPlugin"
     version = "1.0"
