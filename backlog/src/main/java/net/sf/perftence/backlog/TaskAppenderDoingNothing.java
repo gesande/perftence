@@ -1,8 +1,8 @@
 package net.sf.perftence.backlog;
 
-import net.sf.simplebacklog.Done;
-import net.sf.simplebacklog.InProgress;
-import net.sf.simplebacklog.TaskAppender;
+import net.sf.mybacklog.Done;
+import net.sf.mybacklog.InProgress;
+import net.sf.mybacklog.TaskAppender;
 
 final class TaskAppenderDoingNothing {
 

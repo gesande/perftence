@@ -1,7 +1,7 @@
 package net.sf.perftence.backlog;
 
-import net.sf.simplebacklog.BacklogFactoryUsingChalks;
-import net.sf.simplebacklog.SysoutBacklogDisplay;
+import net.sf.mybacklog.BacklogFactoryUsingChalks;
+import net.sf.mybacklog.SysoutBacklogDisplay;
 
 public class PerftenceBacklogMain {
     public static void main(String[] args) {
