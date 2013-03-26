@@ -1,8 +1,8 @@
 package net.sf.perftence.backlog;
 
-import net.sf.simplebacklog.AbstractBacklogging;
-import net.sf.simplebacklog.Backlog;
-import net.sf.simplebacklog.BacklogFactory;
+import net.sf.mybacklog.AbstractBacklogging;
+import net.sf.mybacklog.Backlog;
+import net.sf.mybacklog.BacklogFactory;
 
 public class PerftenceBacklog extends AbstractBacklogging {
     private final BacklogFactory backlogFactory;

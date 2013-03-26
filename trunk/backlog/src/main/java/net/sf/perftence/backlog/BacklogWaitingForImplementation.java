@@ -5,21 +5,21 @@ import java.util.List;
 
 import net.sf.chalkbox.Chalk;
 import net.sf.chalkbox.ChalkBox;
-import net.sf.simplebacklog.Backlog;
-import net.sf.simplebacklog.BacklogAppender;
-import net.sf.simplebacklog.BacklogDisplay;
-import net.sf.simplebacklog.BacklogFactory;
-import net.sf.simplebacklog.BacklogImpl;
-import net.sf.simplebacklog.ChalkedTaskAppender;
-import net.sf.simplebacklog.DefaultBacklogAppender;
-import net.sf.simplebacklog.Done;
-import net.sf.simplebacklog.InProgress;
-import net.sf.simplebacklog.StringBuilderAppender;
-import net.sf.simplebacklog.SysoutBacklogDisplay;
-import net.sf.simplebacklog.Tag;
-import net.sf.simplebacklog.TaskList;
-import net.sf.simplebacklog.TaskListFactory;
-import net.sf.simplebacklog.Waiting;
+import net.sf.mybacklog.Backlog;
+import net.sf.mybacklog.BacklogAppender;
+import net.sf.mybacklog.BacklogDisplay;
+import net.sf.mybacklog.BacklogFactory;
+import net.sf.mybacklog.BacklogImpl;
+import net.sf.mybacklog.ChalkedTaskAppender;
+import net.sf.mybacklog.DefaultBacklogAppender;
+import net.sf.mybacklog.Done;
+import net.sf.mybacklog.InProgress;
+import net.sf.mybacklog.StringBuilderAppender;
+import net.sf.mybacklog.SysoutBacklogDisplay;
+import net.sf.mybacklog.Tag;
+import net.sf.mybacklog.TaskList;
+import net.sf.mybacklog.TaskListFactory;
+import net.sf.mybacklog.Waiting;
 
 public class BacklogWaitingForImplementation {
 
