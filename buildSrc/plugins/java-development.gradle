@@ -1,3 +1,5 @@
+import net.sf.perftence.build.GradleBuildFileGenerator
+
 import org.gradle.api.Task
 import org.gradle.api.tasks.GradleBuild
 import org.gradle.logging.StyledTextOutputFactory
@@ -13,6 +15,7 @@ task newJavaProject(type: GradleBuild ) { GradleBuild task ->
     def javaProject =  task.project.properties.newJavaProject
     String createJavaDirs = "${javaProject}:createJavaDirs"
     String eclipseSettingsFor = "${javaProject}:eclipseSettingsFor"
+    String buildGradle = "${javaProject}:buildGradleForJavaProject"
     String svnAdd = "${javaProject}:svnAdd"
     String svnIgnore = "${javaProject}:svnIgnore"
 
@@ -20,6 +23,7 @@ task newJavaProject(type: GradleBuild ) { GradleBuild task ->
     task.tasks << svnAdd
     task.tasks << svnIgnore
     task.tasks << eclipseSettingsFor
+    task.tasks << buildGradle
 
     doLast {
         printOutInfo("java-development.newJavaProject", "New Java project can now be found from ${task.project.buildDir}/${javaProject}")
@@ -35,15 +39,17 @@ task newJavaLibProject(type: GradleBuild) { GradleBuild task ->
     String svnAdd = "${javaProject}:svnAdd"
     String svnIgnore = "${javaProject}:svnIgnore"
     String createLibDirs="${javaProject}:createLibDirs"
+    String buildGradle = "${javaProject}:buildGradleForJavaLibProject"
 
     task.tasks << createJavaDirs
     task.tasks << createLibDirs
     task.tasks << svnAdd
     task.tasks << svnIgnore
     task.tasks << eclipseSettingsFor
+    task.tasks << buildGradle
 
     doLast {
-        printOutInfo("java-development.newJavaProject", "New Java project can now be found from ${task.project.buildDir}/${javaProject}")
+        printOutInfo("java-development.newJavaProject", "New Java library project can now be found from ${task.project.buildDir}/${javaProject}")
     }
 }
 
@@ -109,6 +115,26 @@ subprojects {
                 out = os.toString()
             }
             printOutInfo("java-development.svnIgnore", "Svn ignore applied as defined in ${svnIgnoreFile} to project ${task.project.name}.")
+        }
+    }
+
+    task buildGradleForJavaProject { Task task ->
+        group 'Development'
+        description "Creates a template build.gradle for new java project."
+        doLast {
+            def GradleBuildFileGenerator generator =new GradleBuildFileGenerator()
+            generator.forJavaProject(task.project.projectDir, "${task.project.name}")
+            printOutInfo("java-development.buildGradleForJavaProject", "build.gradle successfully created for ${task.project.name}.")
+        }
+    }
+
+    task buildGradleForJavaLibProject { Task task ->
+        group 'Development'
+        description "Creates a template build.gradle for new java library project."
+        doLast {
+            def GradleBuildFileGenerator generator =new GradleBuildFileGenerator()
+            generator.forJavaLibProject(task.project.projectDir, "${task.project.name}")
+            printOutInfo("java-development.buildGradleForJavaLibProject", "Template for build.gradle successfully created for ${task.project.name}. Remember to fix lib and lib-sources to reflect the actual project.")
         }
     }
 }
