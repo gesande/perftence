@@ -8,7 +8,7 @@ project(':backlog') {
     apply from:"$buildPlugins/emma.gradle"
 
     dependencies {
-        compile project(':simple-backlog')
+        compile project(':mybacklog')
         compile project(':chalkbox-1.0.0')
         testCompile project(':junit-4.10')
         compile project(':buildSrc')
