@@ -40,11 +40,11 @@ subprojects {
     }
 }
 
-task continousBuildWithoutAcceptanceTests(type: GradleBuild) { Task task ->
+task licenseToCommit(type: GradleBuild) { Task task ->
     group = 'Verification'
-    description ='Continous build without acceptance tests.'
-
+    description ='If this passed you have license to commit your changes.'
     buildFile = 'build.gradle'
+
     tasks << 'simple-backlog:clean'
     tasks << 'perftence-concurrent:clean'
     tasks << 'perftence-bag:clean'
