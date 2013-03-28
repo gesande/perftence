@@ -1,0 +1,27 @@
+<project name="gradle" default="continousBuild" basedir="../">
+	<description description="Build entrypoints">
+	</description>
+	<!-- set global properties for this build -->
+
+	<property environment="env" />
+	<property name="gradle.executable" location="${env.GRADLE_HOME}/bin/gradle" />
+
+	<target name="eclipseSettings">
+		<exec executable="${gradle.executable}" dir=".">
+			<arg value="eclipseSettings" />
+		</exec>
+	</target>
+
+	<target name="continousBuild">
+		<exec executable="${gradle.executable}" dir=".">
+			<arg value="continousBuild" />
+		</exec>
+	</target>
+
+	<target name="distributionPackage">
+		<exec executable="${gradle.executable}" dir=".">
+			<arg value="distributionPackage" />
+		</exec>
+	</target>
+
+</project>
