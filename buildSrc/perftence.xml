@@ -4,10 +4,10 @@
 	<!-- set global properties for this build -->
 
 	<property environment="env" />
-	<condition property="gradle-name" value="gradle.bat" else="gradle">
+	<condition property="gradle-exec" value="gradle.bat" else="gradle">
 		<os family="windows" />
 	</condition>
-	<property name="gradle.executable" location="${env.GRADLE_HOME}/bin/${gradle-name}" />
+	<property name="gradle.executable" location="${env.GRADLE_HOME}/bin/${gradle-exec}" />
 
 	<target name="eclipseSettings">
 		<exec executable="${gradle.executable}" dir=".">
