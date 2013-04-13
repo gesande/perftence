@@ -1,5 +1,5 @@
 project(':threadengine-api-example') {
-    apply from:"$distributionPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     dependencies {
         testCompile project(':perftence-concurrent')

@@ -1,7 +1,7 @@
 
 project(':mybacklog') {
     apply from:"$emmaPlugin"
-    apply from:"$distributionPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
     version = "1.0"
     dependencies {
         compile project(':chalkbox-1.0.0')
