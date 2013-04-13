@@ -1,5 +1,5 @@
 project(':mainentrypoint-example') {
-    apply from:"$distributionPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     dependencies {
         compile project(':perftence')

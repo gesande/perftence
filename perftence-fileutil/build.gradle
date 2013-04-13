@@ -1,6 +1,6 @@
 project(':perftence-fileutil') {
     apply from:"$emmaPlugin"
-    apply from:"$distributionPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     version ='1.0'
 
