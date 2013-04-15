@@ -13,9 +13,10 @@ class ExportAntBuildFilePlugin implements Plugin<Project> {
             group = 'Build'
             description = 'Creates a ant build file for the project which contains the most important targets.'
             task.parent = "buildSrc"
-            task.buildFilename= "build.xml"
-            task.defaultTarget= "continousBuild"
+            task.buildFilename= "perftence.xml"
+            task.defaultTarget= "licenseToCommit"
             task.targets = [
+                "continousBuild",
                 "distributionPackage",
                 "eclipseSettings",
                 "exportAntBuildFile",

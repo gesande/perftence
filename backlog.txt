@@ -86,11 +86,13 @@ Backlog for pertence test tool:
 [32m  +++ gradle licenseToCommit +++ #build[m
 [32m  +++ removed build-stuff module and moved stuff to buildSrc +++ #build[m
 [32m  +++ gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects. +++ #build[m
+[32m  +++ applied my-gradle-build. +++ #build[m
 
   [33mIN PROGRESS:[m
 
   [31mWAITING:[m
 
+[31m  --- clean up obsolete gradle scripts --- #build[m
 [31m  --- failures over test time, use DateAxis --- #feature[m
 [31m  --- provide success rate percentage for intermediate statistics --- #feature[m
 [31m  --- provide unit test for WritingFileFailed and other failure cases --- #codeQuality[m
