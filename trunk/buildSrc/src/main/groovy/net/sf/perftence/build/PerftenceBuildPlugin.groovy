@@ -44,6 +44,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'aggregateJDependReport'
             tasks << 'aggregateCoverageReport'
             tasks << 'aggregateFindbugsReport'
+            tasks << 'archiveAggregateReports'
 
             doLast { println "Continous build without acceptance tests passed, good work!" }
         }
@@ -82,7 +83,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'aggregateJDependReport'
             tasks << 'aggregateCoverageReport'
             tasks << 'aggregateFindbugsReport'
-
+            tasks << 'archiveAggregateReports'
+            
             doLast { println "Continous build passed, good work!" }
         }
         project.task("distributionPackage", type: GradleBuild, dependsOn: ['continousBuild']) { Task task ->

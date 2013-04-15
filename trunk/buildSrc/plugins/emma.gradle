@@ -4,6 +4,17 @@ import org.gradle.api.Project
 import org.gradle.logging.StyledTextOutputFactory
 
 
+/* Got this originally from https://github.com/breskeby/gradleplugins/blob/master/emmaPlugin/emma.gradle
+ * 
+ * Changes:
+ * - added stylish printing 
+ * - checking the coverage 
+ * 
+ * TODO: try to make this a Project<Plugin> or make this simplier by
+ * 
+ * taking a look at http://git.springsource.org/spring-security/spring-security/blobs/5fe589e36074d51409c9ad5f87daf6564877534c/gradle/emma.gradle
+ */
+
 apply plugin:'java'
 
 configurations{ emma }
@@ -70,7 +81,7 @@ test {
     // result in output like that:
     doLast {
         def srcDir = sourceSets.main.java.srcDirs.toArray()[0]
-        println "Creating test coverage reports for classes " + srcDir
+        println "Starting to create test coverage reports for classes in " + srcDir
         def emmaInstDir = new File(sourceSets.main.output.classesDir.parentFile.parentFile, "tmp/emma")
         ant.emma(enabled:"true"){
             new File("$buildDir/reports/emma").mkdirs()
@@ -81,22 +92,26 @@ test {
                 xml(outfile:"$buildDir/reports/emma/coverage.xml")
             }
         }
+        def File reportFile = file("$buildDir/reports/emma/coverage.xml")
         def outputFactory = services.get(StyledTextOutputFactory).create("emma.test")
-        outputFactory.withStyle(Style.Info).println("Test coverage reports available at $buildDir/reports/emma.")
-        outputFactory.withStyle(Style.Normal).println("Text: file://$buildDir/reports/emma/coverage.txt")
-        outputFactory.withStyle(Style.Info).println("Html: file://$buildDir/reports/emma/coverage.html")
-        outputFactory.withStyle(Style.Normal).println("Xml:  file://$buildDir/reports/emma/coverage.xml")
+        if (reportFile.exists()) {
+            outputFactory.withStyle(Style.Info).println("Test coverage reports available at $buildDir/reports/emma.")
+            outputFactory.withStyle(Style.Normal).println("Text: file://$buildDir/reports/emma/coverage.txt")
+            outputFactory.withStyle(Style.Info).println("Html: file://$buildDir/reports/emma/coverage.html")
+            outputFactory.withStyle(Style.Normal).println("Xml:  file://$buildDir/reports/emma/coverage.xml")
 
-        outputFactory.withStyle(Style.Normal).println("Analyzing test coverage...")
-        def reportFile = file("$buildDir/reports/emma/coverage.xml")
-        def report = new XmlParser().parse(reportFile)
-        def String coverage = report.data[0].all[0].coverage[3].@value
-        def String[] splitted =coverage.split(" ");
-        def Double actualCoverage = Double.parseDouble(splitted[0].replace("%", ""))
-        if(actualCoverage < 95.0){
-            outputFactory.withStyle(Style.Error).println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on this.")
+            outputFactory.withStyle(Style.Normal).println("Analyzing test coverage...")
+            def report = new XmlParser().parse(reportFile)
+            def String coverage = report.data[0].all[0].coverage[3].@value
+            def String[] splitted =coverage.split(" ");
+            def Double actualCoverage = Double.parseDouble(splitted[0].replace("%", ""))
+            if(actualCoverage < 95.0){
+                outputFactory.withStyle(Style.Error).println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on this.")
+            } else {
+                outputFactory.withStyle(Style.Info).println("Line coverage was ${coverage}, good job!")
+            }
         } else {
-            outputFactory.withStyle(Style.Info).println("Line coverage was ${coverage}, good job!")
+            outputFactory.withStyle(Style.Info).println("Seems that there was no coverage file, project '$project.name' might need some tests.")
         }
     }
 }

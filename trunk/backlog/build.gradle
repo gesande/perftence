@@ -7,6 +7,8 @@ project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
     apply from:"$buildPlugins/emma.gradle"
 
+    version = project.properties.artifactVersion
+    
     dependencies {
         compile project(':mybacklog')
         compile project(':chalkbox-1.0.0')

@@ -1,6 +1,8 @@
 project(':perftence-experimental') {
     apply from:"$emmaPlugin"
 
+    version = project.properties.artifactVersion
+
     dependencies {
         compile project(':perftence')
         compile project(':commons-collections-3.2.1')

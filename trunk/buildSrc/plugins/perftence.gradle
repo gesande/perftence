@@ -24,11 +24,11 @@ ext {
 
     artifactVersion='1.0-BETA'
 
-    distributionExcludes = ["excluded-jar.jar"]
+    distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
 }
 
-version = "$artifactVersion"
+version = '1.0-BETA'
 
 apply plugin: MavenCentral
 apply plugin: NewJavaProjectToSvnPlugin
