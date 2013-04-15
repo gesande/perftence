@@ -155,7 +155,10 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 build()),
                         done("gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects.",
                                 build()),
-                        done("applied my-gradle-build.", build()))
+                        done("applied my-gradle-build.", build()),
+                        done("clean up obsolete gradle scripts", build())
+
+                )
 
                 .inProgress()
                 .title("IN PROGRESS:")
@@ -163,9 +166,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
 
                 .waiting()
                 .title("WAITING:")
-                .tasks(waiting("clean up obsolete gradle scripts", build()),
-                        waiting("failures over test time, use DateAxis",
-                                feature()),
+                .tasks(waiting("failures over test time, use DateAxis",
+                        feature()),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature()),
                         waiting("provide unit test for WritingFileFailed and other failure cases",
