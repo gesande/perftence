@@ -1,5 +1,8 @@
 project(':jfreechart-1.0.12') { prj ->
     apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
+
+    version = 'lib'
+
     prj.ext.library='jfreechart-1.0.12.jar'
     prj.ext.librarySources='jfreechart-1.0.12.zip'
 
