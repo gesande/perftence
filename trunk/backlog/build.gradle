@@ -1,4 +1,4 @@
-import net.sf.perftence.build.BashExec
+import net.sf.mygradlebuild.tasks.BashExec
 
 import org.gradle.api.Task
 
@@ -8,12 +8,12 @@ project(':backlog') {
     apply from:"$buildPlugins/emma.gradle"
 
     version = project.properties.artifactVersion
-    
+
     dependencies {
         compile project(':mybacklog')
         compile project(':chalkbox-1.0.0')
-        testCompile project(':junit-4.10')
         compile project(':buildSrc')
+        testCompile project(':junit-4.10')
     }
 }
 
