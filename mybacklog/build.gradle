@@ -1,10 +1,11 @@
 
-project(':mybacklog') {
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
-    version = "1.0"
-    dependencies {
-        compile project(':chalkbox-1.0.0')
-        testCompile project(':junit-4.10')
-    }
+project(':mybacklog') { prj ->
+    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
+
+    version = 'lib'
+
+    prj.ext.library='my-backlog-1.0.0.jar'
+    prj.ext.librarySources='my-backlog-1.0.0-sources.jar'
+
+    dependencies { compile project(':chalkbox-1.0.0') }
 }

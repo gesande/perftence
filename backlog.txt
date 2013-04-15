@@ -88,6 +88,7 @@ Backlog for pertence test tool:
 [32m  +++ gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects. +++ #build[m
 [32m  +++ applied my-gradle-build. +++ #build[m
 [32m  +++ clean up obsolete gradle scripts +++ #build[m
+[32m  +++ applied my-backlog +++ #build[m
 
   [33mIN PROGRESS:[m
 
