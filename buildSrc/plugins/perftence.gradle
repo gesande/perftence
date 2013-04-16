@@ -41,7 +41,10 @@ apply plugin : ExportAntBuildFilePlugin
 
 apply plugin : PerftenceBuildPlugin
 
-reportingSettings { toolsDirectory = "${toolsDir}" }
+reportingSettings {
+    toolsDirectory = "${toolsDir}"
+    onlyAnalyze = 'net.sf.perftence'
+}
 
 subprojects {
     apply plugin : DefaultContinousBuildPlugin
