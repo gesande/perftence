@@ -166,7 +166,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 build),
                         done("applied my-gradle-build.", build),
                         done("clean up obsolete gradle scripts", build),
-                        done("applied my-backlog", build)
+                        done("applied my-backlog", build),
+                        done("applied my-gradle-build-1.0.3", build)
 
                 )
 
