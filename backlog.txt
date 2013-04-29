@@ -89,6 +89,7 @@ Backlog for pertence test tool:
 [32m  +++ applied my-gradle-build. +++ #build[m
 [32m  +++ clean up obsolete gradle scripts +++ #build[m
 [32m  +++ applied my-backlog +++ #build[m
+[32m  +++ applied my-gradle-build-1.0.3 +++ #build[m
 
   [33mIN PROGRESS:[m
 
