@@ -16,7 +16,7 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.common.DefaultInvocationReporterFactory;
+import net.sf.perftence.common.DefaultDependencyFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.FrequencyStorage;
@@ -90,8 +90,8 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         this.latencyProvider = LatencyProvider.withSynchronized();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.newDefaultInvocationReporter = DefaultInvocationReporterFactory
-                .newDefaultInvocationReporter(this.latencyProvider, true,
+        this.newDefaultInvocationReporter = DefaultDependencyFactory
+                .newRuntimeReporter(this.latencyProvider, true,
                         setup().threads(userCount).build(),
                         newFailedInvocations());
         this.latencyProvider.start();

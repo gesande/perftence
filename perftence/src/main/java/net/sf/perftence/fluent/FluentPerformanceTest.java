@@ -6,6 +6,7 @@ import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.concurrent.ThreadEngineApi;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -35,8 +36,11 @@ public final class FluentPerformanceTest {
     private final DatasetAdapterFactory datasetAdapterFactory;
     private final EstimatedInvocations estimatedInvocations;
     private final InvocationRunnerFactory invocationRunnerFactory;
+    private final TestRuntimeReporterFactory reporterFactory;
 
-    public FluentPerformanceTest(final TestFailureNotifier failureNotifier) {
+    public FluentPerformanceTest(final TestFailureNotifier failureNotifier,
+            final TestRuntimeReporterFactory reporterFactory) {
+        this.reporterFactory = reporterFactory;
         validate(failureNotifier);
         this.failureNotifier = failureNotifier;
         this.runNotifier = new DefaultRunNotifier();
@@ -90,7 +94,12 @@ public final class FluentPerformanceTest {
                 summaryBuilderFactory(), failedInvocationsFactory(),
                 adjustedFieldBuilderFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
-                perfTestFailureFactory(), datasetAdapterFactory());
+                perfTestFailureFactory(), datasetAdapterFactory(),
+                reporterFactory());
+    }
+
+    private TestRuntimeReporterFactory reporterFactory() {
+        return this.reporterFactory;
     }
 
     private DatasetAdapterFactory datasetAdapterFactory() {

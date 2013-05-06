@@ -15,7 +15,7 @@ import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
-import net.sf.perftence.common.DefaultInvocationReporterFactory;
+import net.sf.perftence.common.DefaultDependencyFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.LastSecondFailures;
@@ -162,7 +162,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup) {
-        return DefaultInvocationReporterFactory.newDefaultInvocationReporter(
+        return DefaultDependencyFactory.newRuntimeReporter(
                 latencyProvider, includeInvocationGraph, setup,
                 newFailedInvocations);
     }
