@@ -2,12 +2,10 @@ package net.sf.perftence.distributed;
 
 import java.net.URL;
 
-import net.sf.perftence.reporting.LatencyReporter;
-
 public interface DistributedLatencyReporterFactory {
 
-    LatencyReporter forLocalReporting();
+    RemoteLatencyReporter forLocalReporting();
 
-    LatencyReporter forRemoteReporting(final URL reportsTo);
+    RemoteLatencyReporter forRemoteReporting(final URL reportsTo);
 
 }

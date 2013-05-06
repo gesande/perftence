@@ -4,10 +4,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.sf.perftence.Executable;
-import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.LoggingTestFailure;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
-import net.sf.perftence.reporting.LatencyReporter;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
@@ -23,41 +22,13 @@ public class DistributedPerftenceApiExample {
     }
 
     public void exampleOfDistributedTest() throws MalformedURLException {
-        final DistributedLatencyReporterFactory reporterFactory = new DistributedLatencyReporterFactory() {
-
-            @Override
-            public LatencyReporter forRemoteReporting(final URL reportsTo) {
-                return new LatencyReporter() {
-
-                    @Override
-                    public void latency(final int latency) {
-                        LOG.info("reporting latency " + latency + " remotely "
-                                + reportsTo.toExternalForm());
-                    }
-                };
-            }
-
-            @Override
-            public LatencyReporter forLocalReporting() {
-                return new LatencyReporter() {
-
-                    @Override
-                    public void latency(final int latency) {
-                        LOG.info("reporting latency " + latency + " locally");
-                    }
-
-                };
-            }
-        };
+        final DistributedLatencyReporterFactory reporterFactory = newReporterFactory();
         final DistributedPerftenceApi api = new DistributedPerftenceApi(
-                new TestFailureNotifier() {
-
-                    @Override
-                    public void testFailed(Throwable t) {
-                        LOG.error("Test failed!", t);
-                    }
-                }, reporterFactory).reportingLocally().reportsLatenciesTo(
-                new URL("http://localhost:9001/report/latency"));
+                new LoggingTestFailure(), reporterFactory)
+                .reportingThreads(2)
+                .reportingLocally()
+                .reportingLatenciesTo(
+                        new URL("http://localhost:9001/report/latency"));
         api.test(id()).setup(setup().threads(10).invocations(100).build())
                 .executable(new Executable() {
                     @Override
@@ -66,6 +37,46 @@ public class DistributedPerftenceApiExample {
 
                     }
                 }).start();
+    }
+
+    private static DistributedLatencyReporterFactory newReporterFactory() {
+        final DistributedLatencyReporterFactory reporterFactory = new DistributedLatencyReporterFactory() {
+
+            @Override
+            public RemoteLatencyReporter forRemoteReporting(final URL reportsTo) {
+                return new RemoteLatencyReporter() {
+
+                    @Override
+                    public void latency(final int latency) {
+                        LOG.info("reporting latency " + latency + " remotely "
+                                + reportsTo.toExternalForm());
+                    }
+
+                    @Override
+                    public void finished(final String id) {
+                        LOG.info("Reported finished " + id);
+                    }
+                };
+            }
+
+            @Override
+            public RemoteLatencyReporter forLocalReporting() {
+                return new RemoteLatencyReporter() {
+
+                    @Override
+                    public void latency(final int latency) {
+                        LOG.info("reporting latency " + latency + " locally");
+                    }
+
+                    @Override
+                    public void finished(final String id) {
+                        LOG.info("Reported finished " + id);
+                    }
+
+                };
+            }
+        };
+        return reporterFactory;
     }
 
     @SuppressWarnings("static-method")

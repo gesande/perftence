@@ -3,6 +3,7 @@ package net.sf.perftence.distributed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import net.sf.perftence.reporting.LatencyReporter;
 import net.sf.perftence.reporting.TestRuntimeReporter;
@@ -11,19 +12,27 @@ final class DistributedTestRuntimeReporter implements TestRuntimeReporter {
 
     private final TestRuntimeReporter reporter;
     private final List<LatencyReporter> remoteReporters;
+    private final ExecutorService executorService;
 
     public DistributedTestRuntimeReporter(
             final TestRuntimeReporter localReporter,
+            final ExecutorService executorService,
             final LatencyReporter... remoteReporters) {
         this.reporter = localReporter;
+        this.executorService = executorService;
         this.remoteReporters = new ArrayList<LatencyReporter>(
                 Arrays.asList(remoteReporters));
     }
 
     @Override
-    public void latency(int latency) {
+    public void latency(final int latency) {
         reporter().latency(latency);
-        reportLatencyRemotely(latency);
+        this.executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                reportLatencyRemotely(latency);
+            }
+        });
     }
 
     public void reportLatencyRemotely(final int latency) {
