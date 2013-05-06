@@ -48,11 +48,6 @@ public final class DistributedPerftenceApi implements
         return this;
     }
 
-    public DistributedPerftenceApi reportingLocally() {
-        this.localReporter = reporterFactory().forLocalReporting();
-        return this;
-    }
-
     public DistributedPerftenceApi reportingThreads(final int threads) {
         this.executorService = Executors.newFixedThreadPool(threads,
                 NamedThreadFactory.forNamePrefix("remote-reporter"));
