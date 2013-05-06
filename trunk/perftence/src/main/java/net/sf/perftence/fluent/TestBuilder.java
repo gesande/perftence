@@ -15,10 +15,10 @@ import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.Startable;
 import net.sf.perftence.StatisticsProvider;
-import net.sf.perftence.common.DefaultInvocationReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.LastSecondFailures;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
@@ -48,6 +48,7 @@ public final class TestBuilder {
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
     private final DatasetAdapterFactory datasetAdapterFactory;
+    private final TestRuntimeReporterFactory reporterFactory;
 
     private PerformanceTestSetup setup;
     private PerformanceRequirements requirements;
@@ -62,7 +63,8 @@ public final class TestBuilder {
             final LatencyFactory latencyFactory,
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
             final PerfTestFailureFactory perfTestFailureFactory,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final DatasetAdapterFactory datasetAdapterFactory,
+            final TestRuntimeReporterFactory reporterFactory) {
         this.invocationRunner = invocationRunner;
         this.runNotifier = runNotifier;
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
@@ -70,6 +72,7 @@ public final class TestBuilder {
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.perfTestFailureFactory = perfTestFailureFactory;
         this.datasetAdapterFactory = datasetAdapterFactory;
+        this.reporterFactory = reporterFactory;
         this.requirements = PerformanceRequirementsBuilder.noRequirements();
         this.setup = PerformanceTestSetupPojo.builder().noSetup();
         this.summaryBuilderFactory = summaryBuilderFactory;
@@ -112,7 +115,7 @@ public final class TestBuilder {
                 lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
                 lastSecondThroughput.graphWriterFor(invocationRunner().id()));
-        return new MultithreadWorker(invocationReporter(latencyProvider,
+        return new MultithreadWorker(runtimeReporter(latencyProvider,
                 failedInvocations), invocationRunner(), setup, latencyProvider,
                 allowedExceptions(), newPerformanceRequirementValidator(
                         requirements, latencyProvider), summaryBuilderFactory()
@@ -151,12 +154,15 @@ public final class TestBuilder {
         return this.failedInvocationsFactory;
     }
 
-    private TestRuntimeReporter invocationReporter(
+    private TestRuntimeReporter runtimeReporter(
             final LatencyProvider latencyProvider,
             final FailedInvocations failedInvocations) {
-        return DefaultInvocationReporterFactory.newDefaultInvocationReporter(
-                latencyProvider, includeInvocationGraph(), setup(),
-                failedInvocations);
+        return reporterFactory().newRuntimeReporter(latencyProvider,
+                includeInvocationGraph(), setup(), failedInvocations);
+    }
+
+    private TestRuntimeReporterFactory reporterFactory() {
+        return this.reporterFactory;
     }
 
     private PerformanceRequirementValidator newPerformanceRequirementValidator(

@@ -6,7 +6,7 @@ import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.common.DefaultInvocationReporterFactory;
+import net.sf.perftence.common.DefaultDependencyFactory;
 import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.InvocationStorage;
@@ -59,8 +59,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
                 new ThroughputStorageFactory(datasetAdapterFactory));
         reader.read();
 
-        final TestRuntimeReporter invocationReporter = DefaultInvocationReporterFactory
-                .newDefaultInvocationReporter(latencyProvider, reader.setup()
+        final TestRuntimeReporter invocationReporter = DefaultDependencyFactory
+                .newRuntimeReporter(latencyProvider, reader.setup()
                         .includeInvocationGraph(), reader.setup().testSetup(),
                         reader.failedInvocations(), invocationStorage, reader
                                 .throughputStorage());

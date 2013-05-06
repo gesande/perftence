@@ -16,44 +16,43 @@ import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
-public final class DefaultInvocationReporterFactory {
+public final class DefaultDependencyFactory {
 
     private final static TestReport TEST_REPORT = new HtmlTestReport();
     private final static DatasetAdapterFactory DATASET_ADAPTER_FACTORY = new DefaultDatasetAdapterFactory();
     private final static ThroughputStorageFactory THROUGHPUT_STORAGE_FACTORY = new ThroughputStorageFactory(
             DATASET_ADAPTER_FACTORY);
 
-    public static TestRuntimeReporter newDefaultInvocationReporter(
+    public static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations) {
         final InvocationStorage invocationStorage = includeInvocationGraph ? defaultInvocationStorage(setup)
                 : invocationStorageWithNoSamples();
-        return newDefaultInvocationReporter(latencyProvider,
-                includeInvocationGraph, setup, failedInvocations,
-                invocationStorage);
+        return newRuntimeReporter(latencyProvider, includeInvocationGraph,
+                setup, failedInvocations, invocationStorage);
     }
 
-    private static TestRuntimeReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,
             final InvocationStorage invocationStorage) {
-        return newDefaultInvocationReporter(latencyProvider,
-                includeInvocationGraph, setup, failedInvocations,
-                invocationStorage, throughputStorage(setup));
+        return newRuntimeReporter(latencyProvider, includeInvocationGraph,
+                setup, failedInvocations, invocationStorage,
+                throughputStorage(setup));
     }
 
-    public static TestRuntimeReporter newDefaultInvocationReporter(
+    public static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,
             final InvocationStorage invocationStorage,
             final ThroughputStorage throughputStorage) {
-        return newDefaultInvocationReporter(
+        return newRuntimeReporter(
                 latencyProvider,
                 includeInvocationGraph,
                 setup,
@@ -64,7 +63,7 @@ public final class DefaultInvocationReporterFactory {
                 throughputStorage);
     }
 
-    private static TestRuntimeReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
@@ -72,14 +71,14 @@ public final class DefaultInvocationReporterFactory {
             final InvocationStorage invocationStorage,
             final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
             final ThroughputStorage throughputStorage) {
-        return newDefaultInvocationReporter(includeInvocationGraph, setup,
+        return newRuntimeReporter(includeInvocationGraph, setup,
                 failedInvocations, invocationStorage,
                 statisticsSummaryProvider, throughputStorage,
                 FrequencyStorageFactory.newFrequencyStorage(latencyProvider,
                         datasetAdapterFactory()));
     }
 
-    private static TestRuntimeReporter newDefaultInvocationReporter(
+    private static TestRuntimeReporter newRuntimeReporter(
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,

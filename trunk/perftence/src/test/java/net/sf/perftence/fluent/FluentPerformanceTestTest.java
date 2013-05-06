@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.reporting.Duration;
 
 import org.junit.Before;
@@ -37,7 +39,7 @@ public class FluentPerformanceTestTest {
     @Test
     public void sanityCheck() {
         final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
-                new FailIHaveNotifier());
+                new FailIHaveNotifier(), newDefaultTestRuntimeReporter());
         final MultithreadWorker test = fluentPerformanceTest
                 .test(id())
                 .setup(fluentPerformanceTest.setup().threads(100)
@@ -206,7 +208,7 @@ public class FluentPerformanceTestTest {
     public void failingUnexpectedlyInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         final FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new FailIHaveNotifier());
+                new FailIHaveNotifier(), newDefaultTestRuntimeReporter());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -228,7 +230,7 @@ public class FluentPerformanceTestTest {
     public void errorOccurredInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -246,11 +248,15 @@ public class FluentPerformanceTestTest {
         assertNotNull(this.testFailure);
     }
 
+    private static TestRuntimeReporterFactory newDefaultTestRuntimeReporter() {
+        return new DefaultTestRuntimeReporterFactory();
+    }
+
     @Test
     public void errorOccurredInInvocationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(1).invocations(5).build())
                 .executable(new Executable() {
@@ -271,7 +277,7 @@ public class FluentPerformanceTestTest {
     public void invocationsNotSpreadEvenlyBetweenThreads() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(3).invocations(10).build())
                 .executable(new Executable() {
@@ -288,7 +294,7 @@ public class FluentPerformanceTestTest {
     @SuppressWarnings({ "unused", "static-method" })
     @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
     public void nullNotifier() {
-        new FluentPerformanceTest(null);
+        new FluentPerformanceTest(null, newDefaultTestRuntimeReporter());
     }
 
     @Test
@@ -330,7 +336,7 @@ public class FluentPerformanceTestTest {
                         FluentPerformanceTestTest.this.testFailed = true;
                         FluentPerformanceTestTest.this.testFailure = t;
                     }
-                });
+                }, newDefaultTestRuntimeReporter());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(6).duration(Duration.seconds(2))
@@ -347,7 +353,8 @@ public class FluentPerformanceTestTest {
     }
 
     private FluentPerformanceTest fluent() {
-        return new FluentPerformanceTest(new PerfTestFailedNotifier());
+        return new FluentPerformanceTest(new PerfTestFailedNotifier(),
+                newDefaultTestRuntimeReporter());
     }
 
     private class PerfTestFailedNotifier implements TestFailureNotifier {
