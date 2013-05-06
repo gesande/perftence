@@ -24,9 +24,7 @@ public class DistributedPerftenceApiExample {
     public void exampleOfDistributedTest() throws MalformedURLException {
         final DistributedLatencyReporterFactory reporterFactory = newReporterFactory();
         final DistributedPerftenceApi api = new DistributedPerftenceApi(
-                new LoggingTestFailure(), reporterFactory)
-                .reportingThreads(2)
-                .reportingLocally()
+                new LoggingTestFailure(), reporterFactory).reportingThreads(1)
                 .reportingLatenciesTo(
                         new URL("http://localhost:9001/report/latency"));
         api.test(id()).setup(setup().threads(10).invocations(100).build())
@@ -56,23 +54,6 @@ public class DistributedPerftenceApiExample {
                     public void finished(final String id) {
                         LOG.info("Reported finished " + id);
                     }
-                };
-            }
-
-            @Override
-            public RemoteLatencyReporter forLocalReporting() {
-                return new RemoteLatencyReporter() {
-
-                    @Override
-                    public void latency(final int latency) {
-                        LOG.info("reporting latency " + latency + " locally");
-                    }
-
-                    @Override
-                    public void finished(final String id) {
-                        LOG.info("Reported finished " + id);
-                    }
-
                 };
             }
         };
