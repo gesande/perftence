@@ -169,6 +169,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("applied my-backlog", build),
                         done("applied my-gradle-build-1.0.3", build),
                         done("introduce distributed-perftence-api module",
+                                feature),
+                        done("added id for DistributedLatencyReporterFactory.forRemoteReporting",
                                 feature)
 
                 )

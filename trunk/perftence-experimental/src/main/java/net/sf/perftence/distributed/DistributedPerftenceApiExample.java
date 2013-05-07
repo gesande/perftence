@@ -41,13 +41,14 @@ public class DistributedPerftenceApiExample {
         final DistributedLatencyReporterFactory reporterFactory = new DistributedLatencyReporterFactory() {
 
             @Override
-            public RemoteLatencyReporter forRemoteReporting(final URL reportsTo) {
+            public RemoteLatencyReporter forRemoteReporting(final String id,
+                    final URL reportsTo) {
                 return new RemoteLatencyReporter() {
 
                     @Override
                     public void latency(final int latency) {
-                        LOG.info("reporting latency " + latency + " remotely "
-                                + reportsTo.toExternalForm());
+                        LOG.info("reporting for " + id + " latency " + latency
+                                + " remotely " + reportsTo.toExternalForm());
                     }
 
                     @Override
