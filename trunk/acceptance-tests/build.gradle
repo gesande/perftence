@@ -3,6 +3,7 @@ project(':acceptance-tests') {
     version = project.properties.artifactVersion
 
     dependencies {
+        testCompile project(':perftence-fluent')
         testCompile project(':perftence')
         testCompile project(':perftence-junit')
         testCompile project(':junit-4.10')

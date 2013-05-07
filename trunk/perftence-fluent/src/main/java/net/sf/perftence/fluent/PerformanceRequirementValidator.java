@@ -1,4 +1,9 @@
-package net.sf.perftence;
+package net.sf.perftence.fluent;
+
+import net.sf.perftence.PercentileRequirement;
+import net.sf.perftence.PerfTestFailureFactory;
+import net.sf.perftence.PerformanceRequirements;
+import net.sf.perftence.StatisticsProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

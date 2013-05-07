@@ -87,7 +87,7 @@ public final class PerformanceRequirementsPojo implements
 
         private static PercentileRequirement newPercentileRequirement(
                 final int percentage, final int value) {
-            return new PercentileRequirement(percentage, value);
+            return new PercentileRequirementPojo(percentage, value);
         }
 
         public PerformanceRequirementsBuilder percentile95(final int value) {

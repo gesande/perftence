@@ -4,5 +4,8 @@ project(':distributed-perftence-api') {
 
     version = '1.0'
 
-    dependencies { compile project(':perftence') }
+    dependencies {
+        compile project(':perftence')
+        compile project(':perftence-fluent')
+    }
 }

@@ -10,7 +10,6 @@ import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerfTestFailureFactory;
-import net.sf.perftence.PerformanceRequirementValidator;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.Startable;
