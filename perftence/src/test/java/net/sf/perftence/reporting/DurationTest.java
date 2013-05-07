@@ -20,6 +20,12 @@ public class DurationTest {
 
     @SuppressWarnings("static-method")
     @Test
+    public void seconds() {
+        assertEquals(1000, Duration.seconds(1));
+    }
+
+    @SuppressWarnings("static-method")
+    @Test
     public void inMillis() {
         assertEquals(60000, Duration.millis(60000));
     }

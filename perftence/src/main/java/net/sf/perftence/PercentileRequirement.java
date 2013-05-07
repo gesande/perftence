@@ -1,20 +1,9 @@
 package net.sf.perftence;
 
-public final class PercentileRequirement {
-    private final int percentage;
-    private final int millis;
+public interface PercentileRequirement {
 
-    public PercentileRequirement(final int percentage, final int millis) {
-        this.percentage = percentage;
-        this.millis = millis;
-    }
+    int percentage();
 
-    public int percentage() {
-        return this.percentage;
-    }
-
-    public int millis() {
-        return this.millis;
-    }
+    int millis();
 
 }

@@ -3,4 +3,9 @@ project(':perftence-fluent') {
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     version = project.properties.artifactVersion
+
+    dependencies {
+        compile project(':perftence')
+        testCompile project(':junit-4.10')
+    }
 }

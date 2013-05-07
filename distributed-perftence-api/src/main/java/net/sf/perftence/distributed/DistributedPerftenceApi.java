@@ -4,17 +4,16 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.concurrent.NamedThreadFactory;
+import net.sf.perftence.concurrent.ExecutorServiceFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class DistributedPerftenceApi implements RunNotifier {
+public final class DistributedPerftenceApi {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(DistributedPerftenceApi.class);
@@ -22,16 +21,20 @@ public final class DistributedPerftenceApi implements RunNotifier {
     private final TestFailureNotifier testFailureNotifier;
     private final DistributedLatencyReporterFactory distributedLatencyReporterFactory;
     private final DefaultRunNotifier defaultRunNotifier = new DefaultRunNotifier();
+    private final ExecutorServiceFactory executorServiceFactory;
+    private final Map<String, RemoteLatencyReporter> reporters = new HashMap<String, RemoteLatencyReporter>();
+
     private ExecutorService executorService;
     private URL reportsTo;
-    private Map<String, RemoteLatencyReporter> reporters = new HashMap<String, RemoteLatencyReporter>();
 
     public DistributedPerftenceApi(
             final TestFailureNotifier testFailureNotifier,
             final DistributedLatencyReporterFactory distributedLatencyReporterFactory) {
         this.testFailureNotifier = testFailureNotifier;
         this.distributedLatencyReporterFactory = distributedLatencyReporterFactory;
-        this.executorService = newExecutorService(2);
+        this.executorService = executorServiceFactory().newFixedThreadPool(2,
+                "remote-reporter");
+        this.executorServiceFactory = new ExecutorServiceFactory();
     }
 
     public DistributedPerftenceApi reportingLatenciesTo(final URL reportsTo) {
@@ -40,13 +43,13 @@ public final class DistributedPerftenceApi implements RunNotifier {
     }
 
     public DistributedPerftenceApi reportingThreads(final int threads) {
-        this.executorService = newExecutorService(threads);
+        this.executorService = executorServiceFactory().newFixedThreadPool(
+                threads, "remote-reporter");
         return this;
     }
 
-    private static ExecutorService newExecutorService(final int threads) {
-        return Executors.newFixedThreadPool(threads,
-                NamedThreadFactory.forNamePrefix("remote-reporter"));
+    private ExecutorServiceFactory executorServiceFactory() {
+        return this.executorServiceFactory;
     }
 
     public DistributedPerformanceTest test(final String id) {
@@ -54,7 +57,21 @@ public final class DistributedPerftenceApi implements RunNotifier {
                 .forRemoteReporting(id, reportsTo());
         reporters().put(id, remoteReporter);
         return new DistributedPerformanceTest(id, this.testFailureNotifier,
-                this.executorService, this, remoteReporter);
+                this.executorService, new RunNotifier() {
+
+                    @Override
+                    public boolean isFinished(final String id) {
+                        return defaultRunNotifier().isFinished(id);
+                    }
+
+                    @Override
+                    public void finished(String id) {
+                        defaultRunNotifier().finished(id);
+                        reporterFinished(id);
+                        shutdownExecutorService();
+
+                    }
+                }, remoteReporter);
     }
 
     private Map<String, RemoteLatencyReporter> reporters() {
@@ -69,31 +86,20 @@ public final class DistributedPerftenceApi implements RunNotifier {
         return this.distributedLatencyReporterFactory;
     }
 
-    @Override
-    public void finished(String id) {
-        this.defaultRunNotifier.finished(id);
-        reportersFinished(id);
-        shutdownExecutorService();
-    }
-
     private void shutdownExecutorService() {
         this.executorService.shutdown();
         LOG.info("Executor service for remote reporters has been shut down.");
     }
 
-    private void reportersFinished(final String id) {
-        finished(id, reporters().get(id));
-    }
-
-    private static void finished(final String id,
-            final RemoteLatencyReporter reporter) {
+    private void reporterFinished(final String id) {
+        final RemoteLatencyReporter reporter = reporters().get(id);
         if (reporter != null) {
             reporter.finished(id);
         }
     }
 
-    @Override
-    public boolean isFinished(String id) {
-        return this.defaultRunNotifier.isFinished(id);
+    private DefaultRunNotifier defaultRunNotifier() {
+        return this.defaultRunNotifier;
     }
+
 }

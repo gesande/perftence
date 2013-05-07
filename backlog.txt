@@ -92,6 +92,7 @@ Backlog for pertence test tool:
 [32m  +++ applied my-gradle-build-1.0.3 +++ #build[m
 [32m  +++ introduce distributed-perftence-api module +++ #feature[m
 [32m  +++ added id for DistributedLatencyReporterFactory.forRemoteReporting +++ #feature[m
+[32m  +++ introduced perftence-fluent module +++ #refactoring[m
 
   [33mIN PROGRESS:[m
 

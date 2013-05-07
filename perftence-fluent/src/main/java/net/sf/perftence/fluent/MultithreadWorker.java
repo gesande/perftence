@@ -11,7 +11,6 @@ import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.PerfTestFailureFactory;
-import net.sf.perftence.PerformanceRequirementValidator;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
