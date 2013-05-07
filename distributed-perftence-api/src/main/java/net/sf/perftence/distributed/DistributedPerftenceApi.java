@@ -1,28 +1,20 @@
 package net.sf.perftence.distributed;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.FailedInvocations;
-import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.concurrent.NamedThreadFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
-import net.sf.perftence.reporting.LatencyReporter;
-import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.setup.PerformanceTestSetup;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class DistributedPerftenceApi implements
-        TestRuntimeReporterFactory, RunNotifier {
+public final class DistributedPerftenceApi implements RunNotifier {
 
     private final static Logger LOG = LoggerFactory
             .getLogger(DistributedPerftenceApi.class);
@@ -31,67 +23,46 @@ public final class DistributedPerftenceApi implements
     private final DistributedLatencyReporterFactory distributedLatencyReporterFactory;
     private final DefaultRunNotifier defaultRunNotifier = new DefaultRunNotifier();
     private ExecutorService executorService;
-    private RemoteLatencyReporter remoteReporter;
-    private RemoteLatencyReporter localReporter;
+    private URL reportsTo;
+    private Map<String, RemoteLatencyReporter> reporters = new HashMap<String, RemoteLatencyReporter>();
 
     public DistributedPerftenceApi(
             final TestFailureNotifier testFailureNotifier,
             final DistributedLatencyReporterFactory distributedLatencyReporterFactory) {
         this.testFailureNotifier = testFailureNotifier;
         this.distributedLatencyReporterFactory = distributedLatencyReporterFactory;
-        this.executorService = Executors.newFixedThreadPool(2,
-                NamedThreadFactory.forNamePrefix("remote-reporter"));
+        this.executorService = newExecutorService(2);
     }
 
     public DistributedPerftenceApi reportingLatenciesTo(final URL reportsTo) {
-        this.remoteReporter = reporterFactory().forRemoteReporting(reportsTo);
+        this.reportsTo = reportsTo;
         return this;
     }
 
     public DistributedPerftenceApi reportingThreads(final int threads) {
-        this.executorService = Executors.newFixedThreadPool(threads,
-                NamedThreadFactory.forNamePrefix("remote-reporter"));
+        this.executorService = newExecutorService(threads);
         return this;
     }
 
+    private static ExecutorService newExecutorService(final int threads) {
+        return Executors.newFixedThreadPool(threads,
+                NamedThreadFactory.forNamePrefix("remote-reporter"));
+    }
+
     public DistributedPerformanceTest test(final String id) {
+        final RemoteLatencyReporter remoteReporter = reporterFactory()
+                .forRemoteReporting(id, reportsTo());
+        reporters().put(id, remoteReporter);
         return new DistributedPerformanceTest(id, this.testFailureNotifier,
-                this, this);
+                this.executorService, this, remoteReporter);
     }
 
-    @Override
-    public TestRuntimeReporter newRuntimeReporter(
-            final LatencyProvider latencyProvider,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations) {
-        return new DistributedTestRuntimeReporter(
-                new DefaultTestRuntimeReporterFactory().newRuntimeReporter(
-                        latencyProvider, includeInvocationGraph, setup,
-                        failedInvocations), this.executorService,
-                resolveReporters());
+    private Map<String, RemoteLatencyReporter> reporters() {
+        return this.reporters;
     }
 
-    private LatencyReporter[] resolveReporters() {
-        final List<LatencyReporter> reporters = new ArrayList<LatencyReporter>();
-        addReporter(reporters, localReporter());
-        addReporter(reporters, remoteReporter());
-        return reporters.toArray(new LatencyReporter[reporters.size()]);
-    }
-
-    private RemoteLatencyReporter localReporter() {
-        return this.localReporter;
-    }
-
-    private RemoteLatencyReporter remoteReporter() {
-        return this.remoteReporter;
-    }
-
-    private static void addReporter(final List<LatencyReporter> reporters,
-            final LatencyReporter reporter) {
-        if (reporter != null) {
-            reporters.add(reporter);
-        }
+    private URL reportsTo() {
+        return this.reportsTo;
     }
 
     private DistributedLatencyReporterFactory reporterFactory() {
@@ -111,8 +82,7 @@ public final class DistributedPerftenceApi implements
     }
 
     private void reportersFinished(final String id) {
-        finished(id, localReporter());
-        finished(id, remoteReporter());
+        finished(id, reporters().get(id));
     }
 
     private static void finished(final String id,

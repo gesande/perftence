@@ -17,11 +17,11 @@ final class DistributedTestRuntimeReporter implements TestRuntimeReporter {
     public DistributedTestRuntimeReporter(
             final TestRuntimeReporter localReporter,
             final ExecutorService executorService,
-            final LatencyReporter... remoteReporters) {
+            final LatencyReporter... remoteLatencyReporters) {
         this.reporter = localReporter;
         this.executorService = executorService;
         this.remoteReporters = new ArrayList<LatencyReporter>(
-                Arrays.asList(remoteReporters));
+                Arrays.asList(remoteLatencyReporters));
     }
 
     @Override
