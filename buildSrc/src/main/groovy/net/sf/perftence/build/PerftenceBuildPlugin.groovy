@@ -24,6 +24,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-api:clean'
             tasks << 'responsecode-summaryappender:clean'
             tasks << 'perftence-junit:clean'
+            tasks << 'distributed-perftence-api:clean'
 
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
@@ -35,6 +36,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
             tasks << 'perftence-junit:continous'
+            tasks << 'distributed-perftence-api:continous'
 
             tasks << 'exportBacklog'
 
@@ -61,6 +63,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-api:clean'
             tasks << 'responsecode-summaryappender:clean'
             tasks << 'perftence-junit:clean'
+            tasks << 'distributed-perftence-api:clean'
+            
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
             tasks << 'perftence-linereader:continous'
@@ -71,6 +75,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
             tasks << 'perftence-junit:continous'
+            tasks << 'distributed-perftence-api:continous'
 
             tasks << 'acceptance-tests:test'
 
@@ -80,7 +85,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'aggregateCoverageReport'
             tasks << 'aggregateFindbugsReport'
             tasks << 'archiveAggregateReports'
-            
+
             doLast { println "Continous build passed, good work!" }
         }
         project.task("distributionPackage", type: GradleBuild, dependsOn: ['continousBuild']) { Task task ->
@@ -98,6 +103,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence:clean'
             tasks << 'responsecode-summaryappender:clean'
             tasks << 'perftence-junit:clean'
+            tasks << 'distributed-perftence-api:clean'
 
             tasks << 'perftence-concurrent:release'
             tasks << 'perftence-bag:release'
@@ -109,6 +115,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence:release'
             tasks << 'responsecode-summaryappender:release'
             tasks << 'perftence-junit:release'
+            tasks << 'distributed-perftence-api:release'
+
             tasks << 'makeDistributionPackage'
 
             doLast { println "Distribution package ready to be uploaded to the repository." }
