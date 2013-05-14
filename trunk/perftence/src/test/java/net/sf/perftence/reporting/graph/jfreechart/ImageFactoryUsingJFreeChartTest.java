@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.FrequencyStorageFactory;
@@ -142,8 +143,7 @@ public class ImageFactoryUsingJFreeChartTest {
 
     private static ImageData imageDataWithSmallAmountOfData() {
         log().info("Warming up latency counter...");
-        final LatencyProvider latencyProvider = LatencyProvider
-                .withSynchronized();
+        final LatencyProvider latencyProvider = newLatencyProvider();
         latencyProvider.start();
         for (int i = 0; i < 100; i++) {
             latencyProvider.addSample(200);
@@ -225,8 +225,7 @@ public class ImageFactoryUsingJFreeChartTest {
     }
 
     private static LatencyProvider newCounterWithRandomContent(final int size) {
-        final LatencyProvider latencyProvider = LatencyProvider
-                .withSynchronized();
+        final LatencyProvider latencyProvider = newLatencyProvider();
         latencyProvider.start();
         for (int i = 0; i < size; i++) {
             final int n = RANDOM.nextInt(1000) + 1;
@@ -243,5 +242,9 @@ public class ImageFactoryUsingJFreeChartTest {
 
     private static String id(final String id) {
         return ImageFactoryUsingJFreeChartTest.class.getName() + "-" + id;
+    }
+
+    private static LatencyProvider newLatencyProvider() {
+        return new DefaultLatencyProviderFactory().newInstance();
     }
 }

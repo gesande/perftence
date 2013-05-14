@@ -5,17 +5,20 @@ import org.junit.Test;
 public class LatencyProviderTest {
 
     @SuppressWarnings("static-method")
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void tooHastyNotEventStarted() {
-        LatencyProvider.withSynchronized().throughput();
+        newLatencyProvider().throughput();
     }
 
     @SuppressWarnings("static-method")
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void tooHastyStartedButNotStopped() {
-        final LatencyProvider provider = LatencyProvider.withSynchronized();
+        final LatencyProvider provider = newLatencyProvider();
         provider.start();
         provider.throughput();
     }
 
+    private static LatencyProvider newLatencyProvider() {
+        return new DefaultLatencyProviderFactory().newInstance();
+    }
 }

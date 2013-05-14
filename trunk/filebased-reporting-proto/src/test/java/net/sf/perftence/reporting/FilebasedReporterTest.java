@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyProvider;
@@ -44,8 +45,7 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         }).start();
         reporter.summary(id(), 5000, 10000, now);
 
-        final LatencyProvider latencyProvider = LatencyProvider
-                .withSynchronized();
+        final LatencyProvider latencyProvider = newLatencyProvider();
         final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
                 new FieldFormatter(), new FieldAdjuster());
         final FailedInvocationsFactory failedInvocations = new FailedInvocationsFactory(
@@ -70,6 +70,10 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
         invocationReporter.summary(id() + "-from-filebased", reader.summary()
                 .elapsedTime(), reader.summary().sampleCount(), reader
                 .summary().startTime());
+    }
+
+    private static LatencyProvider newLatencyProvider() {
+        return new DefaultLatencyProviderFactory().newInstance();
     }
 
     private static InvocationStorage newDefaultInvocationStorage(
