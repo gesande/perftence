@@ -6,6 +6,7 @@ import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
@@ -18,7 +19,7 @@ public final class DefaultTestRuntimeReporterFactory implements
     private final TestReport testReport;
     private final DatasetAdapterFactory datasetAdapterFactory;
     private final ThroughputStorageFactory throughputStorageFactory;
-    private ImageFactoryUsingJFreeChart imageFactory;
+    private final ImageFactory imageFactory;
 
     public DefaultTestRuntimeReporterFactory() {
         this.testReport = new HtmlTestReport();

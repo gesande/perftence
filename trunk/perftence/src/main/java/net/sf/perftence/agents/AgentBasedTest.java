@@ -5,6 +5,7 @@ import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.FailedInvocationsFactory;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
@@ -27,9 +28,11 @@ public final class AgentBasedTest {
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
     private final DatasetAdapterFactory datasetAdapterFactory;
     private final LatencyProviderFactory latencyProviderFactory;
+    private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 
     public AgentBasedTest(final TestFailureNotifier failureNotifier,
-            final LatencyProviderFactory latencyProviderFactory) {
+            final LatencyProviderFactory latencyProviderFactory,
+            final TestRuntimeReporterFactory testRuntimeReporterFactory) {
         this.failureNotifier = validate(failureNotifier);
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
@@ -45,6 +48,7 @@ public final class AgentBasedTest {
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
         this.latencyProviderFactory = latencyProviderFactory;
+        this.testRuntimeReporterFactory = testRuntimeReporterFactory;
     }
 
     public TestBuilder test(final String id) {
@@ -59,7 +63,11 @@ public final class AgentBasedTest {
                 new SchedulingServiceFactory(),
                 new DefaultCategorySpecificReporterFactory(id,
                         latencyProviderFactory()), datasetAdapterFactory(),
-                latencyProviderFactory());
+                latencyProviderFactory(), testRuntimeReporterFactory());
+    }
+
+    private TestRuntimeReporterFactory testRuntimeReporterFactory() {
+        return this.testRuntimeReporterFactory;
     }
 
     private LatencyProviderFactory latencyProviderFactory() {

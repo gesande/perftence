@@ -39,7 +39,8 @@ public class FluentPerformanceTestTest {
     @Test
     public void sanityCheck() {
         final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
-                new FailIHaveNotifier(), newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
         final MultithreadWorker test = fluentPerformanceTest
                 .test(id())
                 .setup(fluentPerformanceTest.setup().threads(100)
@@ -208,7 +209,8 @@ public class FluentPerformanceTestTest {
     public void failingUnexpectedlyInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         final FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new FailIHaveNotifier(), newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -230,7 +232,8 @@ public class FluentPerformanceTestTest {
     public void errorOccurredInDurationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -256,7 +259,8 @@ public class FluentPerformanceTestTest {
     public void errorOccurredInInvocationBasedTest() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(1).invocations(5).build())
                 .executable(new Executable() {
@@ -277,7 +281,8 @@ public class FluentPerformanceTestTest {
     public void invocationsNotSpreadEvenlyBetweenThreads() {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
-                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(3).invocations(10).build())
                 .executable(new Executable() {
@@ -294,7 +299,8 @@ public class FluentPerformanceTestTest {
     @SuppressWarnings({ "unused", "static-method" })
     @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
     public void nullNotifier() {
-        new FluentPerformanceTest(null, newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+        new FluentPerformanceTest(null, newDefaultTestRuntimeReporter(),
+                new DefaultRunNotifier());
     }
 
     @Test
