@@ -9,6 +9,11 @@ public final class LastSecondStatistics implements RuntimeStatisticsProvider,
 
     private final Map<Long, LatencyProvider> latencies = Collections
             .synchronizedMap(new HashMap<Long, LatencyProvider>());
+    private final LatencyProviderFactory latencyProviderFactory;
+
+    public LastSecondStatistics(LatencyProviderFactory latencyProviderFactory) {
+        this.latencyProviderFactory = latencyProviderFactory;
+    }
 
     @Override
     public synchronized void latency(final int latency) {
@@ -16,12 +21,16 @@ public final class LastSecondStatistics implements RuntimeStatisticsProvider,
         if (latencies().containsKey(currentSecond)) {
             latencies().get(currentSecond).addSample(latency);
         } else {
-            final LatencyProvider latencyProvider = LatencyProvider
-                    .withSynchronized();
+            final LatencyProvider latencyProvider = latencyProviderFactory()
+                    .newInstance();
             latencyProvider.start();
             latencyProvider.addSample(latency);
             latencies().put(currentSecond, latencyProvider);
         }
+    }
+
+    private LatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
     }
 
     private Map<Long, LatencyProvider> latencies() {

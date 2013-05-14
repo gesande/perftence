@@ -20,7 +20,11 @@ public class FileUtil {
 
     private static void writeToFile(final File outFile, final byte[] data)
             throws FileNotFoundException, IOException {
-        final FileOutputStream fos = new FileOutputStream(outFile);
+        writeAndClose(new FileOutputStream(outFile), data);
+    }
+
+    private static void writeAndClose(final OutputStream fos, final byte[] data)
+            throws IOException {
         try {
             fos.write(data);
             fos.flush();
@@ -54,13 +58,7 @@ public class FileUtil {
     public static void appendToFile(final String file, final byte[] bytes)
             throws AppendToFileFailed {
         try {
-            final OutputStream out = new FileOutputStream(file, true);
-            try {
-                out.write(bytes);
-                out.flush();
-            } finally {
-                out.close();
-            }
+            writeAndClose(new FileOutputStream(file, true), bytes);
         } catch (final Throwable t) {
             throw new AppendToFileFailed("Failed to append to file '" + file
                     + "' ", t);
