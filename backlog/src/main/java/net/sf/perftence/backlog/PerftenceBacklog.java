@@ -174,7 +174,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 feature),
                         done("introduced perftence-fluent module", refactoring),
                         done("introduced factory for latencyprovider",
-                                refactoring)
+                                refactoring),
+                        done("introduced perftence-agents module", refactoring)
 
                 )
 
