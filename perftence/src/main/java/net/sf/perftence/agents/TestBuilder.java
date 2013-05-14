@@ -16,10 +16,11 @@ import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
-import net.sf.perftence.common.DefaultDependencyFactory;
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.LastSecondFailures;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
@@ -82,6 +83,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private final SchedulingServiceFactory schedulingServiceFactory;
     private final CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator;
     private final LastSecondFailuresGraphWriter lastSecondFailureGraphWriter;
+    private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 
     private boolean includeInvocationGraph = true;
     private boolean includeThreadsRunningCurrentTasks = true;
@@ -107,6 +109,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.schedulingServiceFactory = schedulingServiceFactory;
+        this.testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory();
         this.latencyProvider = latencyProviderFactory.newInstance();
         this.timerScheduler = new TimerScheduler();
         this.activeThreads = new ActiveThreads();
@@ -157,14 +160,17 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 newFailedInvocations, includeInvocationGraph, setup);
     }
 
-    @SuppressWarnings("static-method")
     private TestRuntimeReporter newInvocationReporterWithDefaults(
             final LatencyProvider latencyProvider,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup) {
-        return DefaultDependencyFactory.newRuntimeReporter(latencyProvider,
+        return testRuntimeReporterFactory().newRuntimeReporter(latencyProvider,
                 includeInvocationGraph, setup, newFailedInvocations);
+    }
+
+    private TestRuntimeReporterFactory testRuntimeReporterFactory() {
+        return this.testRuntimeReporterFactory;
     }
 
     /**

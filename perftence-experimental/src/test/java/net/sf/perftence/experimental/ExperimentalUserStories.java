@@ -17,7 +17,7 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.common.DefaultDependencyFactory;
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.FrequencyStorage;
@@ -45,7 +45,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
     private static final Random RANDOM = new Random(System.currentTimeMillis());
 
     private LatencyProvider latencyProvider;
-    private TestRuntimeReporter newDefaultInvocationReporter;
+    private TestRuntimeReporter testRuntimeReporter;
     private AtomicInteger tasksRun;
     private AtomicInteger tasksFailed;
     private Bag latencyFreqs;
@@ -91,7 +91,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         this.latencyProvider = newLatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.newDefaultInvocationReporter = DefaultDependencyFactory
+        this.testRuntimeReporter = new DefaultTestRuntimeReporterFactory()
                 .newRuntimeReporter(this.latencyProvider, true, setup()
                         .threads(userCount).build(), newFailedInvocations());
         this.latencyProvider.start();
@@ -108,8 +108,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         }
         this.latencyProvider.stop();
         System.out.println(this.latencyProvider.toString());
-        this.newDefaultInvocationReporter.summary(id(),
-                this.latencyProvider.duration(),
+        this.testRuntimeReporter.summary(id(), this.latencyProvider.duration(),
                 this.latencyProvider.sampleCount(),
                 this.latencyProvider.startTime());
 
@@ -184,7 +183,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
                             .newLatency(t1);
                     ExperimentalUserStories.this.latencyProvider
                             .addSample(newLatency);
-                    ExperimentalUserStories.this.newDefaultInvocationReporter
+                    ExperimentalUserStories.this.testRuntimeReporter
                             .latency(newLatency);
                     this.task = this.task.nextTaskIfAny();
                 }

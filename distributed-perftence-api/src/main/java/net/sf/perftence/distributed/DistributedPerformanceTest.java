@@ -7,7 +7,9 @@ import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
+import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
+import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.TestRuntimeReporter;
@@ -47,6 +49,20 @@ public final class DistributedPerformanceTest {
                                 latencyProvider, includeInvocationGraph, setup,
                                 failedInvocations), executorService(),
                         remoteReporter());
+            }
+
+            @Override
+            public TestRuntimeReporter newRuntimeReporter(
+                    LatencyProvider latencyProvider,
+                    boolean includeInvocationGraph, PerformanceTestSetup setup,
+                    FailedInvocations failedInvocations,
+                    InvocationStorage invocationStorage,
+                    ThroughputStorage throughputStorage) {
+                return defaultReporterFactory()
+                        .newRuntimeReporter(latencyProvider,
+                                includeInvocationGraph, setup,
+                                failedInvocations, invocationStorage,
+                                throughputStorage);
             }
 
         };
