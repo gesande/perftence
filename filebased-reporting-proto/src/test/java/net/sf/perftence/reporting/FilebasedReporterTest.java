@@ -1,5 +1,6 @@
 package net.sf.perftence.reporting;
 
+import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
@@ -56,7 +57,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 
         final FilebasedReportReader reader = new FilebasedReportReader(id(),
                 latencyProvider, invocationStorage, failedInvocations,
-                new ThroughputStorageFactory(datasetAdapterFactory));
+                new ThroughputStorageFactory(datasetAdapterFactory), new File(
+                        "target", "perftence"));
         reader.read();
 
         final TestRuntimeReporter invocationReporter = DefaultDependencyFactory

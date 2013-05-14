@@ -40,9 +40,10 @@ public class FilebasedReportReader {
             final LatencyProvider latencyProvider,
             final InvocationStorage invocationStorage,
             final FailedInvocationsFactory failedInvocations,
-            final ThroughputStorageFactory throughputStorageFactory) {
+            final ThroughputStorageFactory throughputStorageFactory,
+            final File parentDirectory) {
         this.throughputStorageFactory = throughputStorageFactory;
-        this.reportDir = new File(new File("target", "perftence"), id);
+        this.reportDir = new File(parentDirectory, id);
         this.latencyVisitor = new LatencyFileVisitor(latencyProvider,
                 invocationStorage);
         this.failedInvocationsVisitor = new FailedInvocationsVisitor(
