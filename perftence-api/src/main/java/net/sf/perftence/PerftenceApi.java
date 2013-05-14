@@ -2,20 +2,23 @@ package net.sf.perftence;
 
 import net.sf.perftence.agents.AgentBasedTest;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
-public final class PerftenceApi implements TestFailureNotifier {
+public final class PerftenceApi {
     private final FluentPerformanceTest performanceTest;
     private final AgentBasedTest agentBasedTest;
     private final TestFailureNotifier notifier;
     private final DefaultLatencyProviderFactory latencyProviderFactory;
+    private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 
     public PerftenceApi(final TestFailureNotifier notifier) {
         this.notifier = notifier;
         this.latencyProviderFactory = new DefaultLatencyProviderFactory();
+        this.testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory();
         this.performanceTest = createPerformanceTest();
         this.agentBasedTest = createAgentBasedTest();
     }
@@ -24,7 +27,7 @@ public final class PerftenceApi implements TestFailureNotifier {
         return this.performanceTest;
     }
 
-    private AgentBasedTest newAgentBasedTest() {
+    private AgentBasedTest agentBasedTest() {
         return this.agentBasedTest;
     }
 
@@ -33,7 +36,8 @@ public final class PerftenceApi implements TestFailureNotifier {
     }
 
     private AgentBasedTest createAgentBasedTest() {
-        return new AgentBasedTest(failureNotifier(), latencyProviderFactory());
+        return new AgentBasedTest(failureNotifier(), latencyProviderFactory(),
+                testRuntimeReporterFactory());
     }
 
     private DefaultLatencyProviderFactory latencyProviderFactory() {
@@ -42,17 +46,15 @@ public final class PerftenceApi implements TestFailureNotifier {
 
     private FluentPerformanceTest createPerformanceTest() {
         return new FluentPerformanceTest(failureNotifier(),
-                new DefaultTestRuntimeReporterFactory(),
-                new DefaultRunNotifier());
+                testRuntimeReporterFactory(), new DefaultRunNotifier());
     }
 
-    @Override
-    public void testFailed(final Throwable t) {
-        failureNotifier().testFailed(t);
+    private TestRuntimeReporterFactory testRuntimeReporterFactory() {
+        return this.testRuntimeReporterFactory;
     }
 
     public net.sf.perftence.agents.TestBuilder agentBasedTest(final String name) {
-        return newAgentBasedTest().test(name);
+        return agentBasedTest().test(name);
     }
 
     public net.sf.perftence.fluent.TestBuilder test(final String name) {

@@ -4,7 +4,6 @@ import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.StatisticsProvider;
-import net.sf.perftence.fluent.PerformanceRequirementsPojo;
 
 import org.junit.Test;
 

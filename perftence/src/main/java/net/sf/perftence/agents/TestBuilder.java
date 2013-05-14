@@ -16,7 +16,6 @@ import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.LastSecondFailures;
@@ -101,7 +100,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final SchedulingServiceFactory schedulingServiceFactory,
             final CategorySpecificReporterFactory categorySpecificReporterFactory,
             final DatasetAdapterFactory datasetAdapterFactory,
-            final LatencyProviderFactory latencyProviderFactory) {
+            final LatencyProviderFactory latencyProviderFactory,
+            final TestRuntimeReporterFactory testRuntimeReporterFactory) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -109,7 +109,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.schedulingServiceFactory = schedulingServiceFactory;
-        this.testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory();
+        this.testRuntimeReporterFactory = testRuntimeReporterFactory;
         this.latencyProvider = latencyProviderFactory.newInstance();
         this.timerScheduler = new TimerScheduler();
         this.activeThreads = new ActiveThreads();

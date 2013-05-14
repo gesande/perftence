@@ -5,6 +5,7 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -56,7 +57,8 @@ public class AgentBasedTestUsingFileBasedReporting {
                 new SchedulingServiceFactory(),
                 new DefaultCategorySpecificReporterFactory(id,
                         latencyProviderFactory()), datasetAdapterFactory(),
-                latencyProviderFactory());
+                latencyProviderFactory(),
+                new DefaultTestRuntimeReporterFactory());
     }
 
     private LatencyProviderFactory latencyProviderFactory() {
