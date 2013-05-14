@@ -11,9 +11,11 @@ public final class PerftenceApi implements TestFailureNotifier {
     private final FluentPerformanceTest performanceTest;
     private final AgentBasedTest agentBasedTest;
     private final TestFailureNotifier notifier;
+    private final DefaultLatencyProviderFactory latencyProviderFactory;
 
     public PerftenceApi(final TestFailureNotifier notifier) {
         this.notifier = notifier;
+        this.latencyProviderFactory = new DefaultLatencyProviderFactory();
         this.performanceTest = createPerformanceTest();
         this.agentBasedTest = createAgentBasedTest();
     }
@@ -31,7 +33,11 @@ public final class PerftenceApi implements TestFailureNotifier {
     }
 
     private AgentBasedTest createAgentBasedTest() {
-        return new AgentBasedTest(failureNotifier());
+        return new AgentBasedTest(failureNotifier(), latencyProviderFactory());
+    }
+
+    private DefaultLatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
     }
 
     private FluentPerformanceTest createPerformanceTest() {

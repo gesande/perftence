@@ -11,7 +11,8 @@ public class LastSecondStatisticsTest {
     @SuppressWarnings("static-method")
     @Test
     public void test() throws InterruptedException {
-        final LastSecondStatistics statistics = new LastSecondStatistics();
+        final LastSecondStatistics statistics = new LastSecondStatistics(
+                new DefaultLatencyProviderFactory());
 
         final long start = System.currentTimeMillis() / 1000;
         System.out.println("start : " + start);

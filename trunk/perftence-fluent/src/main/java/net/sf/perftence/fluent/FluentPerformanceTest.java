@@ -1,7 +1,9 @@
 package net.sf.perftence.fluent;
 
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
+import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
@@ -37,6 +39,7 @@ public final class FluentPerformanceTest {
     private final EstimatedInvocations estimatedInvocations;
     private final InvocationRunnerFactory invocationRunnerFactory;
     private final TestRuntimeReporterFactory reporterFactory;
+    private final LatencyProviderFactory latencyProviderFactory;
 
     public FluentPerformanceTest(final TestFailureNotifier failureNotifier,
             final TestRuntimeReporterFactory reporterFactory,
@@ -59,6 +62,7 @@ public final class FluentPerformanceTest {
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.perfTestFailureFactory = new PerfTestFailureFactory();
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+        this.latencyProviderFactory = new DefaultLatencyProviderFactory();
     }
 
     private static AdjustedFieldBuilderFactory newAdjustedFieldBuilderFactory(
@@ -96,7 +100,11 @@ public final class FluentPerformanceTest {
                 adjustedFieldBuilderFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
                 perfTestFailureFactory(), datasetAdapterFactory(),
-                reporterFactory());
+                reporterFactory(), latencyProviderFactory());
+    }
+
+    private LatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
     }
 
     private TestRuntimeReporterFactory reporterFactory() {

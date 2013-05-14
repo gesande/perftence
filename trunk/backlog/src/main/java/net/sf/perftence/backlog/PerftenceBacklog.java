@@ -172,7 +172,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 feature),
                         done("added id for DistributedLatencyReporterFactory.forRemoteReporting",
                                 feature),
-                        done("introduced perftence-fluent module", refactoring)
+                        done("introduced perftence-fluent module", refactoring),
+                        done("introduced factory for latencyprovider",
+                                refactoring)
 
                 )
 

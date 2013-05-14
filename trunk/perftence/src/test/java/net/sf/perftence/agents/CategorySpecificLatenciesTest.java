@@ -3,6 +3,7 @@ package net.sf.perftence.agents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 
@@ -21,20 +22,22 @@ public final class CategorySpecificLatenciesTest implements
     @Test(expected = NullPointerException.class)
     public void invocationReporterNull() {
         new CategorySpecificLatencies(
-                new DefaultCategorySpecificReporterFactory("id"), null);
+                new DefaultCategorySpecificReporterFactory("id",
+                        new DefaultLatencyProviderFactory()), null);
     }
 
     @Test
     public void empty() {
         assertFalse(new CategorySpecificLatencies(
-                new DefaultCategorySpecificReporterFactory("id"), this)
+                new DefaultCategorySpecificReporterFactory("id",
+                        new DefaultLatencyProviderFactory()), this)
                 .hasCategorySpecificReporters());
     }
 
     @Test
     public void oneAppender() {
         final DefaultCategorySpecificReporterFactory defaultCategorySpecificReporterFactory = new DefaultCategorySpecificReporterFactory(
-                "name");
+                "name", new DefaultLatencyProviderFactory());
         final CategorySpecificLatencies categorySpecificLatencies = new CategorySpecificLatencies(
                 defaultCategorySpecificReporterFactory, this);
         assertFalse(categorySpecificLatencies.hasCategorySpecificReporters());

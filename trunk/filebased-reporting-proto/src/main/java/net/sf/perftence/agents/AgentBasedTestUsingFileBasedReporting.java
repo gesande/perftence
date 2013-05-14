@@ -1,11 +1,14 @@
 package net.sf.perftence.agents;
 
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
+import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
+import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -20,7 +23,8 @@ public class AgentBasedTestUsingFileBasedReporting {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
-    private DefaultDatasetAdapterFactory datasetAdapterFactory;
+    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LatencyProviderFactory latencyProviderFactory;
 
     public AgentBasedTestUsingFileBasedReporting(
             final TestFailureNotifier failureNotifier) {
@@ -38,6 +42,7 @@ public class AgentBasedTestUsingFileBasedReporting {
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+        this.latencyProviderFactory = new DefaultLatencyProviderFactory();
     }
 
     public TestBuilder test(final String id) {
@@ -49,11 +54,16 @@ public class AgentBasedTestUsingFileBasedReporting {
                 adjustedFieldBuilderFactory(),
                 TaskScheduleDifferences.instance(datasetAdapterFactory()),
                 new SchedulingServiceFactory(),
-                new DefaultCategorySpecificReporterFactory(id),
-                datasetAdapterFactory());
+                new DefaultCategorySpecificReporterFactory(id,
+                        latencyProviderFactory()), datasetAdapterFactory(),
+                latencyProviderFactory());
     }
 
-    private DefaultDatasetAdapterFactory datasetAdapterFactory() {
+    private LatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
+    }
+
+    private DatasetAdapterFactory datasetAdapterFactory() {
         return this.datasetAdapterFactory;
     }
 

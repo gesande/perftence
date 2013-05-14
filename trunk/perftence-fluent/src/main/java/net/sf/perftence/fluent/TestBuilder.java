@@ -9,6 +9,7 @@ import net.sf.perftence.Executable;
 import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.RunNotifier;
@@ -48,6 +49,7 @@ public final class TestBuilder {
     private final PerfTestFailureFactory perfTestFailureFactory;
     private final DatasetAdapterFactory datasetAdapterFactory;
     private final TestRuntimeReporterFactory reporterFactory;
+    private final LatencyProviderFactory latencyProviderFactory;
 
     private PerformanceTestSetup setup;
     private PerformanceRequirements requirements;
@@ -63,7 +65,8 @@ public final class TestBuilder {
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
             final PerfTestFailureFactory perfTestFailureFactory,
             final DatasetAdapterFactory datasetAdapterFactory,
-            final TestRuntimeReporterFactory reporterFactory) {
+            final TestRuntimeReporterFactory reporterFactory,
+            final LatencyProviderFactory latencyProviderFactory) {
         this.invocationRunner = invocationRunner;
         this.runNotifier = runNotifier;
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
@@ -72,6 +75,7 @@ public final class TestBuilder {
         this.perfTestFailureFactory = perfTestFailureFactory;
         this.datasetAdapterFactory = datasetAdapterFactory;
         this.reporterFactory = reporterFactory;
+        this.latencyProviderFactory = latencyProviderFactory;
         this.requirements = PerformanceRequirementsBuilder.noRequirements();
         this.setup = PerformanceTestSetupPojo.builder().noSetup();
         this.summaryBuilderFactory = summaryBuilderFactory;
@@ -93,8 +97,12 @@ public final class TestBuilder {
     }
 
     public MultithreadWorker executable(final Executable executable) {
-        return newWorker(executable, LatencyProvider.withSynchronized(),
+        return newWorker(executable, latencyProviderFactory().newInstance(),
                 setup(), requirements());
+    }
+
+    private LatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
     }
 
     private MultithreadWorker newWorker(final Executable executable,
@@ -105,7 +113,8 @@ public final class TestBuilder {
                 .newInstance();
         final FailedInvocations failedInvocations = failedInvocationsFactory()
                 .newInstance();
-        final LastSecondStatistics lastSecondStats = new LastSecondStatistics();
+        final LastSecondStatistics lastSecondStats = new LastSecondStatistics(
+                latencyProviderFactory());
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
                 failedInvocationsFactory());
         final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput(

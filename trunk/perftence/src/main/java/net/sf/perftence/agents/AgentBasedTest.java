@@ -2,6 +2,7 @@ package net.sf.perftence.agents;
 
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.LatencyFactory;
+import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -25,8 +26,10 @@ public final class AgentBasedTest {
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
     private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LatencyProviderFactory latencyProviderFactory;
 
-    public AgentBasedTest(final TestFailureNotifier failureNotifier) {
+    public AgentBasedTest(final TestFailureNotifier failureNotifier,
+            final LatencyProviderFactory latencyProviderFactory) {
         this.failureNotifier = validate(failureNotifier);
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
@@ -41,6 +44,7 @@ public final class AgentBasedTest {
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+        this.latencyProviderFactory = latencyProviderFactory;
     }
 
     public TestBuilder test(final String id) {
@@ -53,8 +57,13 @@ public final class AgentBasedTest {
                 adjustedFieldBuilderFactory(),
                 TaskScheduleDifferences.instance(datasetAdapterFactory()),
                 new SchedulingServiceFactory(),
-                new DefaultCategorySpecificReporterFactory(id),
-                datasetAdapterFactory());
+                new DefaultCategorySpecificReporterFactory(id,
+                        latencyProviderFactory()), datasetAdapterFactory(),
+                latencyProviderFactory());
+    }
+
+    private LatencyProviderFactory latencyProviderFactory() {
+        return this.latencyProviderFactory;
     }
 
     private DatasetAdapterFactory datasetAdapterFactory() {

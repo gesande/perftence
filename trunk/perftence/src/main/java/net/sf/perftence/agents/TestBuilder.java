@@ -12,6 +12,7 @@ import net.sf.perftence.CustomInvocationReporter;
 import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
@@ -80,12 +81,11 @@ public final class TestBuilder implements RunnableAdapter, Startable,
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
     private final SchedulingServiceFactory schedulingServiceFactory;
     private final CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator;
+    private final LastSecondFailuresGraphWriter lastSecondFailureGraphWriter;
 
     private boolean includeInvocationGraph = true;
     private boolean includeThreadsRunningCurrentTasks = true;
     private boolean includeTaskScheduleDifferencies = true;
-
-    private final LastSecondFailuresGraphWriter lastSecondFailureGraphWriter;
 
     TestBuilder(
             final String name,
@@ -98,7 +98,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final TaskScheduleDifferences taskScheduleDifferences,
             final SchedulingServiceFactory schedulingServiceFactory,
             final CategorySpecificReporterFactory categorySpecificReporterFactory,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final DatasetAdapterFactory datasetAdapterFactory,
+            final LatencyProviderFactory latencyProviderFactory) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -106,7 +107,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.schedulingServiceFactory = schedulingServiceFactory;
-        this.latencyProvider = LatencyProvider.withSynchronized();
+        this.latencyProvider = latencyProviderFactory.newInstance();
         this.timerScheduler = new TimerScheduler();
         this.activeThreads = new ActiveThreads();
         this.scheduledTasks = new ScheduledTasks();
@@ -121,7 +122,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
         this.allowedExceptions = new AllowedExceptions();
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
-        this.lastSecondStats = new LastSecondStatistics();
+        this.lastSecondStats = new LastSecondStatistics(latencyProviderFactory);
         this.lastSecondFailures = new LastSecondFailures(
                 this.failedInvocationsFactory);
         this.lastSecondFailureGraphWriter = new LastSecondFailuresGraphWriter(
@@ -162,9 +163,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final FailedInvocations newFailedInvocations,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup) {
-        return DefaultDependencyFactory.newRuntimeReporter(
-                latencyProvider, includeInvocationGraph, setup,
-                newFailedInvocations);
+        return DefaultDependencyFactory.newRuntimeReporter(latencyProvider,
+                includeInvocationGraph, setup, newFailedInvocations);
     }
 
     /**
