@@ -18,6 +18,12 @@ public final class LatencyProvider implements StatisticsProvider,
         init();
     }
 
+    /**
+     * 
+     * @deprecated will be changed as package protected, use
+     *             {@link DefaultLatencyProviderFactory} instead
+     */
+    @Deprecated
     public static LatencyProvider withSynchronized() {
         return new LatencyProvider(
                 StronglyTypedSortedBag.<Long> synchronizedTreeBag());
@@ -108,7 +114,7 @@ public final class LatencyProvider implements StatisticsProvider,
     @Override
     public double throughput() {
         if (this.startTime == -1 || this.endTime == -1) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     "Invalid state: Use start() and stop() to indicate test start and end!");
         }
         return calculateThroughput(sampleCount(), duration());

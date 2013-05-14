@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyFactory;
@@ -87,13 +88,12 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
     public void printAllTheGraphsAndHtmlSummary() throws InterruptedException {
         final int userCount = 16000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = LatencyProvider.withSynchronized();
+        this.latencyProvider = newLatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newDefaultInvocationReporter = DefaultDependencyFactory
-                .newRuntimeReporter(this.latencyProvider, true,
-                        setup().threads(userCount).build(),
-                        newFailedInvocations());
+                .newRuntimeReporter(this.latencyProvider, true, setup()
+                        .threads(userCount).build(), newFailedInvocations());
         this.latencyProvider.start();
         List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < userCount; i++) {
@@ -113,6 +113,10 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
                 this.latencyProvider.sampleCount(),
                 this.latencyProvider.startTime());
 
+    }
+
+    private static LatencyProvider newLatencyProvider() {
+        return new DefaultLatencyProviderFactory().newInstance();
     }
 
     @Test

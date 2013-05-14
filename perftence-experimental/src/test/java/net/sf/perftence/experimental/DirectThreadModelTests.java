@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
@@ -58,7 +59,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                 .forNamePrefix("onetask-thread-");
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = LatencyProvider.withSynchronized();
+        this.latencyProvider = newLatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();
@@ -66,8 +67,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         setup.graphWriter(this.newStorage.graphWriterFor(id()));
         setup.summaryAppender(this.newStorage.summaryAppender());
         this.newDefaultInvocationReporter = DefaultDependencyFactory
-                .newRuntimeReporter(this.latencyProvider, true,
-                        setup.build(), newFailedInvocations());
+                .newRuntimeReporter(this.latencyProvider, true, setup.build(),
+                        newFailedInvocations());
         final SleepingTestAgentFactoryWithNowFlavour agentFactory = new SleepingTestAgentFactoryWithNowFlavour();
         this.activeThreads = new ActiveThreads();
         this.latencyProvider.start();
@@ -89,6 +90,10 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                 this.latencyProvider.startTime());
     }
 
+    private static LatencyProvider newLatencyProvider() {
+        return new DefaultLatencyProviderFactory().newInstance();
+    }
+
     private static StorageForThreadsRunningCurrentTasks newStorage() {
         return StorageForThreadsRunningCurrentTasks
                 .newStorage(new DefaultDatasetAdapterFactory());
@@ -108,7 +113,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 
         final int userCount = 10000;
         this.latencyFactory = new LatencyFactory();
-        this.latencyProvider = LatencyProvider.withSynchronized();
+        this.latencyProvider = newLatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
         this.newStorage = newStorage();
@@ -117,8 +122,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         setup.summaryAppender(this.newStorage.summaryAppender());
 
         this.newDefaultInvocationReporter = DefaultDependencyFactory
-                .newRuntimeReporter(this.latencyProvider, true,
-                        setup.build(), newFailedInvocations());
+                .newRuntimeReporter(this.latencyProvider, true, setup.build(),
+                        newFailedInvocations());
         this.activeThreads = new ActiveThreads();
         this.latencyProvider.start();
         List<Thread> threads = new ArrayList<Thread>();
