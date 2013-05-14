@@ -1,14 +1,11 @@
 package net.sf.perftence.common;
 
-import java.util.ArrayList;
-
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.ImageData;
 import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
@@ -23,75 +20,47 @@ public final class DefaultDependencyFactory {
     private final static ThroughputStorageFactory THROUGHPUT_STORAGE_FACTORY = new ThroughputStorageFactory(
             DATASET_ADAPTER_FACTORY);
 
+    /**
+     * @deprecated use {@link DefaultTestRuntimeReporterFactory} instead
+     */
+    @Deprecated
     public static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations) {
-        final InvocationStorage invocationStorage = includeInvocationGraph ? defaultInvocationStorage(setup)
+        return newRuntimeReporter(latencyProvider, includeInvocationGraph,
+                setup, failedInvocations,
+                resolveInvocationStorage(includeInvocationGraph, setup),
+                throughputStorageFactory().forRange(setup.throughputRange()));
+    }
+
+    private static InvocationStorage resolveInvocationStorage(
+            final boolean includeInvocationGraph,
+            final PerformanceTestSetup setup) {
+        return includeInvocationGraph ? defaultInvocationStorage(setup)
                 : invocationStorageWithNoSamples();
-        return newRuntimeReporter(latencyProvider, includeInvocationGraph,
-                setup, failedInvocations, invocationStorage);
     }
 
+    /**
+     * @deprecated use {@link DefaultTestRuntimeReporterFactory} instead
+     */
+    @Deprecated
     private static TestRuntimeReporter newRuntimeReporter(
-            final LatencyProvider latencyProvider,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations,
-            final InvocationStorage invocationStorage) {
-        return newRuntimeReporter(latencyProvider, includeInvocationGraph,
-                setup, failedInvocations, invocationStorage,
-                throughputStorage(setup));
-    }
-
-    public static TestRuntimeReporter newRuntimeReporter(
             final LatencyProvider latencyProvider,
             final boolean includeInvocationGraph,
             final PerformanceTestSetup setup,
             final FailedInvocations failedInvocations,
             final InvocationStorage invocationStorage,
             final ThroughputStorage throughputStorage) {
-        return newRuntimeReporter(
-                latencyProvider,
-                includeInvocationGraph,
-                setup,
-                failedInvocations,
-                invocationStorage,
-                statisticsSummaryProvider(latencyProvider,
-                        includeInvocationGraph, invocationStorage),
-                throughputStorage);
-    }
-
-    private static TestRuntimeReporter newRuntimeReporter(
-            final LatencyProvider latencyProvider,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations,
-            final InvocationStorage invocationStorage,
-            final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
-            final ThroughputStorage throughputStorage) {
-        return newRuntimeReporter(includeInvocationGraph, setup,
-                failedInvocations, invocationStorage,
-                statisticsSummaryProvider, throughputStorage,
-                FrequencyStorageFactory.newFrequencyStorage(latencyProvider,
-                        datasetAdapterFactory()));
-    }
-
-    private static TestRuntimeReporter newRuntimeReporter(
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations,
-            final InvocationStorage invocationStorage,
-            final StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider,
-            final ThroughputStorage throughputStorage,
-            final FrequencyStorage newFrequencyStorage) {
         return new DefaultTestRuntimeReporter(invocationStorage,
                 throughputStorage, imageFactory(), setup.threads(),
-                setup.duration(), newFrequencyStorage,
+                setup.duration(), FrequencyStorageFactory.newFrequencyStorage(
+                        latencyProvider, datasetAdapterFactory()),
                 setup.summaryAppenders(), includeInvocationGraph,
-                setup.graphWriters(), statisticsSummaryProvider,
-                failedInvocations, testReport());
+                setup.graphWriters(), statisticsSummaryProvider(
+                        latencyProvider, includeInvocationGraph,
+                        invocationStorage), failedInvocations, testReport());
     }
 
     private static TestReport testReport() {
@@ -106,11 +75,6 @@ public final class DefaultDependencyFactory {
                 invocationStorage)
                 : new StatisticsSummaryProviderUsingStatisticsProviderStatistics(
                         statisticsProvider);
-    }
-
-    private static ThroughputStorage throughputStorage(
-            final PerformanceTestSetup setup) {
-        return throughputStorageFactory().forRange(setup.throughputRange());
     }
 
     private static ThroughputStorageFactory throughputStorageFactory() {
@@ -133,35 +97,7 @@ public final class DefaultDependencyFactory {
     }
 
     private static InvocationStorage invocationStorageWithNoSamples() {
-        return new InvocationStorage() {
-
-            @Override
-            public void store(final int latency) {
-                // left empty intentionally
-            }
-
-            @Override
-            public Statistics statistics() {
-                return Statistics.fromLatencies(new ArrayList<Integer>());
-            }
-
-            @Override
-            public boolean reportedLatencyBeingBelowOne() {
-                return false;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return true;
-            }
-
-            @Override
-            public ImageData imageData() {
-                return ImageData.statistics("no samples", "X-axis title", 100,
-                        statistics(),
-                        datasetAdapterFactory().forLineChart("legend title"));
-            }
-
-        };
+        return DefaultInvocationStorage
+                .invocationStorageWithNoSamples(datasetAdapterFactory());
     }
 }

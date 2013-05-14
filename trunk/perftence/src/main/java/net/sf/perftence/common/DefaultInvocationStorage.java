@@ -123,4 +123,36 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     private String title() {
         return reportingOptions().title();
     }
+
+    public static InvocationStorage invocationStorageWithNoSamples(
+            final DatasetAdapterFactory datasetAdapterFactory) {
+        return new InvocationStorage() {
+            @Override
+            public void store(final int latency) {
+                // left empty intentionally
+            }
+
+            @Override
+            public Statistics statistics() {
+                return Statistics.fromLatencies(new ArrayList<Integer>());
+            }
+
+            @Override
+            public boolean reportedLatencyBeingBelowOne() {
+                return false;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return true;
+            }
+
+            @Override
+            public ImageData imageData() {
+                return ImageData.statistics("no samples", "X-axis title", 100,
+                        statistics(),
+                        datasetAdapterFactory.forLineChart("legend title"));
+            }
+        };
+    }
 }

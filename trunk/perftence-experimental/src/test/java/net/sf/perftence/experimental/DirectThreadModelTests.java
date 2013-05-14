@@ -18,7 +18,7 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.common.DefaultDependencyFactory;
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.concurrent.NamedThreadFactory;
@@ -43,7 +43,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
     private LatencyProvider latencyProvider;
     private AtomicInteger tasksRun;
     private AtomicInteger tasksFailed;
-    private TestRuntimeReporter newDefaultInvocationReporter;
+    private TestRuntimeReporter testRuntimeReporter;
     private StorageForThreadsRunningCurrentTasks newStorage;
     private ActiveThreads activeThreads;
     private LatencyFactory latencyFactory;
@@ -66,9 +66,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
         setup.graphWriter(this.newStorage.graphWriterFor(id()));
         setup.summaryAppender(this.newStorage.summaryAppender());
-        this.newDefaultInvocationReporter = DefaultDependencyFactory
-                .newRuntimeReporter(this.latencyProvider, true, setup.build(),
-                        newFailedInvocations());
+        this.testRuntimeReporter = newTestRuntimeReporter(setup);
         final SleepingTestAgentFactoryWithNowFlavour agentFactory = new SleepingTestAgentFactoryWithNowFlavour();
         this.activeThreads = new ActiveThreads();
         this.latencyProvider.start();
@@ -84,8 +82,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
             threads.get(i).join();
         }
         this.latencyProvider.stop();
-        this.newDefaultInvocationReporter.summary(id(),
-                this.latencyProvider.duration(),
+        this.testRuntimeReporter.summary(id(), this.latencyProvider.duration(),
                 this.latencyProvider.sampleCount(),
                 this.latencyProvider.startTime());
     }
@@ -120,10 +117,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
         PerformanceTestSetupBuilder setup = setup().threads(userCount);
         setup.graphWriter(this.newStorage.graphWriterFor(id()));
         setup.summaryAppender(this.newStorage.summaryAppender());
-
-        this.newDefaultInvocationReporter = DefaultDependencyFactory
-                .newRuntimeReporter(this.latencyProvider, true, setup.build(),
-                        newFailedInvocations());
+        this.testRuntimeReporter = newTestRuntimeReporter(setup);
         this.activeThreads = new ActiveThreads();
         this.latencyProvider.start();
         List<Thread> threads = new ArrayList<Thread>();
@@ -139,10 +133,16 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
             threads.get(i).join();
         }
         this.latencyProvider.stop();
-        this.newDefaultInvocationReporter.summary(id(),
-                this.latencyProvider.duration(),
+        this.testRuntimeReporter.summary(id(), this.latencyProvider.duration(),
                 this.latencyProvider.sampleCount(),
                 this.latencyProvider.startTime());
+    }
+
+    private TestRuntimeReporter newTestRuntimeReporter(
+            PerformanceTestSetupBuilder setup) {
+        return new DefaultTestRuntimeReporterFactory().newRuntimeReporter(
+                this.latencyProvider, true, setup.build(),
+                newFailedInvocations());
     }
 
     interface TestAgentFactory {
@@ -242,7 +242,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
                             .newLatency(t1);
                     DirectThreadModelTests.this.latencyProvider
                             .addSample(newLatency);
-                    DirectThreadModelTests.this.newDefaultInvocationReporter
+                    DirectThreadModelTests.this.testRuntimeReporter
                             .latency(newLatency);
                     this.task = this.task.nextTaskIfAny();
                 }
