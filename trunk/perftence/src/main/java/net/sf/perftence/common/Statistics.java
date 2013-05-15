@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.perftence.graph.StatisticsForGraphs;
+import net.sf.perftence.graph.GraphStatisticsProvider;
 
-public final class Statistics implements StatisticsForGraphs {
+public final class Statistics implements GraphStatisticsProvider {
 
     private List<Integer> latencies;
     private List<Integer> sortedLatencies;

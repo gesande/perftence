@@ -16,4 +16,8 @@ final class ToBytes {
     private Charset charset() {
         return this.charset;
     }
+
+    public static ToBytes withDefaultCharset() {
+        return new ToBytes(Charset.defaultCharset());
+    }
 }
