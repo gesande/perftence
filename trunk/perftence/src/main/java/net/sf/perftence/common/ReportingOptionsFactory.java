@@ -1,4 +1,6 @@
-package net.sf.perftence.reporting;
+package net.sf.perftence.common;
+
+import net.sf.perftence.reporting.ReportingOptions;
 
 public final class ReportingOptionsFactory {
 

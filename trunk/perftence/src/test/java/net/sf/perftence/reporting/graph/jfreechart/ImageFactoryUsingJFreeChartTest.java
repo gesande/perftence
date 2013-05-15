@@ -10,13 +10,13 @@ import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.FrequencyStorageFactory;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
+import net.sf.perftence.common.ReportingOptionsFactory;
 import net.sf.perftence.common.Statistics;
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.graph.jfreechart.ScatterPlotGraphData;
-import net.sf.perftence.reporting.ReportingOptionsFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;

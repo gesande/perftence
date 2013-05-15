@@ -6,7 +6,6 @@ import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
-import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
