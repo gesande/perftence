@@ -12,6 +12,7 @@ import net.sf.perftence.common.DefaultInvocationStorage;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.InvocationStorage;
+import net.sf.perftence.common.ReportingOptionsFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
