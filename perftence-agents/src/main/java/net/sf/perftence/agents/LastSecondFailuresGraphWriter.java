@@ -4,14 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.perftence.TestTimeAware;
+import net.sf.perftence.common.ImageDataFactory;
 import net.sf.perftence.common.LastSecondFailures;
-import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,14 @@ public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
             .getLogger(LastSecondFailuresGraphWriter.class);
     private final LastSecondFailures failures;
     private final TestTimeAware testTimeAware;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final ImageDataFactory imageDataFactory;
 
     public LastSecondFailuresGraphWriter(final LastSecondFailures failures,
             final TestTimeAware testTimeAware,
             final DatasetAdapterFactory datasetAdapterFactory) {
         this.failures = failures;
         this.testTimeAware = testTimeAware;
-        this.datasetAdapterFactory = datasetAdapterFactory;
+        this.imageDataFactory = new ImageDataFactory(datasetAdapterFactory);
     }
 
     @Override
@@ -52,16 +51,15 @@ public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
 
             private ImageData data() {
                 final String title = "Last second failures";
-                final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
-                        .forLineChart(title);
-                final ImageData imageData = ImageData.noStatistics(title,
-                        "Seconds", adapter);
+                final String xAxisTitle = "Seconds";
+                final ImageData imageData = newImageDataForLinechart(title,
+                        xAxisTitle);
                 final Calendar calendar = Calendar.getInstance();
                 final Date endTime = new Date(testTimeAware().startTime()
                         + testTimeAware().duration());
                 calendar.setTime(new Date(testTimeAware().startTime()));
                 long max = 0;
-                log().debug("Failures = {}", failures().toString());
+                LOG.debug("Failures = {}", failures().toString());
                 while (calendar.getTime().before(endTime)) {
                     final long time = calendar.getTimeInMillis();
                     final long failures = failures().failuresFor(time);
@@ -77,19 +75,18 @@ public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
         };
     }
 
-    private static Logger log() {
-        return LOG;
+    private ImageData newImageDataForLinechart(final String title,
+            final String xAxisTitle) {
+        return this.imageDataFactory
+                .newImageDataForLineChart(title, xAxisTitle);
     }
 
     private TestTimeAware testTimeAware() {
-        return LastSecondFailuresGraphWriter.this.testTimeAware;
+        return this.testTimeAware;
     }
 
     private LastSecondFailures failures() {
         return this.failures;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
-    }
 }

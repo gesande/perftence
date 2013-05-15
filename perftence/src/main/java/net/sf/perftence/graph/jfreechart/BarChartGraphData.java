@@ -7,7 +7,7 @@ import net.sf.perftence.graph.GraphData;
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 
-public final class BarChartGraphData implements
+final class BarChartGraphData implements
         GraphData<BarChartGraphData, Range> {
 
     private final String title;

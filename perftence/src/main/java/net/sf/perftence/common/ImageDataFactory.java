@@ -4,9 +4,10 @@ import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.ReportingOptions;
 
-final class ImageDataFactory {
+public final class ImageDataFactory {
     private final DatasetAdapterFactory datasetAdapterFactory;
 
     public ImageDataFactory(final DatasetAdapterFactory datasetAdapterFactory) {
@@ -16,10 +17,19 @@ final class ImageDataFactory {
     public ImageData newImageDataForLineChart(
             final ReportingOptions reportingOptions,
             final GraphStatisticsProvider statistics) {
-        return newImageData(
-                datasetAdapterFactory().forLineChart(
-                        reportingOptions.legendTitle()), reportingOptions,
-                statistics);
+        return newImageData(linechartAdapter(reportingOptions.legendTitle()),
+                reportingOptions, statistics);
+    }
+
+    public ImageData newImageDataForLineChart(final String title,
+            final String xAxisTitle) {
+        return ImageData.noStatistics(title, xAxisTitle,
+                linechartAdapter(title));
+    }
+
+    private DatasetAdapter<LineChartGraphData> linechartAdapter(
+            final String legendTitle) {
+        return datasetAdapterFactory().forLineChart(legendTitle);
     }
 
     private static ImageData newImageData(final DatasetAdapter<?> adapter,
