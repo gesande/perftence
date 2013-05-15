@@ -5,6 +5,7 @@ project(':agent-based-example') {
 
     dependencies {
         testCompile project(':perftence')
+        testCompile project(':perftence-agents')
         testCompile project(':perftence-junit')
         testCompile project(':commons-collections-3.2.1')
         testCompile project(':slf4j-api-1.6.1')
