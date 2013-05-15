@@ -4,6 +4,7 @@ project(':acceptance-tests') {
 
     dependencies {
         testCompile project(':perftence-fluent')
+        testCompile project(':perftence-agents')
         testCompile project(':perftence')
         testCompile project(':perftence-junit')
         testCompile project(':junit-4.10')

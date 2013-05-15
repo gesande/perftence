@@ -26,6 +26,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:clean'
             tasks << 'distributed-perftence-api:clean'
             tasks << 'perftence-fluent:clean'
+            tasks << 'perftence-agents:clean'
             
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
@@ -39,6 +40,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:continous'
             tasks << 'distributed-perftence-api:continous'
             tasks << 'perftence-fluent:continous'
+            tasks << 'perftence-agents:continous'
             
             tasks << 'exportBacklog'
 
@@ -67,6 +69,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:clean'
             tasks << 'distributed-perftence-api:clean'
             tasks << 'perftence-fluent:clean'
+            tasks << 'perftence-agents:clean'
             
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
@@ -80,6 +83,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:continous'
             tasks << 'distributed-perftence-api:continous'
             tasks << 'perftence-fluent:continous'
+            tasks << 'perftence-agents:continous'
             
             tasks << 'acceptance-tests:test'
 
@@ -109,6 +113,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:clean'
             tasks << 'distributed-perftence-api:clean'
             tasks << 'perftence-fluent:clean'
+            tasks << 'perftence-agents:clean'
             
             tasks << 'perftence-concurrent:release'
             tasks << 'perftence-bag:release'
@@ -122,6 +127,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-junit:release'
             tasks << 'distributed-perftence-api:release'
             tasks << 'perftence-fluent:release'
+            tasks << 'perftence-agents:release'
             
             tasks << 'makeDistributionPackage'
 

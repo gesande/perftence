@@ -7,6 +7,7 @@ project(':perftence-junit') {
     dependencies {
         compile project(':perftence')
         compile project(':perftence-fluent')
+        compile project(':perftence-agents')
         compile project(':perftence-api')
         compile project(':perftence-bag')
         compile project(':junit-4.10')
