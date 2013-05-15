@@ -3,7 +3,7 @@ project(':perftence') {
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     version = project.properties.artifactVersion
-    
+
     tasks.withType(FindBugs){ ignoreFailures = true }
 
     dependencies {
@@ -11,6 +11,7 @@ project(':perftence') {
         compile project(':jcommon-1.0.15')
         compile project(':jfreechart-1.0.12')
         compile project(':perftence-bag')
+        compile project(':perftence-graph')
         compile project(':perftence-concurrent')
         compile project(':perftence-fileutil')
         compile project(':slf4j-api-1.6.1')
