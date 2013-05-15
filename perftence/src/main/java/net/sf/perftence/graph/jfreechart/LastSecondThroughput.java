@@ -1,9 +1,13 @@
-package net.sf.perftence.graph;
+package net.sf.perftence.graph.jfreechart;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.perftence.AsSynchronized;
+import net.sf.perftence.graph.GraphWriter;
+import net.sf.perftence.graph.GraphWriterProvider;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
 public final class LastSecondThroughput implements ValueReporter<Double>,

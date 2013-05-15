@@ -3,8 +3,8 @@ package net.sf.perftence.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.reporting.ReportingOptions;
 
 public final class DefaultInvocationStorage implements InvocationStorage {
