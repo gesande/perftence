@@ -1,0 +1,10 @@
+project(':perftence-graph') {
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    version = project.properties.artifactVersion
+
+    dependencies {
+        testCompile project(':junit-4.10')
+    }
+
+}
