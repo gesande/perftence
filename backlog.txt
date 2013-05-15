@@ -95,6 +95,7 @@ Backlog for pertence test tool:
 [32m  +++ introduced perftence-fluent module +++ #refactoring[m
 [32m  +++ introduced factory for latencyprovider +++ #refactoring[m
 [32m  +++ introduced perftence-agents module +++ #refactoring[m
+[32m  +++ introduced perftence-graph module +++ #refactoring[m
 
   [33mIN PROGRESS:[m
 
