@@ -3,10 +3,8 @@ package net.sf.perftence.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.ReportingOptions;
 
 public final class DefaultInvocationStorage implements InvocationStorage {
@@ -14,14 +12,14 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     private final List<Integer> totalInvocations;
     private boolean reportedLatencyBeingBelowOne = false;
     private final ReportingOptions reportingOptions;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final ImageDataFactory imageDataFactory;
 
     private DefaultInvocationStorage(final int totalInvocations,
             final ReportingOptions reportingOptions,
-            DatasetAdapterFactory datasetAdapterFactory) {
+            final ImageDataFactory imageDataFactory) {
         this.reportingOptions = reportingOptions;
-        this.datasetAdapterFactory = datasetAdapterFactory;
         this.totalInvocations = initialize(totalInvocations);
+        this.imageDataFactory = imageDataFactory;
     }
 
     public static InvocationStorage newDefaultStorage(
@@ -29,7 +27,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
             final ReportingOptions reportingOptions,
             final DatasetAdapterFactory datasetAdapterFactory) {
         return new DefaultInvocationStorage(totalInvocations, reportingOptions,
-                datasetAdapterFactory);
+                new ImageDataFactory(datasetAdapterFactory));
     }
 
     private static List<Integer> initialize(final int invocations) {
@@ -82,12 +80,8 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     }
 
     private ImageData imageData(final List<Integer> invocations) {
-        final DatasetAdapter<LineChartGraphData> adapter = datasetAdapterFactory()
-                .forLineChart(legendTitle());
-        final ImageData imageData = provideStatistics() ? ImageData.statistics(
-                title(), xAxisTitle(), range(), statistics(), adapter)
-                : ImageData.noStatistics(title(), xAxisTitle(), range(),
-                        adapter);
+        final ImageData imageData = imageDataFactory()
+                .newImageDataForLineChart(reportingOptions(), statistics());
         int i = 0;
         for (final Integer latency : invocations) {
             imageData.add(i, latency);
@@ -96,32 +90,12 @@ public final class DefaultInvocationStorage implements InvocationStorage {
         return imageData;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
-    }
-
-    private int range() {
-        return reportingOptions().range();
-    }
-
-    private boolean provideStatistics() {
-        return reportingOptions().provideStatistics();
+    private ImageDataFactory imageDataFactory() {
+        return this.imageDataFactory;
     }
 
     private ReportingOptions reportingOptions() {
         return this.reportingOptions;
-    }
-
-    private String legendTitle() {
-        return reportingOptions().legendTitle();
-    }
-
-    private String xAxisTitle() {
-        return reportingOptions().xAxisTitle();
-    }
-
-    private String title() {
-        return reportingOptions().title();
     }
 
     public static InvocationStorage invocationStorageWithNoSamples(

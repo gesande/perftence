@@ -1,7 +1,5 @@
 package net.sf.perftence.common;
 
-import java.nio.charset.Charset;
-
 import net.sf.perftence.AppendToFileFailed;
 import net.sf.perftence.FileUtil;
 import net.sf.perftence.WritingFileFailed;
@@ -11,7 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class HtmlTestReport implements TestReport {
-    static final Logger LOG = LoggerFactory.getLogger(HtmlTestReport.class);
+    private final static Logger LOG = LoggerFactory
+            .getLogger(HtmlTestReport.class);
 
     private final String directory;
     private final FileAppender fileAppender;
@@ -19,7 +18,7 @@ public final class HtmlTestReport implements TestReport {
 
     private HtmlTestReport(final String reportRootDirectory) {
         this.directory = reportRootDirectory;
-        this.toBytes = new ToBytes(Charset.defaultCharset());
+        this.toBytes = ToBytes.withDefaultCharset();
         this.fileAppender = new FileAppender(this.toBytes,
                 new FileAppendHandler() {
                     @Override

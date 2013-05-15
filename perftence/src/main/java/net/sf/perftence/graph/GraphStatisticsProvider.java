@@ -1,6 +1,6 @@
 package net.sf.perftence.graph;
 
-public interface StatisticsForGraphs {
+public interface GraphStatisticsProvider {
 
     int median();
 
