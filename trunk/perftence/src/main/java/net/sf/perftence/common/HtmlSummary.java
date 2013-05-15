@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.summary.html;
+package net.sf.perftence.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

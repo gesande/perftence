@@ -1,7 +1,6 @@
 package net.sf.perftence.common;
 
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
-import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
 public final class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics
         implements StatisticsSummaryProvider<HtmlSummary> {

@@ -9,7 +9,6 @@ import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.CustomSummaryProvider;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 import net.sf.perftence.reporting.summary.Summary;
-import net.sf.perftence.reporting.summary.html.HtmlSummary;
 
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;

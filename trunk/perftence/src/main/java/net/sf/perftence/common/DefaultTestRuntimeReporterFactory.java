@@ -10,7 +10,6 @@ import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
-import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DefaultTestRuntimeReporterFactory implements
