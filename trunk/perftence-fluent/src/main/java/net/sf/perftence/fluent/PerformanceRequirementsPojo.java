@@ -158,20 +158,10 @@ public final class PerformanceRequirementsPojo implements
 
     @Override
     public String toString() {
-        return "PerformanceRequirementsPojo [average()=" + average()
-                + ", median()=" + median() + ", max()=" + max()
-                + ", totalTime()=" + totalTime() + ", throughput()="
-                + throughput() + ", percentileRequirements()="
-                + toString(percentileRequirements()) + "]";
+        return "PerformanceRequirementsPojo [average=" + average()
+                + ", median=" + median() + ", max=" + max() + ", totalTime="
+                + totalTime() + ", throughput=" + throughput()
+                + ", percentileRequirements="
+                + Arrays.toString(percentileRequirements()) + "]";
     }
-
-    private static String toString(final PercentileRequirement[] requirements) {
-        final StringBuffer sb = new StringBuffer();
-        for (PercentileRequirement r : requirements) {
-            sb.append("PercentileRequirement [millis=" + r.millis()
-                    + ",percentage=" + r.percentage() + "]");
-        }
-        return sb.toString();
-    }
-
 }

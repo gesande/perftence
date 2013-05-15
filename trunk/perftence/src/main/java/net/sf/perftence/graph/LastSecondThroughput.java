@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.graph;
 
 import java.util.ArrayList;
 import java.util.List;

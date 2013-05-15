@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.graph.jfreechart;
+package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Color;
 import java.awt.Paint;
@@ -9,18 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.perftence.FileUtil;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.StatisticsForGraphs;
 import net.sf.perftence.reporting.TestReport;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactory;
-import net.sf.perftence.reporting.graph.StatisticsForGraphs;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.data.Range;
@@ -33,15 +31,17 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ImageFactoryUsingJFreeChart.class);
     private final TestReport testReport;
+    private final JFreeChartFactory jFreeChartFactory;
 
     public ImageFactoryUsingJFreeChart(final TestReport testReport) {
         this.testReport = testReport;
+        this.jFreeChartFactory = new JFreeChartFactory();
     }
 
     @Override
     public void createXYLineChart(final String id, final ImageData imageData) {
         log().info("Create line chart for: {}", id);
-        final JFreeChart chart = newXYLineChart(imageData);
+        final JFreeChart chart = jfreeChartFactory().newXYLineChart(imageData);
         final XYPlot plot = chart.getXYPlot();
         log().info("Processing data...");
         final LineChartGraphData mainData = lineChartGraphData(imageData,
@@ -59,7 +59,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     @Override
     public void createBarChart(final String id, final ImageData imageData) {
         log().info("Create bar chart for:  {}", id);
-        final JFreeChart chart = newBarChart(imageData);
+        final JFreeChart chart = jfreeChartFactory().newBarChart(imageData);
         final CategoryPlot plot = chart.getCategoryPlot();
         log().info("Processing data...");
         final BarChartGraphData mainData = barGraphData(imageData, Color.GRAY);
@@ -70,17 +70,11 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     @Override
     public void createScatterPlot(final String id, final ImageData imageData) {
         log().info("Create line chart for: {}", id);
-        writeChartToFile(id, newScatterPlot(imageData));
+        writeChartToFile(id, jfreeChartFactory().newScatterPlot(imageData));
     }
 
-    private static JFreeChart newScatterPlot(final ImageData imageData) {
-        final XYSeriesAdapterForScatterPlot adapter = (XYSeriesAdapterForScatterPlot) imageData
-                .adapter();
-        final ScatterPlotGraphData graphData = adapter.graphData(Color.RED, 0);
-        return ChartFactory.createScatterPlot(imageData.title(),
-                imageData.xAxisLabel(), graphData.yAxisTitle(),
-                graphData.dataset(), PlotOrientation.VERTICAL, showLegend(),
-                noTooltips(), noUrls());
+    private JFreeChartFactory jfreeChartFactory() {
+        return this.jFreeChartFactory;
     }
 
     private static void addMainDataGraphToPlot(final CategoryPlot plot,
@@ -203,9 +197,9 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     }
 
     private static String logError(final String outputFilePath,
-            final Exception e) {
+            final Throwable t) {
         final String errorMsg = "Writing file '" + outputFilePath + "' failed!";
-        log().error(errorMsg, e);
+        log().error(errorMsg, t);
         return errorMsg;
     }
 
@@ -221,18 +215,6 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         return 800;
     }
 
-    private static boolean showLegend() {
-        return true;
-    }
-
-    private static boolean noTooltips() {
-        return false;
-    }
-
-    private static boolean noUrls() {
-        return false;
-    }
-
     private static BarChartGraphData barGraphData(final ImageData imageData,
             Paint paint) {
         return (BarChartGraphData) imageData.adapter().graphData(paint,
@@ -243,19 +225,6 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
             final ImageData imageData, Paint paint) {
         return (LineChartGraphData) imageData.adapter().graphData(paint,
                 imageData.range());
-    }
-
-    private static JFreeChart newBarChart(final ImageData imageData) {
-        return ChartFactory.createBarChart(imageData.title(),
-                imageData.xAxisLabel(), null, null, PlotOrientation.VERTICAL,
-                showLegend(), noTooltips(), noUrls());
-    }
-
-    private static JFreeChart newXYLineChart(final ImageData imageData) {
-        log().info("Create XY linechart...");
-        return ChartFactory.createXYLineChart(imageData.title(),
-                imageData.xAxisLabel(), null, null, PlotOrientation.VERTICAL,
-                showLegend(), noTooltips(), noUrls());
     }
 
     final static class LineGraphStatisticsGraphData {
@@ -289,10 +258,10 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     }
 
     private String reportDeploymentDirectory() {
-        return testReport().directory();
+        return testReport().reportRootDirectory();
     }
 
-    private static Logger log() {
+    static Logger log() {
         return LOGGER;
     }
 

@@ -3,11 +3,11 @@ package net.sf.perftence.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.perftence.graph.DatasetAdapter;
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 
 public final class DefaultInvocationStorage implements InvocationStorage {
 

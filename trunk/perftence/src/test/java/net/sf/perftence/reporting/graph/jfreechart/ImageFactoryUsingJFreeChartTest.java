@@ -11,9 +11,12 @@ import net.sf.perftence.common.FrequencyStorageFactory;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.Statistics;
+import net.sf.perftence.graph.DatasetAdapter;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.ScatterPlotGraphData;
 import net.sf.perftence.reporting.ReportingOptionsFactory;
-import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.ImageData;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -34,7 +37,8 @@ public class ImageFactoryUsingJFreeChartTest {
 
     @BeforeClass
     public static void beforeClass() {
-        imageFactory = new ImageFactoryUsingJFreeChart(new HtmlTestReport());
+        imageFactory = new ImageFactoryUsingJFreeChart(
+                HtmlTestReport.withDefaultReportPath());
     }
 
     private static InvocationStorage newDefaultInvocationStorage(final int value) {

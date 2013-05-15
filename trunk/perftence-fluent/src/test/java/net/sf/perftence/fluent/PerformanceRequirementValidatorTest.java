@@ -16,55 +16,46 @@ public class PerformanceRequirementValidatorTest {
 
             @Override
             public double throughput() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long sampleCount() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long percentileLatency(int percentile) {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long minLatency() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long median() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long maxLatency() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public boolean hasSamples() {
-                // TODO Auto-generated method stub
                 return false;
             }
 
             @Override
             public long duration() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public double averageLatency() {
-                // TODO Auto-generated method stub
                 return 0;
             }
         };
@@ -84,55 +75,46 @@ public class PerformanceRequirementValidatorTest {
 
             @Override
             public double throughput() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long sampleCount() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long percentileLatency(int percentile) {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long minLatency() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long median() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public long maxLatency() {
-                // TODO Auto-generated method stub
                 return 100;
             }
 
             @Override
             public boolean hasSamples() {
-                // TODO Auto-generated method stub
                 return false;
             }
 
             @Override
             public long duration() {
-                // TODO Auto-generated method stub
                 return 0;
             }
 
             @Override
             public double averageLatency() {
-                // TODO Auto-generated method stub
                 return 0;
             }
         };

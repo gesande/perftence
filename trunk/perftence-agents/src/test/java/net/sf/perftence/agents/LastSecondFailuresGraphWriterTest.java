@@ -9,11 +9,11 @@ import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
-import net.sf.perftence.reporting.graph.GraphWriter;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactory;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.GraphWriter;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 
@@ -54,7 +54,7 @@ public class LastSecondFailuresGraphWriterTest {
         assertTrue(graphFor.hasSomethingToWrite());
         assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
         final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart(
-                new HtmlTestReport());
+                HtmlTestReport.withDefaultReportPath());
         graphFor.writeImage(new ImageFactory() {
 
             @Override

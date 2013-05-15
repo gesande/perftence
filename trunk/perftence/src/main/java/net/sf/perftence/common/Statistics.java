@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.perftence.reporting.graph.StatisticsForGraphs;
+import net.sf.perftence.graph.StatisticsForGraphs;
 
 public final class Statistics implements StatisticsForGraphs {
 

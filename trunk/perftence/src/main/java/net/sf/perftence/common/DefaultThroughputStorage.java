@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.ImageData;
 
 public final class DefaultThroughputStorage implements ThroughputStorage {
     private final List<Double> list;

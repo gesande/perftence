@@ -2,13 +2,13 @@ package net.sf.perftence.common;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.ReportingOptionsFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.ImageFactory;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;
 import net.sf.perftence.setup.PerformanceTestSetup;
@@ -22,7 +22,7 @@ public final class DefaultTestRuntimeReporterFactory implements
     private final ImageFactory imageFactory;
 
     public DefaultTestRuntimeReporterFactory() {
-        this.testReport = new HtmlTestReport();
+        this.testReport = HtmlTestReport.withDefaultReportPath();
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
         this.throughputStorageFactory = new ThroughputStorageFactory(
                 this.datasetAdapterFactory);

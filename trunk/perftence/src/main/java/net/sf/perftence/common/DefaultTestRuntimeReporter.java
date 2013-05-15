@@ -4,10 +4,10 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import net.sf.perftence.graph.GraphWriter;
+import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.reporting.graph.GraphWriter;
-import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.html.HtmlSummary;

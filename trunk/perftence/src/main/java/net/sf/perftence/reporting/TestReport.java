@@ -1,10 +1,8 @@
 package net.sf.perftence.reporting;
 
 public interface TestReport {
-    /*
-     * Root directory where report is
-     */
-    String directory();
+
+    String reportRootDirectory();
 
     void updateIndexFile(final String id);
 

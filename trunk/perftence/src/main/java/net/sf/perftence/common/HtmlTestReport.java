@@ -11,12 +11,46 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class HtmlTestReport implements TestReport {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(HtmlTestReport.class);
+    static final Logger LOG = LoggerFactory.getLogger(HtmlTestReport.class);
+
+    private final String directory;
+    private final FileAppender fileAppender;
+    private final ToBytes toBytes;
+
+    private HtmlTestReport(final String reportRootDirectory) {
+        this.directory = reportRootDirectory;
+        this.toBytes = new ToBytes(Charset.defaultCharset());
+        this.fileAppender = new FileAppender(this.toBytes,
+                new FileAppendHandler() {
+                    @Override
+                    public void failed(final String file,
+                            final AppendToFileFailed e) {
+                        throw newRuntimeException(
+                                "Appending data to summary file '" + file
+                                        + "' failed", e);
+                    }
+
+                    @Override
+                    public void ok(String file) {
+                        LOG.info("Data to summary file '{}' appended", file);
+                    }
+
+                    @Override
+                    public void start(String file) {
+                        LOG.info("Appending data to summary file '{}' ...",
+                                file);
+                    }
+                });
+    }
+
+    public static TestReport withDefaultReportPath() {
+        return new HtmlTestReport(System.getProperty("user.dir")
+                + "/target/perftence");
+    }
 
     @Override
-    public String directory() {
-        return System.getProperty("user.dir") + "/target/perftence";
+    public String reportRootDirectory() {
+        return this.directory;
     }
 
     private static String nameFor(final String id) {
@@ -24,44 +58,46 @@ public final class HtmlTestReport implements TestReport {
     }
 
     private String indexFile() {
-        return directory() + "/" + "index.html";
+        return reportRootDirectory() + "/" + "index.html";
     }
 
     @Override
     public void updateIndexFile(final String id) {
-        appendToFile(indexFile(), asHref(id));
+        fileAppender().appendToFile(indexFile(), asHref(id));
+    }
+
+    private FileAppender fileAppender() {
+        return this.fileAppender;
     }
 
     private static String asHref(final String id) {
         return "<a href=" + nameFor(id) + ">" + id + "</a><br/>";
     }
 
-    private static void appendToFile(final String file, final String data) {
-        log().info("Updating index file '{}' ...", file);
-        try {
-            FileUtil.appendToFile(file, toBytes(data));
-        } catch (final AppendToFileFailed e) {
-            throw new RuntimeException(logError("Writing index file '" + file
-                    + "' failed", e), e);
-        }
-        log().info("Index file '{}' updated", file);
-    }
-
     @Override
     public void writeSummary(final String id, final String data) {
-        final String path = directory() + "/" + nameFor(id);
+        final String path = reportRootDirectory() + "/" + nameFor(id);
         log().debug("Writing summary to: " + path);
         try {
             FileUtil.writeToFile(path, toBytes(data));
         } catch (final WritingFileFailed cause) {
-            throw new RuntimeException(logError("Writing summary to '" + path
-                    + "'failed!", cause), cause);
+            throw newRuntimeException("Writing summary to '" + path
+                    + "'failed!", cause);
         }
         log().debug("Summary successfully written to '" + path + "' ");
     }
 
-    private static byte[] toBytes(final String data) {
-        return data.getBytes(Charset.defaultCharset());
+    private byte[] toBytes(final String data) {
+        return toBytes().convert(data);
+    }
+
+    private ToBytes toBytes() {
+        return this.toBytes;
+    }
+
+    private static RuntimeException newRuntimeException(final String msg,
+            final Throwable cause) {
+        return new RuntimeException(logError(msg, cause), cause);
     }
 
     private static String logError(final String msg, final Throwable t) {
@@ -70,6 +106,6 @@ public final class HtmlTestReport implements TestReport {
     }
 
     private static Logger log() {
-        return LOGGER;
+        return LOG;
     }
 }

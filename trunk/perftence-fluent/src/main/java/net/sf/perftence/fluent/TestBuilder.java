@@ -20,9 +20,9 @@ import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.LastSecondThroughput;
 import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.LastSecondThroughput;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
@@ -216,11 +216,7 @@ public final class TestBuilder {
         do {
             Thread.sleep(50);
         } while (!isFinished(this.startables));
-        log().info("All startables finished.");
-    }
-
-    private static Logger log() {
-        return LOG;
+        LOG.info("All startables finished.");
     }
 
     private boolean isFinished(final List<Startable> startables) {

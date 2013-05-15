@@ -4,9 +4,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
 
 import org.junit.Test;
 

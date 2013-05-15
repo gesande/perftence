@@ -22,4 +22,10 @@ final class PercentileRequirementPojo implements PercentileRequirement {
         return this.millis;
     }
 
+    @Override
+    public String toString() {
+        return "PercentileRequirementPojo [percentage()=" + percentage()
+                + ", millis()=" + millis() + "]";
+    }
+
 }

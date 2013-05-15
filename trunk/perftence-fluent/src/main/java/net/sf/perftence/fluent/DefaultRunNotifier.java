@@ -19,12 +19,8 @@ public final class DefaultRunNotifier implements RunNotifier {
     public void finished(final String id) {
         synchronized (this.finished) {
             this.finished.add(id);
-            log().info("Done {}", id);
         }
-    }
-
-    private static Logger log() {
-        return LOG;
+        LOG.info("Done {}", id);
     }
 
     @Override
