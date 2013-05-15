@@ -18,9 +18,8 @@ public final class FrequencyStorageFactory {
 
             @Override
             public ImageData imageData() {
-                final String legendTitle = legendTitle();
                 final ImageData imageData = newImageData(datasetAdapterFactory
-                        .forLineChart(legendTitle));
+                        .forLineChart(legendTitle()));
                 final long maxLatency = latencyProvider.maxLatency();
                 long range = 0;
                 for (long i = 0; i <= maxLatency; i++) {
@@ -42,9 +41,8 @@ public final class FrequencyStorageFactory {
 
     private static ImageData newImageData(
             final DatasetAdapter<LineChartGraphData> adapterForLinechart) {
-        final ImageData imageData = ImageData.noStatistics(
-                "Latency frequencies", "Latency (ms)", adapterForLinechart);
-        return imageData;
+        return ImageData.noStatistics("Latency frequencies", "Latency (ms)",
+                adapterForLinechart);
     }
 
     private static String legendTitle() {
