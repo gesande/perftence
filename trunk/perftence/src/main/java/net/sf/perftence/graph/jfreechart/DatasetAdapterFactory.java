@@ -1,8 +1,6 @@
-package net.sf.perftence.graph;
+package net.sf.perftence.graph.jfreechart;
 
-import net.sf.perftence.graph.jfreechart.BarChartGraphData;
-import net.sf.perftence.graph.jfreechart.LineChartGraphData;
-import net.sf.perftence.graph.jfreechart.ScatterPlotGraphData;
+import net.sf.perftence.graph.DatasetAdapter;
 
 public interface DatasetAdapterFactory {
     DatasetAdapter<LineChartGraphData> forLineChart(final String title);

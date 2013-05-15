@@ -8,7 +8,7 @@ import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;

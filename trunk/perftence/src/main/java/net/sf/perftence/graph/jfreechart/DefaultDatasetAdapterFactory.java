@@ -1,7 +1,6 @@
 package net.sf.perftence.graph.jfreechart;
 
 import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
 
 public final class DefaultDatasetAdapterFactory implements
         DatasetAdapterFactory {

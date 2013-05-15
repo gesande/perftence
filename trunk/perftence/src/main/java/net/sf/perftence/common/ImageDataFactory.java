@@ -1,9 +1,9 @@
 package net.sf.perftence.common;
 
 import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.reporting.ReportingOptions;
 
 final class ImageDataFactory {

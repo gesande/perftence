@@ -15,7 +15,7 @@ import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;

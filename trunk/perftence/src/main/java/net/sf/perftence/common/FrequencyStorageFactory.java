@@ -2,8 +2,8 @@ package net.sf.perftence.common;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 
 public final class FrequencyStorageFactory {

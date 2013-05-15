@@ -2,8 +2,8 @@ package net.sf.perftence.common;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.StatisticsProvider;
-import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.ReportingOptionsFactory;

@@ -6,11 +6,11 @@ import java.util.Date;
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.DatasetAdapterFactory;
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 
 import org.slf4j.Logger;
