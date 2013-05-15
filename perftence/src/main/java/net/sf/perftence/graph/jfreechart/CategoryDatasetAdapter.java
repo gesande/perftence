@@ -1,8 +1,8 @@
-package net.sf.perftence.reporting.graph.jfreechart;
+package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
-import net.sf.perftence.reporting.graph.DatasetAdapter;
+import net.sf.perftence.graph.DatasetAdapter;
 
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;

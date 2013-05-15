@@ -1,6 +1,6 @@
 package net.sf.perftence.common;
 
-import net.sf.perftence.reporting.graph.ImageData;
+import net.sf.perftence.graph.ImageData;
 
 public interface InvocationStorage {
 

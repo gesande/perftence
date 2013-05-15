@@ -8,12 +8,12 @@ import java.util.concurrent.TimeUnit;
 
 import net.sf.perftence.bag.StronglyTypedSortedBag;
 import net.sf.perftence.common.Statistics;
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.GraphWriter;
+import net.sf.perftence.graph.GraphWriterProvider;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.GraphWriter;
-import net.sf.perftence.reporting.graph.GraphWriterProvider;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactory;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 

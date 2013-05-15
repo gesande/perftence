@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
 public final class PerformanceTestSetupPojo implements PerformanceTestSetup,

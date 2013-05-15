@@ -26,7 +26,6 @@ public final class StatisticsSummaryProviderUsingDefaultInvocationStorageStatist
         summary.median(stat.median(), " ms").endOfLine();
         summary.standardDeviation(stat.standardDeviation()).endOfLine();
         summary.variance(stat.variance()).endOfLine();
-
         summary.percentileHeader();
         summary.percentile90(stat.percentile90());
         summary.percentile95(stat.percentile95());

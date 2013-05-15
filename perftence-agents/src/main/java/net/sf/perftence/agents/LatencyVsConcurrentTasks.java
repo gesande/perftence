@@ -1,11 +1,11 @@
 package net.sf.perftence.agents;
 
+import net.sf.perftence.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.GraphWriter;
+import net.sf.perftence.graph.GraphWriterProvider;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.ReportingOptions;
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.GraphWriter;
-import net.sf.perftence.reporting.graph.GraphWriterProvider;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.ImageFactory;
 
 public final class LatencyVsConcurrentTasks implements GraphWriterProvider {
 

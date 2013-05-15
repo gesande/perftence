@@ -1,6 +1,6 @@
 package net.sf.perftence.common;
 
-import net.sf.perftence.reporting.graph.DatasetAdapterFactory;
+import net.sf.perftence.graph.DatasetAdapterFactory;
 
 public final class ThroughputStorageFactory {
 

@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.graph;
+package net.sf.perftence.graph;
 
 public final class ImageData {
     private final String title;

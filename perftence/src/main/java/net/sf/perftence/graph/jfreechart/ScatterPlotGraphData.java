@@ -1,4 +1,4 @@
-package net.sf.perftence.reporting.graph.jfreechart;
+package net.sf.perftence.graph.jfreechart;
 
 import org.jfree.data.xy.XYDataset;
 

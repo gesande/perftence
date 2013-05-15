@@ -2,7 +2,7 @@ package net.sf.perftence.setup;
 
 import java.util.Collection;
 
-import net.sf.perftence.reporting.graph.GraphWriter;
+import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
 public interface PerformanceTestSetup {

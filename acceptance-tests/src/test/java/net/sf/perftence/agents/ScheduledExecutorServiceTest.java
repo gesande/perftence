@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.AssertionFailedError;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -130,7 +130,8 @@ public class ScheduledExecutorServiceTest {
             log().info("Shutdown");
         }
         this.storage.graphWriterFor(name).writeImage(
-                new ImageFactoryUsingJFreeChart(new HtmlTestReport()));
+                new ImageFactoryUsingJFreeChart(HtmlTestReport
+                        .withDefaultReportPath()));
     }
 
     private static Logger log() {

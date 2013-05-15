@@ -10,8 +10,8 @@ import java.util.Collections;
 
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.formatting.FieldFormatter;
+import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;

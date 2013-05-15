@@ -24,12 +24,12 @@ import net.sf.perftence.common.FrequencyStorage;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
+import net.sf.perftence.graph.DatasetAdapter;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.TestRuntimeReporter;
-import net.sf.perftence.reporting.graph.DatasetAdapter;
-import net.sf.perftence.reporting.graph.ImageData;
-import net.sf.perftence.reporting.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.reporting.graph.jfreechart.ImageFactoryUsingJFreeChart;
-import net.sf.perftence.reporting.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 
@@ -78,7 +78,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         System.out.println("\ntasks run " + this.tasksRun.intValue());
         System.out.println("\ntasks failed " + this.tasksFailed.intValue());
 
-        new ImageFactoryUsingJFreeChart(new HtmlTestReport())
+        new ImageFactoryUsingJFreeChart(HtmlTestReport.withDefaultReportPath())
                 .createXYLineChart(
                         "printingAFrequencyGraphUsingPerfEngineTools",
                         storage.imageData());
