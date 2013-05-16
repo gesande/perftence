@@ -1,12 +1,10 @@
-package net.sf.perftence.common;
+package net.sf.perftence.reporting.summary;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.perftence.reporting.CustomFailureReporter;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.IntermediateSummary;
 
 public final class LastSecondFailures implements CustomFailureReporter,
         CustomIntermediateSummaryProvider {

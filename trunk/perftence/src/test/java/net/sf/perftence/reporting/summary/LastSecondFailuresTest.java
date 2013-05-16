@@ -1,8 +1,6 @@
 package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
-import net.sf.perftence.common.FailedInvocationsFactory;
-import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 

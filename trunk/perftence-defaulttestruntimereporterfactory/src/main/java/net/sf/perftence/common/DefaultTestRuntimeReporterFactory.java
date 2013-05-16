@@ -8,6 +8,8 @@ import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.summary.FailedInvocations;
+import net.sf.perftence.reporting.summary.HtmlSummary;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.setup.PerformanceTestSetup;
 

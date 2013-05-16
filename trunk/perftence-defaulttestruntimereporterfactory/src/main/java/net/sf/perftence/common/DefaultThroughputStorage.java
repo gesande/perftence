@@ -8,6 +8,7 @@ import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 
 public final class DefaultThroughputStorage implements ThroughputStorage {
+
     private final List<Double> list;
     private final List<Long> time;
     private final int range;

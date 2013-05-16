@@ -13,22 +13,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             group = 'Verification'
             description ='If this passed you have license to commit your changes.'
             buildFile = 'build.gradle'
-
-            tasks << 'perftence-concurrent:clean'
-            tasks << 'perftence-bag:clean'
-            tasks << 'perftence-linereader:clean'
-            tasks << 'perftence-fileutil:clean'
-            tasks << 'perftence-junit-utils:clean'
-            tasks << 'perftence-classhelper:clean'
-            tasks << 'perftence:clean'
-            tasks << 'perftence-api:clean'
-            tasks << 'responsecode-summaryappender:clean'
-            tasks << 'perftence-junit:clean'
-            tasks << 'distributed-perftence-api:clean'
-            tasks << 'perftence-fluent:clean'
-            tasks << 'perftence-agents:clean'
-            tasks << 'perftence-graph:clean'
-            
+           
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
             tasks << 'perftence-linereader:continous'
@@ -43,9 +28,9 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-fluent:continous'
             tasks << 'perftence-agents:continous'
             tasks << 'perftence-graph:continous'
+            tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             
             tasks << 'exportBacklog'
-
             tasks << 'aggregateTestReport'
             tasks << 'aggregateJDependReport'
             tasks << 'aggregateCoverageReport'
@@ -58,22 +43,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             group = 'Verification'
             description ='Continous build for the whole thing.'
             buildFile = 'build.gradle'
-
-            tasks << 'perftence-concurrent:clean'
-            tasks << 'perftence-bag:clean'
-            tasks << 'perftence-linereader:clean'
-            tasks << 'perftence-fileutil:clean'
-            tasks << 'perftence-junit-utils:clean'
-            tasks << 'perftence-classhelper:clean'
-            tasks << 'perftence:clean'
-            tasks << 'perftence-api:clean'
-            tasks << 'responsecode-summaryappender:clean'
-            tasks << 'perftence-junit:clean'
-            tasks << 'distributed-perftence-api:clean'
-            tasks << 'perftence-fluent:clean'
-            tasks << 'perftence-agents:clean'
-            tasks << 'perftence-graph:clean'
-            
+           
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
             tasks << 'perftence-linereader:continous'
@@ -88,6 +58,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-fluent:continous'
             tasks << 'perftence-agents:continous'
             tasks << 'perftence-graph:continous'
+            tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             
             tasks << 'acceptance-tests:test'
 
@@ -119,6 +90,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-fluent:clean'
             tasks << 'perftence-agents:clean'
             tasks << 'perftence-graph:clean'
+            tasks << 'perftence-defaulttestruntimereporterfactory:clean'
             
             tasks << 'perftence-concurrent:release'
             tasks << 'perftence-bag:release'
@@ -134,6 +106,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-fluent:release'
             tasks << 'perftence-agents:release'
             tasks << 'perftence-graph:release'
+            tasks << 'perftence-defaulttestruntimereporterfactory:release'
             
             tasks << 'makeDistributionPackage'
 

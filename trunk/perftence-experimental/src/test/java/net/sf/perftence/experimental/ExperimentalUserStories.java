@@ -18,8 +18,6 @@ import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.FailedInvocations;
-import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.FrequencyStorage;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -31,6 +29,8 @@ import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
+import net.sf.perftence.reporting.summary.FailedInvocations;
+import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 
 import org.apache.commons.collections.Bag;
