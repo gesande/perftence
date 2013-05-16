@@ -6,6 +6,7 @@ project(':perftence-testreport-html') {
 
     dependencies {
         compile project(':perftence')
+        compile project(':perftence-fileutil')
         testCompile project(':junit-4.10')
     }
 }
