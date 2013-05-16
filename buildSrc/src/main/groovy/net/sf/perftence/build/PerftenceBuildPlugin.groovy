@@ -31,6 +31,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             
             tasks << 'exportBacklog'
+            tasks << 'exportAntBuildFile'
             tasks << 'aggregateTestReport'
             tasks << 'aggregateJDependReport'
             tasks << 'aggregateCoverageReport'
@@ -63,6 +64,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'acceptance-tests:test'
 
             tasks << 'exportBacklog'
+            tasks << 'exportAntBuildFile'
             tasks << 'aggregateTestReport'
             tasks << 'aggregateJDependReport'
             tasks << 'aggregateCoverageReport'
