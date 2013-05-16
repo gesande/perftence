@@ -178,6 +178,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("introduced perftence-agents module", refactoring),
                         done("introduced perftence-graph module", refactoring),
                         done("introduced perftence-defaulttestruntimereporterfactory module",
+                                refactoring),
+                        done("introduced perftence-graph-jfreechart module",
                                 refactoring)
 
                 )
