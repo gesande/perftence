@@ -1,14 +1,8 @@
-package net.sf.perftence.common;
+package net.sf.perftence.reporting.summary;
 
 import java.util.Set;
 
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
-import net.sf.perftence.reporting.summary.AdjustedField;
-import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
-import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
-import net.sf.perftence.reporting.summary.CustomSummaryProvider;
-import net.sf.perftence.reporting.summary.IntermediateSummary;
-import net.sf.perftence.reporting.summary.Summary;
 
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;

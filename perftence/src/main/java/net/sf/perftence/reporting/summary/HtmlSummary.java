@@ -1,11 +1,9 @@
-package net.sf.perftence.common;
+package net.sf.perftence.reporting.summary;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
-import net.sf.perftence.reporting.summary.StatisticsSummary;
-import net.sf.perftence.reporting.summary.Summary;
 
 public final class HtmlSummary implements Summary<HtmlSummary>,
         StatisticsSummary<HtmlSummary> {

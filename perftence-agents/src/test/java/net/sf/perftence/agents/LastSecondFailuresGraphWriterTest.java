@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import net.sf.perftence.TestTimeAware;
-import net.sf.perftence.common.FailedInvocationsFactory;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.GraphWriter;
@@ -15,7 +13,9 @@ import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
+import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
+import net.sf.perftence.reporting.summary.LastSecondFailures;
 
 import org.junit.Test;
 

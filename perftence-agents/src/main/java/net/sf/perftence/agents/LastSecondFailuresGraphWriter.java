@@ -5,12 +5,12 @@ import java.util.Date;
 
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.common.ImageDataFactory;
-import net.sf.perftence.common.LastSecondFailures;
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.reporting.summary.LastSecondFailures;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

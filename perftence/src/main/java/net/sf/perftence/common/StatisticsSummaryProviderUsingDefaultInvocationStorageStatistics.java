@@ -1,5 +1,6 @@
 package net.sf.perftence.common;
 
+import net.sf.perftence.reporting.summary.HtmlSummary;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 
 public final class StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics

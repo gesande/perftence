@@ -2,6 +2,7 @@ package net.sf.perftence.common;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public interface TestRuntimeReporterFactory {

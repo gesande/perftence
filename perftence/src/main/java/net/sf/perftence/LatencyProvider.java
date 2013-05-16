@@ -18,13 +18,7 @@ public final class LatencyProvider implements StatisticsProvider,
         init();
     }
 
-    /**
-     * 
-     * @deprecated will be changed as package protected, use
-     *             {@link DefaultLatencyProviderFactory} instead
-     */
-    @Deprecated
-    public static LatencyProvider withSynchronized() {
+    static LatencyProvider withSynchronized() {
         return new LatencyProvider(
                 StronglyTypedSortedBag.<Long> synchronizedTreeBag());
     }

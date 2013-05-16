@@ -6,6 +6,7 @@ project(':perftence-agents') {
 
     dependencies {
         compile project(':perftence')
+        compile project(':perftence-defaulttestruntimereporterfactory')
         testCompile project(':junit-4.10')
     }
 

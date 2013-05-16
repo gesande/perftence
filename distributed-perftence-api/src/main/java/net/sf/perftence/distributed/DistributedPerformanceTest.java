@@ -6,13 +6,13 @@ import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.FailedInvocations;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DistributedPerformanceTest {

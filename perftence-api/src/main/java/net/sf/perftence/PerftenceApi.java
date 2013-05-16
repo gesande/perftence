@@ -12,7 +12,7 @@ public final class PerftenceApi {
     private final FluentPerformanceTest performanceTest;
     private final AgentBasedTest agentBasedTest;
     private final TestFailureNotifier notifier;
-    private final DefaultLatencyProviderFactory latencyProviderFactory;
+    private final LatencyProviderFactory latencyProviderFactory;
     private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 
     public PerftenceApi(final TestFailureNotifier notifier) {
@@ -40,7 +40,7 @@ public final class PerftenceApi {
                 testRuntimeReporterFactory());
     }
 
-    private DefaultLatencyProviderFactory latencyProviderFactory() {
+    private LatencyProviderFactory latencyProviderFactory() {
         return this.latencyProviderFactory;
     }
 

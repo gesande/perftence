@@ -9,7 +9,6 @@ public final class ThroughputStorageFactory {
     public ThroughputStorageFactory(
             final DatasetAdapterFactory datasetAdapterFactory) {
         this.datasetAdapterFactory = datasetAdapterFactory;
-
     }
 
     public ThroughputStorage forRange(final int range) {
