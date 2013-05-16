@@ -180,6 +180,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("introduced perftence-defaulttestruntimereporterfactory module",
                                 refactoring),
                         done("introduced perftence-graph-jfreechart module",
+                                refactoring),
+                        done("introduced perftence-testreport-html",
                                 refactoring)
 
                 )

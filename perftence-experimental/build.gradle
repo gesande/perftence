@@ -10,6 +10,7 @@ project(':perftence-experimental') {
         compile project(':distributed-perftence-api')
         compile project(':perftence-defaulttestruntimereporterfactory')
         compile project(':perftence-graph-jfreechart')
+        compile project(':perftence-testreport-html')
         compile project(':commons-collections-3.2.1')
         compile project(':slf4j-api-1.6.1')
         compile project(':junit-4.10')

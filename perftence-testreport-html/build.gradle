@@ -3,6 +3,9 @@ project(':perftence-testreport-html') {
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     version = project.properties.artifactVersion
-    compile project(':perftence')
-    testCompile project(':junit-4.10')
+
+    dependencies {
+        compile project(':perftence')
+        testCompile project(':junit-4.10')
+    }
 }
