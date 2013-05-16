@@ -100,13 +100,13 @@ test {
             outputFactory.withStyle(Style.Info).println("Html: file://$buildDir/reports/emma/coverage.html")
             outputFactory.withStyle(Style.Normal).println("Xml:  file://$buildDir/reports/emma/coverage.xml")
 
-            outputFactory.withStyle(Style.Normal).println("Analyzing test coverage...")
+            outputFactory.withStyle(Style.Normal).println("Analyzing test coverage for $project.name ...")
             def report = new XmlParser().parse(reportFile)
             def String coverage = report.data[0].all[0].coverage[3].@value
             def String[] splitted =coverage.split(" ");
             def Double actualCoverage = Double.parseDouble(splitted[0].replace("%", ""))
             if(actualCoverage < 95.0){
-                outputFactory.withStyle(Style.Error).println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on this.")
+                outputFactory.withStyle(Style.Error).println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on $project.name.")
             } else {
                 outputFactory.withStyle(Style.Info).println("Line coverage was ${coverage}, good job!")
             }
