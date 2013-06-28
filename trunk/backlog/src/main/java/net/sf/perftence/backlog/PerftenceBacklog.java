@@ -192,7 +192,11 @@ public class PerftenceBacklog extends AbstractBacklogging {
 
                 .waiting()
                 .title("WAITING:")
-                .tasks(waiting("failures over test time, use DateAxis", feature),
+                .tasks(waiting(
+                        "move 'blacksmith' projects to its own 'blacksmith' sourceforge project (see concurrent,bag,linereader,fileutil projects)",
+                        refactoring),
+                        waiting("failures over test time, use DateAxis",
+                                feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
                         waiting("provide unit test for WritingFileFailed and other failure cases",
