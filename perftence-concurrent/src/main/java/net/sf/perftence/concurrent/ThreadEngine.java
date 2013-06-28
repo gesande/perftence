@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class ThreadEngine {
+final class ThreadEngine {
     private final static Logger LOG = LoggerFactory
             .getLogger(ThreadEngine.class);
     private final ThreadFactory threadFactory;
