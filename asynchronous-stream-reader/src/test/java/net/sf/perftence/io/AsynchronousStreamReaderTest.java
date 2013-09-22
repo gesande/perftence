@@ -92,8 +92,5 @@ public class AsynchronousStreamReaderTest {
         public FailIHave() {
         }
 
-        public FailIHave(final String msg) {
-            super(msg);
-        }
     }
 }
