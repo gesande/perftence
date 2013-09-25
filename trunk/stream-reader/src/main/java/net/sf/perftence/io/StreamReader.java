@@ -7,8 +7,8 @@ import net.sf.perftence.LineReader;
 import net.sf.perftence.LineVisitor;
 
 public final class StreamReader {
-    private LineVisitor visitor;
-    private LineReader lineReader;
+    private final LineVisitor visitor;
+    private final LineReader lineReader;
 
     public StreamReader(final LineVisitor visitor, final Charset charset) {
         this.visitor = visitor;
