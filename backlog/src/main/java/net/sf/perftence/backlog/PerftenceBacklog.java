@@ -182,9 +182,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("introduced perftence-graph-jfreechart module",
                                 refactoring),
                         done("introduced perftence-testreport-html",
-                                refactoring)
-
-                )
+                                refactoring),
+                        done("starting völundr", refactoring))
 
                 .inProgress()
                 .title("IN PROGRESS:")
