@@ -2,7 +2,7 @@ package net.sf.perftence;
 
 import java.util.Collection;
 
-import net.sf.perftence.bag.StronglyTypedSortedBag;
+import net.sf.völundr.bag.StronglyTypedSortedBag;
 
 public final class LatencyProvider implements StatisticsProvider,
         RuntimeStatisticsProvider, TestTimeAware {

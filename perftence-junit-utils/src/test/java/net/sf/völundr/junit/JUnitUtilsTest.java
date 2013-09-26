@@ -1,4 +1,4 @@
-package net.sf.perftence.junit;
+package net.sf.völundr.junit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,8 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-import net.sf.perftence.junit.predicates.Not;
-import net.sf.perftence.junit.predicates.Predicate;
+import net.sf.völundr.junit.JUnitUtils;
+import net.sf.völundr.junit.predicates.Not;
+import net.sf.völundr.junit.predicates.Predicate;
 
 import org.junit.Test;
 import org.junit.runners.model.FrameworkMethod;

@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.perftence.bag.StronglyTypedSortedBag;
 import net.sf.perftence.common.Statistics;
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
@@ -16,6 +15,7 @@ import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
+import net.sf.völundr.bag.StronglyTypedSortedBag;
 
 public final class TaskScheduleDifferences implements GraphWriterProvider {
     private static final DecimalFormat DF = new DecimalFormat("####");

@@ -1,4 +1,4 @@
-package net.sf.perftence;
+package net.sf.völundr;
 
 import java.io.File;
 import java.io.IOException;

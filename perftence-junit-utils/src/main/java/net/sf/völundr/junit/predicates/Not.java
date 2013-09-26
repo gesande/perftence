@@ -1,4 +1,4 @@
-package net.sf.perftence.junit.predicates;
+package net.sf.völundr.junit.predicates;
 
 public class Not<T> implements Predicate<T> {
     private final Predicate<T> pred;

@@ -3,7 +3,7 @@ package net.sf.perftence.reporting.summary;
 import java.text.DecimalFormat;
 import java.util.Collection;
 
-import net.sf.perftence.bag.StronglyTypedSortedBag;
+import net.sf.völundr.bag.StronglyTypedSortedBag;
 
 public class ResponseCodeSummary implements SummaryAppender {
 
