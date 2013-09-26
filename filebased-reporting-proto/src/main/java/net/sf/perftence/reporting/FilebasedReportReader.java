@@ -8,8 +8,6 @@ import java.io.ObjectInputStream;
 import java.nio.charset.Charset;
 
 import net.sf.perftence.LatencyProvider;
-import net.sf.perftence.LineReader;
-import net.sf.perftence.LineVisitor;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.common.ThroughputStorageFactory;
@@ -17,6 +15,8 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
+import net.sf.völundr.LineReader;
+import net.sf.völundr.LineVisitor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

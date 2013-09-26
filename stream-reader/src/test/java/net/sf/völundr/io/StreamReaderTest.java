@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.perftence.LineVisitor;
+import net.sf.völundr.LineVisitor;
 
 import org.junit.Test;
 
