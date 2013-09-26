@@ -2,7 +2,10 @@ package net.sf.perftence.common;
 
 import net.sf.perftence.reporting.TestReport;
 import net.sf.völundr.fileio.AppendToFileFailed;
+import net.sf.völundr.fileio.FileAppendHandler;
+import net.sf.völundr.fileio.FileAppender;
 import net.sf.völundr.fileio.FileUtil;
+import net.sf.völundr.fileio.ToBytes;
 import net.sf.völundr.fileio.WritingFileFailed;
 
 import org.slf4j.Logger;

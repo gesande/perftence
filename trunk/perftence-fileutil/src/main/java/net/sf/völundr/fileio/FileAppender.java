@@ -1,9 +1,6 @@
-package net.sf.perftence.common;
+package net.sf.völundr.fileio;
 
-import net.sf.völundr.fileio.AppendToFileFailed;
-import net.sf.völundr.fileio.FileUtil;
-
-final class FileAppender {
+final public class FileAppender {
     private final FileAppendHandler handler;
     private final ToBytes toBytes;
 
