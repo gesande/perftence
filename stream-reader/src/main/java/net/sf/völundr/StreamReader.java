@@ -1,4 +1,4 @@
-package net.sf.perftence.io;
+package net.sf.völundr;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;

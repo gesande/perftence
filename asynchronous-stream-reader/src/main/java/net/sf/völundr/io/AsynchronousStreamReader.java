@@ -1,4 +1,4 @@
-package net.sf.perftence.io;
+package net.sf.völundr.io;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadFactory;
 
 import net.sf.perftence.LineVisitor;
 import net.sf.perftence.concurrent.NamedThreadFactory;
+import net.sf.völundr.StreamReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
