@@ -9,7 +9,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-import net.sf.völundr.junit.JUnitUtils;
 import net.sf.völundr.junit.predicates.Not;
 import net.sf.völundr.junit.predicates.Predicate;
 
