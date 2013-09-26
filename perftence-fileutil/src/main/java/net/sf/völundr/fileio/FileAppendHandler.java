@@ -1,6 +1,4 @@
-package net.sf.perftence.common;
-
-import net.sf.völundr.fileio.AppendToFileFailed;
+package net.sf.völundr.fileio;
 
 public interface FileAppendHandler {
 

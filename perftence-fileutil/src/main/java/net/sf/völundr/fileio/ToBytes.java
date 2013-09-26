@@ -1,8 +1,8 @@
-package net.sf.perftence.common;
+package net.sf.völundr.fileio;
 
 import java.nio.charset.Charset;
 
-final class ToBytes {
+public final class ToBytes {
     private final Charset charset;
 
     public ToBytes(final Charset charset) {
