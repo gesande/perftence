@@ -7,8 +7,8 @@ import java.util.concurrent.ExecutorService;
 
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.concurrent.ExecutorServiceFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
+import net.sf.völundr.concurrent.ExecutorServiceFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

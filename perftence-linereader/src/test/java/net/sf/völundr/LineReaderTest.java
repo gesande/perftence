@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import net.sf.völundr.LineReader;
-import net.sf.völundr.LineVisitor;
-
 import org.junit.Test;
 
 public class LineReaderTest {

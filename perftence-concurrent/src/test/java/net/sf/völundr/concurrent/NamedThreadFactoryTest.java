@@ -1,4 +1,4 @@
-package net.sf.perftence.concurrent;
+package net.sf.völundr.concurrent;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

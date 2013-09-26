@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import junit.framework.Assert;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.concurrent.NamedThreadFactory;
+import net.sf.völundr.concurrent.NamedThreadFactory;
 
 import org.junit.Before;
 import org.junit.Test;

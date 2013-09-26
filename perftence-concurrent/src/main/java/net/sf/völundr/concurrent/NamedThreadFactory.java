@@ -1,4 +1,4 @@
-package net.sf.perftence.concurrent;
+package net.sf.völundr.concurrent;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

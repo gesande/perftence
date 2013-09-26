@@ -1,7 +1,7 @@
 package net.sf.perftence.common;
 
-import net.sf.perftence.AppendToFileFailed;
-import net.sf.perftence.FileUtil;
+import net.sf.völundr.fileio.AppendToFileFailed;
+import net.sf.völundr.fileio.FileUtil;
 
 final class FileAppender {
     private final FileAppendHandler handler;

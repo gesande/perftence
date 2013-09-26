@@ -2,7 +2,7 @@ package net.sf.perftence.fluent;
 
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.concurrent.ThreadEngineApi;
+import net.sf.völundr.concurrent.ThreadEngineApi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

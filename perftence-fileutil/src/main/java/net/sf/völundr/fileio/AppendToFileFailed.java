@@ -1,4 +1,4 @@
-package net.sf.perftence;
+package net.sf.völundr.fileio;
 
 public final class AppendToFileFailed extends Exception {
 
