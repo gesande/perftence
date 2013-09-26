@@ -3,8 +3,8 @@ package net.sf.völundr.io;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-import net.sf.perftence.LineReader;
-import net.sf.perftence.LineVisitor;
+import net.sf.völundr.LineReader;
+import net.sf.völundr.LineVisitor;
 
 public final class StreamReader {
     private final LineVisitor visitor;

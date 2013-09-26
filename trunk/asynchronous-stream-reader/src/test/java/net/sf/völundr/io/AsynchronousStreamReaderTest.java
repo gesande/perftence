@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import net.sf.perftence.LineVisitor;
+import net.sf.völundr.LineVisitor;
 import net.sf.völundr.io.AsynchronousStreamReader;
 
 import org.junit.Test;
