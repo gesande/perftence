@@ -1,4 +1,4 @@
-package net.sf.perftence.concurrent;
+package net.sf.völundr.concurrent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

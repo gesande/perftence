@@ -19,7 +19,6 @@ import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.concurrent.NamedThreadFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
@@ -29,6 +28,7 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
+import net.sf.völundr.concurrent.NamedThreadFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

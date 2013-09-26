@@ -1,4 +1,4 @@
-package net.sf.perftence.concurrent;
+package net.sf.völundr.concurrent;
 
 /**
  * Easy API for running something being or extending Runnable in threads.

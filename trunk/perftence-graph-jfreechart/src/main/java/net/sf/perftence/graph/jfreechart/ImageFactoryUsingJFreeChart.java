@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.perftence.FileUtil;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.TestReport;
+import net.sf.völundr.fileio.FileUtil;
 
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;

@@ -8,7 +8,6 @@ import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
-import net.sf.perftence.concurrent.ThreadEngineApi;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -21,6 +20,7 @@ import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
+import net.sf.völundr.concurrent.ThreadEngineApi;
 
 /**
  * Entry point class for fluent performance test

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
-import net.sf.perftence.concurrent.NamedThreadFactory;
 import net.sf.völundr.LineVisitor;
+import net.sf.völundr.concurrent.NamedThreadFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class AsynchronousStreamReader {
             final Charset charset) {
         this.visitor = visitor;
         this.threadFactory = NamedThreadFactory
-                .forNamePrefix("stream-reader-thread-");
+                .forNamePrefix("async-stream-reader-thread-");
         this.charset = charset;
     }
 
