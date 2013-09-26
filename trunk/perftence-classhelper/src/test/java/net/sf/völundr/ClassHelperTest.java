@@ -1,4 +1,4 @@
-package net.sf.perftence;
+package net.sf.völundr;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import net.sf.völundr.ClassHelper;
 
 import org.junit.Test;
 import org.slf4j.Logger;
