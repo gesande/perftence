@@ -1,4 +1,4 @@
-package net.sf.perftence.io;
+package net.sf.völundr.io;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.sf.perftence.LineVisitor;
+import net.sf.völundr.io.AsynchronousStreamReader;
 
 import org.junit.Test;
 
