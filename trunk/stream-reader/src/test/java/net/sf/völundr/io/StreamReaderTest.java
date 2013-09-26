@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.perftence.LineVisitor;
-import net.sf.völundr.StreamReader;
 
 import org.junit.Test;
 
