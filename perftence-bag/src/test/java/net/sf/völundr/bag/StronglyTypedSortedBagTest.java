@@ -1,4 +1,4 @@
-package net.sf.perftence.bag;
+package net.sf.völundr.bag;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
