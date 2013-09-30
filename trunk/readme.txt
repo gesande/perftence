@@ -10,10 +10,11 @@ import eclipse formatting settings from ./build/eclipse/formatting/settings.xml
 some eclipse plugins you might consider useful (not required for developing perftence):
 
 eclipse-groovy plugin
-  http://dist.springsource.org/release/GRECLIPSE/e3.7/
+    http://groovy.codehaus.org/Eclipse+Plugin
 
 eclipse-gradle plugin
   http://kaczanowscy.pl/tomek/2010-03/gradle-ide-integration-eclipse-plugin
+  https://github.com/spring-projects/eclipse-integration-gradle/
 
 Developing perftence:
 
