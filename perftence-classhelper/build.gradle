@@ -1,14 +1,8 @@
-project(':perftence-classhelper') {
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+project(':perftence-classhelper'){ prj ->
+    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
 
-    version ='1.0'
+    version = 'lib'
 
-    dependencies {
-        testCompile project(':slf4j-api-1.6.1')
-        testCompile project(':junit-4.10')
-        testRuntime project(':slf4j-log4j12-1.6.1')
-        testRuntime project(':log4j-1.2.16')
-        testCompile project(':junit-4.10')
-    }
+    prj.ext.library='classhelper-1.0.jar'
+    prj.ext.librarySources='classhelper-1.0-sources.jar'
 }
