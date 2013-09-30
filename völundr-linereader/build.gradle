@@ -3,6 +3,6 @@ project(':völundr-linereader'){ prj ->
 
     version = 'lib'
 
-    prj.ext.library='linereader-1.0.jar'
-    prj.ext.librarySources='linereader-1.0-sources.jar'
+    prj.ext.library='linereader-1.0.3.jar'
+    prj.ext.librarySources='linereader-1.0.3-sources.jar'
 }

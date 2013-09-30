@@ -1,8 +1,8 @@
-project(':perftence-fileutil') {
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+project(':perftence-fileutil') { prj ->
+    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
 
-    version ='1.0'
+    version = 'lib'
 
-    dependencies { testCompile project(':junit-4.10') }
+    prj.ext.library='fileutil-1.0.3.jar'
+    prj.ext.librarySources='fileutil-1.0.3-sources.jar'
 }
