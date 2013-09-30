@@ -1,4 +1,4 @@
-project(':perftence-bag'){ prj ->
+project(':völundr-bag'){ prj ->
     apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
 
     version = 'lib'
