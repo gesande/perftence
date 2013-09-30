@@ -16,7 +16,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
            
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
-            tasks << 'perftence-fileutil:continous'
             tasks << 'perftence-junit-utils:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
@@ -46,7 +45,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
            
             tasks << 'perftence-concurrent:continous'
             tasks << 'perftence-bag:continous'
-            tasks << 'perftence-fileutil:continous'
             tasks << 'perftence-junit-utils:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
@@ -80,7 +78,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-bag:clean'
             tasks << 'perftence-api:clean'
             tasks << 'perftence-junit-utils:clean'
-            tasks << 'perftence-fileutil:clean'
             tasks << 'perftence:clean'
             tasks << 'responsecode-summaryappender:clean'
             tasks << 'perftence-junit:clean'
@@ -95,7 +92,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-bag:release'
             tasks << 'perftence-api:release'
             tasks << 'perftence-junit-utils:release'
-            tasks << 'perftence-fileutil:release'
             tasks << 'perftence:release'
             tasks << 'responsecode-summaryappender:release'
             tasks << 'perftence-junit:release'
