@@ -1,8 +1,0 @@
-project(':völundr-classhelper'){ prj ->
-    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
-
-    version = 'lib'
-
-    prj.ext.library='classhelper-1.0.jar'
-    prj.ext.librarySources='classhelper-1.0-sources.jar'
-}
