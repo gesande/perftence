@@ -5,7 +5,7 @@ project (':filebased-reporting-proto') {
     version = project.properties.artifactVersion
 
     dependencies {
-        compile project(':perftence-linereader')
+        compile project(':völundr-linereader')
         compile project(':perftence')
         compile project(':perftence-fluent')
         compile project(':perftence-agents')
