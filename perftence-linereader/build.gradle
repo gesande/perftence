@@ -1,8 +1,0 @@
-project(':perftence-linereader'){
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
-
-    version ='1.0'
-
-    dependencies { testCompile project(':junit-4.10') }
-}
