@@ -1,4 +1,4 @@
-project(':perftence-fileutil') { prj ->
+project(':völundr-fileutil') { prj ->
     apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
 
     version = 'lib'
