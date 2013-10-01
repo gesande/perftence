@@ -100,6 +100,9 @@ Backlog for pertence test tool:
 [32m  +++ introduced perftence-graph-jfreechart module +++ #refactoring[m
 [32m  +++ introduced perftence-testreport-html +++ #refactoring[m
 [32m  +++ starting völundr +++ #refactoring[m
+[32m  +++ völundr-linereader +++ #refactoring[m
+[32m  +++ völundr-fileutil +++ #refactoring[m
+[32m  +++ völundr-bag +++ #refactoring[m
 
   [33mIN PROGRESS:[m
 
