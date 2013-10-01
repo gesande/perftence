@@ -183,7 +183,10 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 refactoring),
                         done("introduced perftence-testreport-html",
                                 refactoring),
-                        done("starting völundr", refactoring))
+                        done("starting völundr", refactoring),
+                        done("völundr-linereader", refactoring),
+                        done("völundr-fileutil", refactoring),
+                        done("völundr-bag", refactoring))
 
                 .inProgress()
                 .title("IN PROGRESS:")
