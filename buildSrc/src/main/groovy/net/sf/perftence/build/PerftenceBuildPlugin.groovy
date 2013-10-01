@@ -15,7 +15,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             buildFile = 'build.gradle'
            
             tasks << 'perftence-concurrent:continous'
-            tasks << 'perftence-junit-utils:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -43,7 +42,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             buildFile = 'build.gradle'
            
             tasks << 'perftence-concurrent:continous'
-            tasks << 'perftence-junit-utils:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -74,7 +72,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
 
             tasks << 'perftence-concurrent:clean'
             tasks << 'perftence-api:clean'
-            tasks << 'perftence-junit-utils:clean'
             tasks << 'perftence:clean'
             tasks << 'responsecode-summaryappender:clean'
             tasks << 'perftence-junit:clean'
@@ -87,7 +84,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             
             tasks << 'perftence-concurrent:release'
             tasks << 'perftence-api:release'
-            tasks << 'perftence-junit-utils:release'
             tasks << 'perftence:release'
             tasks << 'responsecode-summaryappender:release'
             tasks << 'perftence-junit:release'
