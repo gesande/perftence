@@ -188,12 +188,17 @@ public class ImageFactoryUsingAFreeChart implements ImageFactory {
         log().info("Writing to file {}", outputFilePath);
         try {
             FileUtil.ensureDirectoryExists(newFile(reportDeploymentDirectory()));
-            // ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart,
-            // width(), height());
-            log().info("Image NOT successfully written to {}", outputFilePath);
+            saveChart(chart, outputFilePath);
+            log().info("Image successfully written to {}", outputFilePath);
         } catch (final Exception e) {
             throw new RuntimeException(logError(outputFilePath, e), e);
         }
+    }
+
+    private void saveChart(final AFreeChart chart, final String outputFilePath) {
+        // ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart,
+        // width(),
+        // height());
     }
 
     private static String logError(final String outputFilePath,
