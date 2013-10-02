@@ -108,6 +108,8 @@ Backlog for pertence test tool:
 
   [31mWAITING:[m
 
+[31m  --- choice of perftence-graph implementation in perftence-api level --- #feature[m
+[31m  --- afreechart version of perftence-graph --- #feature[m
 [31m  --- move 'blacksmith' projects to its own 'blacksmith' sourceforge project (see concurrent,bag,linereader,fileutil projects) --- #refactoring[m
 [31m  --- failures over test time, use DateAxis --- #feature[m
 [31m  --- provide success rate percentage for intermediate statistics --- #feature[m

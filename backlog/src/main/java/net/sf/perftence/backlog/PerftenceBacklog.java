@@ -195,8 +195,12 @@ public class PerftenceBacklog extends AbstractBacklogging {
                 .waiting()
                 .title("WAITING:")
                 .tasks(waiting(
-                        "move 'blacksmith' projects to its own 'blacksmith' sourceforge project (see concurrent,bag,linereader,fileutil projects)",
-                        refactoring),
+                        "choice of perftence-graph implementation in perftence-api level",
+                        feature),
+                        waiting("afreechart version of perftence-graph",
+                                feature),
+                        waiting("move 'blacksmith' projects to its own 'blacksmith' sourceforge project (see concurrent,bag,linereader,fileutil projects)",
+                                refactoring),
                         waiting("failures over test time, use DateAxis",
                                 feature),
                         waiting("provide success rate percentage for intermediate statistics",
