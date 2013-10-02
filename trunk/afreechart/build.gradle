@@ -1,0 +1,10 @@
+project(':afreechart') { prj ->
+    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
+
+    version = 'lib'
+
+    prj.ext.library='afreechart-0.0.4.jar'
+    prj.ext.librarySources='afreechart-0.0.4.zip'
+
+    dependencies { compile project(':jcommon-1.0.15') }
+}
