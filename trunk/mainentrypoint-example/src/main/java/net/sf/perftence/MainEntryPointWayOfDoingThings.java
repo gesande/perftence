@@ -2,6 +2,7 @@ package net.sf.perftence;
 
 import java.util.Random;
 
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.Duration;
@@ -14,7 +15,7 @@ public final class MainEntryPointWayOfDoingThings implements
     private final static Random RANDOM = new Random(System.currentTimeMillis());
 
     public MainEntryPointWayOfDoingThings() {
-        this.api = new PerftenceApi(this);
+        this.api = new PerftenceApi(this, new DefaultTestRuntimeReporterFactory());
     }
 
     public static void main(final String[] args) throws Exception {

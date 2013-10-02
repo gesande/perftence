@@ -1,5 +1,6 @@
 package net.sf.perftence;
 
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
@@ -13,7 +14,8 @@ public abstract class AbstractMultiThreadedTest {
     private final PerftenceApi perftenceApi;
 
     public AbstractMultiThreadedTest() {
-        this.perftenceApi = new PerftenceApi(failureNotifier());
+        this.perftenceApi = new PerftenceApi(failureNotifier(),
+                new DefaultTestRuntimeReporterFactory());
     }
 
     /**

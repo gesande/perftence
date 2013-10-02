@@ -1,5 +1,6 @@
 package net.sf.perftence;
 
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.reporting.Duration;
 
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class ApiExample {
             public void testFailed(Throwable t) {
                 log().error("Test failed!", t);
             }
-        });
+        }, new DefaultTestRuntimeReporterFactory());
         api.test("api-example")
                 .setup(api.setup().threads(2).duration(Duration.seconds(10))
                         .build()).executable(new Executable() {

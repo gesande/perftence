@@ -1,7 +1,6 @@
 package net.sf.perftence;
 
 import net.sf.perftence.agents.AgentBasedTest;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.perftence.fluent.FluentPerformanceTest;
@@ -15,10 +14,11 @@ public final class PerftenceApi {
     private final LatencyProviderFactory latencyProviderFactory;
     private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 
-    public PerftenceApi(final TestFailureNotifier notifier) {
+    public PerftenceApi(final TestFailureNotifier notifier,
+            final TestRuntimeReporterFactory testRuntimeReporterFactory) {
         this.notifier = notifier;
         this.latencyProviderFactory = new DefaultLatencyProviderFactory();
-        this.testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory();
+        this.testRuntimeReporterFactory = testRuntimeReporterFactory;
         this.performanceTest = createPerformanceTest();
         this.agentBasedTest = createAgentBasedTest();
     }
