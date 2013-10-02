@@ -8,13 +8,11 @@ project(':perftence-api') {
         compile project(':perftence')
         compile project(':perftence-fluent')
         compile project(':perftence-agents')
-        compile project(':perftence-defaulttestruntimereporterfactory')
         compile project(':commons-collections-3.2.1')
         compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
+        
     }
 }
