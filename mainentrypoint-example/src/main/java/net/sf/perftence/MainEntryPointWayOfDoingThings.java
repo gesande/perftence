@@ -15,7 +15,8 @@ public final class MainEntryPointWayOfDoingThings implements
     private final static Random RANDOM = new Random(System.currentTimeMillis());
 
     public MainEntryPointWayOfDoingThings() {
-        this.api = new PerftenceApi(this, new DefaultTestRuntimeReporterFactory());
+        this.api = new PerftenceApi(this,
+                new DefaultTestRuntimeReporterFactory());
     }
 
     public static void main(final String[] args) throws Exception {
