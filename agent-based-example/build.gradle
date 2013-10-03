@@ -1,8 +1,6 @@
 project(':agent-based-example') {
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    version = project.properties.artifactVersion
-
     dependencies {
         testCompile project(':perftence')
         testCompile project(':perftence-agents')

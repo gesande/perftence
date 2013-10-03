@@ -19,11 +19,11 @@ dependencies {
     compile project.fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
 }
 
-version = '1.0'
+version = '1.0.3'
 
 eclipse.classpath.defaultOutputDir = file('target/classes')
 
-ext.buildLibrary='my-gradle-build-1.0.3'
+ext.buildLibrary='my-gradle-build' + version
 
 eclipse {
     classpath {

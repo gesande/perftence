@@ -2,8 +2,6 @@ project(':perftence-api') {
     apply from:"$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    version = '1.0'
-
     dependencies {
         compile project(':perftence')
         compile project(':perftence-fluent')

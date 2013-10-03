@@ -1,7 +1,7 @@
 project(':perftence-experimental') {
     apply from:"$emmaPlugin"
 
-    version = project.properties.artifactVersion
+    version = project.properties.artifactVersion + "-EXPERIMENTAL"
 
     dependencies {
         compile project(':perftence')

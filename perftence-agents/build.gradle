@@ -2,8 +2,6 @@ project(':perftence-agents') {
     apply from : "$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    version = project.properties.artifactVersion
-
     dependencies {
         compile project(':perftence')
         compile project(':perftence-defaulttestruntimereporterfactory')
