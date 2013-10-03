@@ -12,6 +12,7 @@ import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -54,7 +55,8 @@ public class LastSecondFailuresGraphWriterTest {
         assertTrue(graphFor.hasSomethingToWrite());
         assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
         final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart(
-                HtmlTestReport.withDefaultReportPath());
+                new JFreeChartWriter(HtmlTestReport.withDefaultReportPath()
+                        .reportRootDirectory()));
         graphFor.writeImage(new ImageFactory() {
 
             @Override

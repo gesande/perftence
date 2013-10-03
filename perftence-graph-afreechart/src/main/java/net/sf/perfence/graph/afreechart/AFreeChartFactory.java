@@ -14,7 +14,7 @@ final class AFreeChartFactory {
             .getLogger(AFreeChartFactory.class);
     private final ChartColors chartColors;
 
-    public AFreeChartFactory(ChartColors chartColors) {
+    public AFreeChartFactory(final ChartColors chartColors) {
         this.chartColors = chartColors;
     }
 

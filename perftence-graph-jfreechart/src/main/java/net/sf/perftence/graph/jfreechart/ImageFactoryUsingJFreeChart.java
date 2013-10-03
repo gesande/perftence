@@ -2,20 +2,17 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Color;
 import java.awt.Paint;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.perftence.graph.ChartWriter;
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
-import net.sf.perftence.reporting.TestReport;
-import net.sf.völundr.fileio.FileUtil;
 
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -31,12 +28,12 @@ import org.slf4j.LoggerFactory;
 public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ImageFactoryUsingJFreeChart.class);
-    private final TestReport testReport;
     private final JFreeChartFactory jFreeChartFactory;
+    private ChartWriter<JFreeChart> chartWriter;
 
-    public ImageFactoryUsingJFreeChart(final TestReport testReport) {
-        this.testReport = testReport;
+    public ImageFactoryUsingJFreeChart(final ChartWriter<JFreeChart> chartWriter) {
         this.jFreeChartFactory = new JFreeChartFactory();
+        this.chartWriter = chartWriter;
     }
 
     @Override
@@ -184,36 +181,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
     }
 
     private void writeChartToFile(final String id, final JFreeChart chart) {
-        final String outputFilePath = reportDeploymentDirectory() + "/" + id
-                + ".png";
-        log().info("Writing to file {}", outputFilePath);
-        try {
-            FileUtil.ensureDirectoryExists(newFile(reportDeploymentDirectory()));
-            ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart,
-                    width(), height());
-            log().info("Image successfully written to {}", outputFilePath);
-        } catch (final Exception e) {
-            throw new RuntimeException(logError(outputFilePath, e), e);
-        }
-    }
-
-    private static String logError(final String outputFilePath,
-            final Throwable t) {
-        final String errorMsg = "Writing file '" + outputFilePath + "' failed!";
-        log().error(errorMsg, t);
-        return errorMsg;
-    }
-
-    private static File newFile(final String path) {
-        return new File(path);
-    }
-
-    private static int height() {
-        return 500;
-    }
-
-    private static int width() {
-        return 800;
+        this.chartWriter.write(id, chart, 500, 800);
     }
 
     @SuppressWarnings("unchecked")
@@ -262,15 +230,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         }
     }
 
-    private String reportDeploymentDirectory() {
-        return testReport().reportRootDirectory();
-    }
-
-    static Logger log() {
+    private static Logger log() {
         return LOGGER;
-    }
-
-    private TestReport testReport() {
-        return this.testReport;
     }
 }

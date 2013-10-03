@@ -6,7 +6,8 @@ import org.afree.data.Range;
 import org.afree.data.xy.XYSeries;
 import org.afree.graphics.PaintType;
 
-final class XYSeriesAdapter implements DatasetAdapter<LineChartGraphData,PaintType> {
+final class XYSeriesAdapter implements
+        DatasetAdapter<LineChartGraphData, PaintType> {
 
     private XYSeries series;
     private String legendTitle;
@@ -31,7 +32,8 @@ final class XYSeriesAdapter implements DatasetAdapter<LineChartGraphData,PaintTy
     }
 
     @Override
-    public LineChartGraphData graphData(final PaintType paint, final double range) {
+    public LineChartGraphData graphData(final PaintType paint,
+            final double range) {
         final LineChartGraphData data = new LineChartGraphData(legendTitle(),
                 paint, series());
         return data.range(new Range(0, range));

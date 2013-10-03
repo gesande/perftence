@@ -17,6 +17,7 @@ import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.graph.jfreechart.ScatterPlotGraphData;
 
 import org.junit.BeforeClass;
@@ -38,8 +39,8 @@ public class ImageFactoryUsingJFreeChartTest {
 
     @BeforeClass
     public static void beforeClass() {
-        imageFactory = new ImageFactoryUsingJFreeChart(
-                HtmlTestReport.withDefaultReportPath());
+        imageFactory = new ImageFactoryUsingJFreeChart(new JFreeChartWriter(
+                HtmlTestReport.withDefaultReportPath().reportRootDirectory()));
     }
 
     private static InvocationStorage newDefaultInvocationStorage(final int value) {

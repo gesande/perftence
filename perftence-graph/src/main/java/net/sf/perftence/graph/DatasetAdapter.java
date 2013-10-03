@@ -1,6 +1,5 @@
 package net.sf.perftence.graph;
 
-
 public interface DatasetAdapter<T, PAINT> {
     public void add(final Number x, final Number y);
 

@@ -11,6 +11,7 @@ import junit.framework.AssertionFailedError;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -130,8 +131,9 @@ public class ScheduledExecutorServiceTest {
             log().info("Shutdown");
         }
         this.storage.graphWriterFor(name).writeImage(
-                new ImageFactoryUsingJFreeChart(HtmlTestReport
-                        .withDefaultReportPath()));
+                new ImageFactoryUsingJFreeChart(new JFreeChartWriter(
+                        HtmlTestReport.withDefaultReportPath()
+                                .reportRootDirectory())));
     }
 
     private static Logger log() {

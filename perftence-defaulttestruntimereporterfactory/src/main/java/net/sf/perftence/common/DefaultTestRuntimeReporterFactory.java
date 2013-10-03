@@ -6,6 +6,7 @@ import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.FailedInvocations;
@@ -26,7 +27,8 @@ public final class DefaultTestRuntimeReporterFactory implements
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
         this.throughputStorageFactory = new ThroughputStorageFactory(
                 this.datasetAdapterFactory);
-        this.imageFactory = new ImageFactoryUsingJFreeChart(this.testReport);
+        this.imageFactory = new ImageFactoryUsingJFreeChart(
+                new JFreeChartWriter(this.testReport.reportRootDirectory()));
     }
 
     @Override

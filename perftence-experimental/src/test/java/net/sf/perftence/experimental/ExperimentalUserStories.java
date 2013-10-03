@@ -27,6 +27,7 @@ import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
+import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.graph.jfreechart.LineChartGraphData;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
@@ -79,7 +80,8 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         System.out.println("\ntasks run " + this.tasksRun.intValue());
         System.out.println("\ntasks failed " + this.tasksFailed.intValue());
 
-        new ImageFactoryUsingJFreeChart(HtmlTestReport.withDefaultReportPath())
+        new ImageFactoryUsingJFreeChart(new JFreeChartWriter(HtmlTestReport
+                .withDefaultReportPath().reportRootDirectory()))
                 .createXYLineChart(
                         "printingAFrequencyGraphUsingPerfEngineTools",
                         storage.imageData());
