@@ -6,7 +6,7 @@ project(':distributed-perftence-api') {
 
     dependencies {
         compile project(':perftence')
-        compile project(':perftence-concurrent')
+        compile project(':völundr-concurrent')
         compile project(':perftence-fluent')
         compile project(':perftence-defaulttestruntimereporterfactory')
     }
