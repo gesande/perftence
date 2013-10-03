@@ -1,23 +1,23 @@
 package net.sf.perfence.graph.afreechart;
 
-import java.awt.Paint;
-
 import net.sf.perftence.graph.GraphData;
 
 import org.afree.data.Range;
 import org.afree.data.category.CategoryDataset;
+import org.afree.graphics.PaintType;
 
-final class BarChartGraphData implements GraphData<BarChartGraphData, Range> {
+final class BarChartGraphData implements
+        GraphData<BarChartGraphData, Range, PaintType> {
 
     private final String title;
-    private final Paint paint;
+    private final PaintType paintType;
     private final CategoryDataset categoryDataset;
     private Range range;
 
-    BarChartGraphData(final String title, final Paint paint,
+    BarChartGraphData(final String title, final PaintType paintType,
             final CategoryDataset categoryDataset) {
         this.title = title;
-        this.paint = paint;
+        this.paintType = paintType;
         this.categoryDataset = categoryDataset;
     }
 
@@ -26,8 +26,8 @@ final class BarChartGraphData implements GraphData<BarChartGraphData, Range> {
     }
 
     @Override
-    public Paint paint() {
-        return this.paint;
+    public PaintType paint() {
+        return this.paintType;
     }
 
     @Override

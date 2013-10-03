@@ -5,11 +5,11 @@ public final class ImageData {
     private final String xAxisTitle;
     private double range;
     private final GraphStatisticsProvider statistics;
-    private final DatasetAdapter<?> adapter;
+    private final DatasetAdapter<?, ?> adapter;
 
     private ImageData(final String title, final String xAxisTitle,
             final double range, final GraphStatisticsProvider statistics,
-            final DatasetAdapter<?> adapter) {
+            final DatasetAdapter<?, ?> adapter) {
         this.title = title;
         this.xAxisTitle = xAxisTitle;
         this.range = range;
@@ -20,18 +20,18 @@ public final class ImageData {
     public static ImageData statistics(final String title,
             final String xAxisTitle, final double range,
             final GraphStatisticsProvider statistics,
-            final DatasetAdapter<?> adapter) {
+            final DatasetAdapter<?, ?> adapter) {
         return new ImageData(title, xAxisTitle, range, statistics, adapter);
     }
 
     public static ImageData noStatistics(final String title,
             final String xAxisTitle, final double range,
-            final DatasetAdapter<?> adapter) {
+            final DatasetAdapter<?, ?> adapter) {
         return new ImageData(title, xAxisTitle, range, null, adapter);
     }
 
     public static ImageData noStatistics(final String title,
-            final String xAxisTitle, final DatasetAdapter<?> adapter) {
+            final String xAxisTitle, final DatasetAdapter<?, ?> adapter) {
         return new ImageData(title, xAxisTitle, 0, null, adapter);
     }
 
@@ -39,7 +39,7 @@ public final class ImageData {
         adapter().add(x, y);
     }
 
-    public DatasetAdapter<?> adapter() {
+    public DatasetAdapter<?, ?> adapter() {
         return this.adapter;
     }
 

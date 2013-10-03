@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
@@ -215,16 +216,20 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
         return 800;
     }
 
+    @SuppressWarnings("unchecked")
     private static BarChartGraphData barGraphData(final ImageData imageData,
             Paint paint) {
-        return (BarChartGraphData) imageData.adapter().graphData(paint,
-                imageData.range());
+        final DatasetAdapter<BarChartGraphData, Paint> adapter = (DatasetAdapter<BarChartGraphData, Paint>) imageData
+                .adapter();
+        return adapter.graphData(paint, imageData.range());
     }
 
+    @SuppressWarnings("unchecked")
     private static LineChartGraphData lineChartGraphData(
             final ImageData imageData, Paint paint) {
-        return (LineChartGraphData) imageData.adapter().graphData(paint,
-                imageData.range());
+        final DatasetAdapter<LineChartGraphData, Paint> adapter = (DatasetAdapter<LineChartGraphData, Paint>) imageData
+                .adapter();
+        return adapter.graphData(paint, imageData.range());
     }
 
     final static class LineGraphStatisticsGraphData {

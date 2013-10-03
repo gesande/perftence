@@ -1,4 +1,5 @@
 //import my-gradle-build stuff
+import org.gradle.api.JavaVersion
 import net.sf.mygradlebuild.plugins.DefaultContinousBuildPlugin
 import net.sf.mygradlebuild.plugins.EclipseSettingsPlugin
 import net.sf.mygradlebuild.plugins.EnvironmentVariablesPlugin
@@ -47,6 +48,8 @@ reportingSettings {
 }
 
 subprojects {
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
     apply plugin : DefaultContinousBuildPlugin
     forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
 }

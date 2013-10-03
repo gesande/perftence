@@ -8,7 +8,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 class XYSeriesAdapterForScatterPlot implements
-        DatasetAdapter<ScatterPlotGraphData> {
+        DatasetAdapter<ScatterPlotGraphData, Paint> {
 
     private final XYSeries series;
     private final String yAxisTitle;

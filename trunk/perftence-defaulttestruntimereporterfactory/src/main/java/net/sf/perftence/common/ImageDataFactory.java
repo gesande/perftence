@@ -1,5 +1,7 @@
 package net.sf.perftence.common;
 
+import java.awt.Paint;
+
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
@@ -27,12 +29,12 @@ public final class ImageDataFactory {
                 linechartAdapter(title));
     }
 
-    private DatasetAdapter<LineChartGraphData> linechartAdapter(
+    private DatasetAdapter<LineChartGraphData,Paint> linechartAdapter(
             final String legendTitle) {
         return datasetAdapterFactory().forLineChart(legendTitle);
     }
 
-    private static ImageData newImageData(final DatasetAdapter<?> adapter,
+    private static ImageData newImageData(final DatasetAdapter<?,?> adapter,
             final ReportingOptions reportingOptions,
             final GraphStatisticsProvider statistics) {
         return newImageData(adapter, reportingOptions, statistics,
@@ -40,7 +42,7 @@ public final class ImageDataFactory {
                 reportingOptions.range());
     }
 
-    private static ImageData newImageData(final DatasetAdapter<?> adapter,
+    private static ImageData newImageData(final DatasetAdapter<?,?> adapter,
             final ReportingOptions reportingOptions,
             final GraphStatisticsProvider statistics, final String title,
             final String xAxisTitle, final int range) {
