@@ -8,7 +8,7 @@ project(':perftence-fluent') {
         compile project(':perftence')
         compile project(':perftence-graph-jfreechart')
         compile project(':perftence-defaulttestruntimereporterfactory')
-        compile project(':perftence-concurrent')
+        compile project(':völundr-concurrent')
         testCompile project(':junit-4.10')
     }
 }

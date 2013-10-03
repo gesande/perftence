@@ -1,4 +1,4 @@
-project(':perftence-concurrent') { prj ->
+project(':völundr-concurrent') { prj ->
     apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
 
     version = 'lib'
