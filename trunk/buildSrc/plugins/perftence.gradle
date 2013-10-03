@@ -1,5 +1,4 @@
 //import my-gradle-build stuff
-import org.gradle.api.JavaVersion
 import net.sf.mygradlebuild.plugins.DefaultContinousBuildPlugin
 import net.sf.mygradlebuild.plugins.EclipseSettingsPlugin
 import net.sf.mygradlebuild.plugins.EnvironmentVariablesPlugin
@@ -11,10 +10,13 @@ import net.sf.mygradlebuild.plugins.SvnPlugin
 import net.sf.perftence.build.ExportAntBuildFilePlugin
 import net.sf.perftence.build.PerftenceBuildPlugin
 
+import org.gradle.api.JavaVersion
+
 
 ext {
     //make sure these files exist
     jdtInputFile="${buildScripts}/template/for/eclipse/org.eclipse.jdt.core.prefs"
+
     pmdSettings="${buildScripts}/template/for/pmd/.pmd"
 
     distributionDir="$buildDir/distributions"
@@ -23,13 +25,11 @@ ext {
 
     emmaPlugin="${buildScripts}/plugins/emma.gradle"
 
-    artifactVersion='1.0-BETA'
+    artifactVersion='2.0'
 
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
 }
-
-version = '1.0-BETA'
 
 apply plugin: MavenCentral
 apply plugin: NewJavaProjectToSvnPlugin
@@ -48,6 +48,7 @@ reportingSettings {
 }
 
 subprojects {
+    version = '2.0'
     sourceCompatibility = JavaVersion.VERSION_1_6
     targetCompatibility = JavaVersion.VERSION_1_6
     apply plugin : DefaultContinousBuildPlugin

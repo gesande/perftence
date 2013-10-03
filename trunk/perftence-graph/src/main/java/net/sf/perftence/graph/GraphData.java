@@ -1,7 +1,6 @@
 package net.sf.perftence.graph;
 
-
-public interface GraphData<DATA, RANGE,PAINT> {
+public interface GraphData<DATA, RANGE, PAINT> {
 
     PAINT paint();
 

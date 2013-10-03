@@ -9,7 +9,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 public final class CategoryDatasetAdapter implements
-        DatasetAdapter<BarChartGraphData,Paint> {
+        DatasetAdapter<BarChartGraphData, Paint> {
 
     private final DefaultCategoryDataset categoryData;
     private final String legendTitle;
