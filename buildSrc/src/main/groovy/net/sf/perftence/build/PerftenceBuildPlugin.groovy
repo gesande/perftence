@@ -14,7 +14,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             description ='If this passed you have license to commit your changes.'
             buildFile = 'build.gradle'
            
-            tasks << 'perftence-concurrent:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -41,7 +40,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             description ='Continous build for the whole thing.'
             buildFile = 'build.gradle'
            
-            tasks << 'perftence-concurrent:continous'
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -70,7 +68,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             description = 'Distribution package for the whole thing including continous build.'
             buildFile = 'build.gradle'
 
-            tasks << 'perftence-concurrent:clean'
             tasks << 'perftence-api:clean'
             tasks << 'perftence:clean'
             tasks << 'responsecode-summaryappender:clean'
@@ -82,7 +79,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-graph-jfreechart:clean'
             tasks << 'perftence-defaulttestruntimereporterfactory:clean'
             
-            tasks << 'perftence-concurrent:release'
             tasks << 'perftence-api:release'
             tasks << 'perftence:release'
             tasks << 'responsecode-summaryappender:release'
