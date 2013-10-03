@@ -1,29 +1,28 @@
 package net.sf.perfence.graph.afreechart;
 
-import java.awt.Paint;
-
 import net.sf.perftence.graph.GraphData;
 
 import org.afree.data.Range;
 import org.afree.data.xy.XYSeries;
+import org.afree.graphics.PaintType;
 
 public final class LineChartGraphData implements
-        GraphData<LineChartGraphData, Range> {
+        GraphData<LineChartGraphData, Range, PaintType> {
 
     private final XYSeries series;
     private final String title;
     private Range range;
-    private Paint paint;
+    private PaintType paint;
     private final static XYSeriesFactory SERIES_FACTORY = new XYSeriesFactory();
 
-    LineChartGraphData(final String legendTitle, final Paint paint) {
+    LineChartGraphData(final String legendTitle, final PaintType paint) {
         this.title = legendTitle;
         this.paint = paint;
         this.series = SERIES_FACTORY.newXYSeries(legendTitle);
         this.range = null;
     }
 
-    LineChartGraphData(final String title, final Paint paint,
+    LineChartGraphData(final String title, final PaintType paint,
             final XYSeries series) {
         this.series = series;
         this.paint = paint;
@@ -31,7 +30,7 @@ public final class LineChartGraphData implements
     }
 
     @Override
-    public Paint paint() {
+    public PaintType paint() {
         return this.paint;
     }
 

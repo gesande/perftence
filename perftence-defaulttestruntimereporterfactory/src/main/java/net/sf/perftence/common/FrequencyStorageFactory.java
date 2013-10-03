@@ -1,5 +1,7 @@
 package net.sf.perftence.common;
 
+import java.awt.Paint;
+
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.ImageData;
@@ -40,7 +42,7 @@ public final class FrequencyStorageFactory {
     }
 
     private static ImageData newImageData(
-            final DatasetAdapter<LineChartGraphData> adapterForLinechart) {
+            final DatasetAdapter<LineChartGraphData, Paint> adapterForLinechart) {
         return ImageData.noStatistics("Latency frequencies", "Latency (ms)",
                 adapterForLinechart);
     }

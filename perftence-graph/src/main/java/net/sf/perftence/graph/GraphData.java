@@ -1,10 +1,9 @@
 package net.sf.perftence.graph;
 
-import java.awt.Paint;
 
-public interface GraphData<DATA, RANGE> {
+public interface GraphData<DATA, RANGE,PAINT> {
 
-    Paint paint();
+    PAINT paint();
 
     String title();
 

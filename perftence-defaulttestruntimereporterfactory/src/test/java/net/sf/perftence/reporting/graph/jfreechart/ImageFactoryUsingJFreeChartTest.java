@@ -1,5 +1,6 @@
 package net.sf.perftence.reporting.graph.jfreechart;
 
+import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
@@ -139,7 +140,7 @@ public class ImageFactoryUsingJFreeChartTest {
         return data;
     }
 
-    private static DatasetAdapter<ScatterPlotGraphData> scatterPlotAdapter(
+    private static DatasetAdapter<ScatterPlotGraphData, Paint> scatterPlotAdapter(
             final String legendTitle, final String yAxisTitle) {
         return new DefaultDatasetAdapterFactory().forScatterPlot(legendTitle,
                 yAxisTitle);

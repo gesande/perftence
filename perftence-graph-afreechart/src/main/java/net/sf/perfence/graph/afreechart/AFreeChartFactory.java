@@ -1,26 +1,36 @@
 package net.sf.perfence.graph.afreechart;
 
-import java.awt.Color;
-
 import net.sf.perftence.graph.ImageData;
 
 import org.afree.chart.AFreeChart;
 import org.afree.chart.ChartFactory;
 import org.afree.chart.plot.PlotOrientation;
+import org.afree.graphics.PaintType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 final class AFreeChartFactory {
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(AFreeChartFactory.class);
+    private final ChartColors chartColors;
+
+    public AFreeChartFactory(ChartColors chartColors) {
+        this.chartColors = chartColors;
+    }
+
     @SuppressWarnings("static-method")
     public AFreeChart newBarChart(final ImageData imageData) {
+        LOGGER.info("Create bar chart...");
         return ChartFactory.createBarChart(imageData.title(),
                 imageData.xAxisLabel(), null, null, PlotOrientation.VERTICAL,
                 showLegend(), noTooltips(), noUrls());
     }
 
-    @SuppressWarnings("static-method")
     public AFreeChart newScatterPlot(final ImageData imageData) {
+        LOGGER.info("Create scatter plot...");
         final XYSeriesAdapterForScatterPlot adapter = (XYSeriesAdapterForScatterPlot) imageData
                 .adapter();
-        final ScatterPlotGraphData graphData = adapter.graphData(Color.RED, 0);
+        final ScatterPlotGraphData graphData = adapter.graphData(red(), 0);
         return ChartFactory.createScatterPlot(imageData.title(),
                 imageData.xAxisLabel(), graphData.yAxisTitle(),
                 graphData.dataset(), PlotOrientation.VERTICAL, showLegend(),
@@ -29,10 +39,14 @@ final class AFreeChartFactory {
 
     @SuppressWarnings("static-method")
     public AFreeChart newXYLineChart(final ImageData imageData) {
-        ImageFactoryUsingAFreeChart.log().info("Create XY linechart...");
+        LOGGER.info("Create XY linechart...");
         return ChartFactory.createXYLineChart(imageData.title(),
                 imageData.xAxisLabel(), null, null, PlotOrientation.VERTICAL,
                 showLegend(), noTooltips(), noUrls());
+    }
+
+    private PaintType red() {
+        return this.chartColors.red();
     }
 
     private static boolean showLegend() {

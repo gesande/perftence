@@ -8,7 +8,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 
 public final class LineChartGraphData implements
-        GraphData<LineChartGraphData, Range> {
+        GraphData<LineChartGraphData, Range, Paint> {
 
     private final XYSeries series;
     private final String title;

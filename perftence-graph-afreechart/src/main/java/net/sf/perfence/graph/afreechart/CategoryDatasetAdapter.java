@@ -1,15 +1,14 @@
 package net.sf.perfence.graph.afreechart;
 
-import java.awt.Paint;
-
 import net.sf.perftence.graph.DatasetAdapter;
 
 import org.afree.data.Range;
 import org.afree.data.category.CategoryDataset;
 import org.afree.data.category.DefaultCategoryDataset;
+import org.afree.graphics.PaintType;
 
 public final class CategoryDatasetAdapter implements
-        DatasetAdapter<BarChartGraphData> {
+        DatasetAdapter<BarChartGraphData, PaintType> {
 
     private final DefaultCategoryDataset categoryData;
     private final String legendTitle;
@@ -34,7 +33,7 @@ public final class CategoryDatasetAdapter implements
     }
 
     @Override
-    public BarChartGraphData graphData(final Paint paint, final double range) {
+    public BarChartGraphData graphData(final PaintType paint, final double range) {
         final BarChartGraphData data = new BarChartGraphData(legendTitle(),
                 paint, dataSet());
         return data.range(new Range(0, range));

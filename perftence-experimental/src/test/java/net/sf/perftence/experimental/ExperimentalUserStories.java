@@ -1,5 +1,6 @@
 package net.sf.perftence.experimental;
 
+import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -304,7 +305,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         return imageData;
     }
 
-    private static DatasetAdapter<LineChartGraphData> adapterForLinechart(
+    private static DatasetAdapter<LineChartGraphData, Paint> adapterForLinechart(
             final String legendTitle) {
         return new DefaultDatasetAdapterFactory().forLineChart(legendTitle);
     }

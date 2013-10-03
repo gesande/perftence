@@ -7,7 +7,8 @@ import net.sf.perftence.graph.DatasetAdapter;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 
-final class XYSeriesAdapter implements DatasetAdapter<LineChartGraphData> {
+final class XYSeriesAdapter implements
+        DatasetAdapter<LineChartGraphData, Paint> {
 
     private XYSeries series;
     private String legendTitle;
