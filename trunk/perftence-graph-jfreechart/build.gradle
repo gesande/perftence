@@ -1,13 +1,11 @@
 project(':perftence-graph-jfreechart') {
     apply from : "$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
-    version = project.properties.artifactVersion
 
     dependencies {
         compile project(':perftence-graph')
         compile project(':perftence')
         compile project(':völundr-fileutil')
-        compile project(':jcommon-1.0.15')
         compile project(':jfreechart-1.0.12')
         compile project(':slf4j-api-1.6.1')
 

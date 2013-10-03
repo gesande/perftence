@@ -1,7 +1,5 @@
 project(':acceptance-tests') {
 
-    version = project.properties.artifactVersion
-
     dependencies {
         testCompile project(':perftence-graph-jfreechart')
         testCompile project(':perftence-fluent')

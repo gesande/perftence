@@ -2,8 +2,6 @@ project (':filebased-reporting-proto') {
     apply from:"$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    version = project.properties.artifactVersion
-
     dependencies {
         compile project(':völundr-linereader')
         compile project(':perftence')
