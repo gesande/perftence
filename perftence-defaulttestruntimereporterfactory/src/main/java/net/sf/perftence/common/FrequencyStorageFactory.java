@@ -1,12 +1,9 @@
 package net.sf.perftence.common;
 
-import java.awt.Paint;
-
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.LineChartGraphData;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 
 public final class FrequencyStorageFactory {
 
@@ -15,12 +12,12 @@ public final class FrequencyStorageFactory {
 
     public static FrequencyStorage newFrequencyStorage(
             final LatencyProvider latencyProvider,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         return new FrequencyStorage() {
 
             @Override
             public ImageData imageData() {
-                final ImageData imageData = newImageData(datasetAdapterFactory
+                final ImageData imageData = newImageData(lineChartAdapterProvider
                         .forLineChart(legendTitle()));
                 final long maxLatency = latencyProvider.maxLatency();
                 long range = 0;
@@ -42,7 +39,7 @@ public final class FrequencyStorageFactory {
     }
 
     private static ImageData newImageData(
-            final DatasetAdapter<LineChartGraphData, Paint> adapterForLinechart) {
+            final DatasetAdapter<?, ?> adapterForLinechart) {
         return ImageData.noStatistics("Latency frequencies", "Latency (ms)",
                 adapterForLinechart);
     }

@@ -1,0 +1,10 @@
+project(':reporterfactory-dependencies-jfreechart') {
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+
+    dependencies {
+        compile project(':perftence-testreport-html')
+        compile project(':perftence-graph-jfreechart')
+        compile project(':perftence-defaulttestruntimereporterfactory')
+    }
+}

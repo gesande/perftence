@@ -1,24 +1,24 @@
 package net.sf.perftence.common;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.sf.perftence.graph.GraphStatisticsProvider;
+import net.sf.perftence.statistics.StatisticsCalculator;
 
 public final class Statistics implements GraphStatisticsProvider {
 
-    private List<Integer> latencies;
-    private List<Integer> sortedLatencies;
+    private final StatisticsCalculator statistics;
 
-    private Statistics(final List<Integer> latencies,
-            final List<Integer> sortedLatencies) {
-        this.latencies = latencies;
-        this.sortedLatencies = sortedLatencies;
+    private Statistics(final StatisticsCalculator statistics) {
+        this.statistics = statistics;
     }
 
     public int percentile90() {
-        return percentileValue(90);
+        return statistics().percentileValue(90);
+    }
+
+    private StatisticsCalculator statistics() {
+        return this.statistics;
     }
 
     /**
@@ -35,105 +35,53 @@ public final class Statistics implements GraphStatisticsProvider {
 
     @Override
     public int median() {
-        return this.sortedLatencies.isEmpty() ? 0 : calculateMedian();
+        return statistics().median();
     }
 
     public int max() {
-        return this.sortedLatencies.isEmpty() ? 0 : this.sortedLatencies
-                .get(this.sortedLatencies.size() - 1);
+        return statistics().max();
     }
 
     public int min() {
-        return this.sortedLatencies.isEmpty() ? 0 : this.sortedLatencies.get(0);
-    }
-
-    private Integer calculateMedian() {
-        Integer result = 0;
-        final int size = this.sortedLatencies.size();
-        if (size % 2 == 1) { // If the number of entries in the list is not
-                             // even.
-            result = this.sortedLatencies.get(size / 2); // Get the middle
-                                                         // value.
-        } else { // If the number of entries in the list are even.
-            final Integer lowerMiddle = this.sortedLatencies.get(size / 2);
-            final Integer upperMiddle = this.sortedLatencies.get(size / 2 - 1);
-            // Get the middle two values and average them.
-            result = (lowerMiddle + upperMiddle) / 2;
-        }
-        return result;
+        return statistics().min();
     }
 
     @Override
     public int percentile95() {
-        return percentileValue(95);
-    }
-
-    private int percentileValue(final int percentileValue) {
-        return this.sortedLatencies.isEmpty() ? 0 : this.sortedLatencies
-                .get(percentile(percentileValue) - 1);
+        return statistics().percentileValue(95);
     }
 
     public int percentile99() {
-        return percentileValue(99);
-    }
-
-    private int percentile(final int percentile) {
-        final double i = percentile / 100.00 * this.sortedLatencies.size()
-                + 0.5;
-        return (int) (i);
+        return statistics().percentileValue(99);
     }
 
     @Override
     public double mean() {
-        if (this.latencies.size() == 0) {
-            return 0;
-        }
-        long sum = 0;
-        for (final Integer latency : this.latencies) {
-            sum += latency;
-        }
-        return (double) sum / this.latencies.size();
+        return statistics().mean();
     }
 
     public double standardDeviation() {
-        return Math.sqrt(variance());
+        return statistics().standardDeviation();
     }
 
     public double variance() {
-        long n = 0;
-        double mean = 0;
-        double s = 0.0;
-
-        for (Integer x : this.latencies) {
-            n++;
-            final double delta = x - mean;
-            mean += delta / n;
-            s += delta * (x - mean);
-        }
-        // if you want to calculate std deviation
-        // of a sample change this to (s/(n-1))
-        return (s / n);
+        return statistics().variance();
     }
 
     public int percentile96() {
-        return percentileValue(96);
+        return statistics().percentileValue(96);
     }
 
     public int percentile97() {
-        return percentileValue(97);
+        return statistics().percentileValue(97);
     }
 
     public int percentile98() {
-        return percentileValue(98);
+        return statistics().percentileValue(98);
     }
 
     public static Statistics fromLatencies(final List<Integer> latencies) {
-        return new Statistics(latencies, sortedLatencies(latencies));
+        return new Statistics(StatisticsCalculator.fromValues(latencies));
     }
 
-    private static List<Integer> sortedLatencies(List<Integer> latencies) {
-        final List<Integer> sortedLatencies = new ArrayList<Integer>(latencies);
-        Collections.sort(sortedLatencies);
-        return sortedLatencies;
-    }
 }

@@ -10,7 +10,7 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
@@ -23,13 +23,13 @@ public final class StorageForThreadsRunningCurrentTasks implements
     private final ReportingOptions reportingOptions;
     private final List<Integer> threads;
     private final List<Long> times;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 
     public StorageForThreadsRunningCurrentTasks(
             final ReportingOptions reportingOptions,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         this.reportingOptions = reportingOptions;
-        this.datasetAdapterFactory = datasetAdapterFactory;
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.threads = Collections.synchronizedList(new ArrayList<Integer>());
         this.times = Collections.synchronizedList(new ArrayList<Long>());
     }
@@ -55,7 +55,7 @@ public final class StorageForThreadsRunningCurrentTasks implements
         final ImageData imageData = ImageData.noStatistics(
                 reportingOptions().title(),
                 reportingOptions().xAxisTitle(),
-                datasetAdapterFactory().forLineChart(
+                lineChartAdapterProvider().forLineChart(
                         reportingOptions().legendTitle()));
         int i = 0;
         double max = reportingOptions().range();
@@ -70,8 +70,8 @@ public final class StorageForThreadsRunningCurrentTasks implements
         return imageData;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private ReportingOptions reportingOptions() {
@@ -83,7 +83,7 @@ public final class StorageForThreadsRunningCurrentTasks implements
     }
 
     public static StorageForThreadsRunningCurrentTasks newStorage(
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         return new StorageForThreadsRunningCurrentTasks(new ReportingOptions() {
             @Override
             public String xAxisTitle() {
@@ -109,7 +109,7 @@ public final class StorageForThreadsRunningCurrentTasks implements
             public String legendTitle() {
                 return "Threads";
             }
-        }, datasetAdapterFactory);
+        }, lineChartAdapterProvider);
     }
 
     public SummaryAppender summaryAppender() {

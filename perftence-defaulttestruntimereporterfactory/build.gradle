@@ -4,8 +4,8 @@ project(':perftence-defaulttestruntimereporterfactory') {
 
     dependencies {
         compile project(':perftence')
-        compile project(':perftence-graph-jfreechart')
-        compile project(':perftence-testreport-html')
+        testCompile project(':perftence-graph-jfreechart')
+        testCompile project(':perftence-testreport-html')
         testCompile project(':junit-4.10')
     }
 }

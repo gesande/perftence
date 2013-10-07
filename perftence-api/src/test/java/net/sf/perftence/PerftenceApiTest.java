@@ -1,7 +1,6 @@
 package net.sf.perftence;
 
 import static org.junit.Assert.assertNotNull;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 
 import org.junit.Test;
 
@@ -33,7 +32,8 @@ public final class PerftenceApiTest implements TestFailureNotifier {
     }
 
     private PerftenceApi perftenceApi() {
-        return new PerftenceApi(this, new DefaultTestRuntimeReporterFactory());
+        return new PerftenceApi(this,
+                TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory());
     }
 
 }

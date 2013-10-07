@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
+import net.sf.perftence.common.TestRuntimeReporterFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public final class AgentBasedTestTest {
         final TestBuilder test = new AgentBasedTest(
                 new MyFailureTestNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory()).test("sanityCheck");
+                testRuntimeReporterFactory()).test("sanityCheck");
         assertNotNull(
                 "Uuh, null returned by agent based test.test(id) method!", test);
         assertEquals("Id doesn't match!", "sanityCheck", test.id());
@@ -51,8 +52,8 @@ public final class AgentBasedTestTest {
         final TestBuilder test = new AgentBasedTest(
                 new MyFailureTestNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory()).test(
-                "noInvocationGraph").noInvocationGraph();
+                testRuntimeReporterFactory()).test("noInvocationGraph")
+                .noInvocationGraph();
         assertNotNull(
                 "Uuh, null returned by agent based test.test(id) method!", test);
         assertEquals("Id doesn't match!", "noInvocationGraph", test.id());
@@ -66,9 +67,9 @@ public final class AgentBasedTestTest {
     public void oneAgentOneTask() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("oneAgentOneTask").agents(agentsWithOneTask(1))
-                .latencyGraphFor(Category.One).start();
+                testRuntimeReporterFactory()).test("oneAgentOneTask")
+                .agents(agentsWithOneTask(1)).latencyGraphFor(Category.One)
+                .start();
         assertFalse(this.testFailed);
         assertEquals(1, taskRun().get());
     }
@@ -77,9 +78,9 @@ public final class AgentBasedTestTest {
     public void manyAgentsOneTask() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("manyAgentsOneTask").agents(agentsWithOneTask(5))
-                .latencyGraphFor(Category.One).start();
+                testRuntimeReporterFactory()).test("manyAgentsOneTask")
+                .agents(agentsWithOneTask(5)).latencyGraphFor(Category.One)
+                .start();
         assertFalse(this.testFailed);
         assertEquals(5, taskRun().get());
     }
@@ -88,9 +89,9 @@ public final class AgentBasedTestTest {
     public void oneAgentManyTasks() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("oneAgentManyTasks").agents(agentsWithManyTasks(1))
-                .latencyGraphFor(Category.One).start();
+                testRuntimeReporterFactory()).test("oneAgentManyTasks")
+                .agents(agentsWithManyTasks(1)).latencyGraphFor(Category.One)
+                .start();
         assertFalse(this.testFailed);
         assertEquals(2, taskRun().get());
     }
@@ -99,9 +100,9 @@ public final class AgentBasedTestTest {
     public void manyAgentsManyTasks() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-                .latencyGraphFor(Category.One).start();
+                testRuntimeReporterFactory()).test("manyAgentsManyTasks")
+                .agents(agentsWithManyTasks(2)).latencyGraphFor(Category.One)
+                .start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
     }
@@ -110,9 +111,9 @@ public final class AgentBasedTestTest {
     public void manyAgentsManyTasksLatencyGraphForCategoryOne() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-                .latencyGraphFor(Category.One).start();
+                testRuntimeReporterFactory()).test("manyAgentsManyTasks")
+                .agents(agentsWithManyTasks(2)).latencyGraphFor(Category.One)
+                .start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
     }
@@ -121,9 +122,8 @@ public final class AgentBasedTestTest {
     public void manyAgentsManyTasksLatencyGraphForAll() {
         new AgentBasedTest(new TestingNotifier(),
                 new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory())
-                .test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-                .latencyGraphForAll().start();
+                testRuntimeReporterFactory()).test("manyAgentsManyTasks")
+                .agents(agentsWithManyTasks(2)).latencyGraphForAll().start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
     }
@@ -132,7 +132,11 @@ public final class AgentBasedTestTest {
     @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
     public void nullNotifier() {
         new AgentBasedTest(null, new DefaultLatencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory());
+                testRuntimeReporterFactory());
+    }
+
+    private static TestRuntimeReporterFactory testRuntimeReporterFactory() {
+        return TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory();
     }
 
     private Collection<TestAgent> agentsWithManyTasks(final int agentCount) {

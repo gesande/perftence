@@ -5,19 +5,19 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 
 public final class DefaultThroughputStorage implements ThroughputStorage {
 
     private final List<Double> list;
     private final List<Long> time;
     private final int range;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 
     public DefaultThroughputStorage(final int range,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         this.range = range;
-        this.datasetAdapterFactory = datasetAdapterFactory;
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.list = Collections.synchronizedList(new ArrayList<Double>());
         this.time = Collections.synchronizedList(new ArrayList<Long>());
     }
@@ -56,8 +56,8 @@ public final class DefaultThroughputStorage implements ThroughputStorage {
         return this.time;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> datasetAdapterFactory() {
+        return this.lineChartAdapterProvider;
     }
 
     private int range() {

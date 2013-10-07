@@ -5,7 +5,7 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
@@ -58,7 +58,7 @@ public class AgentBasedTestUsingFileBasedReporting {
                 new DefaultCategorySpecificReporterFactory(id,
                         latencyProviderFactory()), datasetAdapterFactory(),
                 latencyProviderFactory(),
-                new DefaultTestRuntimeReporterFactory());
+                TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory());
     }
 
     private LatencyProviderFactory latencyProviderFactory() {

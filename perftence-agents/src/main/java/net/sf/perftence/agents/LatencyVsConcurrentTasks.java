@@ -4,7 +4,7 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.ReportingOptions;
 
 public final class LatencyVsConcurrentTasks implements GraphWriterProvider {
@@ -32,7 +32,7 @@ public final class LatencyVsConcurrentTasks implements GraphWriterProvider {
     }
 
     public static LatencyVsConcurrentTasks instance(
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
         final ReportingOptions reportingOptions = new ReportingOptions() {
 
             @Override
@@ -61,10 +61,10 @@ public final class LatencyVsConcurrentTasks implements GraphWriterProvider {
             }
         };
         final String legendTitle = reportingOptions.legendTitle();
-        return new LatencyVsConcurrentTasks(
-                ImageData.noStatistics(reportingOptions.title(),
-                        reportingOptions.xAxisTitle(), datasetAdapterFactory
-                                .forScatterPlot(legendTitle, yAxisTitle())));
+        return new LatencyVsConcurrentTasks(ImageData.noStatistics(
+                reportingOptions.title(), reportingOptions.xAxisTitle(),
+                scatterPlotAdapterProvider.forScatterPlot(legendTitle,
+                        yAxisTitle())));
     }
 
     private static String yAxisTitle() {

@@ -9,7 +9,7 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 
 import org.slf4j.Logger;
@@ -24,10 +24,10 @@ public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
 
     public LastSecondFailuresGraphWriter(final LastSecondFailures failures,
             final TestTimeAware testTimeAware,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         this.failures = failures;
         this.testTimeAware = testTimeAware;
-        this.imageDataFactory = new ImageDataFactory(datasetAdapterFactory);
+        this.imageDataFactory = new ImageDataFactory(lineChartAdapterProvider);
     }
 
     @Override

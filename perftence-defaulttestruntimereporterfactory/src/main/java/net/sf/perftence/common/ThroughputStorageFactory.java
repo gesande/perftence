@@ -1,21 +1,21 @@
 package net.sf.perftence.common;
 
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 
 public final class ThroughputStorageFactory {
 
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 
     public ThroughputStorageFactory(
-            final DatasetAdapterFactory datasetAdapterFactory) {
-        this.datasetAdapterFactory = datasetAdapterFactory;
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
     }
 
     public ThroughputStorage forRange(final int range) {
-        return new DefaultThroughputStorage(range, datasetAdapterFactory());
+        return new DefaultThroughputStorage(range, adapterProvider());
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> adapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 }

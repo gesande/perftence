@@ -10,6 +10,7 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.agents.ActiveThreads;
 import net.sf.perftence.agents.StorageForThreadsRunningCurrentTasks;
 import net.sf.perftence.agents.TestAgent;
@@ -18,7 +19,6 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
@@ -140,9 +140,9 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 
     private TestRuntimeReporter newTestRuntimeReporter(
             PerformanceTestSetupBuilder setup) {
-        return new DefaultTestRuntimeReporterFactory().newRuntimeReporter(
-                this.latencyProvider, true, setup.build(),
-                newFailedInvocations());
+        return TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory()
+                .newRuntimeReporter(this.latencyProvider, true, setup.build(),
+                        newFailedInvocations());
     }
 
     interface TestAgentFactory {
