@@ -1,19 +1,17 @@
 package net.sf.perftence.common;
 
-import java.awt.Paint;
-
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.GraphStatisticsProvider;
 import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.LineChartGraphData;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.ReportingOptions;
 
 public final class ImageDataFactory {
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 
-    public ImageDataFactory(final DatasetAdapterFactory datasetAdapterFactory) {
-        this.datasetAdapterFactory = datasetAdapterFactory;
+    public ImageDataFactory(
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
     }
 
     public ImageData newImageDataForLineChart(
@@ -29,9 +27,8 @@ public final class ImageDataFactory {
                 linechartAdapter(title));
     }
 
-    private DatasetAdapter<LineChartGraphData, Paint> linechartAdapter(
-            final String legendTitle) {
-        return datasetAdapterFactory().forLineChart(legendTitle);
+    private DatasetAdapter<?, ?> linechartAdapter(final String legendTitle) {
+        return lineChartAdapterProvider().forLineChart(legendTitle);
     }
 
     private static ImageData newImageData(final DatasetAdapter<?, ?> adapter,
@@ -51,7 +48,7 @@ public final class ImageDataFactory {
                 .noStatistics(title, xAxisTitle, range, adapter);
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 }

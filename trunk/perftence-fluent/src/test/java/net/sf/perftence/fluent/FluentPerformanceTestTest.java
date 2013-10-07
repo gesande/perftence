@@ -13,8 +13,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.Duration;
 
 import org.junit.Before;
@@ -40,7 +41,7 @@ public class FluentPerformanceTestTest {
     public void sanityCheck() {
         final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
                 new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
         final MultithreadWorker test = fluentPerformanceTest
                 .test(id())
                 .setup(fluentPerformanceTest.setup().threads(100)
@@ -210,7 +211,7 @@ public class FluentPerformanceTestTest {
         final AtomicInteger i = new AtomicInteger();
         final FluentPerformanceTest fluent = new FluentPerformanceTest(
                 new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -233,7 +234,7 @@ public class FluentPerformanceTestTest {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
                 new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(1).duration(Duration.seconds(5))
@@ -252,7 +253,7 @@ public class FluentPerformanceTestTest {
     }
 
     private static TestRuntimeReporterFactory newDefaultTestRuntimeReporter() {
-        return new DefaultTestRuntimeReporterFactory();
+        return TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory();
     }
 
     @Test
@@ -260,7 +261,7 @@ public class FluentPerformanceTestTest {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
                 new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(1).invocations(5).build())
                 .executable(new Executable() {
@@ -282,7 +283,7 @@ public class FluentPerformanceTestTest {
         final AtomicInteger i = new AtomicInteger();
         FluentPerformanceTest fluent = new FluentPerformanceTest(
                 new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
         fluent.test(id()).noInvocationGraph()
                 .setup(fluent.setup().threads(3).invocations(10).build())
                 .executable(new Executable() {
@@ -300,7 +301,7 @@ public class FluentPerformanceTestTest {
     @Test(expected = TestFailureNotifier.NoTestNotifierException.class)
     public void nullNotifier() {
         new FluentPerformanceTest(null, newDefaultTestRuntimeReporter(),
-                new DefaultRunNotifier());
+                new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
     }
 
     @Test
@@ -342,7 +343,8 @@ public class FluentPerformanceTestTest {
                         FluentPerformanceTestTest.this.testFailed = true;
                         FluentPerformanceTestTest.this.testFailure = t;
                     }
-                }, newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                }, newDefaultTestRuntimeReporter(), new DefaultRunNotifier(),
+                new DefaultDatasetAdapterFactory());
         fluent.test(id())
                 .noInvocationGraph()
                 .setup(fluent.setup().threads(6).duration(Duration.seconds(2))
@@ -360,7 +362,8 @@ public class FluentPerformanceTestTest {
 
     private FluentPerformanceTest fluent() {
         return new FluentPerformanceTest(new PerfTestFailedNotifier(),
-                newDefaultTestRuntimeReporter(), new DefaultRunNotifier());
+                newDefaultTestRuntimeReporter(), new DefaultRunNotifier(),
+                new DefaultDatasetAdapterFactory());
     }
 
     private class PerfTestFailedNotifier implements TestFailureNotifier {

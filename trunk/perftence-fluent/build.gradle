@@ -4,9 +4,11 @@ project(':perftence-fluent') {
 
     dependencies {
         compile project(':perftence')
-        compile project(':perftence-graph-jfreechart')
         compile project(':perftence-defaulttestruntimereporterfactory')
         compile project(':völundr-concurrent')
         testCompile project(':junit-4.10')
+        //TODO: make these testCompile
+        compile project(':reporterfactory-dependencies-jfreechart')
+        compile project(':perftence-graph-jfreechart')
     }
 }

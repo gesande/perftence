@@ -5,6 +5,7 @@ import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 public final class PerftenceApi {
@@ -46,7 +47,8 @@ public final class PerftenceApi {
 
     private FluentPerformanceTest createPerformanceTest() {
         return new FluentPerformanceTest(failureNotifier(),
-                testRuntimeReporterFactory(), new DefaultRunNotifier());
+                testRuntimeReporterFactory(), new DefaultRunNotifier(),
+                new DefaultDatasetAdapterFactory());
     }
 
     private TestRuntimeReporterFactory testRuntimeReporterFactory() {

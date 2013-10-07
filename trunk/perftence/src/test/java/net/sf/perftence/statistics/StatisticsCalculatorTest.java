@@ -1,24 +1,26 @@
-package net.sf.perftence.common;
+package net.sf.perftence.statistics;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.perftence.common.Statistics;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatisticsTest {
+public class StatisticsCalculatorTest {
 
-    private static Statistics stat;
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(StatisticsTest.class);
+            .getLogger(StatisticsCalculatorTest.class);
+    private static StatisticsCalculator stat;
 
     @BeforeClass
     public static void beforeClass() {
-        stat = Statistics.fromLatencies(sampleList());
+        stat = StatisticsCalculator.fromValues(sampleList());
     }
 
     @SuppressWarnings("static-method")
@@ -122,22 +124,22 @@ public class StatisticsTest {
 
     private static void check90percentile() {
         assertEquals("90 percentile doesn't match!", 600, log(stat()
-                .percentile90()), 0);
+                .percentileValue(90)), 0);
     }
 
     private static void check95percentile() {
-        assertEquals("95 percentile doesn't match!", 600.00,
-                log((double) stat().percentile95()), 0);
+        assertEquals("95 percentile doesn't match!", 600, log(stat()
+                .percentileValue(95)), 0);
     }
 
     private static void check96percentile() {
-        assertEquals("96 percentile doesn't match!", 600.00,
-                log((double) stat().percentile96()), 0);
+        assertEquals("96 percentile doesn't match!", 600, log(stat()
+                .percentileValue(96)), 0);
     }
 
     private static void check99percentile() {
-        assertEquals("99 percentile doesn't match!", 600.0, log((double) stat()
-                .percentile99()), 0);
+        assertEquals("99 percentile doesn't match!", 600, log(stat()
+                .percentileValue(99)), 0);
     }
 
     private static void checkMean() {
@@ -145,31 +147,30 @@ public class StatisticsTest {
     }
 
     private static void checkMedian() {
-        assertEquals("Median doesn't match!", 430.00, log((double) stat()
-                .median()), 0);
+        assertEquals("Median doesn't match!", 430, log(stat().median()), 0);
     }
 
     private static void checkStandardDeviation() {
-        assertEquals("Standard deviation doesn't match!", 147.32277488562315,
+        assertEquals("Standard deviation doesn't match!", 147.32277488562318,
                 log(stat().standardDeviation()), 0);
     }
 
     private static void checkVariance() {
-        assertEquals("Variance doesn't match!", 21703.999999999996, log(stat()
-                .variance()), 0);
+        assertEquals("Variance doesn't match!", 21704.0,
+                log(stat().variance()), 0);
     }
 
     private static void check98percentile() {
-        assertEquals("97 percentile doesn't match!", 600.00,
-                log((double) stat().percentile98()), 0);
+        assertEquals("97 percentile doesn't match!", 600, log(stat()
+                .percentileValue(98)), 0);
     }
 
     private static void check97percentile() {
-        assertEquals("97 percentile doesn't match!", 600.00,
-                log((double) stat().percentile97()), 0);
+        assertEquals("97 percentile doesn't match!", 600, log(stat()
+                .percentileValue(97)), 0);
     }
 
-    private static Statistics stat() {
+    private static StatisticsCalculator stat() {
         return stat;
     }
 

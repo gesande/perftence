@@ -7,5 +7,6 @@ project(':distributed-perftence-api') {
         compile project(':völundr-concurrent')
         compile project(':perftence-fluent')
         compile project(':perftence-defaulttestruntimereporterfactory')
+        compile project(':reporterfactory-dependencies-jfreechart')
     }
 }

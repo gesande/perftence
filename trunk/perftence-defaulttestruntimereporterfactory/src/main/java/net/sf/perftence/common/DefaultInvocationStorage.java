@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.ReportingOptions;
 
 public final class DefaultInvocationStorage implements InvocationStorage {
@@ -25,9 +25,9 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     public static InvocationStorage newDefaultStorage(
             final int totalInvocations,
             final ReportingOptions reportingOptions,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         return new DefaultInvocationStorage(totalInvocations, reportingOptions,
-                new ImageDataFactory(datasetAdapterFactory));
+                new ImageDataFactory(lineChartAdapterProvider));
     }
 
     private static List<Integer> initialize(final int invocations) {
@@ -99,7 +99,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
     }
 
     public static InvocationStorage invocationStorageWithNoSamples(
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         return new InvocationStorage() {
             @Override
             public void store(final int latency) {
@@ -125,7 +125,7 @@ public final class DefaultInvocationStorage implements InvocationStorage {
             public ImageData imageData() {
                 return ImageData.statistics("no samples", "X-axis title", 100,
                         statistics(),
-                        datasetAdapterFactory.forLineChart("legend title"));
+                        lineChartAdapterProvider.forLineChart("legend title"));
             }
         };
     }

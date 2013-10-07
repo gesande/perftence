@@ -8,25 +8,22 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
 public final class LastSecondThroughput implements ValueReporter<Double>,
         GraphWriterProvider {
     private final List<Double> throughputs;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> linecharAdapterProvider;
 
     public LastSecondThroughput(
-            final DatasetAdapterFactory datasetAdapterFactory) {
-        this.datasetAdapterFactory = datasetAdapterFactory;
+            final LineChartAdapterProvider<?, ?> linecharAdapterProvider) {
+        this.linecharAdapterProvider = linecharAdapterProvider;
         this.throughputs = AsSynchronized.list(new ArrayList<Double>());
     }
 
     private List<Double> throughputs() {
         return this.throughputs;
-    }
-
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
     }
 
     @Override
@@ -41,7 +38,8 @@ public final class LastSecondThroughput implements ValueReporter<Double>,
             private ImageData throughputData() {
                 final String title = "Last second throughput";
                 final ImageData imageData = ImageData.noStatistics(title,
-                        "Seconds", datasetAdapterFactory().forLineChart(title));
+                        "Seconds",
+                        lineChartAdapterProvider().forLineChart(title));
                 final List<Double> throughputs = throughputs();
                 double max = 0;
                 for (int i = 0; i < throughputs.size(); i++) {
@@ -70,5 +68,9 @@ public final class LastSecondThroughput implements ValueReporter<Double>,
     @Override
     public void report(final Double value) {
         throughputs().add(value);
+    }
+
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.linecharAdapterProvider;
     }
 }

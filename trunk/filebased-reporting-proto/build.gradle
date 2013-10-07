@@ -13,6 +13,7 @@ project (':filebased-reporting-proto') {
         compile project(':slf4j-api-1.6.1')
         compile project(':jfreechart-1.0.12')
         compile project(':jcommon-1.0.15')
+        compile project(':reporterfactory-dependencies-jfreechart')
         testCompile project(':perftence-junit')
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')

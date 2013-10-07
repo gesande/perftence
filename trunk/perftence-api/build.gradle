@@ -1,3 +1,4 @@
+
 project(':perftence-api') {
     apply from:"$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
@@ -11,5 +12,6 @@ project(':perftence-api') {
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
         testCompile project(':junit-4.10')
+        testCompile project(':reporterfactory-dependencies-jfreechart')
     }
 }

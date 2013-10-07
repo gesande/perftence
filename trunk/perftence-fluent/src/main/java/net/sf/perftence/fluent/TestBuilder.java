@@ -17,7 +17,7 @@ import net.sf.perftence.Startable;
 import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.jfreechart.LastSecondThroughput;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
@@ -47,7 +47,7 @@ public final class TestBuilder {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
     private final TestRuntimeReporterFactory reporterFactory;
     private final LatencyProviderFactory latencyProviderFactory;
 
@@ -64,7 +64,7 @@ public final class TestBuilder {
             final LatencyFactory latencyFactory,
             final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
             final PerfTestFailureFactory perfTestFailureFactory,
-            final DatasetAdapterFactory datasetAdapterFactory,
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
             final TestRuntimeReporterFactory reporterFactory,
             final LatencyProviderFactory latencyProviderFactory) {
         this.invocationRunner = invocationRunner;
@@ -73,7 +73,7 @@ public final class TestBuilder {
         this.latencyFactory = latencyFactory;
         this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
         this.perfTestFailureFactory = perfTestFailureFactory;
-        this.datasetAdapterFactory = datasetAdapterFactory;
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.reporterFactory = reporterFactory;
         this.latencyProviderFactory = latencyProviderFactory;
         this.requirements = PerformanceRequirementsBuilder.noRequirements();
@@ -118,7 +118,7 @@ public final class TestBuilder {
         final LastSecondFailures lastSecondFailures = new LastSecondFailures(
                 failedInvocationsFactory());
         final LastSecondThroughput lastSecondThroughput = new LastSecondThroughput(
-                datasetAdapterFactory());
+                lineChartAdapterProvider());
         final LastSecondIntermediateStatisticsProvider lastSecondStatsProvider = newLastSecondStatsProvider(
                 lastSecondStats, fieldBuilder, lastSecondThroughput);
         setup.graphWriters().add(
@@ -138,8 +138,8 @@ public final class TestBuilder {
                 .executable(executable);
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {

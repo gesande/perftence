@@ -12,13 +12,13 @@ import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.agents.TestAgent;
 import net.sf.perftence.agents.TestTask;
 import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.FrequencyStorage;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -94,9 +94,10 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
         this.latencyProvider = newLatencyProvider();
         this.tasksRun = new AtomicInteger();
         this.tasksFailed = new AtomicInteger();
-        this.testRuntimeReporter = new DefaultTestRuntimeReporterFactory()
-                .newRuntimeReporter(this.latencyProvider, true, setup()
-                        .threads(userCount).build(), newFailedInvocations());
+        this.testRuntimeReporter = TestRuntimeReporterFactoryUsingJFreeChart
+                .reporterFactory().newRuntimeReporter(this.latencyProvider,
+                        true, setup().threads(userCount).build(),
+                        newFailedInvocations());
         this.latencyProvider.start();
         List<Thread> threads = new ArrayList<Thread>();
         for (int i = 0; i < userCount; i++) {

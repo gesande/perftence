@@ -11,7 +11,7 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.GraphWriterProvider;
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
@@ -22,13 +22,13 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
 
     private final StronglyTypedSortedBag<Long> differencies;
     private final ReportingOptions reportingOptions;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 
     public TaskScheduleDifferences(final ReportingOptions reportingOptions,
-            final DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         this.reportingOptions = reportingOptions;
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.differencies = StronglyTypedSortedBag.synchronizedTreeBag();
-        this.datasetAdapterFactory = datasetAdapterFactory;
     }
 
     private ReportingOptions reportingOptions() {
@@ -48,7 +48,7 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
     }
 
     public static TaskScheduleDifferences instance(
-            DatasetAdapterFactory datasetAdapterFactory) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         return new TaskScheduleDifferences(new ReportingOptions() {
 
             @Override
@@ -75,14 +75,14 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
             public String legendTitle() {
                 return "Frequency";
             }
-        }, datasetAdapterFactory);
+        }, lineChartAdapterProvider);
     }
 
     private ImageData imageData() {
         final ImageData imageData = ImageData.noStatistics(
                 reportingOptions().title(),
                 reportingOptions().xAxisTitle(),
-                datasetAdapterFactory().forLineChart(
+                lineChartAdapterProvider().forLineChart(
                         reportingOptions().legendTitle()));
         final Collection<Long> uniqueSet = uniqueSamples();
         long max = reportingOptions().range();
@@ -96,8 +96,8 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
         return imageData.range(max);
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private int count(final long value) {

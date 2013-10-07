@@ -11,8 +11,7 @@ import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -35,7 +34,7 @@ public final class FluentPerformanceTest {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
     private final EstimatedInvocations estimatedInvocations;
     private final InvocationRunnerFactory invocationRunnerFactory;
     private final TestRuntimeReporterFactory reporterFactory;
@@ -43,7 +42,8 @@ public final class FluentPerformanceTest {
 
     public FluentPerformanceTest(final TestFailureNotifier failureNotifier,
             final TestRuntimeReporterFactory reporterFactory,
-            final RunNotifier runNotifier) {
+            final RunNotifier runNotifier,
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
         this.reporterFactory = reporterFactory;
         validate(failureNotifier);
         this.failureNotifier = failureNotifier;
@@ -61,7 +61,7 @@ public final class FluentPerformanceTest {
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
         this.perfTestFailureFactory = new PerfTestFailureFactory();
-        this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.latencyProviderFactory = new DefaultLatencyProviderFactory();
     }
 
@@ -99,7 +99,7 @@ public final class FluentPerformanceTest {
                 summaryBuilderFactory(), failedInvocationsFactory(),
                 adjustedFieldBuilderFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
-                perfTestFailureFactory(), datasetAdapterFactory(),
+                perfTestFailureFactory(), lineChartAdapterProvider(),
                 reporterFactory(), latencyProviderFactory());
     }
 
@@ -111,8 +111,8 @@ public final class FluentPerformanceTest {
         return this.reporterFactory;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private PerfTestFailureFactory perfTestFailureFactory() {

@@ -5,12 +5,13 @@ import java.util.concurrent.ExecutorService;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.TestBuilder;
+import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.setup.PerformanceTestSetup;
@@ -21,7 +22,7 @@ public final class DistributedPerformanceTest {
     private final TestFailureNotifier testFailureNotifier;
     private final ExecutorService executorService;
     private final RunNotifier runNotifier;
-    private final DefaultTestRuntimeReporterFactory defaultReporterFactory;
+    private final TestRuntimeReporterFactory defaultReporterFactory;
     private final RemoteLatencyReporter remoteReporter;
 
     public DistributedPerformanceTest(final String id,
@@ -34,7 +35,8 @@ public final class DistributedPerformanceTest {
         this.executorService = executorService;
         this.runNotifier = runNotifier;
         this.remoteReporter = remoteReporter;
-        this.defaultReporterFactory = new DefaultTestRuntimeReporterFactory();
+        this.defaultReporterFactory = TestRuntimeReporterFactoryUsingJFreeChart
+                .reporterFactory();
     }
 
     public TestBuilder setup(final PerformanceTestSetup setup) {
@@ -67,7 +69,8 @@ public final class DistributedPerformanceTest {
 
         };
         return new FluentPerformanceTest(this.testFailureNotifier,
-                reporterFactory, this.runNotifier).test(id()).setup(setup);
+                reporterFactory, this.runNotifier,
+                new DefaultDatasetAdapterFactory()).test(id()).setup(setup);
     }
 
     private ExecutorService executorService() {
@@ -78,7 +81,7 @@ public final class DistributedPerformanceTest {
         return this.id;
     }
 
-    private DefaultTestRuntimeReporterFactory defaultReporterFactory() {
+    private TestRuntimeReporterFactory defaultReporterFactory() {
         return this.defaultReporterFactory;
     }
 
