@@ -8,7 +8,7 @@ project(':backlog') {
     apply from:"$buildPlugins/emma.gradle"
 
     apply plugin : 'groovy'
-    
+
     version = project.properties.artifactVersion
 
     dependencies {
@@ -42,6 +42,7 @@ task exportBacklog (dependsOn: classes) { Task task ->
             classpath configurations.runtime
             standardOutput = backlog
         }
+        println("Backlog exported to backlog.txt")
     }
 }
 

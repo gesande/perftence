@@ -1,5 +1,8 @@
-package net.sf.perftence;
+package net.sf.perftence.api;
 
+import net.sf.perftence.DefaultLatencyProviderFactory;
+import net.sf.perftence.LatencyProviderFactory;
+import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.agents.AgentBasedTest;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
@@ -20,8 +23,8 @@ public final class PerftenceApi {
 
     public PerftenceApi(final TestFailureNotifier notifier,
             final TestRuntimeReporterFactory testRuntimeReporterFactory,
-            LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
-            ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
+            final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
         this.notifier = notifier;
         this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
@@ -45,8 +48,12 @@ public final class PerftenceApi {
 
     private AgentBasedTest createAgentBasedTest() {
         return new AgentBasedTest(failureNotifier(), latencyProviderFactory(),
-                testRuntimeReporterFactory(), this.lineChartAdapterProvider,
+                testRuntimeReporterFactory(), lineChartAdapterProvider(),
                 this.scatterPlotAdapterProvider);
+    }
+
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private LatencyProviderFactory latencyProviderFactory() {
@@ -56,7 +63,7 @@ public final class PerftenceApi {
     private FluentPerformanceTest createPerformanceTest() {
         return new FluentPerformanceTest(failureNotifier(),
                 testRuntimeReporterFactory(), new DefaultRunNotifier(),
-                this.lineChartAdapterProvider);
+                lineChartAdapterProvider());
     }
 
     private TestRuntimeReporterFactory testRuntimeReporterFactory() {
