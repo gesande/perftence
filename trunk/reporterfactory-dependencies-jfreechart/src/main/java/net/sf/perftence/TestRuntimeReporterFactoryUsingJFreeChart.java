@@ -7,6 +7,7 @@ import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.LineChartAdapterProvider;
+import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
@@ -52,6 +53,10 @@ public final class TestRuntimeReporterFactoryUsingJFreeChart implements
     public static TestRuntimeReporterFactory reporterFactory() {
         return new DefaultTestRuntimeReporterFactory(
                 new TestRuntimeReporterFactoryUsingJFreeChart());
+    }
+
+    public ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
+        return this.datasetAdapterFactory;
     }
 
 }

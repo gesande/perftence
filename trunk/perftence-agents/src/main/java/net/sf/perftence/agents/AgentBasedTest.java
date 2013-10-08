@@ -7,8 +7,8 @@ import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.LineChartAdapterProvider;
+import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
@@ -26,13 +26,17 @@ public final class AgentBasedTest {
     private final LatencyFactory latencyFactory;
     private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
-    private final DatasetAdapterFactory datasetAdapterFactory;
+    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
     private final LatencyProviderFactory latencyProviderFactory;
     private final TestRuntimeReporterFactory testRuntimeReporterFactory;
+    private final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider;
 
     public AgentBasedTest(final TestFailureNotifier failureNotifier,
             final LatencyProviderFactory latencyProviderFactory,
-            final TestRuntimeReporterFactory testRuntimeReporterFactory) {
+            final TestRuntimeReporterFactory testRuntimeReporterFactory,
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
+            final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+        this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
         this.failureNotifier = validate(failureNotifier);
         final FieldFormatter fieldFormatter = new FieldFormatter();
         final FieldAdjuster fieldAdjuster = new FieldAdjuster();
@@ -46,7 +50,7 @@ public final class AgentBasedTest {
                         .newInstance());
         this.latencyFactory = new LatencyFactory();
         this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
-        this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+        this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.latencyProviderFactory = latencyProviderFactory;
         this.testRuntimeReporterFactory = testRuntimeReporterFactory;
     }
@@ -59,11 +63,16 @@ public final class AgentBasedTest {
                 failedInvocationsFactory(), latencyFactory(),
                 allowedExceptionOccurredMessageBuilder(),
                 adjustedFieldBuilderFactory(),
-                TaskScheduleDifferences.instance(datasetAdapterFactory()),
+                TaskScheduleDifferences.instance(lineChartAdapterProvider()),
                 new SchedulingServiceFactory(),
                 new DefaultCategorySpecificReporterFactory(id,
-                        latencyProviderFactory()), datasetAdapterFactory(),
-                latencyProviderFactory(), testRuntimeReporterFactory());
+                        latencyProviderFactory()), latencyProviderFactory(),
+                testRuntimeReporterFactory(), lineChartAdapterProvider(),
+                scatterPlotAdapterProvider());
+    }
+
+    private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
+        return this.scatterPlotAdapterProvider;
     }
 
     private TestRuntimeReporterFactory testRuntimeReporterFactory() {
@@ -74,8 +83,8 @@ public final class AgentBasedTest {
         return this.latencyProviderFactory;
     }
 
-    private DatasetAdapterFactory datasetAdapterFactory() {
-        return this.datasetAdapterFactory;
+    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+        return this.lineChartAdapterProvider;
     }
 
     private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {

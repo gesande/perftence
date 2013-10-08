@@ -7,7 +7,7 @@ import net.sf.perftence.graph.DatasetAdapter;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-class XYSeriesAdapterForScatterPlot implements
+final class XYSeriesAdapterForScatterPlot implements
         DatasetAdapter<ScatterPlotGraphData, Paint> {
 
     private final XYSeries series;

@@ -8,7 +8,7 @@ import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public final class CategoryDatasetAdapter implements
+final class CategoryDatasetAdapter implements
         DatasetAdapter<BarChartGraphData, Paint> {
 
     private final DefaultCategoryDataset categoryData;

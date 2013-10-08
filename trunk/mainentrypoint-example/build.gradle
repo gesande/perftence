@@ -9,7 +9,7 @@ project(':mainentrypoint-example') {
         compile project(':slf4j-api-1.6.1')
         compile project(':jfreechart-1.0.12')
         compile project(':jcommon-1.0.15')
-        testCompile project(':reporterfactory-dependencies-jfreechart')
+        compile project(':reporterfactory-dependencies-jfreechart')
         runtime project(':slf4j-log4j12-1.6.1')
         runtime project(':log4j-1.2.16')
     }

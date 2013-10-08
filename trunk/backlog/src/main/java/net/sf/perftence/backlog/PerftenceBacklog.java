@@ -186,23 +186,19 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("starting völundr", refactoring),
                         done("völundr-linereader", refactoring),
                         done("völundr-fileutil", refactoring),
-                        done("völundr-bag", refactoring))
-
+                        done("völundr-bag", refactoring),
+                        done("choice of perftence-graph implementation in perftence-api level",
+                                feature),
+                        done("afreechart version of perftence-graph", feature),
+                        done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects)",
+                                refactoring))
                 .inProgress()
                 .title("IN PROGRESS:")
                 .noTasks()
 
                 .waiting()
                 .title("WAITING:")
-                .tasks(waiting(
-                        "choice of perftence-graph implementation in perftence-api level",
-                        feature),
-                        waiting("afreechart version of perftence-graph",
-                                feature),
-                        waiting("move 'blacksmith' projects to its own 'blacksmith' sourceforge project (see concurrent,bag,linereader,fileutil projects)",
-                                refactoring),
-                        waiting("failures over test time, use DateAxis",
-                                feature),
+                .tasks(waiting("failures over test time, use DateAxis", feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
                         waiting("provide unit test for WritingFileFailed and other failure cases",

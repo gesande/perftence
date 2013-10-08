@@ -2,8 +2,10 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
+import net.sf.perftence.graph.BarChartAdapterProvider;
 import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.LineChartAdapterProvider;
+import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 
 public interface DatasetAdapterFactory extends
         LineChartAdapterProvider<LineChartGraphData, Paint>,

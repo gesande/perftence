@@ -17,8 +17,9 @@ import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
-import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.LastSecondThroughput;
+import net.sf.perftence.graph.LastSecondThroughput;
+import net.sf.perftence.graph.LineChartAdapterProvider;
+import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilder;
@@ -99,9 +100,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
             final TaskScheduleDifferences taskScheduleDifferences,
             final SchedulingServiceFactory schedulingServiceFactory,
             final CategorySpecificReporterFactory categorySpecificReporterFactory,
-            final DatasetAdapterFactory datasetAdapterFactory,
             final LatencyProviderFactory latencyProviderFactory,
-            final TestRuntimeReporterFactory testRuntimeReporterFactory) {
+            final TestRuntimeReporterFactory testRuntimeReporterFactory,
+            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
+            final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
         this.name = name;
         this.failureNotifier = failureNotifier;
         this.failedInvocationsFactory = failedInvocationsFactory;
@@ -118,10 +120,10 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 categorySpecificReporterFactory, this);
         this.taskScheduleDifferences = taskScheduleDifferences;
         this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
-                .newStorage(datasetAdapterFactory);
+                .newStorage(lineChartAdapterProvider);
         this.customSummaryAppenders = new ArrayList<SummaryAppender>();
         this.runningTasks = LatencyVsConcurrentTasks
-                .instance(datasetAdapterFactory);
+                .instance(scatterPlotAdapterProvider);
         this.allowedExceptions = new AllowedExceptions();
         this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
         this.failedInvocations = this.failedInvocationsFactory.newInstance();
@@ -130,13 +132,13 @@ public final class TestBuilder implements RunnableAdapter, Startable,
                 this.failedInvocationsFactory);
         this.lastSecondFailureGraphWriter = new LastSecondFailuresGraphWriter(
                 this.lastSecondFailures, this.latencyProvider,
-                datasetAdapterFactory);
+                lineChartAdapterProvider);
         this.customLatencyReporters = new ArrayList<CustomInvocationReporter>();
         this.customLatencyReporters.add(lastSecondStatistics());
         this.customFailureReporters = new ArrayList<CustomFailureReporter>();
         this.customFailureReporters.add(lastSecondFailures());
         this.lastSecondThroughput = new LastSecondThroughput(
-                datasetAdapterFactory);
+                lineChartAdapterProvider);
         this.categorySpecificLatenciesConfigurator = new CategorySpecificLatenciesConfigurator(
                 this.categorySpecificLatencies,
                 categorySpecificReporterFactory, this);
