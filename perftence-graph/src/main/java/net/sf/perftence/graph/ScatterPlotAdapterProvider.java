@@ -1,6 +1,4 @@
-package net.sf.perftence.graph.jfreechart;
-
-import net.sf.perftence.graph.DatasetAdapter;
+package net.sf.perftence.graph;
 
 public interface ScatterPlotAdapterProvider<GRAPHDATA, PAINT> {
 

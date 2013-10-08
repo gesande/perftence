@@ -1,5 +1,6 @@
 package net.sf.perftence;
 
+import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.reporting.Duration;
 
 import org.slf4j.Logger;
@@ -15,12 +16,16 @@ public class ApiExample {
 
     @SuppressWarnings("static-method")
     public void run() {
+        final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart();
+        final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
+                deps);
         final PerftenceApi api = new PerftenceApi(new TestFailureNotifier() {
             @Override
             public void testFailed(Throwable t) {
                 log().error("Test failed!", t);
             }
-        }, TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory());
+        }, testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
+                deps.scatterPlotAdapterProvider());
         api.test("api-example")
                 .setup(api.setup().threads(2).duration(Duration.seconds(10))
                         .build()).executable(new Executable() {

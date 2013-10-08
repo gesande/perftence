@@ -56,9 +56,9 @@ public class AgentBasedTestUsingFileBasedReporting {
                 TaskScheduleDifferences.instance(datasetAdapterFactory()),
                 new SchedulingServiceFactory(),
                 new DefaultCategorySpecificReporterFactory(id,
-                        latencyProviderFactory()), datasetAdapterFactory(),
-                latencyProviderFactory(),
-                TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory());
+                        latencyProviderFactory()), latencyProviderFactory(),
+                TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory(),
+                datasetAdapterFactory(), datasetAdapterFactory());
     }
 
     private LatencyProviderFactory latencyProviderFactory() {
