@@ -1,5 +1,7 @@
 package net.sf.perftence.common;
 
+import java.nio.charset.Charset;
+
 import net.sf.perftence.reporting.TestReport;
 import net.sf.völundr.fileio.AppendToFileFailed;
 import net.sf.völundr.fileio.FileAppendHandler;
@@ -19,35 +21,49 @@ public final class HtmlTestReport implements TestReport {
     private final FileAppender fileAppender;
     private final ToBytes toBytes;
 
-    private HtmlTestReport(final String reportRootDirectory) {
+    private HtmlTestReport(final String reportRootDirectory,
+            final ToBytes toBytes) {
         this.directory = reportRootDirectory;
-        this.toBytes = ToBytes.withDefaultCharset();
+        this.toBytes = toBytes;
         this.fileAppender = new FileAppender(this.toBytes,
                 new FileAppendHandler() {
                     @Override
                     public void failed(final String file,
                             final AppendToFileFailed e) {
+                        LOG.error("Appending data to summary file '" + file
+                                + "' failed", e);
                         throw newRuntimeException(
                                 "Appending data to summary file '" + file
                                         + "' failed", e);
                     }
 
                     @Override
-                    public void ok(String file) {
+                    public void ok(final String file) {
                         LOG.info("Data to summary file '{}' appended", file);
                     }
 
                     @Override
-                    public void start(String file) {
+                    public void start(final String file) {
                         LOG.info("Appending data to summary file '{}' ...",
                                 file);
                     }
                 });
     }
 
+    /**
+     * Factory method for creating test report with default values
+     */
     public static TestReport withDefaultReportPath() {
-        return new HtmlTestReport(System.getProperty("user.dir")
-                + "/target/perftence");
+        return testReport(System.getProperty("user.dir") + "/target/perftence",
+                Charset.defaultCharset());
+    }
+
+    /**
+     * Factory method for creating test report
+     */
+    public static TestReport testReport(final String reportRootDirectory,
+            final Charset charset) {
+        return new HtmlTestReport(reportRootDirectory, new ToBytes(charset));
     }
 
     @Override
@@ -79,14 +95,14 @@ public final class HtmlTestReport implements TestReport {
     @Override
     public void writeSummary(final String id, final String data) {
         final String path = reportRootDirectory() + "/" + nameFor(id);
-        log().debug("Writing summary to: " + path);
+        LOG.debug("Writing summary to: " + path);
         try {
             FileUtil.writeToFile(path, toBytes(data));
         } catch (final WritingFileFailed cause) {
             throw newRuntimeException("Writing summary to '" + path
                     + "'failed!", cause);
         }
-        log().debug("Summary successfully written to '" + path + "' ");
+        LOG.debug("Summary successfully written to '" + path + "' ");
     }
 
     private byte[] toBytes(final String data) {
@@ -103,11 +119,7 @@ public final class HtmlTestReport implements TestReport {
     }
 
     private static String logError(final String msg, final Throwable t) {
-        log().error(msg, t);
+        LOG.error(msg, t);
         return msg;
-    }
-
-    private static Logger log() {
-        return LOG;
     }
 }

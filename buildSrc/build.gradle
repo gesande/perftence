@@ -23,7 +23,7 @@ version = '1.0.3'
 
 eclipse.classpath.defaultOutputDir = file('target/classes')
 
-ext.buildLibrary='my-gradle-build' + version
+ext.buildLibrary='my-gradle-build-' + version
 
 eclipse {
     classpath {

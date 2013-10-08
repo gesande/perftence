@@ -12,9 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
-import net.sf.perftence.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
+import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package net.sf.perfence.graph.afreechart;
+package net.sf.perftence.graph.afreechart;
 
 import static java.awt.Color.BLACK;
 import static java.awt.Color.CYAN;
@@ -7,6 +7,8 @@ import static java.awt.Color.GREEN;
 import static java.awt.Color.RED;
 
 import java.awt.Color;
+
+import net.sf.perfence.graph.afreechart.ChartColors;
 
 import org.afree.graphics.PaintType;
 import org.afree.graphics.SolidColor;

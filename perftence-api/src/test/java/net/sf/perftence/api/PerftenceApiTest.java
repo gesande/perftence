@@ -1,7 +1,9 @@
-package net.sf.perftence;
+package net.sf.perftence.api;
 
 import static org.junit.Assert.assertNotNull;
+import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 
 import org.junit.Test;
 

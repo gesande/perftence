@@ -1,6 +1,8 @@
 package net.sf.perftence;
 
+import net.sf.perftence.api.PerftenceApi;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
 
 import org.slf4j.Logger;

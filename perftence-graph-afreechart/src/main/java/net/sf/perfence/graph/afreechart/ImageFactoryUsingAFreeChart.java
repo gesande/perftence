@@ -25,7 +25,7 @@ import org.afree.graphics.PaintType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ImageFactoryUsingAFreeChart implements ImageFactory {
+public final class ImageFactoryUsingAFreeChart implements ImageFactory {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ImageFactoryUsingAFreeChart.class);
     private final AFreeChartFactory aFreeChartFactory;

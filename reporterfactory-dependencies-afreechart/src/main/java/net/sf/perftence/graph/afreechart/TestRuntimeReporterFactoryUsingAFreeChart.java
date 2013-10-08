@@ -1,33 +1,34 @@
-package net.sf.perftence;
+package net.sf.perftence.graph.afreechart;
 
+import net.sf.perfence.graph.afreechart.DefaultDatasetAdapterFactory;
+import net.sf.perfence.graph.afreechart.ImageFactoryUsingAFreeChart;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.ReporterFactoryDependencies;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.ScatterPlotAdapterProvider;
-import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
-import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
-import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.reporting.TestReport;
 
-public final class TestRuntimeReporterFactoryUsingJFreeChart implements
+public final class TestRuntimeReporterFactoryUsingAFreeChart implements
         ReporterFactoryDependencies {
 
     private TestReport testReport;
     private DefaultDatasetAdapterFactory datasetAdapterFactory;
     private ThroughputStorageFactory throughputStorageFactory;
-    private ImageFactoryUsingJFreeChart imageFactory;
+    private ImageFactoryUsingAFreeChart imageFactory;
 
-    public TestRuntimeReporterFactoryUsingJFreeChart() {
-        this.testReport = HtmlTestReport.withDefaultReportPath();
+    public TestRuntimeReporterFactoryUsingAFreeChart(
+            final AChartWriterFactory chartWriterFactory,
+            final TestReport testReport) {
+        this.testReport = testReport;
         this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
         this.throughputStorageFactory = new ThroughputStorageFactory(
                 this.datasetAdapterFactory);
-        this.imageFactory = new ImageFactoryUsingJFreeChart(
-                new JFreeChartWriter(this.testReport.reportRootDirectory()));
+        this.imageFactory = new ImageFactoryUsingAFreeChart(new SolidColors(),
+                chartWriterFactory.chartWriter(this.testReport
+                        .reportRootDirectory()));
     }
 
     @Override
@@ -50,9 +51,12 @@ public final class TestRuntimeReporterFactoryUsingJFreeChart implements
         return this.testReport;
     }
 
-    public static TestRuntimeReporterFactory reporterFactory() {
+    public static TestRuntimeReporterFactory reporterFactory(
+            final AChartWriterFactory chartWriterFactory,
+            final TestReport testReport) {
         return new DefaultTestRuntimeReporterFactory(
-                new TestRuntimeReporterFactoryUsingJFreeChart());
+                new TestRuntimeReporterFactoryUsingAFreeChart(
+                        chartWriterFactory, testReport));
     }
 
     public ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
