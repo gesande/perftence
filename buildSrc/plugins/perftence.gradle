@@ -23,7 +23,7 @@ ext {
 
     emmaPlugin="${buildScripts}/plugins/emma.gradle"
 
-    artifactVersion='2.0'
+    artifactVersion='2.0.0'
 
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
@@ -46,7 +46,7 @@ reportingSettings {
 }
 
 subprojects {
-    version = '2.0'
+    version = '2.0.0'
     sourceCompatibility = JavaVersion.VERSION_1_6
     targetCompatibility = JavaVersion.VERSION_1_6
     apply plugin : DefaultContinousBuildPlugin
