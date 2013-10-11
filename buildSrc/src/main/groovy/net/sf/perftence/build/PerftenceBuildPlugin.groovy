@@ -13,7 +13,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             group = 'Verification'
             description ='If this passed you have license to commit your changes.'
             buildFile = 'build.gradle'
-           
+
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -23,11 +23,12 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-agents:continous'
             tasks << 'perftence-graph:continous'
             tasks << 'perftence-graph-jfreechart:continous'
+            tasks << 'perftence-graph-afreechart:continous'
             tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             tasks << 'reporterfactory-dependencies-jfreechart:continous'
             tasks << 'reporterfactory-dependencies-afreechart:continous'
             tasks << 'perftence-testreport-html:continous'
-            
+
             tasks << 'exportBacklog'
             tasks << 'exportAntBuildFile'
             tasks << 'aggregateTestReport'
@@ -42,7 +43,7 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             group = 'Verification'
             description ='Continous build for the whole thing.'
             buildFile = 'build.gradle'
-           
+
             tasks << 'perftence:continous'
             tasks << 'perftence-api:continous'
             tasks << 'responsecode-summaryappender:continous'
@@ -52,11 +53,12 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-agents:continous'
             tasks << 'perftence-graph:continous'
             tasks << 'perftence-graph-jfreechart:continous'
+            tasks << 'perftence-graph-afreechart:continous'
             tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             tasks << 'reporterfactory-dependencies-jfreechart:continous'
             tasks << 'reporterfactory-dependencies-afreechart:continous'
             tasks << 'perftence-testreport-html:continous'
-            
+
             tasks << 'acceptance-tests:test'
 
             tasks << 'exportBacklog'
@@ -83,11 +85,12 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-agents:clean'
             tasks << 'perftence-graph:clean'
             tasks << 'perftence-graph-jfreechart:clean'
+            tasks << 'perftence-graph-afreechart:clean'
             tasks << 'perftence-defaulttestruntimereporterfactory:clean'
             tasks << 'reporterfactory-dependencies-jfreechart:clean'
             tasks << 'reporterfactory-dependencies-afreechart:clean'
             tasks << 'perftence-testreport-html:clean'
-            
+
             tasks << 'perftence-api:release'
             tasks << 'perftence:release'
             tasks << 'responsecode-summaryappender:release'
@@ -97,11 +100,12 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-agents:release'
             tasks << 'perftence-graph:release'
             tasks << 'perftence-graph-jfreechart:release'
+            tasks << 'perftence-graph-afreechart:release'
             tasks << 'perftence-defaulttestruntimereporterfactory:release'
             tasks << 'reporterfactory-dependencies-jfreechart:release'
             tasks << 'reporterfactory-dependencies-afreechart:release'
             tasks << 'perftence-testreport-html:release'
-            
+
             tasks << 'makeDistributionPackage'
 
             doLast { println "Distribution package ready to be uploaded to the repository." }
