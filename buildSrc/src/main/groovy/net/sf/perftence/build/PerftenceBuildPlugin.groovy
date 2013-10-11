@@ -25,6 +25,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-graph-jfreechart:continous'
             tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             tasks << 'reporterfactory-dependencies-jfreechart:continous'
+            tasks << 'reporterfactory-dependencies-afreechart:continous'
+            tasks << 'perftence-testreport-html:continous'
             
             tasks << 'exportBacklog'
             tasks << 'exportAntBuildFile'
@@ -52,6 +54,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-graph-jfreechart:continous'
             tasks << 'perftence-defaulttestruntimereporterfactory:continous'
             tasks << 'reporterfactory-dependencies-jfreechart:continous'
+            tasks << 'reporterfactory-dependencies-afreechart:continous'
+            tasks << 'perftence-testreport-html:continous'
             
             tasks << 'acceptance-tests:test'
 
@@ -81,6 +85,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-graph-jfreechart:clean'
             tasks << 'perftence-defaulttestruntimereporterfactory:clean'
             tasks << 'reporterfactory-dependencies-jfreechart:clean'
+            tasks << 'reporterfactory-dependencies-afreechart:clean'
+            tasks << 'perftence-testreport-html:clean'
             
             tasks << 'perftence-api:release'
             tasks << 'perftence:release'
@@ -93,6 +99,8 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
             tasks << 'perftence-graph-jfreechart:release'
             tasks << 'perftence-defaulttestruntimereporterfactory:release'
             tasks << 'reporterfactory-dependencies-jfreechart:release'
+            tasks << 'reporterfactory-dependencies-afreechart:release'
+            tasks << 'perftence-testreport-html:release'
             
             tasks << 'makeDistributionPackage'
 
