@@ -30,3 +30,15 @@ build your eclipse settings:
 gradle eclipseSettings
 
 after that just import the projects to eclipse
+
+updating libsvn-java 1.7 (not available for ubuntu 10.10)
+Remove your existing libsvn-java:
+
+sudo apt-get purge libsvn-java
+
+Then, add the following software source and re-install:
+
+sudo add-apt-repository ppa:dominik-stadler/subversion-1.7
+sudo apt-get update
+sudo apt-get install libsvn-java
+
