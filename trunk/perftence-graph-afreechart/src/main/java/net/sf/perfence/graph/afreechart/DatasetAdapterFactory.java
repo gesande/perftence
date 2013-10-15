@@ -8,19 +8,19 @@ import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import org.afree.graphics.PaintType;
 
 public interface DatasetAdapterFactory extends
-        LineChartAdapterProvider<LineChartGraphData, PaintType>,
-        BarChartAdapterProvider<BarChartGraphData, PaintType>,
-        ScatterPlotAdapterProvider<ScatterPlotGraphData, PaintType> {
-    @Override
-    DatasetAdapter<LineChartGraphData, PaintType> forLineChart(
-            final String title);
+		LineChartAdapterProvider<LineChartGraphData, PaintType>,
+		BarChartAdapterProvider<BarChartGraphData, PaintType>,
+		ScatterPlotAdapterProvider<ScatterPlotGraphData, PaintType> {
+	@Override
+	DatasetAdapter<LineChartGraphData, PaintType> forLineChart(
+			final String title);
 
-    @Override
-    DatasetAdapter<BarChartGraphData, PaintType> forBarChart(
-            final String legendTitle);
+	@Override
+	DatasetAdapter<BarChartGraphData, PaintType> forBarChart(
+			final String legendTitle);
 
-    @Override
-    DatasetAdapter<ScatterPlotGraphData, PaintType> forScatterPlot(
-            final String legendTitle, final String yAxisTitle);
+	@Override
+	DatasetAdapter<ScatterPlotGraphData, PaintType> forScatterPlot(
+			final String legendTitle, final String yAxisTitle);
 
 }

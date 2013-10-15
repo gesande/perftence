@@ -18,74 +18,74 @@ import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DistributedPerformanceTest {
 
-    private final String id;
-    private final TestFailureNotifier testFailureNotifier;
-    private final ExecutorService executorService;
-    private final RunNotifier runNotifier;
-    private final TestRuntimeReporterFactory defaultReporterFactory;
-    private final RemoteLatencyReporter remoteReporter;
+	private final String id;
+	private final TestFailureNotifier testFailureNotifier;
+	private final ExecutorService executorService;
+	private final RunNotifier runNotifier;
+	private final TestRuntimeReporterFactory defaultReporterFactory;
+	private final RemoteLatencyReporter remoteReporter;
 
-    public DistributedPerformanceTest(final String id,
-            final TestFailureNotifier testFailureNotifier,
-            final ExecutorService executorService,
-            final RunNotifier runNotifier,
-            final RemoteLatencyReporter remoteReporter) {
-        this.id = id;
-        this.testFailureNotifier = testFailureNotifier;
-        this.executorService = executorService;
-        this.runNotifier = runNotifier;
-        this.remoteReporter = remoteReporter;
-        this.defaultReporterFactory = TestRuntimeReporterFactoryUsingJFreeChart
-                .reporterFactory();
-    }
+	public DistributedPerformanceTest(final String id,
+			final TestFailureNotifier testFailureNotifier,
+			final ExecutorService executorService,
+			final RunNotifier runNotifier,
+			final RemoteLatencyReporter remoteReporter) {
+		this.id = id;
+		this.testFailureNotifier = testFailureNotifier;
+		this.executorService = executorService;
+		this.runNotifier = runNotifier;
+		this.remoteReporter = remoteReporter;
+		this.defaultReporterFactory = TestRuntimeReporterFactoryUsingJFreeChart
+				.reporterFactory();
+	}
 
-    public TestBuilder setup(final PerformanceTestSetup setup) {
-        final TestRuntimeReporterFactory reporterFactory = new TestRuntimeReporterFactory() {
-            @Override
-            public TestRuntimeReporter newRuntimeReporter(
-                    LatencyProvider latencyProvider,
-                    boolean includeInvocationGraph, PerformanceTestSetup setup,
-                    FailedInvocations failedInvocations) {
-                return new DistributedTestRuntimeReporter(
-                        defaultReporterFactory().newRuntimeReporter(
-                                latencyProvider, includeInvocationGraph, setup,
-                                failedInvocations), executorService(),
-                        remoteReporter());
-            }
+	public TestBuilder setup(final PerformanceTestSetup setup) {
+		final TestRuntimeReporterFactory reporterFactory = new TestRuntimeReporterFactory() {
+			@Override
+			public TestRuntimeReporter newRuntimeReporter(
+					LatencyProvider latencyProvider,
+					boolean includeInvocationGraph, PerformanceTestSetup setup,
+					FailedInvocations failedInvocations) {
+				return new DistributedTestRuntimeReporter(
+						defaultReporterFactory().newRuntimeReporter(
+								latencyProvider, includeInvocationGraph, setup,
+								failedInvocations), executorService(),
+						remoteReporter());
+			}
 
-            @Override
-            public TestRuntimeReporter newRuntimeReporter(
-                    LatencyProvider latencyProvider,
-                    boolean includeInvocationGraph, PerformanceTestSetup setup,
-                    FailedInvocations failedInvocations,
-                    InvocationStorage invocationStorage,
-                    ThroughputStorage throughputStorage) {
-                return defaultReporterFactory()
-                        .newRuntimeReporter(latencyProvider,
-                                includeInvocationGraph, setup,
-                                failedInvocations, invocationStorage,
-                                throughputStorage);
-            }
+			@Override
+			public TestRuntimeReporter newRuntimeReporter(
+					LatencyProvider latencyProvider,
+					boolean includeInvocationGraph, PerformanceTestSetup setup,
+					FailedInvocations failedInvocations,
+					InvocationStorage invocationStorage,
+					ThroughputStorage throughputStorage) {
+				return defaultReporterFactory()
+						.newRuntimeReporter(latencyProvider,
+								includeInvocationGraph, setup,
+								failedInvocations, invocationStorage,
+								throughputStorage);
+			}
 
-        };
-        return new FluentPerformanceTest(this.testFailureNotifier,
-                reporterFactory, this.runNotifier,
-                new DefaultDatasetAdapterFactory()).test(id()).setup(setup);
-    }
+		};
+		return new FluentPerformanceTest(this.testFailureNotifier,
+				reporterFactory, this.runNotifier,
+				new DefaultDatasetAdapterFactory()).test(id()).setup(setup);
+	}
 
-    private ExecutorService executorService() {
-        return this.executorService;
-    }
+	private ExecutorService executorService() {
+		return this.executorService;
+	}
 
-    private String id() {
-        return this.id;
-    }
+	private String id() {
+		return this.id;
+	}
 
-    private TestRuntimeReporterFactory defaultReporterFactory() {
-        return this.defaultReporterFactory;
-    }
+	private TestRuntimeReporterFactory defaultReporterFactory() {
+		return this.defaultReporterFactory;
+	}
 
-    private RemoteLatencyReporter remoteReporter() {
-        return this.remoteReporter;
-    }
+	private RemoteLatencyReporter remoteReporter() {
+		return this.remoteReporter;
+	}
 }

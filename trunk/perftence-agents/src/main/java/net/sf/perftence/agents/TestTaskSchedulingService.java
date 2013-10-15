@@ -4,17 +4,17 @@ import java.util.Collection;
 
 public interface TestTaskSchedulingService {
 
-    void scheduleTask(final TestTask task) throws ScheduleFailedException;
+	void scheduleTask(final TestTask task) throws ScheduleFailedException;
 
-    void shutdown();
+	void shutdown();
 
-    void handleFailure(final TestTask task, Throwable cause);
+	void handleFailure(final TestTask task, Throwable cause);
 
-    void markDone(TestTask task);
+	void markDone(TestTask task);
 
-    void scheduleFirstTasks(final Collection<TestAgent> agents)
-            throws ScheduleFailedException;
+	void scheduleFirstTasks(final Collection<TestAgent> agents)
+			throws ScheduleFailedException;
 
-    void run();
+	void run();
 
 }

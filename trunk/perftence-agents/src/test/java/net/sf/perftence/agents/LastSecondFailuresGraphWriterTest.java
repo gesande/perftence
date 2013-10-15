@@ -22,73 +22,73 @@ import org.junit.Test;
 
 public class LastSecondFailuresGraphWriterTest {
 
-    @SuppressWarnings("static-method")
-    @Test
-    public void graph() throws InterruptedException {
-        final LastSecondFailures failures = new LastSecondFailures(
-                new FailedInvocationsFactory(new DefaultDoubleFormatter(),
-                        new AdjustedFieldBuilderFactory(new FieldFormatter(),
-                                new FieldAdjuster()).newInstance()));
-        final long start = System.currentTimeMillis();
-        Thread.sleep(1000);
-        failures.more(new FailIHave());
-        Thread.sleep(1000);
-        failures.more(new FailIHave());
-        failures.more(new FailIHave());
-        Thread.sleep(2000);
-        final long duration = System.currentTimeMillis() - start;
-        final LastSecondFailuresGraphWriter lastSecondFailuresGraphWriter = new LastSecondFailuresGraphWriter(
-                failures, new TestTimeAware() {
+	@SuppressWarnings("static-method")
+	@Test
+	public void graph() throws InterruptedException {
+		final LastSecondFailures failures = new LastSecondFailures(
+				new FailedInvocationsFactory(new DefaultDoubleFormatter(),
+						new AdjustedFieldBuilderFactory(new FieldFormatter(),
+								new FieldAdjuster()).newInstance()));
+		final long start = System.currentTimeMillis();
+		Thread.sleep(1000);
+		failures.more(new FailIHave());
+		Thread.sleep(1000);
+		failures.more(new FailIHave());
+		failures.more(new FailIHave());
+		Thread.sleep(2000);
+		final long duration = System.currentTimeMillis() - start;
+		final LastSecondFailuresGraphWriter lastSecondFailuresGraphWriter = new LastSecondFailuresGraphWriter(
+				failures, new TestTimeAware() {
 
-                    @Override
-                    public long startTime() {
-                        return start;
-                    }
+					@Override
+					public long startTime() {
+						return start;
+					}
 
-                    @Override
-                    public long duration() {
-                        return duration;
-                    }
-                }, new DefaultDatasetAdapterFactory());
-        GraphWriter graphFor = lastSecondFailuresGraphWriter
-                .graphWriterFor("testing-the-stuff");
-        assertTrue(graphFor.hasSomethingToWrite());
-        assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
-        final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart(
-                new JFreeChartWriter(HtmlTestReport.withDefaultReportPath()
-                        .reportRootDirectory()));
-        graphFor.writeImage(new ImageFactory() {
+					@Override
+					public long duration() {
+						return duration;
+					}
+				}, new DefaultDatasetAdapterFactory());
+		GraphWriter graphFor = lastSecondFailuresGraphWriter
+				.graphWriterFor("testing-the-stuff");
+		assertTrue(graphFor.hasSomethingToWrite());
+		assertEquals("testing-the-stuff-last-second-failures", graphFor.id());
+		final ImageFactoryUsingJFreeChart imageFactory = new ImageFactoryUsingJFreeChart(
+				new JFreeChartWriter(HtmlTestReport.withDefaultReportPath()
+						.reportRootDirectory()));
+		graphFor.writeImage(new ImageFactory() {
 
-            @Override
-            public void createXYLineChart(final String id,
-                    final ImageData imageData) {
-                imageFactory.createXYLineChart(id, imageData);
-                assertEquals("testing-the-stuff-last-second-failures", id);
-                assertFalse(imageData.hasStatistics());
-            }
+			@Override
+			public void createXYLineChart(final String id,
+					final ImageData imageData) {
+				imageFactory.createXYLineChart(id, imageData);
+				assertEquals("testing-the-stuff-last-second-failures", id);
+				assertFalse(imageData.hasStatistics());
+			}
 
-            @Override
-            public void createScatterPlot(final String id,
-                    final ImageData imageData) {
-                throw new FailIHave("You shouldn't come here!");
-            }
+			@Override
+			public void createScatterPlot(final String id,
+					final ImageData imageData) {
+				throw new FailIHave("You shouldn't come here!");
+			}
 
-            @Override
-            public void createBarChart(final String id,
-                    final ImageData imageData) {
-                throw new FailIHave("You shouldn't come here!");
-            }
-        });
-    }
+			@Override
+			public void createBarChart(final String id,
+					final ImageData imageData) {
+				throw new FailIHave("You shouldn't come here!");
+			}
+		});
+	}
 
-    private final static class FailIHave extends RuntimeException {
+	private final static class FailIHave extends RuntimeException {
 
-        public FailIHave() {
-        }
+		public FailIHave() {
+		}
 
-        public FailIHave(final String msg) {
-            super(msg);
-        }
+		public FailIHave(final String msg) {
+			super(msg);
+		}
 
-    }
+	}
 }

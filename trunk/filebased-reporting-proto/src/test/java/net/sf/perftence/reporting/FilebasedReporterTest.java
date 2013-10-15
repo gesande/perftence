@@ -28,62 +28,62 @@ import org.junit.runner.RunWith;
 @RunWith(DefaultTestRunner.class)
 public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 
-    @Test
-    public void write() {
-        final AtomicInteger i = new AtomicInteger();
-        final long now = System.currentTimeMillis();
-        final PerformanceTestSetup testSetup = setup().threads(100)
-                .invocations(10000).throughputRange(10000).build();
-        final FilebasedReporter reporter = new FilebasedReporter(id(),
-                testSetup, true);
-        test().setup(testSetup).executable(new Executable() {
-            @Override
-            public void execute() throws Exception {
-                final int value = i.incrementAndGet();
-                reporter.latency(value);
-                reporter.throughput(value, value);
-            }
-        }).start();
-        reporter.summary(id(), 5000, 10000, now);
+	@Test
+	public void write() {
+		final AtomicInteger i = new AtomicInteger();
+		final long now = System.currentTimeMillis();
+		final PerformanceTestSetup testSetup = setup().threads(100)
+				.invocations(10000).throughputRange(10000).build();
+		final FilebasedReporter reporter = new FilebasedReporter(id(),
+				testSetup, true);
+		test().setup(testSetup).executable(new Executable() {
+			@Override
+			public void execute() throws Exception {
+				final int value = i.incrementAndGet();
+				reporter.latency(value);
+				reporter.throughput(value, value);
+			}
+		}).start();
+		reporter.summary(id(), 5000, 10000, now);
 
-        final LatencyProvider latencyProvider = newLatencyProvider();
-        final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
-                new FieldFormatter(), new FieldAdjuster());
-        final FailedInvocationsFactory failedInvocations = new FailedInvocationsFactory(
-                new DefaultDoubleFormatter(),
-                adjustedFieldBuilderFactory.newInstance());
-        final DefaultDatasetAdapterFactory datasetAdapterFactory = new DefaultDatasetAdapterFactory();
-        final InvocationStorage invocationStorage = newDefaultInvocationStorage(
-                10000, 10000, datasetAdapterFactory);
+		final LatencyProvider latencyProvider = newLatencyProvider();
+		final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
+				new FieldFormatter(), new FieldAdjuster());
+		final FailedInvocationsFactory failedInvocations = new FailedInvocationsFactory(
+				new DefaultDoubleFormatter(),
+				adjustedFieldBuilderFactory.newInstance());
+		final DefaultDatasetAdapterFactory datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+		final InvocationStorage invocationStorage = newDefaultInvocationStorage(
+				10000, 10000, datasetAdapterFactory);
 
-        final FilebasedReportReader reader = new FilebasedReportReader(id(),
-                latencyProvider, invocationStorage, failedInvocations,
-                new ThroughputStorageFactory(datasetAdapterFactory), new File(
-                        "target", "perftence"));
-        reader.read();
+		final FilebasedReportReader reader = new FilebasedReportReader(id(),
+				latencyProvider, invocationStorage, failedInvocations,
+				new ThroughputStorageFactory(datasetAdapterFactory), new File(
+						"target", "perftence"));
+		reader.read();
 
-        final TestRuntimeReporter invocationReporter = TestRuntimeReporterFactoryUsingJFreeChart
-                .reporterFactory().newRuntimeReporter(latencyProvider,
-                        reader.setup().includeInvocationGraph(),
-                        reader.setup().testSetup(), reader.failedInvocations(),
-                        invocationStorage, reader.throughputStorage());
+		final TestRuntimeReporter invocationReporter = TestRuntimeReporterFactoryUsingJFreeChart
+				.reporterFactory().newRuntimeReporter(latencyProvider,
+						reader.setup().includeInvocationGraph(),
+						reader.setup().testSetup(), reader.failedInvocations(),
+						invocationStorage, reader.throughputStorage());
 
-        invocationReporter.summary(id() + "-from-filebased", reader.summary()
-                .elapsedTime(), reader.summary().sampleCount(), reader
-                .summary().startTime());
-    }
+		invocationReporter.summary(id() + "-from-filebased", reader.summary()
+				.elapsedTime(), reader.summary().sampleCount(), reader
+				.summary().startTime());
+	}
 
-    private static LatencyProvider newLatencyProvider() {
-        return new DefaultLatencyProviderFactory().newInstance();
-    }
+	private static LatencyProvider newLatencyProvider() {
+		return new DefaultLatencyProviderFactory().newInstance();
+	}
 
-    private static InvocationStorage newDefaultInvocationStorage(
-            final int invocations, final int invocationRange,
-            DatasetAdapterFactory datasetAdapterFactory) {
-        return DefaultInvocationStorage.newDefaultStorage(invocations,
-                ReportingOptionsFactory
-                        .latencyOptionsWithStatistics(invocationRange),
-                datasetAdapterFactory);
-    }
+	private static InvocationStorage newDefaultInvocationStorage(
+			final int invocations, final int invocationRange,
+			DatasetAdapterFactory datasetAdapterFactory) {
+		return DefaultInvocationStorage.newDefaultStorage(invocations,
+				ReportingOptionsFactory
+						.latencyOptionsWithStatistics(invocationRange),
+				datasetAdapterFactory);
+	}
 
 }

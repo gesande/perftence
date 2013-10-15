@@ -6,6 +6,6 @@ import org.afree.chart.AFreeChart;
 
 public interface AChartWriterFactory {
 
-    ChartWriter<AFreeChart> chartWriter(final String reportRootDirectory);
+	ChartWriter<AFreeChart> chartWriter(final String reportRootDirectory);
 
 }

@@ -11,49 +11,49 @@ import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.TestReport;
 
 public final class TestRuntimeReporterFactoryUsingJFreeChart implements
-        ReporterFactoryDependencies {
+		ReporterFactoryDependencies {
 
-    private TestReport testReport;
-    private DefaultDatasetAdapterFactory datasetAdapterFactory;
-    private ThroughputStorageFactory throughputStorageFactory;
-    private ImageFactoryUsingJFreeChart imageFactory;
+	private TestReport testReport;
+	private DefaultDatasetAdapterFactory datasetAdapterFactory;
+	private ThroughputStorageFactory throughputStorageFactory;
+	private ImageFactoryUsingJFreeChart imageFactory;
 
-    public TestRuntimeReporterFactoryUsingJFreeChart() {
-        this.testReport = HtmlTestReport.withDefaultReportPath();
-        this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
-        this.throughputStorageFactory = new ThroughputStorageFactory(
-                this.datasetAdapterFactory);
-        this.imageFactory = new ImageFactoryUsingJFreeChart(
-                new JFreeChartWriter(this.testReport.reportRootDirectory()));
-    }
+	public TestRuntimeReporterFactoryUsingJFreeChart() {
+		this.testReport = HtmlTestReport.withDefaultReportPath();
+		this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
+		this.throughputStorageFactory = new ThroughputStorageFactory(
+				this.datasetAdapterFactory);
+		this.imageFactory = new ImageFactoryUsingJFreeChart(
+				new JFreeChartWriter(this.testReport.reportRootDirectory()));
+	}
 
-    @Override
-    public ThroughputStorageFactory throughputStorageFactory() {
-        return this.throughputStorageFactory;
-    }
+	@Override
+	public ThroughputStorageFactory throughputStorageFactory() {
+		return this.throughputStorageFactory;
+	}
 
-    @Override
-    public LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
-        return this.datasetAdapterFactory;
-    }
+	@Override
+	public LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+		return this.datasetAdapterFactory;
+	}
 
-    @Override
-    public ImageFactory imageFactory() {
-        return this.imageFactory;
-    }
+	@Override
+	public ImageFactory imageFactory() {
+		return this.imageFactory;
+	}
 
-    @Override
-    public TestReport testReport() {
-        return this.testReport;
-    }
+	@Override
+	public TestReport testReport() {
+		return this.testReport;
+	}
 
-    public static TestRuntimeReporterFactory reporterFactory() {
-        return new DefaultTestRuntimeReporterFactory(
-                new TestRuntimeReporterFactoryUsingJFreeChart());
-    }
+	public static TestRuntimeReporterFactory reporterFactory() {
+		return new DefaultTestRuntimeReporterFactory(
+				new TestRuntimeReporterFactoryUsingJFreeChart());
+	}
 
-    public ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
-        return this.datasetAdapterFactory;
-    }
+	public ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
+		return this.datasetAdapterFactory;
+	}
 
 }

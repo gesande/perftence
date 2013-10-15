@@ -1,11 +1,11 @@
 package net.sf.perftence;
 
 public final class DefaultLatencyProviderFactory implements
-        LatencyProviderFactory {
+		LatencyProviderFactory {
 
-    @Override
-    public LatencyProvider newInstance() {
-        return LatencyProvider.withSynchronized();
-    }
+	@Override
+	public LatencyProvider newInstance() {
+		return LatencyProvider.withSynchronized();
+	}
 
 }

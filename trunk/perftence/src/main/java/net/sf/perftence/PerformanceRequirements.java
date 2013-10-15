@@ -1,16 +1,16 @@
 package net.sf.perftence;
 
 public interface PerformanceRequirements {
-    int average();
+	int average();
 
-    int median();
+	int median();
 
-    int max();
+	int max();
 
-    long totalTime();
+	long totalTime();
 
-    int throughput();
+	int throughput();
 
-    PercentileRequirement[] percentileRequirements();
+	PercentileRequirement[] percentileRequirements();
 
 }

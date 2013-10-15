@@ -2,10 +2,10 @@ package net.sf.perftence.graph;
 
 public interface GraphStatisticsProvider {
 
-    int median();
+	int median();
 
-    double mean();
+	double mean();
 
-    int percentile95();
+	int percentile95();
 
 }

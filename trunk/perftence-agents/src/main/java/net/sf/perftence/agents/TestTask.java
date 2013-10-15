@@ -2,21 +2,21 @@ package net.sf.perftence.agents;
 
 public interface TestTask {
 
-    /**
-     * When task is scheduled to be run
-     */
-    Time when();
+	/**
+	 * When task is scheduled to be run
+	 */
+	Time when();
 
-    /**
-     * Next task to be scheduled if any, this method guaranteed to be run in the
-     * same thread as the run -method
-     * 
-     * @return next task
-     */
-    TestTask nextTaskIfAny();
+	/**
+	 * Next task to be scheduled if any, this method guaranteed to be run in the
+	 * same thread as the run -method
+	 * 
+	 * @return next task
+	 */
+	TestTask nextTaskIfAny();
 
-    void run(final TestTaskReporter reporter) throws Exception;
+	void run(final TestTaskReporter reporter) throws Exception;
 
-    TestTaskCategory category();
+	TestTaskCategory category();
 
 }

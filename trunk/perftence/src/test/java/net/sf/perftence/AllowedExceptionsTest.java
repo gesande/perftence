@@ -7,19 +7,19 @@ import org.junit.Test;
 
 public class AllowedExceptionsTest {
 
-    @SuppressWarnings("static-method")
-    @Test
-    public void test() {
-        AllowedExceptions ae = new AllowedExceptions();
-        MyException exception = new MyException();
-        assertFalse(ae.isAllowed(exception));
-        ae.allow(MyException.class);
-        assertTrue(ae.isAllowed(exception));
-    }
+	@SuppressWarnings("static-method")
+	@Test
+	public void test() {
+		AllowedExceptions ae = new AllowedExceptions();
+		MyException exception = new MyException();
+		assertFalse(ae.isAllowed(exception));
+		ae.allow(MyException.class);
+		assertTrue(ae.isAllowed(exception));
+	}
 
-    final static class MyException extends Exception {
-        public MyException() {
-            super();
-        }
-    }
+	final static class MyException extends Exception {
+		public MyException() {
+			super();
+		}
+	}
 }

@@ -2,8 +2,8 @@ package net.sf.perftence.agents;
 
 public interface TaskSchedulingStatisticsProvider {
 
-    int scheduledTasks();
+	int scheduledTasks();
 
-    Time lastTaskScheduledToBeRun();
+	Time lastTaskScheduledToBeRun();
 
 }
