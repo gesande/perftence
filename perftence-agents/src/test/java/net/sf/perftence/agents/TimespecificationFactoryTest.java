@@ -8,20 +8,20 @@ import org.junit.Test;
 
 public class TimespecificationFactoryTest {
 
-    @SuppressWarnings("static-method")
-    @Test
-    public void inNanos() {
-        final Time inNanos = TimeSpecificationFactory.inNanos(100);
-        assertEquals(100, inNanos.time());
-        assertEquals(TimeUnit.NANOSECONDS, inNanos.timeUnit());
-    }
+	@SuppressWarnings("static-method")
+	@Test
+	public void inNanos() {
+		final Time inNanos = TimeSpecificationFactory.inNanos(100);
+		assertEquals(100, inNanos.time());
+		assertEquals(TimeUnit.NANOSECONDS, inNanos.timeUnit());
+	}
 
-    @SuppressWarnings("static-method")
-    @Test
-    public void toNanos() {
-        assertEquals(100000000,
-                TimeSpecificationFactory.toNanos(TimeSpecificationFactory
-                        .inMillis(100)));
-    }
+	@SuppressWarnings("static-method")
+	@Test
+	public void toNanos() {
+		assertEquals(100000000,
+				TimeSpecificationFactory.toNanos(TimeSpecificationFactory
+						.inMillis(100)));
+	}
 
 }

@@ -19,112 +19,112 @@ import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
  * Entry point class for agent based test.
  */
 public final class AgentBasedTest {
-    private final TestFailureNotifier failureNotifier;
-    private final SummaryFieldFactoryForAgentBasedTests summaryFieldFactory;
-    private final TestSummaryLoggerFactory testSummaryLoggerFactory;
-    private final FailedInvocationsFactory failedInvocationsFactory;
-    private final LatencyFactory latencyFactory;
-    private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
-    private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
-    private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
-    private final LatencyProviderFactory latencyProviderFactory;
-    private final TestRuntimeReporterFactory testRuntimeReporterFactory;
-    private final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider;
+	private final TestFailureNotifier failureNotifier;
+	private final SummaryFieldFactoryForAgentBasedTests summaryFieldFactory;
+	private final TestSummaryLoggerFactory testSummaryLoggerFactory;
+	private final FailedInvocationsFactory failedInvocationsFactory;
+	private final LatencyFactory latencyFactory;
+	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+	private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
+	private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
+	private final LatencyProviderFactory latencyProviderFactory;
+	private final TestRuntimeReporterFactory testRuntimeReporterFactory;
+	private final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider;
 
-    public AgentBasedTest(final TestFailureNotifier failureNotifier,
-            final LatencyProviderFactory latencyProviderFactory,
-            final TestRuntimeReporterFactory testRuntimeReporterFactory,
-            final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
-            final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
-        this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
-        this.failureNotifier = validate(failureNotifier);
-        final FieldFormatter fieldFormatter = new FieldFormatter();
-        final FieldAdjuster fieldAdjuster = new FieldAdjuster();
-        this.summaryFieldFactory = new SummaryFieldFactoryForAgentBasedTests(
-                SummaryFieldFactory.create(fieldFormatter, fieldAdjuster));
-        this.testSummaryLoggerFactory = new TestSummaryLoggerFactory();
-        this.adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
-                fieldFormatter, fieldAdjuster);
-        this.failedInvocationsFactory = new FailedInvocationsFactory(
-                new DefaultDoubleFormatter(), adjustedFieldBuilderFactory()
-                        .newInstance());
-        this.latencyFactory = new LatencyFactory();
-        this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
-        this.lineChartAdapterProvider = lineChartAdapterProvider;
-        this.latencyProviderFactory = latencyProviderFactory;
-        this.testRuntimeReporterFactory = testRuntimeReporterFactory;
-    }
+	public AgentBasedTest(final TestFailureNotifier failureNotifier,
+			final LatencyProviderFactory latencyProviderFactory,
+			final TestRuntimeReporterFactory testRuntimeReporterFactory,
+			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
+			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+		this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
+		this.failureNotifier = validate(failureNotifier);
+		final FieldFormatter fieldFormatter = new FieldFormatter();
+		final FieldAdjuster fieldAdjuster = new FieldAdjuster();
+		this.summaryFieldFactory = new SummaryFieldFactoryForAgentBasedTests(
+				SummaryFieldFactory.create(fieldFormatter, fieldAdjuster));
+		this.testSummaryLoggerFactory = new TestSummaryLoggerFactory();
+		this.adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
+				fieldFormatter, fieldAdjuster);
+		this.failedInvocationsFactory = new FailedInvocationsFactory(
+				new DefaultDoubleFormatter(), adjustedFieldBuilderFactory()
+						.newInstance());
+		this.latencyFactory = new LatencyFactory();
+		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
+		this.lineChartAdapterProvider = lineChartAdapterProvider;
+		this.latencyProviderFactory = latencyProviderFactory;
+		this.testRuntimeReporterFactory = testRuntimeReporterFactory;
+	}
 
-    public TestBuilder test(final String id) {
-        final TestFailureNotifierDecorator notifierDecorator = newNotifierDecorator(failureNotifier());
-        return new TestBuilder(id, notifierDecorator,
-                new SummaryBuilderFactory(testSummaryLoggerFactory(),
-                        summaryFieldFactory(), notifierDecorator),
-                failedInvocationsFactory(), latencyFactory(),
-                allowedExceptionOccurredMessageBuilder(),
-                adjustedFieldBuilderFactory(),
-                TaskScheduleDifferences.instance(lineChartAdapterProvider()),
-                new SchedulingServiceFactory(),
-                new DefaultCategorySpecificReporterFactory(id,
-                        latencyProviderFactory()), latencyProviderFactory(),
-                testRuntimeReporterFactory(), lineChartAdapterProvider(),
-                scatterPlotAdapterProvider());
-    }
+	public TestBuilder test(final String id) {
+		final TestFailureNotifierDecorator notifierDecorator = newNotifierDecorator(failureNotifier());
+		return new TestBuilder(id, notifierDecorator,
+				new SummaryBuilderFactory(testSummaryLoggerFactory(),
+						summaryFieldFactory(), notifierDecorator),
+				failedInvocationsFactory(), latencyFactory(),
+				allowedExceptionOccurredMessageBuilder(),
+				adjustedFieldBuilderFactory(),
+				TaskScheduleDifferences.instance(lineChartAdapterProvider()),
+				new SchedulingServiceFactory(),
+				new DefaultCategorySpecificReporterFactory(id,
+						latencyProviderFactory()), latencyProviderFactory(),
+				testRuntimeReporterFactory(), lineChartAdapterProvider(),
+				scatterPlotAdapterProvider());
+	}
 
-    private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
-        return this.scatterPlotAdapterProvider;
-    }
+	private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {
+		return this.scatterPlotAdapterProvider;
+	}
 
-    private TestRuntimeReporterFactory testRuntimeReporterFactory() {
-        return this.testRuntimeReporterFactory;
-    }
+	private TestRuntimeReporterFactory testRuntimeReporterFactory() {
+		return this.testRuntimeReporterFactory;
+	}
 
-    private LatencyProviderFactory latencyProviderFactory() {
-        return this.latencyProviderFactory;
-    }
+	private LatencyProviderFactory latencyProviderFactory() {
+		return this.latencyProviderFactory;
+	}
 
-    private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
-        return this.lineChartAdapterProvider;
-    }
+	private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
+		return this.lineChartAdapterProvider;
+	}
 
-    private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {
-        return this.adjustedFieldBuilderFactory;
-    }
+	private AdjustedFieldBuilderFactory adjustedFieldBuilderFactory() {
+		return this.adjustedFieldBuilderFactory;
+	}
 
-    private static TestFailureNotifierDecorator newNotifierDecorator(
-            final TestFailureNotifier failureNotifier) {
-        return new TestFailureNotifierDecorator(failureNotifier);
-    }
+	private static TestFailureNotifierDecorator newNotifierDecorator(
+			final TestFailureNotifier failureNotifier) {
+		return new TestFailureNotifierDecorator(failureNotifier);
+	}
 
-    private static TestFailureNotifier validate(
-            final TestFailureNotifier failureNotifier) {
-        if (failureNotifier == null) {
-            throw TestFailureNotifier.NOTIFIER_IS_NULL;
-        }
-        return failureNotifier;
-    }
+	private static TestFailureNotifier validate(
+			final TestFailureNotifier failureNotifier) {
+		if (failureNotifier == null) {
+			throw TestFailureNotifier.NOTIFIER_IS_NULL;
+		}
+		return failureNotifier;
+	}
 
-    private TestFailureNotifier failureNotifier() {
-        return this.failureNotifier;
-    }
+	private TestFailureNotifier failureNotifier() {
+		return this.failureNotifier;
+	}
 
-    private SummaryFieldFactoryForAgentBasedTests summaryFieldFactory() {
-        return this.summaryFieldFactory;
-    }
+	private SummaryFieldFactoryForAgentBasedTests summaryFieldFactory() {
+		return this.summaryFieldFactory;
+	}
 
-    private TestSummaryLoggerFactory testSummaryLoggerFactory() {
-        return this.testSummaryLoggerFactory;
-    }
+	private TestSummaryLoggerFactory testSummaryLoggerFactory() {
+		return this.testSummaryLoggerFactory;
+	}
 
-    private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
-        return this.allowedExceptionOccurredMessageBuilder;
-    }
+	private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+		return this.allowedExceptionOccurredMessageBuilder;
+	}
 
-    private LatencyFactory latencyFactory() {
-        return this.latencyFactory;
-    }
+	private LatencyFactory latencyFactory() {
+		return this.latencyFactory;
+	}
 
-    private FailedInvocationsFactory failedInvocationsFactory() {
-        return this.failedInvocationsFactory;
-    }
+	private FailedInvocationsFactory failedInvocationsFactory() {
+		return this.failedInvocationsFactory;
+	}
 }

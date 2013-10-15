@@ -4,33 +4,33 @@ import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LatencyProviderFactory;
 
 final class DefaultCategorySpecificReporterFactory implements
-        CategorySpecificReporterFactory {
+		CategorySpecificReporterFactory {
 
-    private final String name;
-    private final LatencyProviderFactory latencyProviderFactory;
+	private final String name;
+	private final LatencyProviderFactory latencyProviderFactory;
 
-    public DefaultCategorySpecificReporterFactory(final String name,
-            final LatencyProviderFactory latencyProviderFactory) {
-        this.name = name;
-        this.latencyProviderFactory = latencyProviderFactory;
-    }
+	public DefaultCategorySpecificReporterFactory(final String name,
+			final LatencyProviderFactory latencyProviderFactory) {
+		this.name = name;
+		this.latencyProviderFactory = latencyProviderFactory;
+	}
 
-    @Override
-    public InvocationReporterAdapter adapterFor(
-            final ReporterFactoryForCategorySpecificLatencies reporterFactory,
-            final TestTaskCategory category) {
-        final LatencyProvider latencyProvider = latencyProviderFactory()
-                .newInstance();
-        return new InvocationReporterAdapter(name(), latencyProvider, category,
-                reporterFactory.newReporter(latencyProvider, 0));
-    }
+	@Override
+	public InvocationReporterAdapter adapterFor(
+			final ReporterFactoryForCategorySpecificLatencies reporterFactory,
+			final TestTaskCategory category) {
+		final LatencyProvider latencyProvider = latencyProviderFactory()
+				.newInstance();
+		return new InvocationReporterAdapter(name(), latencyProvider, category,
+				reporterFactory.newReporter(latencyProvider, 0));
+	}
 
-    private LatencyProviderFactory latencyProviderFactory() {
-        return this.latencyProviderFactory;
-    }
+	private LatencyProviderFactory latencyProviderFactory() {
+		return this.latencyProviderFactory;
+	}
 
-    private String name() {
-        return this.name;
-    }
+	private String name() {
+		return this.name;
+	}
 
 }

@@ -2,8 +2,8 @@ package net.sf.perftence;
 
 public interface PercentileRequirement {
 
-    int percentage();
+	int percentage();
 
-    int millis();
+	int millis();
 
 }

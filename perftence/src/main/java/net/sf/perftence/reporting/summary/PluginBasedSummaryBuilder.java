@@ -5,26 +5,26 @@ import java.util.List;
 
 public abstract class PluginBasedSummaryBuilder extends AbstractSummaryBuilder {
 
-    private List<SummaryFieldPlugin<?>> plugins;
+	private List<SummaryFieldPlugin<?>> plugins;
 
-    public PluginBasedSummaryBuilder() {
-        this.plugins = new ArrayList<SummaryFieldPlugin<?>>();
-    }
+	public PluginBasedSummaryBuilder() {
+		this.plugins = new ArrayList<SummaryFieldPlugin<?>>();
+	}
 
-    @Override
-    protected void fields(final TestSummary summary) {
-        for (SummaryFieldPlugin<?> plugin : plugins()) {
-            summary.field(plugin.field().build());
-        }
-    }
+	@Override
+	protected void fields(final TestSummary summary) {
+		for (SummaryFieldPlugin<?> plugin : plugins()) {
+			summary.field(plugin.field().build());
+		}
+	}
 
-    PluginBasedSummaryBuilder register(final SummaryFieldPlugin<?> plugin) {
-        plugins().add(plugin);
-        return this;
-    }
+	PluginBasedSummaryBuilder register(final SummaryFieldPlugin<?> plugin) {
+		plugins().add(plugin);
+		return this;
+	}
 
-    private List<SummaryFieldPlugin<?>> plugins() {
-        return this.plugins;
-    }
+	private List<SummaryFieldPlugin<?>> plugins() {
+		return this.plugins;
+	}
 
 }

@@ -6,17 +6,17 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public interface TestRuntimeReporterFactory {
-    TestRuntimeReporter newRuntimeReporter(
-            final LatencyProvider latencyProvider,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations);
+	TestRuntimeReporter newRuntimeReporter(
+			final LatencyProvider latencyProvider,
+			final boolean includeInvocationGraph,
+			final PerformanceTestSetup setup,
+			final FailedInvocations failedInvocations);
 
-    TestRuntimeReporter newRuntimeReporter(
-            final LatencyProvider latencyProvider,
-            final boolean includeInvocationGraph,
-            final PerformanceTestSetup setup,
-            final FailedInvocations failedInvocations,
-            final InvocationStorage invocationStorage,
-            final ThroughputStorage throughputStorage);
+	TestRuntimeReporter newRuntimeReporter(
+			final LatencyProvider latencyProvider,
+			final boolean includeInvocationGraph,
+			final PerformanceTestSetup setup,
+			final FailedInvocations failedInvocations,
+			final InvocationStorage invocationStorage,
+			final ThroughputStorage throughputStorage);
 }

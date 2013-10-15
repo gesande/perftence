@@ -2,9 +2,9 @@ package net.sf.perftence.reporting.summary;
 
 public interface AdjustedField<VALUE> {
 
-    public String name();
+	public String name();
 
-    public VALUE value();
+	public VALUE value();
 
-    AdjustedField<String> asFormatted();
+	AdjustedField<String> asFormatted();
 }

@@ -2,22 +2,22 @@ package net.sf.perftence;
 
 public interface StatisticsProvider {
 
-    long median();
+	long median();
 
-    long duration();
+	long duration();
 
-    double throughput();
+	double throughput();
 
-    long percentileLatency(final int percentile);
+	long percentileLatency(final int percentile);
 
-    long sampleCount();
+	long sampleCount();
 
-    long maxLatency();
+	long maxLatency();
 
-    long minLatency();
+	long minLatency();
 
-    double averageLatency();
+	double averageLatency();
 
-    boolean hasSamples();
+	boolean hasSamples();
 
 }

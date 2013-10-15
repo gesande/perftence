@@ -6,12 +6,12 @@ import net.sf.perftence.reporting.TestReport;
 
 public interface ReporterFactoryDependencies {
 
-    ThroughputStorageFactory throughputStorageFactory();
+	ThroughputStorageFactory throughputStorageFactory();
 
-    LineChartAdapterProvider<?, ?> lineChartAdapterProvider();
+	LineChartAdapterProvider<?, ?> lineChartAdapterProvider();
 
-    ImageFactory imageFactory();
+	ImageFactory imageFactory();
 
-    TestReport testReport();
+	TestReport testReport();
 
 }

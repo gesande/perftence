@@ -6,18 +6,18 @@ import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
 public interface PerformanceTestSetup {
-    int threads();
+	int threads();
 
-    int duration();
+	int duration();
 
-    int invocations();
+	int invocations();
 
-    int invocationRange();
+	int invocationRange();
 
-    int throughputRange();
+	int throughputRange();
 
-    Collection<SummaryAppender> summaryAppenders();
+	Collection<SummaryAppender> summaryAppenders();
 
-    Collection<GraphWriter> graphWriters();
+	Collection<GraphWriter> graphWriters();
 
 }
