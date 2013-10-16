@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 
 dependencies {
     compile gradleApi()
-    groovy localGroovy()
+    compile localGroovy()
 }
 
 eclipse {

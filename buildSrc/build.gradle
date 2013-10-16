@@ -15,7 +15,7 @@ repositories {  flatDir { dirs 'lib' }  }
 
 dependencies {
     compile gradleApi()
-    groovy localGroovy()
+    compile localGroovy()
     compile project.fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
 }
 
