@@ -1,6 +1,17 @@
-project(':perftence-junit') {
+project(':perftence-junit') { prj ->
+    apply plugin: 'maven'
     apply from:"$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    
+    task createPom << {
+       pom {
+         project { 
+           groupId 'net.sf.perftence'
+           artifactId "$prj.name"
+           version "$prj.artifactVersion"
+         }
+       }.writeTo("pom.xml")
+    }
 
     dependencies {
         compile project(':perftence')
