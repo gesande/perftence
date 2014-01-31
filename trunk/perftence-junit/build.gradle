@@ -1,31 +1,32 @@
 project(':perftence-junit') { prj ->
-    apply plugin: 'maven'
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
-    
-    task createPom << {
-       pom {
-         project { 
-           groupId 'net.sf.perftence'
-           artifactId "$prj.name"
-           version "$prj.artifactVersion"
-         }
-       }.writeTo("pom.xml")
-    }
+	apply plugin: 'maven'
+	apply from:"$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':perftence-fluent')
-        compile project(':perftence-agents')
-        compile project(':perftence-api')
-        compile project(':völundr-bag')
-        compile project(':junit-4.10')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
-        compile project(':reporterfactory-dependencies-jfreechart')
-        runtime project(':slf4j-log4j12-1.6.1')
-        runtime project(':log4j-1.2.16')
-    }
+	task createPom << {
+		pom {
+			project {
+				groupId 'net.sf.perftence'
+				artifactId "$prj.name"
+				version "$prj.artifactVersion"
+			}
+		}.writeTo("pom.xml")
+	}
+
+	dependencies {
+		compile project(':perftence')
+		compile project(':perftence-fluent')
+		compile project(':perftence-agents')
+		compile project(':perftence-api')
+		compile project(':völundr-bag')
+		compile project(':junit-4.10')
+		compile project(':commons-collections-3.2.1')
+		compile project(':slf4j-api-1.6.1')
+		compile project(':jfreechart-1.0.12')
+		compile project(':jcommon-1.0.15')
+		compile project(':reporterfactory-dependencies-jfreechart')
+		compile project(':default-perftence-api-factory')
+		runtime project(':slf4j-log4j12-1.6.1')
+		runtime project(':log4j-1.2.16')
+	}
 }
