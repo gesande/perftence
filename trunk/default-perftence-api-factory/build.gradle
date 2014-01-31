@@ -1,0 +1,4 @@
+project(':default-perftence-api-factory') {
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+}

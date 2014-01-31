@@ -1,3 +1,4 @@
 include 'buildSrc'
 include 'slf4j-log4j12-1.6.1','slf4j-api-1.6.1','jfreechart-1.0.12','jcommon-1.0.15','commons-collections-3.2.1','log4j-1.2.16','junit-4.10','chalkbox-1.0.0','völundr-fileutil','völundr-concurrent','völundr-linereader','völundr-bag','mybacklog','afreechart'
 include 'perftence','acceptance-tests','install','mainentrypoint-example','backlog','fluent-based-example','agent-based-example','responsecode-summaryappender','filebased-reporting-proto','perftence-experimental','perftence-junit','perftence-api','distributed-perftence-api','perftence-fluent','perftence-agents','perftence-graph','perftence-defaulttestruntimereporterfactory','perftence-graph-jfreechart','perftence-testreport-html','perftence-graph-afreechart','reporterfactory-dependencies-jfreechart','reporterfactory-dependencies-afreechart'
+include 'default-perftence-api-factory'
