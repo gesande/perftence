@@ -1,33 +1,30 @@
 package net.sf.perftence;
 
+import net.sf.perftence.api.DefaultPerftenceApiFactory;
 import net.sf.perftence.api.PerftenceApi;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ApiExample {
+public class ApiExampleUsingDefaultPerftenceApiFactory {
 
-	private final static Logger LOG = LoggerFactory.getLogger(ApiExample.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(ApiExampleUsingDefaultPerftenceApiFactory.class);
 
 	public static void main(final String[] args) throws Exception {
-		new ApiExample().run();
+		new ApiExampleUsingDefaultPerftenceApiFactory().run();
 	}
 
 	@SuppressWarnings("static-method")
 	public void run() {
-		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart();
-		final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
-				deps);
-		final PerftenceApi api = new PerftenceApi(new TestFailureNotifier() {
+		final TestFailureNotifier notifier = new TestFailureNotifier() {
 			@Override
 			public void testFailed(Throwable t) {
 				log().error("Test failed!", t);
 			}
-		}, testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider());
+		};
+		final PerftenceApi api = perftenceApi(notifier);
 		api.test("api-example")
 				.setup(api.setup().threads(2).duration(Duration.seconds(10))
 						.build()).executable(new Executable() {
@@ -36,6 +33,10 @@ public class ApiExample {
 						Thread.sleep(100);
 					}
 				}).start();
+	}
+
+	private static PerftenceApi perftenceApi(TestFailureNotifier notifier) {
+		return new DefaultPerftenceApiFactory().newPerftenceApi(notifier);
 	}
 
 	private static Logger log() {

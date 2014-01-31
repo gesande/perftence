@@ -1,9 +1,8 @@
 package net.sf.perftence;
 
+import net.sf.perftence.api.DefaultPerftenceApiFactory;
 import net.sf.perftence.api.PerftenceApi;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
-import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 import org.junit.Rule;
@@ -16,12 +15,8 @@ public abstract class AbstractMultiThreadedTest {
 	private final PerftenceApi perftenceApi;
 
 	public AbstractMultiThreadedTest() {
-		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart();
-		final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
-				deps);
-		this.perftenceApi = new PerftenceApi(failureNotifier(),
-				testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider());
+		this.perftenceApi = new DefaultPerftenceApiFactory()
+				.newPerftenceApi(failureNotifier());
 	}
 
 	/**
