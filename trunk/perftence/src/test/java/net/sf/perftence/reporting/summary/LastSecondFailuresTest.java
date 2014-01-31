@@ -42,7 +42,7 @@ public class LastSecondFailuresTest {
 						new FieldFormatter(), new FieldAdjuster())));
 	}
 
-	private IntermediateSummary newSummary(final StringBuffer appendable) {
+	private static IntermediateSummary newSummary(final StringBuffer appendable) {
 		return new IntermediateSummary() {
 
 			@Override

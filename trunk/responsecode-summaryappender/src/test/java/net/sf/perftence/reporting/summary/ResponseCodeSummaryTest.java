@@ -9,6 +9,7 @@ import org.junit.Test;
 public class ResponseCodeSummaryTest {
 	private final static DecimalFormat DF = new DecimalFormat("###.###");
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void summary() {
 		final ResponseCodeSummary summary = new ResponseCodeSummary();
@@ -30,6 +31,7 @@ public class ResponseCodeSummaryTest {
 		// TODO: asserts
 	}
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void empty() {
 		final ResponseCodeSummary summary = new ResponseCodeSummary();
@@ -45,7 +47,8 @@ public class ResponseCodeSummaryTest {
 
 	}
 
-	private Summary<ResponseCodeSummaryTest> logSummary(final StringBuilder sb) {
+	private static Summary<ResponseCodeSummaryTest> logSummary(
+			final StringBuilder sb) {
 		return new Summary<ResponseCodeSummaryTest>() {
 
 			@Override
