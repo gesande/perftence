@@ -45,7 +45,6 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 		};
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void learning() {
 		final AtomicInteger i = new AtomicInteger(0);

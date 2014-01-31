@@ -79,6 +79,7 @@ public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
 			return this;
 		}
 
+		@SuppressWarnings("static-method")
 		public PerformanceTestSetup noSetup() {
 			return new PerformanceTestSetup() {
 

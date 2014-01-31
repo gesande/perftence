@@ -12,7 +12,7 @@ public abstract class AbstractSummaryBuilder implements TestSummaryBuilder {
 		return sb.toString();
 	}
 
-	private TestSummary newSummary(final StringBuilder sb) {
+	private static TestSummary newSummary(final StringBuilder sb) {
 		return new TestSummary() {
 			@Override
 			public TestSummary field(final SummaryField<?> field) {

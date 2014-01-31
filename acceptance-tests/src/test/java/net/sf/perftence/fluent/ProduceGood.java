@@ -51,7 +51,7 @@ public class ProduceGood extends AbstractMultiThreadedTest {
 		Sleep;
 	}
 
-	private Collection<TestAgent> agents(final int size,
+	private static Collection<TestAgent> agents(final int size,
 			final Stack<Integer> stack) {
 		List<TestAgent> list = new ArrayList<TestAgent>();
 		for (int i = 0; i < size; i++) {
