@@ -24,7 +24,7 @@ ext {
 
 	emmaPlugin="${buildScripts}/plugins/emma.gradle"
 
-	artifactVersion='2.0.0-BETA'
+	artifactVersion='2.0.1-BETA'
 
 	distributionExcludes = ["*-lib.jar"]
 	distributionBasename = 'perftence-distribution'
