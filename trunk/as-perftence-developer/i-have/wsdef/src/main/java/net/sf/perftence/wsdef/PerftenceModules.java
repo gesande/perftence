@@ -73,9 +73,6 @@ public class PerftenceModules extends JavaModules {
 	private final JavaSrcModule perftenceGraph = srcModule("perftence-graph")
 			.noTestJava().noTestResources().end();
 
-	/**
-	 * TODO dead module, not needed by another module?
-	 */
 	private final JavaSrcModule perftenceGraphAfreechart = srcModule(
 			"perftence-graph-afreechart").noTestJava().noTestResources()
 					.mainDeps(afreechart, perftenceGraph, slf4jApi).end();
@@ -108,6 +105,15 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(perftence,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph, perftenceGraphJfreechart,
+							perftenceTestreportHtml)
+					.end();
+
+	private final JavaSrcModule reporterfactoryDependenciesAfreechart = srcModule(
+			"reporterfactory-dependencies-afreechart").noTestJava()
+					.noTestResources()
+					.mainDeps(perftence,
+							perftenceDefaulttestruntimereporterfactory,
+							perftenceGraph, perftenceGraphAfreechart,
 							perftenceTestreportHtml)
 					.end();
 
@@ -227,7 +233,7 @@ public class PerftenceModules extends JavaModules {
 		return Arrays.asList(acceptanceTests, agentBasedExample,
 				distributedPerftenceApi, filebasedReportingProto,
 				fluentBasedExample, mainentrypointExample,
-				perftenceExperimental, perftenceGraphAfreechart,
+				perftenceExperimental, reporterfactoryDependenciesAfreechart,
 				responsecodeSummaryappender);
 	}
 
