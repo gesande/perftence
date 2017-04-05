@@ -1,0 +1,5 @@
+# paths are relative to this file's directory
+WSNAME=perftence
+WSROOT=../../..
+WSDEFDEF_MODULE=../wsdefdef
+WSDEFDEF_CLASS=net.sf.perftence.wsdefdef.PerftenceWorkspaceModuleProvider
