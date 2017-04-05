@@ -114,7 +114,8 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(perftence,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph, perftenceGraphAfreechart,
-							perftenceTestreportHtml)
+							perftenceTestreportHtml, slf4jApi, afreechart,
+							völundrFileutil)
 					.end();
 
 	private final JavaSrcModule perftenceFluent = srcModule("perftence-fluent")
