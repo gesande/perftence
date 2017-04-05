@@ -23,6 +23,7 @@ import net.sf.perftence.agents.TestTaskCategory;
 import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
@@ -140,7 +141,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 
 	private TestRuntimeReporter newTestRuntimeReporter(
 			PerformanceTestSetupBuilder setup) {
-		return TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory()
+		return TestRuntimeReporterFactoryUsingJFreeChart
+				.reporterFactory(HtmlTestReport.withDefaultReportPath())
 				.newRuntimeReporter(this.latencyProvider, true, setup.build(),
 						newFailedInvocations());
 	}

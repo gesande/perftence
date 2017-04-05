@@ -5,7 +5,9 @@ import java.util.concurrent.ExecutorService;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.fluent.FluentPerformanceTest;
@@ -36,7 +38,7 @@ public final class DistributedPerformanceTest {
 		this.runNotifier = runNotifier;
 		this.remoteReporter = remoteReporter;
 		this.defaultReporterFactory = TestRuntimeReporterFactoryUsingJFreeChart
-				.reporterFactory();
+				.reporterFactory(HtmlTestReport.withDefaultReportPath());
 	}
 
 	public TestBuilder setup(final PerformanceTestSetup setup) {
@@ -69,7 +71,14 @@ public final class DistributedPerformanceTest {
 		};
 		return new FluentPerformanceTest(this.testFailureNotifier,
 				reporterFactory, this.runNotifier,
-				new DefaultDatasetAdapterFactory()).test(id()).setup(setup);
+				new DefaultDatasetAdapterFactory(), new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test(id()).setup(setup);
 	}
 
 	private ExecutorService executorService() {

@@ -4,10 +4,13 @@ import java.util.Random;
 
 import net.sf.perftence.api.PerftenceApi;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
+import net.sf.perftence.common.HtmlTestReport;
+import net.sf.perftence.fluent.FileSummaryConsumer;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
+import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 public final class MainEntryPointWayOfDoingThings
@@ -17,12 +20,15 @@ public final class MainEntryPointWayOfDoingThings
 	private final static Random RANDOM = new Random(System.currentTimeMillis());
 
 	public MainEntryPointWayOfDoingThings() {
-		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart();
+		TestReport testReport = HtmlTestReport.withDefaultReportPath();
+		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart(
+				testReport);
 		final DefaultTestRuntimeReporterFactory defaultTestRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
 				deps);
 		this.api = new PerftenceApi(this, defaultTestRuntimeReporterFactory,
 				deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider());
+				deps.scatterPlotAdapterProvider(),
+				new FileSummaryConsumer(testReport.reportRootDirectory()));
 	}
 
 	public static void main(final String[] args) throws Exception {

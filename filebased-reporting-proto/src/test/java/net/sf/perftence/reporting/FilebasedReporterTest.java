@@ -12,6 +12,7 @@ import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.DefaultInvocationStorage;
+import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.ReportingOptionsFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
@@ -63,7 +64,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 		reader.read();
 
 		final TestRuntimeReporter invocationReporter = TestRuntimeReporterFactoryUsingJFreeChart
-				.reporterFactory().newRuntimeReporter(latencyProvider,
+				.reporterFactory(HtmlTestReport.withDefaultReportPath())
+				.newRuntimeReporter(latencyProvider,
 						reader.setup().includeInvocationGraph(),
 						reader.setup().testSetup(), reader.failedInvocations(),
 						invocationStorage, reader.throughputStorage());

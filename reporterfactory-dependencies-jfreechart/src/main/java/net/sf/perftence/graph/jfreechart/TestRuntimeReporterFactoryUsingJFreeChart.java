@@ -1,7 +1,6 @@
 package net.sf.perftence.graph.jfreechart;
 
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.ReporterFactoryDependencies;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorageFactory;
@@ -18,8 +17,8 @@ public final class TestRuntimeReporterFactoryUsingJFreeChart
 	private ThroughputStorageFactory throughputStorageFactory;
 	private ImageFactoryUsingJFreeChart imageFactory;
 
-	public TestRuntimeReporterFactoryUsingJFreeChart() {
-		this.testReport = HtmlTestReport.withDefaultReportPath();
+	public TestRuntimeReporterFactoryUsingJFreeChart(TestReport testReport) {
+		this.testReport = testReport;
 		this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
 		this.throughputStorageFactory = new ThroughputStorageFactory(
 				this.datasetAdapterFactory);
@@ -47,9 +46,10 @@ public final class TestRuntimeReporterFactoryUsingJFreeChart
 		return this.testReport;
 	}
 
-	public static TestRuntimeReporterFactory reporterFactory() {
+	public static TestRuntimeReporterFactory reporterFactory(
+			TestReport testReport) {
 		return new DefaultTestRuntimeReporterFactory(
-				new TestRuntimeReporterFactoryUsingJFreeChart());
+				new TestRuntimeReporterFactoryUsingJFreeChart(testReport));
 	}
 
 	public ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {

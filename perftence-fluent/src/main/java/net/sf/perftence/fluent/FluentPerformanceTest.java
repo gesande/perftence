@@ -7,6 +7,7 @@ import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -39,12 +40,15 @@ public final class FluentPerformanceTest {
 	private final InvocationRunnerFactory invocationRunnerFactory;
 	private final TestRuntimeReporterFactory reporterFactory;
 	private final LatencyProviderFactory latencyProviderFactory;
+	private final SummaryConsumer summaryConsumer;
 
 	public FluentPerformanceTest(final TestFailureNotifier failureNotifier,
 			final TestRuntimeReporterFactory reporterFactory,
 			final RunNotifier runNotifier,
-			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
+			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
+			SummaryConsumer summaryConsumer) {
 		this.reporterFactory = reporterFactory;
+		this.summaryConsumer = summaryConsumer;
 		validate(failureNotifier);
 		this.failureNotifier = failureNotifier;
 		this.runNotifier = runNotifier;
@@ -101,7 +105,7 @@ public final class FluentPerformanceTest {
 				adjustedFieldBuilderFactory(), latencyFactory(),
 				allowedExceptionOccurredMessageBuilder(),
 				perfTestFailureFactory(), lineChartAdapterProvider(),
-				reporterFactory(), latencyProviderFactory());
+				reporterFactory(), latencyProviderFactory(), summaryConsumer);
 	}
 
 	private LatencyProviderFactory latencyProviderFactory() {

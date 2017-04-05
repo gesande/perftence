@@ -1,5 +1,7 @@
 package net.sf.perftence.reporting.summary;
 
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +22,13 @@ public final class TestSummaryLogger {
 		return summaryBuilder().build();
 	}
 
-	public void printSummary(final String id) {
-		printSummary(id, build());
+	public void printSummary(final String id,
+			Consumer<String> summaryConsumer) {
+		String summary = build();
+		printSummary(id, summary);
+		if (summaryConsumer != null) {
+			summaryConsumer.accept(summary);
+		}
 	}
 
 	private void printSummary(final String id, final String summary) {

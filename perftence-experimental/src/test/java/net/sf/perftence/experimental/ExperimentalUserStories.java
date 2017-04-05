@@ -95,8 +95,9 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 		this.tasksRun = new AtomicInteger();
 		this.tasksFailed = new AtomicInteger();
 		this.testRuntimeReporter = TestRuntimeReporterFactoryUsingJFreeChart
-				.reporterFactory().newRuntimeReporter(this.latencyProvider,
-						true, setup().threads(userCount).build(),
+				.reporterFactory(HtmlTestReport.withDefaultReportPath())
+				.newRuntimeReporter(this.latencyProvider, true,
+						setup().threads(userCount).build(),
 						newFailedInvocations());
 		this.latencyProvider.start();
 		List<Thread> threads = new ArrayList<>();

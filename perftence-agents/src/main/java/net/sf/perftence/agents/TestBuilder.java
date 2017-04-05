@@ -19,6 +19,7 @@ import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.LastSecondThroughput;
 import net.sf.perftence.graph.LineChartAdapterProvider;
@@ -84,6 +85,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	private final CategorySpecificLatenciesConfigurator categorySpecificLatenciesConfigurator;
 	private final LastSecondFailuresGraphWriter lastSecondFailureGraphWriter;
 	private final TestRuntimeReporterFactory testRuntimeReporterFactory;
+	private final SummaryConsumer summaryConsumer;
 
 	private boolean includeInvocationGraph = true;
 	private boolean includeThreadsRunningCurrentTasks = true;
@@ -102,7 +104,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 			final LatencyProviderFactory latencyProviderFactory,
 			final TestRuntimeReporterFactory testRuntimeReporterFactory,
 			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
-			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider,
+			final SummaryConsumer summaryConsumer) {
 		this.name = name;
 		this.failureNotifier = failureNotifier;
 		this.failedInvocationsFactory = failedInvocationsFactory;
@@ -111,6 +114,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
 		this.schedulingServiceFactory = schedulingServiceFactory;
 		this.testRuntimeReporterFactory = testRuntimeReporterFactory;
+		this.summaryConsumer = summaryConsumer;
 		this.latencyProvider = latencyProviderFactory.newInstance();
 		this.timerScheduler = new TimerScheduler();
 		this.activeThreads = new ActiveThreads();
@@ -456,7 +460,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 					@Override
 					public void run() {
 						intermediateSummaryLogger()
-								.printSummary(TestBuilder.this.id());
+								.printSummary(TestBuilder.this.id(), null);
 					}
 				};
 			}
@@ -489,7 +493,11 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	}
 
 	private void printOverallSummary() {
-		overAllSummaryBuilder().printSummary(id());
+		String id = id();
+		String summaryId = id + ".agent.summary";
+		overAllSummaryBuilder().printSummary(id, summary -> {
+			summaryConsumer.consumeSummary(summaryId, summary);
+		});
 	}
 
 	private void newSummary(final String name, final long duration,
