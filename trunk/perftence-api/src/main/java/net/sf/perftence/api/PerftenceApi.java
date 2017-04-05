@@ -4,6 +4,7 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.agents.AgentBasedTest;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.perftence.fluent.FluentPerformanceTest;
@@ -20,14 +21,17 @@ public final class PerftenceApi {
 	private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 	private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 	private final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider;
+	private final SummaryConsumer summaryConsumer;
 
 	public PerftenceApi(final TestFailureNotifier notifier,
 			final TestRuntimeReporterFactory testRuntimeReporterFactory,
 			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
-			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider,
+			final SummaryConsumer summaryConsumer) {
 		this.notifier = notifier;
 		this.lineChartAdapterProvider = lineChartAdapterProvider;
 		this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
+		this.summaryConsumer = summaryConsumer;
 		this.latencyProviderFactory = new DefaultLatencyProviderFactory();
 		this.testRuntimeReporterFactory = testRuntimeReporterFactory;
 		this.performanceTest = createPerformanceTest();
@@ -49,7 +53,7 @@ public final class PerftenceApi {
 	private AgentBasedTest createAgentBasedTest() {
 		return new AgentBasedTest(failureNotifier(), latencyProviderFactory(),
 				testRuntimeReporterFactory(), lineChartAdapterProvider(),
-				this.scatterPlotAdapterProvider);
+				this.scatterPlotAdapterProvider, summaryConsumer);
 	}
 
 	private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
@@ -63,7 +67,7 @@ public final class PerftenceApi {
 	private FluentPerformanceTest createPerformanceTest() {
 		return new FluentPerformanceTest(failureNotifier(),
 				testRuntimeReporterFactory(), new DefaultRunNotifier(),
-				lineChartAdapterProvider());
+				lineChartAdapterProvider(), summaryConsumer);
 	}
 
 	private TestRuntimeReporterFactory testRuntimeReporterFactory() {

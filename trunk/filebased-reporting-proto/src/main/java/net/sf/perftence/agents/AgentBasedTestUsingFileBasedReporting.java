@@ -5,6 +5,8 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.HtmlTestReport;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
@@ -26,9 +28,12 @@ public class AgentBasedTestUsingFileBasedReporting {
 	private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 	private final DatasetAdapterFactory datasetAdapterFactory;
 	private final LatencyProviderFactory latencyProviderFactory;
+	private final SummaryConsumer summaryConsumer;
 
 	public AgentBasedTestUsingFileBasedReporting(
-			final TestFailureNotifier failureNotifier) {
+			final TestFailureNotifier failureNotifier,
+			SummaryConsumer summaryConsumer) {
+		this.summaryConsumer = summaryConsumer;
 		this.failureNotifier = validate(failureNotifier);
 		final FieldFormatter fieldFormatter = new FieldFormatter();
 		final FieldAdjuster fieldAdjuster = new FieldAdjuster();
@@ -60,8 +65,10 @@ public class AgentBasedTestUsingFileBasedReporting {
 				new DefaultCategorySpecificReporterFactory(id,
 						latencyProviderFactory()),
 				latencyProviderFactory(),
-				TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory(),
-				datasetAdapterFactory(), datasetAdapterFactory());
+				TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory(
+						HtmlTestReport.withDefaultReportPath()),
+				datasetAdapterFactory(), datasetAdapterFactory(),
+				summaryConsumer);
 	}
 
 	private LatencyProviderFactory latencyProviderFactory() {

@@ -18,6 +18,7 @@ import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.Startable;
 import net.sf.perftence.StatisticsProvider;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.graph.LastSecondThroughput;
@@ -50,6 +51,7 @@ public final class TestBuilder {
 	private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 	private final TestRuntimeReporterFactory reporterFactory;
 	private final LatencyProviderFactory latencyProviderFactory;
+	private final SummaryConsumer summaryConsumer;
 
 	private PerformanceTestSetup setup;
 	private PerformanceRequirements requirements;
@@ -65,7 +67,8 @@ public final class TestBuilder {
 			final PerfTestFailureFactory perfTestFailureFactory,
 			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
 			final TestRuntimeReporterFactory reporterFactory,
-			final LatencyProviderFactory latencyProviderFactory) {
+			final LatencyProviderFactory latencyProviderFactory,
+			final SummaryConsumer summaryConsumer) {
 		this.invocationRunner = invocationRunner;
 		this.runNotifier = runNotifier;
 		this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
@@ -75,6 +78,7 @@ public final class TestBuilder {
 		this.lineChartAdapterProvider = lineChartAdapterProvider;
 		this.reporterFactory = reporterFactory;
 		this.latencyProviderFactory = latencyProviderFactory;
+		this.summaryConsumer = summaryConsumer;
 		this.requirements = PerformanceRequirementsBuilder.noRequirements();
 		this.setup = PerformanceTestSetupPojo.builder().noSetup();
 		this.summaryBuilderFactory = summaryBuilderFactory;
@@ -134,7 +138,7 @@ public final class TestBuilder {
 						latencyProvider, failedInvocations,
 						lastSecondStatsProvider, lastSecondFailures),
 				latencyFactory(), allowedExceptionOccurredMessageBuilder(),
-				perfTestFailureFactory())
+				perfTestFailureFactory(), summaryConsumer)
 						.customInvocationReporters(lastSecondStats)
 						.customFailureReporter(lastSecondFailures)
 						.executable(executable);

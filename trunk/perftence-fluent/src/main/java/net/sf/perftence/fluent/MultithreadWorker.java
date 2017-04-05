@@ -17,6 +17,7 @@ import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.TestRuntimeReporter;
@@ -42,6 +43,7 @@ public final class MultithreadWorker implements Startable {
 	private final LatencyFactory latencyFactory;
 	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
 	private final PerfTestFailureFactory perfTestFailureFactory;
+	private final SummaryConsumer summaryConsumer;
 
 	private Invocation[] runnables;
 
@@ -54,7 +56,8 @@ public final class MultithreadWorker implements Startable {
 			final TestSummaryLogger intermediateSummaryLogger,
 			final LatencyFactory latencyFactory,
 			final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
-			final PerfTestFailureFactory perfTestFailureFactory) {
+			final PerfTestFailureFactory perfTestFailureFactory,
+			final SummaryConsumer summaryConsumer) {
 		this.reporter = reporter;
 		this.runner = runner;
 		this.setUp = setUp;
@@ -65,6 +68,7 @@ public final class MultithreadWorker implements Startable {
 		this.requirementValidator = requirementValidator;
 		this.overallSummaryLogger = overAllSummaryLogger;
 		this.intermediateSummaryLogger = intermediateSummaryLogger;
+		this.summaryConsumer = summaryConsumer;
 		this.customReporters = new ArrayList<>();
 		this.customFailureReporters = new ArrayList<>();
 		this.timerScheduler = new TimerScheduler();
@@ -403,7 +407,11 @@ public final class MultithreadWorker implements Startable {
 	}
 
 	private void printOverallSummary() {
-		overallSummaryLogger().printSummary(id());
+		String id = id();
+		String summaryId = id + ".fluent.summary";
+		overallSummaryLogger().printSummary(id, summary -> {
+			summaryConsumer.consumeSummary(summaryId, summary);
+		});
 	}
 
 	private TestSummaryLogger overallSummaryLogger() {
@@ -532,7 +540,7 @@ public final class MultithreadWorker implements Startable {
 				return new TimerTask() {
 					@Override
 					public void run() {
-						intermediateSummaryLogger().printSummary(id());
+						intermediateSummaryLogger().printSummary(id(), null);
 					}
 				};
 			}

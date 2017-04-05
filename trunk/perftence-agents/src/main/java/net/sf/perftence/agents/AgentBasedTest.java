@@ -4,6 +4,7 @@ import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -30,13 +31,16 @@ public final class AgentBasedTest {
 	private final LatencyProviderFactory latencyProviderFactory;
 	private final TestRuntimeReporterFactory testRuntimeReporterFactory;
 	private final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider;
+	private final SummaryConsumer summaryConsumer;
 
 	public AgentBasedTest(final TestFailureNotifier failureNotifier,
 			final LatencyProviderFactory latencyProviderFactory,
 			final TestRuntimeReporterFactory testRuntimeReporterFactory,
 			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider,
-			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider) {
+			final ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider,
+			final SummaryConsumer summaryConsumer) {
 		this.scatterPlotAdapterProvider = scatterPlotAdapterProvider;
+		this.summaryConsumer = summaryConsumer;
 		this.failureNotifier = validate(failureNotifier);
 		final FieldFormatter fieldFormatter = new FieldFormatter();
 		final FieldAdjuster fieldAdjuster = new FieldAdjuster();
@@ -69,7 +73,8 @@ public final class AgentBasedTest {
 				new DefaultCategorySpecificReporterFactory(id,
 						latencyProviderFactory()),
 				latencyProviderFactory(), testRuntimeReporterFactory(),
-				lineChartAdapterProvider(), scatterPlotAdapterProvider());
+				lineChartAdapterProvider(), scatterPlotAdapterProvider(),
+				summaryConsumer);
 	}
 
 	private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {

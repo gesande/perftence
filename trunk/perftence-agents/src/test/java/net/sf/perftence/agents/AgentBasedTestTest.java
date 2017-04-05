@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
+import net.sf.perftence.common.HtmlTestReport;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
@@ -38,8 +40,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		final TestBuilder test = new AgentBasedTest(new MyFailureTestNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("sanityCheck");
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("sanityCheck");
 		assertNotNull("Uuh, null returned by agent based test.test(id) method!",
 				test);
 		assertEquals("Id doesn't match!", "sanityCheck", test.id());
@@ -54,8 +63,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		final TestBuilder test = new AgentBasedTest(new MyFailureTestNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("noInvocationGraph").noInvocationGraph();
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("noInvocationGraph").noInvocationGraph();
 		assertNotNull("Uuh, null returned by agent based test.test(id) method!",
 				test);
 		assertEquals("Id doesn't match!", "noInvocationGraph", test.id());
@@ -70,8 +86,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("oneAgentOneTask").agents(agentsWithOneTask(1))
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("oneAgentOneTask").agents(agentsWithOneTask(1))
 						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(1, taskRun().get());
@@ -82,8 +105,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("manyAgentsOneTask").agents(agentsWithOneTask(5))
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("manyAgentsOneTask").agents(agentsWithOneTask(5))
 						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(5, taskRun().get());
@@ -94,9 +124,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("oneAgentManyTasks")
-						.agents(agentsWithManyTasks(1))
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("oneAgentManyTasks").agents(agentsWithManyTasks(1))
 						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(2, taskRun().get());
@@ -107,9 +143,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("manyAgentsManyTasks")
-						.agents(agentsWithManyTasks(2))
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
 						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
@@ -120,9 +162,15 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("manyAgentsManyTasks")
-						.agents(agentsWithManyTasks(2))
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
 						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
@@ -133,10 +181,16 @@ public final class AgentBasedTestTest {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-						.test("manyAgentsManyTasks")
-						.agents(agentsWithManyTasks(2)).latencyGraphForAll()
-						.start();
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				}).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
+						.latencyGraphForAll().start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
 	}
@@ -146,11 +200,20 @@ public final class AgentBasedTestTest {
 	public void nullNotifier() {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
 		new AgentBasedTest(null, new DefaultLatencyProviderFactory(),
-				testRuntimeReporterFactory(), adapterProvider, adapterProvider);
+				testRuntimeReporterFactory(), adapterProvider, adapterProvider,
+				new SummaryConsumer() {
+
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				});
 	}
 
 	private static TestRuntimeReporterFactory testRuntimeReporterFactory() {
-		return TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory();
+		return TestRuntimeReporterFactoryUsingJFreeChart
+				.reporterFactory(HtmlTestReport.withDefaultReportPath());
 	}
 
 	private Collection<TestAgent> agentsWithManyTasks(final int agentCount) {
