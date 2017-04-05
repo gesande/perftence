@@ -3,6 +3,9 @@ package net.sf.perftence.agents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
@@ -18,11 +21,8 @@ import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 
-import org.junit.Test;
-
 public class LastSecondFailuresGraphWriterTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void graph() throws InterruptedException {
 		final LastSecondFailures failures = new LastSecondFailures(

@@ -10,6 +10,7 @@ public final class LatencyFactory {
 	 *            System.nanoTime()
 	 * @return latency in milliseconds
 	 */
+
 	@SuppressWarnings("static-method")
 	public int newLatency(final long callStart) {
 		return (int) ((System.nanoTime() - callStart) / 1000000);

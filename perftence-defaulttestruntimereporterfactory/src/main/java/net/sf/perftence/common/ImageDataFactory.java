@@ -43,9 +43,10 @@ public final class ImageDataFactory {
 			final ReportingOptions reportingOptions,
 			final GraphStatisticsProvider statistics, final String title,
 			final String xAxisTitle, final int range) {
-		return reportingOptions.provideStatistics() ? ImageData.statistics(
-				title, xAxisTitle, range, statistics, adapter) : ImageData
-				.noStatistics(title, xAxisTitle, range, adapter);
+		return reportingOptions.provideStatistics()
+				? ImageData.statistics(title, xAxisTitle, range, statistics,
+						adapter)
+				: ImageData.noStatistics(title, xAxisTitle, range, adapter);
 	}
 
 	private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {

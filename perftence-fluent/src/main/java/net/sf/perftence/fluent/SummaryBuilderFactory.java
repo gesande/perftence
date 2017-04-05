@@ -24,7 +24,8 @@ final class SummaryBuilderFactory {
 	}
 
 	public TestSummaryLogger overAllSummaryBuilder(
-			final PerformanceTestSetup setUp, final StatisticsProvider provider) {
+			final PerformanceTestSetup setUp,
+			final StatisticsProvider provider) {
 		return newTestSummaryLogger(new OverallSummaryBuilder(setUp, provider,
 				summaryFieldFactory(), estimatedInvocations()));
 	}
@@ -39,7 +40,7 @@ final class SummaryBuilderFactory {
 			final CustomIntermediateSummaryProvider... providers) {
 		return newTestSummaryLogger(new IntermediateSummaryBuilder(setUp,
 				provider, summaryFieldFactory(), estimatedInvocations())
-				.customSummaryProviders(providers));
+						.customSummaryProviders(providers));
 	}
 
 	private SummaryFieldFactory summaryFieldFactory() {

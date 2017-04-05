@@ -8,7 +8,6 @@ import org.junit.Test;
 
 public class ScheduleTestTaskTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void scheduleToFuture() throws InterruptedException {
 		long now = nanoTime();
@@ -45,20 +44,19 @@ public class ScheduleTestTaskTest {
 				+ task.timeItWasScheduledToBeRun();
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void scheduleNow() {
 		final long now = nanoTime();
-		assertTrue("It should have been time to run!", new ScheduledTestTask(
-				task(inMillis(0)), now).isTimeToRun(now));
+		assertTrue("It should have been time to run!",
+				new ScheduledTestTask(task(inMillis(0)), now).isTimeToRun(now));
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void scheduleToPast() {
 		final long now = nanoTime();
-		assertTrue("It should have been time to run!", new ScheduledTestTask(
-				task(inMillis(-100)), now).isTimeToRun(now));
+		assertTrue("It should have been time to run!",
+				new ScheduledTestTask(task(inMillis(-100)), now)
+						.isTimeToRun(now));
 	}
 
 	private static TestTask task(final Time when) {

@@ -2,13 +2,13 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
-import net.sf.perftence.graph.DatasetAdapter;
-
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-final class XYSeriesAdapterForScatterPlot implements
-		DatasetAdapter<ScatterPlotGraphData, Paint> {
+import net.sf.perftence.graph.DatasetAdapter;
+
+final class XYSeriesAdapterForScatterPlot
+		implements DatasetAdapter<ScatterPlotGraphData, Paint> {
 
 	private final XYSeries series;
 	private final String yAxisTitle;
@@ -34,7 +34,8 @@ final class XYSeriesAdapterForScatterPlot implements
 	}
 
 	@Override
-	public ScatterPlotGraphData graphData(final Paint paint, final double range) {
+	public ScatterPlotGraphData graphData(final Paint paint,
+			final double range) {
 		final XYSeriesCollection result = new XYSeriesCollection();
 		result.addSeries(series());
 		return new ScatterPlotGraphData(yAxisTitle(), result);

@@ -1,11 +1,11 @@
 package net.sf.perftence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.api.DefaultPerftenceApiFactory;
 import net.sf.perftence.api.PerftenceApi;
 import net.sf.perftence.reporting.Duration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ApiExampleUsingDefaultPerftenceApiFactory {
 
@@ -16,7 +16,6 @@ public class ApiExampleUsingDefaultPerftenceApiFactory {
 		new ApiExampleUsingDefaultPerftenceApiFactory().run();
 	}
 
-	@SuppressWarnings("static-method")
 	public void run() {
 		final TestFailureNotifier notifier = new TestFailureNotifier() {
 			@Override
@@ -25,9 +24,9 @@ public class ApiExampleUsingDefaultPerftenceApiFactory {
 			}
 		};
 		final PerftenceApi api = perftenceApi(notifier);
-		api.test("api-example")
-				.setup(api.setup().threads(2).duration(Duration.seconds(10))
-						.build()).executable(new Executable() {
+		api.test("api-example").setup(
+				api.setup().threads(2).duration(Duration.seconds(10)).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						Thread.sleep(100);

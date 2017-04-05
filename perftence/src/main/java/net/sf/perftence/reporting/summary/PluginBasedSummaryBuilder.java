@@ -8,7 +8,7 @@ public abstract class PluginBasedSummaryBuilder extends AbstractSummaryBuilder {
 	private List<SummaryFieldPlugin<?>> plugins;
 
 	public PluginBasedSummaryBuilder() {
-		this.plugins = new ArrayList<SummaryFieldPlugin<?>>();
+		this.plugins = new ArrayList<>();
 	}
 
 	@Override

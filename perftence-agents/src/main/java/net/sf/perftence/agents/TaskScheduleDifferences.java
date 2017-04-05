@@ -80,10 +80,9 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
 
 	private ImageData imageData() {
 		final ImageData imageData = ImageData.noStatistics(
-				reportingOptions().title(),
-				reportingOptions().xAxisTitle(),
-				lineChartAdapterProvider().forLineChart(
-						reportingOptions().legendTitle()));
+				reportingOptions().title(), reportingOptions().xAxisTitle(),
+				lineChartAdapterProvider()
+						.forLineChart(reportingOptions().legendTitle()));
 		final Collection<Long> uniqueSet = uniqueSamples();
 		long max = reportingOptions().range();
 		for (final Long difference : uniqueSet) {
@@ -156,10 +155,10 @@ public final class TaskScheduleDifferences implements GraphWriterProvider {
 
 	private Statistics statistics() {
 		final Collection<Long> uniqueSamples = uniqueSamples();
-		final List<Integer> latencies = new ArrayList<Integer>();
+		final List<Integer> latencies = new ArrayList<>();
 		for (final Long sample : uniqueSamples) {
-			latencies.add(Integer.parseInt(Long
-					.toString(convertToMillis(sample))));
+			latencies.add(
+					Integer.parseInt(Long.toString(convertToMillis(sample))));
 		}
 		return Statistics.fromLatencies(latencies);
 	}

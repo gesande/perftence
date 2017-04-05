@@ -3,14 +3,15 @@ package net.sf.perftence.agents;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 
-import org.junit.Test;
-
-public final class CategorySpecificLatenciesTest implements
-		ReporterFactoryForCategorySpecificLatencies {
+public final class CategorySpecificLatenciesTest
+		implements ReporterFactoryForCategorySpecificLatencies {
 
 	@SuppressWarnings("unused")
 	@Test(expected = NullPointerException.class)
@@ -23,15 +24,16 @@ public final class CategorySpecificLatenciesTest implements
 	public void invocationReporterNull() {
 		new CategorySpecificLatencies(
 				new DefaultCategorySpecificReporterFactory("id",
-						new DefaultLatencyProviderFactory()), null);
+						new DefaultLatencyProviderFactory()),
+				null);
 	}
 
 	@Test
 	public void empty() {
 		assertFalse(new CategorySpecificLatencies(
 				new DefaultCategorySpecificReporterFactory("id",
-						new DefaultLatencyProviderFactory()), this)
-				.hasCategorySpecificReporters());
+						new DefaultLatencyProviderFactory()),
+				this).hasCategorySpecificReporters());
 	}
 
 	@Test

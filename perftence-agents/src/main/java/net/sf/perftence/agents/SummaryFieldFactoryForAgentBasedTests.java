@@ -7,8 +7,8 @@ import net.sf.perftence.reporting.summary.SummaryField;
 import net.sf.perftence.reporting.summary.SummaryFieldBuilder;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 
-public final class SummaryFieldFactoryForAgentBasedTests implements
-		CustomSummaryFieldProvider {
+public final class SummaryFieldFactoryForAgentBasedTests
+		implements CustomSummaryFieldProvider {
 
 	private final SummaryFieldFactory summaryFieldFactory;
 
@@ -63,9 +63,10 @@ public final class SummaryFieldFactoryForAgentBasedTests implements
 		return summaryFieldFactory()
 				.custom(Fields.LastTaskToBeRun, String.class)
 				.value(time == null ? "<not available>"
-						: "in "
-								+ Long.toString(TimeSpecificationFactory
-										.toMillis(time)) + " (ms)").build();
+						: "in " + Long.toString(
+								TimeSpecificationFactory.toMillis(time))
+								+ " (ms)")
+				.build();
 	}
 
 	public SummaryField<Long> failedTasks(final long value) {

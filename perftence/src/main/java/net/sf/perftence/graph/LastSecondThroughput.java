@@ -6,8 +6,8 @@ import java.util.List;
 import net.sf.perftence.AsSynchronized;
 import net.sf.perftence.reporting.summary.ValueReporter;
 
-public final class LastSecondThroughput implements ValueReporter<Double>,
-		GraphWriterProvider {
+public final class LastSecondThroughput
+		implements ValueReporter<Double>, GraphWriterProvider {
 	private final List<Double> throughputs;
 	private final LineChartAdapterProvider<?, ?> linecharAdapterProvider;
 

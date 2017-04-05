@@ -3,6 +3,9 @@ package net.sf.perftence.fluent;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.Executable;
@@ -29,16 +32,13 @@ import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvid
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public final class TestBuilder {
 
 	private static final Logger LOG = LoggerFactory
 			.getLogger(TestBuilder.class);
 
 	private final InvocationRunner invocationRunner;
-	private final List<Startable> startables = new ArrayList<Startable>();
+	private final List<Startable> startables = new ArrayList<>();
 	private final RunNotifier runNotifier;
 	private final AllowedExceptions allowedExceptions = new AllowedExceptions();
 	private final FailedInvocationsFactory failedInvocationsFactory;
@@ -55,8 +55,7 @@ public final class TestBuilder {
 	private PerformanceRequirements requirements;
 	private boolean includeInvocationGraph = true;
 
-	public TestBuilder(
-			final InvocationRunner invocationRunner,
+	public TestBuilder(final InvocationRunner invocationRunner,
 			final RunNotifier runNotifier,
 			final SummaryBuilderFactory summaryBuilderFactory,
 			final FailedInvocationsFactory failedInvocationsFactory,
@@ -87,7 +86,8 @@ public final class TestBuilder {
 		return this;
 	}
 
-	public TestBuilder requirements(final PerformanceRequirements requirements) {
+	public TestBuilder requirements(
+			final PerformanceRequirements requirements) {
 		this.requirements = requirements;
 		return this;
 	}
@@ -123,19 +123,21 @@ public final class TestBuilder {
 				lastSecondStats, fieldBuilder, lastSecondThroughput);
 		setup.graphWriters().add(
 				lastSecondThroughput.graphWriterFor(invocationRunner().id()));
-		return new MultithreadWorker(runtimeReporter(latencyProvider,
-				failedInvocations), invocationRunner(), setup, latencyProvider,
-				allowedExceptions(), newPerformanceRequirementValidator(
-						requirements, latencyProvider), summaryBuilderFactory()
-						.overAllSummaryBuilder(setup, latencyProvider),
+		return new MultithreadWorker(
+				runtimeReporter(latencyProvider, failedInvocations),
+				invocationRunner(), setup, latencyProvider, allowedExceptions(),
+				newPerformanceRequirementValidator(requirements,
+						latencyProvider),
+				summaryBuilderFactory().overAllSummaryBuilder(setup,
+						latencyProvider),
 				summaryBuilderFactory().intermediateSummaryBuilder(setup,
 						latencyProvider, failedInvocations,
 						lastSecondStatsProvider, lastSecondFailures),
 				latencyFactory(), allowedExceptionOccurredMessageBuilder(),
 				perfTestFailureFactory())
-				.customInvocationReporters(lastSecondStats)
-				.customFailureReporter(lastSecondFailures)
-				.executable(executable);
+						.customInvocationReporters(lastSecondStats)
+						.customFailureReporter(lastSecondFailures)
+						.executable(executable);
 	}
 
 	private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {

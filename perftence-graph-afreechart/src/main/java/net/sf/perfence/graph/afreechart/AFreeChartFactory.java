@@ -1,13 +1,13 @@
 package net.sf.perfence.graph.afreechart;
 
-import net.sf.perftence.graph.ImageData;
-
 import org.afree.chart.AFreeChart;
 import org.afree.chart.ChartFactory;
 import org.afree.chart.plot.PlotOrientation;
 import org.afree.graphics.PaintType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.graph.ImageData;
 
 final class AFreeChartFactory {
 	private static final Logger LOGGER = LoggerFactory

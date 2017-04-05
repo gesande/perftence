@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.CustomInvocationReporter;
@@ -19,9 +22,6 @@ import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.setup.PerformanceTestSetup;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class MultithreadWorker implements Startable {
 
@@ -45,10 +45,8 @@ public final class MultithreadWorker implements Startable {
 
 	private Invocation[] runnables;
 
-	public MultithreadWorker(
-			final TestRuntimeReporter reporter,
-			final InvocationRunner runner,
-			final PerformanceTestSetup setUp,
+	public MultithreadWorker(final TestRuntimeReporter reporter,
+			final InvocationRunner runner, final PerformanceTestSetup setUp,
 			final LatencyProvider latencyProvider,
 			final AllowedExceptions allowedExceptions,
 			final PerformanceRequirementValidator requirementValidator,
@@ -67,8 +65,8 @@ public final class MultithreadWorker implements Startable {
 		this.requirementValidator = requirementValidator;
 		this.overallSummaryLogger = overAllSummaryLogger;
 		this.intermediateSummaryLogger = intermediateSummaryLogger;
-		this.customReporters = new ArrayList<CustomInvocationReporter>();
-		this.customFailureReporters = new ArrayList<CustomFailureReporter>();
+		this.customReporters = new ArrayList<>();
+		this.customFailureReporters = new ArrayList<>();
 		this.timerScheduler = new TimerScheduler();
 		this.perfTestFailureFactory = perfTestFailureFactory;
 	}
@@ -85,7 +83,8 @@ public final class MultithreadWorker implements Startable {
 	private Invocation[] createRunnables(final Executable original) {
 		log().info("Creating runnables for setup {}\n{}", id(),
 				setUp().toString());
-		final MeasurableExecutable measurableExecutable = asMeasurable(original);
+		final MeasurableExecutable measurableExecutable = asMeasurable(
+				original);
 		if (totalThreads() > 0 && setUp().invocations() > 0) {
 			return threadBased(setUp(), measurableExecutable);
 		}
@@ -117,7 +116,7 @@ public final class MultithreadWorker implements Startable {
 	private Invocation[] invocationsFor(
 			final MeasurableExecutable adaptedExecutable,
 			final int invocationsPerThread, final int extraInvocations) {
-		final List<Invocation> invocations = new ArrayList<Invocation>();
+		final List<Invocation> invocations = new ArrayList<>();
 		final Invocation[] invocationList = invocationBased(adaptedExecutable,
 				invocationsPerThread, totalThreads());
 		for (final Invocation invocation : invocationList) {
@@ -237,8 +236,8 @@ public final class MultithreadWorker implements Startable {
 	}
 
 	private void reportThroughput() {
-		reportThroughput(latencyProvider().currentDuration(), latencyProvider()
-				.currentThroughput());
+		reportThroughput(latencyProvider().currentDuration(),
+				latencyProvider().currentThroughput());
 	}
 
 	private void reportThroughput(final long currentDuration,
@@ -301,7 +300,8 @@ public final class MultithreadWorker implements Startable {
 			final int invocationsPerThread, final int threads) {
 		final Invocation runnables[] = new Invocation[threads];
 		for (int i = 0; i < runnables.length; i++) {
-			runnables[i] = new InvocationBased(executable, invocationsPerThread);
+			runnables[i] = new InvocationBased(executable,
+					invocationsPerThread);
 		}
 		return runnables;
 	}
@@ -434,7 +434,8 @@ public final class MultithreadWorker implements Startable {
 	private void stopCounter() {
 		latencyProvider().stop();
 		log().info("Latency counter stopped.");
-		log().debug("Latency counter raw data {}", latencyProvider().toString());
+		log().debug("Latency counter raw data {}",
+				latencyProvider().toString());
 	}
 
 	private void stopScheduledTimers() {
@@ -466,8 +467,9 @@ public final class MultithreadWorker implements Startable {
 				return new TimerTask() {
 					@Override
 					public void run() {
-						if (latencyProvider().currentDuration() > setUp()
-								.duration() + Duration.seconds(5)) {
+						if (latencyProvider()
+								.currentDuration() > setUp().duration()
+										+ Duration.seconds(5)) {
 							log().error(
 									"Execution time exceeded the duration given in the test setup, interrupting the test threads...");
 							runner().interruptThreads();

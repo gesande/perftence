@@ -1,12 +1,12 @@
 package net.sf.perftence.fluent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.PercentileRequirement;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.StatisticsProvider;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class PerformanceRequirementValidator {
 
@@ -41,9 +41,8 @@ public final class PerformanceRequirementValidator {
 	public void checkRuntimeLatency(final String id, final int latency) {
 		if (hasRequirements() && requirements().max() >= 0
 				&& latency > requirements().max()) {
-			throw newPerfTestFailure("Method " + id
-					+ " exceeded time limit of " + requirements().max()
-					+ " ms running " + latency + " ms");
+			throw newPerfTestFailure("Method " + id + " exceeded time limit of "
+					+ requirements().max() + " ms running " + latency + " ms");
 		}
 	}
 
@@ -53,8 +52,8 @@ public final class PerformanceRequirementValidator {
 			final long maxLatency = statistics().maxLatency();
 			if (maxLatency > requiredMax) {
 				throw newPerfTestFailure("Test " + id
-						+ " exceeded required maximum latency of "
-						+ requiredMax + " ms. Measured: " + maxLatency + " ms");
+						+ " exceeded required maximum latency of " + requiredMax
+						+ " ms. Measured: " + maxLatency + " ms");
 			}
 			log().info("Test '{}' passed maximum latency check.", id);
 		}
@@ -102,8 +101,8 @@ public final class PerformanceRequirementValidator {
 
 		for (final PercentileRequirement percentile : requirements()
 				.percentileRequirements()) {
-			final long measuredLatency = statistics().percentileLatency(
-					percentile.percentage());
+			final long measuredLatency = statistics()
+					.percentileLatency(percentile.percentage());
 			if (measuredLatency > percentile.millis()) {
 				throw newPerfTestFailure(percentile.percentage()
 						+ "-percentile of " + id

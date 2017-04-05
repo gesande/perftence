@@ -5,12 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.perftence.graph.ChartWriter;
-import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.GraphStatisticsProvider;
-import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.ImageFactory;
-
 import org.afree.chart.AFreeChart;
 import org.afree.chart.axis.NumberAxis;
 import org.afree.chart.axis.ValueAxis;
@@ -24,6 +18,12 @@ import org.afree.graphics.GradientColor;
 import org.afree.graphics.PaintType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.graph.ChartWriter;
+import net.sf.perftence.graph.DatasetAdapter;
+import net.sf.perftence.graph.GraphStatisticsProvider;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
 
 public final class ImageFactoryUsingAFreeChart implements ImageFactory {
 	private static final Logger LOGGER = LoggerFactory
@@ -203,7 +203,7 @@ public final class ImageFactoryUsingAFreeChart implements ImageFactory {
 	}
 
 	final class LineGraphStatisticsGraphData {
-		private Map<String, LineChartGraphData> list = new HashMap<String, LineChartGraphData>();
+		private Map<String, LineChartGraphData> list = new HashMap<>();
 
 		LineGraphStatisticsGraphData() {
 		}
@@ -217,7 +217,7 @@ public final class ImageFactoryUsingAFreeChart implements ImageFactory {
 		}
 
 		public List<LineChartGraphData> values() {
-			return new ArrayList<LineChartGraphData>(this.list.values());
+			return new ArrayList<>(this.list.values());
 		}
 
 		LineChartGraphData newSeries(final String title, final PaintType paint,

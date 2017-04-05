@@ -2,11 +2,11 @@ package net.sf.perftence.reporting.summary;
 
 import java.util.Set;
 
-import net.sf.perftence.formatting.DefaultDoubleFormatter;
-
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;
 import org.apache.commons.collections.bag.SynchronizedBag;
+
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
 
 public final class FailedInvocations implements
 		CustomSummaryProvider<HtmlSummary>, CustomIntermediateSummaryProvider {
@@ -56,7 +56,8 @@ public final class FailedInvocations implements
 			summary.endOfLine();
 			return;
 		}
-		summary.note("Any allowed exception doesn't count for the measured latency statistics.");
+		summary.note(
+				"Any allowed exception doesn't count for the measured latency statistics.");
 		summary.text("Failed invocations : ").text(Long.toString(failed()))
 				.endOfLine();
 		summary.endOfLine();
@@ -125,6 +126,7 @@ public final class FailedInvocations implements
 	}
 
 	private double calculateSuccessRate(final long invocationCount) {
-		return ((double) invocationCount / (double) (invocationCount + failed())) * 100.00;
+		return ((double) invocationCount
+				/ (double) (invocationCount + failed())) * 100.00;
 	}
 }

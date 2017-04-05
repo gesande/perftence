@@ -17,8 +17,8 @@ public final class FrequencyStorageFactory {
 
 			@Override
 			public ImageData imageData() {
-				final ImageData imageData = newImageData(lineChartAdapterProvider
-						.forLineChart(legendTitle()));
+				final ImageData imageData = newImageData(
+						lineChartAdapterProvider.forLineChart(legendTitle()));
 				final long maxLatency = latencyProvider.maxLatency();
 				long range = 0;
 				for (long i = 0; i <= maxLatency; i++) {

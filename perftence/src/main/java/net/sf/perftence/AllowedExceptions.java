@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class AllowedExceptions {
-	private final List<Class<?>> allowedExceptions = new ArrayList<Class<?>>();
+	private final List<Class<?>> allowedExceptions = new ArrayList<>();
 
-	public <EXCEPTION extends Exception> void allow(final Class<EXCEPTION> clazz) {
+	public <EXCEPTION extends Exception> void allow(
+			final Class<EXCEPTION> clazz) {
 		allowed().add(clazz);
 	}
 

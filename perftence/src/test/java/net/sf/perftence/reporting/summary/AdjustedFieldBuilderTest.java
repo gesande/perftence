@@ -1,9 +1,10 @@
 package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
-import net.sf.perftence.formatting.FieldFormatter;
 
 import org.junit.Test;
+
+import net.sf.perftence.formatting.FieldFormatter;
 
 public class AdjustedFieldBuilderTest {
 
@@ -38,8 +39,7 @@ public class AdjustedFieldBuilderTest {
 		assertEquals("int field                ", asFormatted.name());
 	}
 
-	@SuppressWarnings("static-method")
-	private AdjustedFieldBuilder newBuilder() {
+	private static AdjustedFieldBuilder newBuilder() {
 		return new AdjustedFieldBuilder(new FieldFormatter(),
 				new FieldAdjuster());
 	}

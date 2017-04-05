@@ -6,16 +6,15 @@ import static org.junit.Assert.assertNull;
 
 import java.text.DecimalFormat;
 
-import net.sf.perftence.formatting.FieldFormatter;
-
 import org.junit.Test;
+
+import net.sf.perftence.formatting.FieldFormatter;
 
 public class SummaryFieldBuilderForSingleValueTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void noFieldDefinitionNoValue() {
-		final SummaryFieldBuilderForSingleValue<Double> builder = new SummaryFieldBuilderForSingleValue<Double>(
+		final SummaryFieldBuilderForSingleValue<Double> builder = new SummaryFieldBuilderForSingleValue<>(
 				new FieldFormatter(), new FieldAdjuster());
 		final SummaryField<Double> field = builder.build();
 		assertNull(field.value());
@@ -25,7 +24,6 @@ public class SummaryFieldBuilderForSingleValueTest {
 		assertEquals("<no name>                ", formatted.name());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void noFieldDefinitionButHasAValue() {
 		final String separatedValue = "10" + decimalSepator() + "01";
@@ -44,18 +42,17 @@ public class SummaryFieldBuilderForSingleValueTest {
 				.getDecimalSeparator();
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void hasFieldDefinitionAndAValue() {
 		final String separatedValue = "10" + decimalSepator() + "01";
 		final BuildableSummaryField<Double> buildable = new SummaryFieldBuilderForSingleValue<Double>(
-				new FieldFormatter(), new FieldAdjuster()).field(
-				new FieldDefinition() {
-					@Override
-					public String fullName() {
-						return "double field";
-					}
-				}).value(10.01);
+				new FieldFormatter(), new FieldAdjuster())
+						.field(new FieldDefinition() {
+							@Override
+							public String fullName() {
+								return "double field";
+							}
+						}).value(10.01);
 		final SummaryField<Double> field = buildable.build();
 		assertNotNull(field.value());
 		assertEquals("double field             ", field.name());

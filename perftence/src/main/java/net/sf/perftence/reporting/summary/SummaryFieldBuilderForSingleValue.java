@@ -2,8 +2,8 @@ package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.formatting.FieldFormatter;
 
-public final class SummaryFieldBuilderForSingleValue<T> implements
-		SummaryFieldBuilder<T>, BuildableSummaryField<T> {
+public final class SummaryFieldBuilderForSingleValue<T>
+		implements SummaryFieldBuilder<T>, BuildableSummaryField<T> {
 
 	private final FieldFormatter fieldFormatter;
 	private final FieldAdjuster fieldAdjuster;
@@ -49,12 +49,12 @@ public final class SummaryFieldBuilderForSingleValue<T> implements
 
 	@Override
 	public SummaryField<T> build() {
-		return new SummaryFieldImpl<T>(adjustedFieldName(), value());
+		return new SummaryFieldImpl<>(adjustedFieldName(), value());
 	}
 
 	@Override
 	public SummaryField<String> asFormatted() {
-		return new SummaryFieldImpl<String>(adjustedFieldName(),
+		return new SummaryFieldImpl<>(adjustedFieldName(),
 				value() == null ? "<value was null>" : format(value()));
 	}
 

@@ -2,18 +2,18 @@ package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import net.sf.perftence.RuntimeStatisticsProvider;
-import net.sf.perftence.formatting.FieldFormatter;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.RuntimeStatisticsProvider;
+import net.sf.perftence.formatting.FieldFormatter;
+
 public class PluginBasedSummaryBuilderTest {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(PluginBasedSummaryBuilderTest.class);
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void withRuntimeStatistics() {
 		final RuntimeStatisticsProvider statistics = statistics();

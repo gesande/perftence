@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.ThroughputStorage;
@@ -17,9 +20,6 @@ import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 import net.sf.völundr.LineReader;
 import net.sf.völundr.LineVisitor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FilebasedReportReader {
 
@@ -56,8 +56,8 @@ public class FilebasedReportReader {
 
 		public FilebasedTestSetup read() {
 			try {
-				final FileInputStream input = new FileInputStream(new File(
-						reportDirectory(), "setup"));
+				final FileInputStream input = new FileInputStream(
+						new File(reportDirectory(), "setup"));
 				final ObjectInputStream inputStream = new ObjectInputStream(
 						input);
 				try {
@@ -82,8 +82,8 @@ public class FilebasedReportReader {
 		private String file;
 		private final File root;
 
-		public FilebasedReader(final LineVisitor lineVisitor,
-				final String file, final File root) {
+		public FilebasedReader(final LineVisitor lineVisitor, final String file,
+				final File root) {
 			this.file = file;
 			this.root = root;
 			this.reader = new LineReader(Charset.defaultCharset());
@@ -99,8 +99,8 @@ public class FilebasedReportReader {
 		}
 
 		public void read() throws FileNotFoundException, IOException {
-			final FileInputStream setupStream = new FileInputStream(new File(
-					root(), file()));
+			final FileInputStream setupStream = new FileInputStream(
+					new File(root(), file()));
 			try {
 				reader().read(setupStream, lineVisitor());
 			} finally {
@@ -261,8 +261,8 @@ public class FilebasedReportReader {
 					latencyVisitor(), "latencies");
 			latencies.read();
 
-			this.throughputStorage = throughputStorageFactory().forRange(
-					setup().testSetup().throughputRange());
+			this.throughputStorage = throughputStorageFactory()
+					.forRange(setup().testSetup().throughputRange());
 			final ThroughputVisitor throughputVisitor = new ThroughputVisitor(
 					this.throughputStorage);
 			final FilebasedReader throughput = newFilebasedReader(

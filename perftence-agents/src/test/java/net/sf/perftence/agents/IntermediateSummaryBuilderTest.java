@@ -6,6 +6,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.text.DecimalFormat;
 
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.RuntimeStatisticsProvider;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.formatting.FieldFormatter;
@@ -13,10 +17,6 @@ import net.sf.perftence.reporting.summary.CustomIntermediateSummaryProvider;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.IntermediateSummary;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 	private final static Logger LOG = LoggerFactory
@@ -40,18 +40,14 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				build.contains("threads running tasks:   100\n"));
 		assertTrue("max field is missing!",
 				build.contains("max:                     998\n"));
-		assertTrue(
-				"average field is missing!",
-				build.contains("average:                 " + DF.format(508.38)
-						+ "\n"));
+		assertTrue("average field is missing!", build.contains(
+				"average:                 " + DF.format(508.38) + "\n"));
 		assertTrue("median field is missing!",
 				build.contains("median:                  488\n"));
 		assertTrue("95 percentile field is missing!",
 				build.contains("95 percentile:           955\n"));
-		assertTrue(
-				"throughput field is missing!",
-				build.contains("throughput:              " + DF.format(19.08)
-						+ "\n"));
+		assertTrue("throughput field is missing!", build.contains(
+				"throughput:              " + DF.format(19.08) + "\n"));
 		assertTrue("execution time field is missing!",
 				build.contains("execution time (ms):     13000\n"));
 		assertTrue("last task to be run field is missing!",
@@ -60,12 +56,10 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				+ "scheduled tasks:         1000\n"
 				+ "failed tasks:            0\n"
 				+ "threads running tasks:   100\n"
-				+ "max:                     998\n"
-				+ "average:                 " + DF.format(508.38) + "\n"
-				+ "median:                  488\n"
-				+ "95 percentile:           955\n"
-				+ "throughput:              " + DF.format(19.08) + "\n"
-				+ "execution time (ms):     13000\n"
+				+ "max:                     998\n" + "average:                 "
+				+ DF.format(508.38) + "\n" + "median:                  488\n"
+				+ "95 percentile:           955\n" + "throughput:              "
+				+ DF.format(19.08) + "\n" + "execution time (ms):     13000\n"
 				+ "last task to be run:     in 2000 (ms)\n";
 		assertEquals(expected, build);
 	}
@@ -87,18 +81,14 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				build.contains("threads running tasks:   100\n"));
 		assertTrue("max field is missing!",
 				build.contains("max:                     998\n"));
-		assertTrue(
-				"average field is missing!",
-				build.contains("average:                 " + DF.format(508.38)
-						+ "\n"));
+		assertTrue("average field is missing!", build.contains(
+				"average:                 " + DF.format(508.38) + "\n"));
 		assertTrue("median field is missing!",
 				build.contains("median:                  488\n"));
 		assertTrue("95 percentile field is missing!",
 				build.contains("95 percentile:           955\n"));
-		assertTrue(
-				"throughput field is missing!",
-				build.contains("throughput:              " + DF.format(19.08)
-						+ "\n"));
+		assertTrue("throughput field is missing!", build.contains(
+				"throughput:              " + DF.format(19.08) + "\n"));
 		assertTrue("execution time field is missing!",
 				build.contains("execution time (ms):     13000\n"));
 		assertTrue("last task to be run field is missing!",
@@ -108,12 +98,10 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				+ "scheduled tasks:         1000\n"
 				+ "failed tasks:            1\n"
 				+ "threads running tasks:   100\n"
-				+ "max:                     998\n"
-				+ "average:                 " + DF.format(508.38) + "\n"
-				+ "median:                  488\n"
-				+ "95 percentile:           955\n"
-				+ "throughput:              " + DF.format(19.08) + "\n"
-				+ "execution time (ms):     13000\n"
+				+ "max:                     998\n" + "average:                 "
+				+ DF.format(508.38) + "\n" + "median:                  488\n"
+				+ "95 percentile:           955\n" + "throughput:              "
+				+ DF.format(19.08) + "\n" + "execution time (ms):     13000\n"
 				+ "last task to be run:     in 2000 (ms)\n";
 		assertEquals(expected, build);
 	}
@@ -144,18 +132,14 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				build.contains("threads running tasks:   100\n"));
 		assertTrue("max field is missing!",
 				build.contains("max:                     998\n"));
-		assertTrue(
-				"average field is missing!",
-				build.contains("average:                 " + DF.format(508.38)
-						+ "\n"));
+		assertTrue("average field is missing!", build.contains(
+				"average:                 " + DF.format(508.38) + "\n"));
 		assertTrue("median field is missing!",
 				build.contains("median:                  488\n"));
 		assertTrue("95 percentile field is missing!",
 				build.contains("95 percentile:           955\n"));
-		assertTrue(
-				"throughput field is missing!",
-				build.contains("throughput:              " + DF.format(19.08)
-						+ "\n"));
+		assertTrue("throughput field is missing!", build.contains(
+				"throughput:              " + DF.format(19.08) + "\n"));
 		assertTrue("execution time field is missing!",
 				build.contains("execution time (ms):     13000\n"));
 		assertTrue("last task to be run field is missing!",
@@ -165,12 +149,10 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 				+ "scheduled tasks:         1000\n"
 				+ "failed tasks:            1\n"
 				+ "threads running tasks:   100\n"
-				+ "max:                     998\n"
-				+ "average:                 " + DF.format(508.38) + "\n"
-				+ "median:                  488\n"
-				+ "95 percentile:           955\n"
-				+ "throughput:              " + DF.format(19.08) + "\n"
-				+ "execution time (ms):     13000\n"
+				+ "max:                     998\n" + "average:                 "
+				+ DF.format(508.38) + "\n" + "median:                  488\n"
+				+ "95 percentile:           955\n" + "throughput:              "
+				+ DF.format(19.08) + "\n" + "execution time (ms):     13000\n"
 				+ "last task to be run:     in 2000 (ms)\n"
 				+ "\nCustom summary follows here\n";
 		assertEquals(expected, build);
@@ -186,7 +168,8 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 		return LOG;
 	}
 
-	private TestFailureNotifierDecorator failureNotifier(final boolean failure) {
+	private TestFailureNotifierDecorator failureNotifier(
+			final boolean failure) {
 		final TestFailureNotifierDecorator failures = new TestFailureNotifierDecorator(
 				this);
 		if (failure) {
@@ -273,8 +256,7 @@ public class IntermediateSummaryBuilderTest implements TestFailureNotifier {
 	}
 
 	private static SummaryFieldFactoryForAgentBasedTests newSummaryFieldFactory() {
-		return new SummaryFieldFactoryForAgentBasedTests(
-				SummaryFieldFactory.create(new FieldFormatter(),
-						new FieldAdjuster()));
+		return new SummaryFieldFactoryForAgentBasedTests(SummaryFieldFactory
+				.create(new FieldFormatter(), new FieldAdjuster()));
 	}
 }

@@ -3,15 +3,15 @@ package net.sf.perftence;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.summary.Summary;
-import net.sf.perftence.reporting.summary.SummaryAppender;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.reporting.Duration;
+import net.sf.perftence.reporting.summary.Summary;
+import net.sf.perftence.reporting.summary.SummaryAppender;
 
 /**
  * First extend from AbstractMultiThreadedTest to get access to test entry
@@ -40,14 +40,13 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
 	@Test
 	public void threadBased() throws Exception {
-		test().setup(
-				setup().threads(100).invocations(5000).invocationRange(20)
-						.build()).executable(new Executable() {
-			@Override
-			public void execute() throws Exception {
-				sleep(10);
-			}
-		}).start();
+		test().setup(setup().threads(100).invocations(5000).invocationRange(20)
+				.build()).executable(new Executable() {
+					@Override
+					public void execute() throws Exception {
+						sleep(10);
+					}
+				}).start();
 	}
 
 	@Test
@@ -63,9 +62,8 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
 	@Test
 	public void durationBasedMultiThread() throws Exception {
-		test().setup(
-				setup().duration(Duration.seconds(2)).threads(2)
-						.invocationRange(20).throughputRange(2000000).build())
+		test().setup(setup().duration(Duration.seconds(2)).threads(2)
+				.invocationRange(20).throughputRange(2000000).build())
 				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
@@ -89,9 +87,8 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
 	@Test
 	public void durationWithRanges() throws Exception {
-		test().setup(
-				setup().duration(Duration.seconds(5)).threads(10)
-						.invocationRange(100).throughputRange(500).build())
+		test().setup(setup().duration(Duration.seconds(5)).threads(10)
+				.invocationRange(100).throughputRange(500).build())
 				.executable(new Executable() {
 
 					@Override
@@ -111,10 +108,9 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 						.bold("And some bolded text").endOfLine();
 			}
 		};
-		test().setup(
-				setup().duration(Duration.seconds(15)).threads(10)
-						.invocationRange(1000).throughputRange(30)
-						.summaryAppender(summaryAppender).build())
+		test().setup(setup().duration(Duration.seconds(15)).threads(10)
+				.invocationRange(1000).throughputRange(30)
+				.summaryAppender(summaryAppender).build())
 				.executable(new Executable() {
 
 					@Override
@@ -142,10 +138,8 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 	@Test
 	public void threadBasedWithAllowedException() throws Exception {
 		final ExecutorBehavingBadlyHalfTheTime failingExecutor = new ExecutorBehavingBadlyHalfTheTime();
-		test().setup(
-				setup().threads(10).invocations(100).throughputRange(50)
-						.build()).allow(MyException.class)
-				.executable(new Executable() {
+		test().setup(setup().threads(10).invocations(100).throughputRange(50)
+				.build()).allow(MyException.class).executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						failingExecutor.execute();

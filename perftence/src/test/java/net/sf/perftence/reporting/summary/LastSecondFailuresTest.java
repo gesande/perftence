@@ -1,10 +1,11 @@
 package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
-import net.sf.perftence.formatting.DefaultDoubleFormatter;
-import net.sf.perftence.formatting.FieldFormatter;
 
 import org.junit.Test;
+
+import net.sf.perftence.formatting.DefaultDoubleFormatter;
+import net.sf.perftence.formatting.FieldFormatter;
 
 public class LastSecondFailuresTest {
 
@@ -35,14 +36,15 @@ public class LastSecondFailuresTest {
 				sb.toString());
 	}
 
-	@SuppressWarnings("static-method")
-	private LastSecondFailures newInstance() {
-		return new LastSecondFailures(new FailedInvocationsFactory(
-				new DefaultDoubleFormatter(), new AdjustedFieldBuilder(
-						new FieldFormatter(), new FieldAdjuster())));
+	private static LastSecondFailures newInstance() {
+		return new LastSecondFailures(
+				new FailedInvocationsFactory(new DefaultDoubleFormatter(),
+						new AdjustedFieldBuilder(new FieldFormatter(),
+								new FieldAdjuster())));
 	}
 
-	private static IntermediateSummary newSummary(final StringBuffer appendable) {
+	private static IntermediateSummary newSummary(
+			final StringBuffer appendable) {
 		return new IntermediateSummary() {
 
 			@Override

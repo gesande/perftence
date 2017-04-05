@@ -10,8 +10,8 @@ public final class SamplesField extends SummaryFieldImpl<String> {
 	}
 
 	static SamplesField create(final FieldAdjuster fieldAdjuster) {
-		return new SamplesField(SummaryFieldFactory.adjustedFieldName(
-				Fields.Samples, fieldAdjuster));
+		return new SamplesField(SummaryFieldFactory
+				.adjustedFieldName(Fields.Samples, fieldAdjuster));
 	}
 
 	public SamplesField samplesSoFar(final long samplesSoFar) {

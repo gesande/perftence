@@ -62,11 +62,11 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 		summary.field(average(statistics().averageLatency()).asFormatted());
 		summary.field(median(statistics().median()));
 		summary.field(percentile95(statistics().percentileLatency(95)));
-		summary.field(throughput(statistics().currentThroughput())
-				.asFormatted());
+		summary.field(
+				throughput(statistics().currentThroughput()).asFormatted());
 		summary.field(executionTime(statistics().currentDuration()));
-		summary.field(lastTaskToBeRun(scheduledTasks()
-				.lastTaskScheduledToBeRun()));
+		summary.field(
+				lastTaskToBeRun(scheduledTasks().lastTaskScheduledToBeRun()));
 		customIntermediateSummary(summary);
 	}
 

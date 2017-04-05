@@ -5,13 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(DefaultTestRunner.class)
 public class TestAgentUserStories extends AbstractMultiThreadedTest {
@@ -78,7 +78,7 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
 	private static Collection<TestAgent> agents(final int initialCapacity,
 			final TestAgentFactory factory, final int sleepValue) {
-		final List<TestAgent> agents = new ArrayList<TestAgent>(initialCapacity);
+		final List<TestAgent> agents = new ArrayList<>(initialCapacity);
 		for (int i = 0; i < initialCapacity; i++) {
 			agents.add(factory.newTestAgent(i, sleepValue));
 		}

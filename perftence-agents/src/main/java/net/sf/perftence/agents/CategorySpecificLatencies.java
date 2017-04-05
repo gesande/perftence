@@ -29,8 +29,8 @@ final class CategorySpecificLatencies {
 			throw new NullPointerException("invocationReporter is null");
 		}
 		this.invocationReporter = invocationReporter;
-		this.categorySpecificReporters = Collections
-				.synchronizedMap(new HashMap<TestTaskCategory, InvocationReporterAdapter>());
+		this.categorySpecificReporters = Collections.synchronizedMap(
+				new HashMap<TestTaskCategory, InvocationReporterAdapter>());
 	}
 
 	public void latencyForAll() {

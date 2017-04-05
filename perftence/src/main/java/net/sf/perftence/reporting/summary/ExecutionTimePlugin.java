@@ -12,8 +12,8 @@ public final class ExecutionTimePlugin implements SummaryFieldPlugin<Long> {
 
 	@Override
 	public BuildableSummaryField<Long> field() {
-		return summaryFieldFactory().executionTime().value(
-				valueResolver().value());
+		return summaryFieldFactory().executionTime()
+				.value(valueResolver().value());
 	}
 
 	private FieldValueResolver<Long> valueResolver() {

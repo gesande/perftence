@@ -2,14 +2,14 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
-import net.sf.perftence.graph.DatasetAdapter;
-
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-final class CategoryDatasetAdapter implements
-		DatasetAdapter<BarChartGraphData, Paint> {
+import net.sf.perftence.graph.DatasetAdapter;
+
+final class CategoryDatasetAdapter
+		implements DatasetAdapter<BarChartGraphData, Paint> {
 
 	private final DefaultCategoryDataset categoryData;
 	private final String legendTitle;

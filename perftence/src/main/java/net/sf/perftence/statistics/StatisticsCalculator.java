@@ -17,14 +17,14 @@ public final class StatisticsCalculator {
 	}
 
 	private static List<Integer> asSorted(List<Integer> latencies) {
-		final List<Integer> sortedLatencies = new ArrayList<Integer>(latencies);
+		final List<Integer> sortedLatencies = new ArrayList<>(latencies);
 		Collections.sort(sortedLatencies);
 		return sortedLatencies;
 	}
 
 	public int percentileValue(final int percentileValue) {
-		return this.values.isEmpty() ? 0 : this.values
-				.get(percentile(percentileValue) - 1);
+		return this.values.isEmpty() ? 0
+				: this.values.get(percentile(percentileValue) - 1);
 	}
 
 	private int percentile(final int percentile) {
@@ -84,8 +84,8 @@ public final class StatisticsCalculator {
 	}
 
 	public int max() {
-		return this.values.isEmpty() ? 0 : this.values
-				.get(this.values.size() - 1);
+		return this.values.isEmpty() ? 0
+				: this.values.get(this.values.size() - 1);
 	}
 
 	public int min() {

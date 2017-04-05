@@ -1,13 +1,13 @@
 package net.sf.perfence.graph.afreechart;
 
-import net.sf.perftence.graph.GraphData;
-
 import org.afree.data.Range;
 import org.afree.data.xy.XYSeries;
 import org.afree.graphics.PaintType;
 
-public final class LineChartGraphData implements
-		GraphData<LineChartGraphData, Range, PaintType> {
+import net.sf.perftence.graph.GraphData;
+
+public final class LineChartGraphData
+		implements GraphData<LineChartGraphData, Range, PaintType> {
 
 	private final XYSeries series;
 	private final String title;

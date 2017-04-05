@@ -1,12 +1,12 @@
 package net.sf.perftence;
 
+import org.junit.Rule;
+import org.junit.rules.TestName;
+
 import net.sf.perftence.api.DefaultPerftenceApiFactory;
 import net.sf.perftence.api.PerftenceApi;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
-
-import org.junit.Rule;
-import org.junit.rules.TestName;
 
 public abstract class AbstractMultiThreadedTest {
 

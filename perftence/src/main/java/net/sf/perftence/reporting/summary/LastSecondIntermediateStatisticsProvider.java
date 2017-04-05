@@ -2,8 +2,8 @@ package net.sf.perftence.reporting.summary;
 
 import net.sf.perftence.RuntimeStatisticsProvider;
 
-public final class LastSecondIntermediateStatisticsProvider implements
-		CustomIntermediateSummaryProvider {
+public final class LastSecondIntermediateStatisticsProvider
+		implements CustomIntermediateSummaryProvider {
 	private final AdjustedFieldBuilder fieldBuilder;
 	private final RuntimeStatisticsProvider statistics;
 	private final ValueReporter<Double> lastSecondThroughput;
@@ -20,11 +20,12 @@ public final class LastSecondIntermediateStatisticsProvider implements
 	@Override
 	public void provideIntermediateSummary(final IntermediateSummary summary) {
 		summary.text("Last second stats:").endOfLine();
-		summary.field(fieldBuilder().field("samples:",
-				statistics().sampleCount()));
+		summary.field(
+				fieldBuilder().field("samples:", statistics().sampleCount()));
 		summary.field(fieldBuilder().field("max:", statistics().maxLatency()));
-		summary.field(fieldBuilder().field("average:",
-				statistics().averageLatency()).asFormatted());
+		summary.field(
+				fieldBuilder().field("average:", statistics().averageLatency())
+						.asFormatted());
 		summary.field(fieldBuilder().field("median:", statistics().median()));
 		summary.field(fieldBuilder().field("95 percentile:",
 				statistics().percentileLatency(95)));

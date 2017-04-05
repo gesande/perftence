@@ -20,7 +20,7 @@ final class DistributedTestRuntimeReporter implements TestRuntimeReporter {
 			final LatencyReporter... remoteLatencyReporters) {
 		this.reporter = localReporter;
 		this.executorService = executorService;
-		this.remoteReporters = new ArrayList<LatencyReporter>(
+		this.remoteReporters = new ArrayList<>(
 				Arrays.asList(remoteLatencyReporters));
 	}
 
@@ -46,7 +46,8 @@ final class DistributedTestRuntimeReporter implements TestRuntimeReporter {
 	}
 
 	@Override
-	public void throughput(final long currentDuration, final double throughput) {
+	public void throughput(final long currentDuration,
+			final double throughput) {
 		reporter().throughput(currentDuration, throughput);
 	}
 

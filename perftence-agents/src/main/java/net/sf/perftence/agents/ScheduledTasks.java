@@ -27,11 +27,8 @@ final class ScheduledTasks implements TaskSchedulingStatisticsProvider {
 
 	public void add(final TestTask task) {
 		tasks().add(task);
-		runTimes().put(
-				task,
-				System.currentTimeMillis()
-						+ TimeUnit.MILLISECONDS.convert(task.when().time(),
-								task.when().timeUnit()));
+		runTimes().put(task, System.currentTimeMillis() + TimeUnit.MILLISECONDS
+				.convert(task.when().time(), task.when().timeUnit()));
 	}
 
 	public void remove(final TestTask task) {
@@ -55,8 +52,9 @@ final class ScheduledTasks implements TaskSchedulingStatisticsProvider {
 				final TestTask key = tasks().get(tasks().size() - 1);
 				if (key != null) {
 					final Long runtimeKey = runTimes().get(key);
-					return runtimeKey == null ? null : TimeSpecificationFactory
-							.inMillis(runtimeKey - System.currentTimeMillis());
+					return runtimeKey == null ? null
+							: TimeSpecificationFactory.inMillis(
+									runtimeKey - System.currentTimeMillis());
 				}
 			}
 		}

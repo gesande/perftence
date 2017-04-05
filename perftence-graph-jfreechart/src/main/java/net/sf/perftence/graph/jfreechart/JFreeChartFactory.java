@@ -2,13 +2,13 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Color;
 
-import net.sf.perftence.graph.ImageData;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.graph.ImageData;
 
 final class JFreeChartFactory {
 	private static final Logger LOGGER = LoggerFactory

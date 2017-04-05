@@ -3,6 +3,9 @@ package net.sf.perftence.reporting;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
@@ -21,9 +24,6 @@ import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.setup.PerformanceTestSetup;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(DefaultTestRunner.class)
 public class FilebasedReporterTest extends AbstractMultiThreadedTest {
@@ -58,8 +58,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 
 		final FilebasedReportReader reader = new FilebasedReportReader(id(),
 				latencyProvider, invocationStorage, failedInvocations,
-				new ThroughputStorageFactory(datasetAdapterFactory), new File(
-						"target", "perftence"));
+				new ThroughputStorageFactory(datasetAdapterFactory),
+				new File("target", "perftence"));
 		reader.read();
 
 		final TestRuntimeReporter invocationReporter = TestRuntimeReporterFactoryUsingJFreeChart
@@ -68,9 +68,9 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 						reader.setup().testSetup(), reader.failedInvocations(),
 						invocationStorage, reader.throughputStorage());
 
-		invocationReporter.summary(id() + "-from-filebased", reader.summary()
-				.elapsedTime(), reader.summary().sampleCount(), reader
-				.summary().startTime());
+		invocationReporter.summary(id() + "-from-filebased",
+				reader.summary().elapsedTime(), reader.summary().sampleCount(),
+				reader.summary().startTime());
 	}
 
 	private static LatencyProvider newLatencyProvider() {
@@ -80,8 +80,8 @@ public class FilebasedReporterTest extends AbstractMultiThreadedTest {
 	private static InvocationStorage newDefaultInvocationStorage(
 			final int invocations, final int invocationRange,
 			DatasetAdapterFactory datasetAdapterFactory) {
-		return DefaultInvocationStorage.newDefaultStorage(invocations,
-				ReportingOptionsFactory
+		return DefaultInvocationStorage.newDefaultStorage(
+				invocations, ReportingOptionsFactory
 						.latencyOptionsWithStatistics(invocationRange),
 				datasetAdapterFactory);
 	}

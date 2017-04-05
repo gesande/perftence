@@ -14,7 +14,7 @@ public final class TimerScheduler {
 	private final List<Timer> timerList;
 
 	public TimerScheduler() {
-		this.timerList = new ArrayList<Timer>();
+		this.timerList = new ArrayList<>();
 	}
 
 	public void stop() {

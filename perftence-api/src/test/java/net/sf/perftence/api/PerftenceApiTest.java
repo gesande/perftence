@@ -1,11 +1,12 @@
 package net.sf.perftence.api;
 
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
-
-import org.junit.Test;
 
 public final class PerftenceApiTest implements TestFailureNotifier {
 

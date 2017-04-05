@@ -50,7 +50,8 @@ public final class FluentPerformanceTest {
 		this.runNotifier = runNotifier;
 		this.estimatedInvocations = new EstimatedInvocations();
 		this.invocationRunnerFactory = new InvocationRunnerFactory(
-				new ThreadEngineApi<Invocation>().threadNamePrefix("perf-test"));
+				new ThreadEngineApi<Invocation>()
+						.threadNamePrefix("perf-test"));
 		final FieldFormatter fieldFormatter = new FieldFormatter();
 		final FieldAdjuster fieldAdjuster = new FieldAdjuster();
 		this.summaryBuilderFactory = newSummaryBuilderFactory(fieldFormatter,
@@ -74,9 +75,9 @@ public final class FluentPerformanceTest {
 	private SummaryBuilderFactory newSummaryBuilderFactory(
 			final FieldFormatter fieldFormatter,
 			final FieldAdjuster fieldAdjuster) {
-		return new SummaryBuilderFactory(SummaryFieldFactory.create(
-				fieldFormatter, fieldAdjuster), new TestSummaryLoggerFactory(),
-				estimatedInvocations());
+		return new SummaryBuilderFactory(
+				SummaryFieldFactory.create(fieldFormatter, fieldAdjuster),
+				new TestSummaryLoggerFactory(), estimatedInvocations());
 	}
 
 	private EstimatedInvocations estimatedInvocations() {

@@ -10,8 +10,8 @@ public final class EstimatedSamplesField extends SummaryFieldImpl<String> {
 	}
 
 	static EstimatedSamplesField create(final FieldAdjuster fieldAdjuster) {
-		return new EstimatedSamplesField(SummaryFieldFactory.adjustedFieldName(
-				Fields.Samples, fieldAdjuster));
+		return new EstimatedSamplesField(SummaryFieldFactory
+				.adjustedFieldName(Fields.Samples, fieldAdjuster));
 	}
 
 	public EstimatedSamplesField samplesSoFar(final long sampleCount) {
@@ -23,7 +23,8 @@ public final class EstimatedSamplesField extends SummaryFieldImpl<String> {
 		return this.sampleCount;
 	}
 
-	public SummaryField<String> estimatedSamples(final long estimatedInvocations) {
+	public SummaryField<String> estimatedSamples(
+			final long estimatedInvocations) {
 		this.estimatedInvocations = estimatedInvocations;
 		return this;
 	}
@@ -34,11 +35,10 @@ public final class EstimatedSamplesField extends SummaryFieldImpl<String> {
 
 	@Override
 	public String value() {
-		return new StringBuilder()
-				.append(sampleCount())
-				.append("/")
+		return new StringBuilder().append(sampleCount()).append("/")
 				.append(estimatedInvocations())
 				.append(sampleCount() < estimatedInvocations() ? " (estimated)"
-						: "").toString();
+						: "")
+				.toString();
 	}
 }

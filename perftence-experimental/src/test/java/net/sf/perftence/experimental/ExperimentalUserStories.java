@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.collections.Bag;
+import org.apache.commons.collections.bag.HashBag;
+import org.apache.commons.collections.bag.SynchronizedBag;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
@@ -35,12 +41,6 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 
-import org.apache.commons.collections.Bag;
-import org.apache.commons.collections.bag.HashBag;
-import org.apache.commons.collections.bag.SynchronizedBag;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 @RunWith(DefaultTestRunner.class)
 public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 
@@ -66,7 +66,7 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 		this.tasksRun = new AtomicInteger();
 		this.tasksFailed = new AtomicInteger();
 		final int userCount = 16000;
-		List<Thread> threads = new ArrayList<Thread>();
+		List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < userCount; i++) {
 			threads.add(new Thread(new Runner(new TestAgentWithTwoTasks())));
 		}
@@ -80,11 +80,11 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 		System.out.println("\ntasks run " + this.tasksRun.intValue());
 		System.out.println("\ntasks failed " + this.tasksFailed.intValue());
 
-		new ImageFactoryUsingJFreeChart(new JFreeChartWriter(HtmlTestReport
-				.withDefaultReportPath().reportRootDirectory()))
-				.createXYLineChart(
-						"printingAFrequencyGraphUsingPerfEngineTools",
-						storage.imageData());
+		new ImageFactoryUsingJFreeChart(new JFreeChartWriter(
+				HtmlTestReport.withDefaultReportPath().reportRootDirectory()))
+						.createXYLineChart(
+								"printingAFrequencyGraphUsingPerfEngineTools",
+								storage.imageData());
 	}
 
 	@Test
@@ -99,10 +99,10 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 						true, setup().threads(userCount).build(),
 						newFailedInvocations());
 		this.latencyProvider.start();
-		List<Thread> threads = new ArrayList<Thread>();
+		List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < userCount; i++) {
-			threads.add(new Thread(new AnotherRunner(
-					new TestAgentWithTwoTasks())));
+			threads.add(
+					new Thread(new AnotherRunner(new TestAgentWithTwoTasks())));
 		}
 		for (int i = 0; i < userCount; i++) {
 			threads.get(i).start();
@@ -152,9 +152,8 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 					System.err.println(e);
 					ExperimentalUserStories.this.tasksFailed.incrementAndGet();
 				} finally {
-					System.out.print("("
-							+ ExperimentalUserStories.this.tasksRun
-									.incrementAndGet() + ")");
+					System.out.print("(" + ExperimentalUserStories.this.tasksRun
+							.incrementAndGet() + ")");
 					this.task = this.task.nextTaskIfAny();
 				}
 			}
@@ -180,8 +179,8 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 					System.err.println(e);
 					ExperimentalUserStories.this.tasksFailed.incrementAndGet();
 				} finally {
-					System.out.println("("
-							+ ExperimentalUserStories.this.tasksRun
+					System.out
+							.println("(" + ExperimentalUserStories.this.tasksRun
 									.incrementAndGet() + ")");
 					final int newLatency = ExperimentalUserStories.this.latencyFactory
 							.newLatency(t1);
@@ -249,8 +248,8 @@ public class ExperimentalUserStories extends AbstractMultiThreadedTest {
 					ExperimentalUserStories.this.tasksFailed.incrementAndGet();
 				} finally {
 					// long t2 = System.nanoTime();
-					System.out.print("\n("
-							+ ExperimentalUserStories.this.tasksRun
+					System.out
+							.print("\n(" + ExperimentalUserStories.this.tasksRun
 									.incrementAndGet() + ")");
 					// double latency = t2 - t1;
 					// double asSeconds = latency / 1000 / 1000 / 1000;

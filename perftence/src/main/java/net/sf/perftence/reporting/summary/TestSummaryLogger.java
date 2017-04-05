@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class TestSummaryLogger {
-
 	private final static Logger LOG = LoggerFactory
 			.getLogger(TestSummaryLogger.class);
 	private final TestSummaryBuilder summary;
@@ -22,36 +21,35 @@ public final class TestSummaryLogger {
 	}
 
 	public void printSummary(final String id) {
-		printSummaryToLog(build(), id);
+		printSummary(id, build());
 	}
 
-	private void printSummaryToLog(final String summary, final String id) {
-		if (hasSamples()) {
-			logSummary(summary, id);
-		} else {
-			logNoSamplesReported();
-		}
+	private void printSummary(final String id, final String summary) {
+		if (hasSamples())
+			logSummary(id, summary);
+		else
+			logNoSamples(id);
 	}
 
 	private boolean hasSamples() {
 		return summaryBuilder().hasSamples();
 	}
 
-	private static void logSummary(final String summary, final String id) {
+	private static void logSummary(final String id, final String summary) {
 		log().info("{}{} statistics: {}{}",
 				new Object[] { newLine(), id, newLine(), summary });
 	}
 
-	private static void logNoSamplesReported() {
-		log().info("No samples, no need for the summary.");
-	}
-
-	private static Logger log() {
-		return LOG;
+	private static void logNoSamples(String id) {
+		log().info("No samples for {}, no need for the summary.", id);
 	}
 
 	private static String newLine() {
 		return "\n";
+	}
+
+	private static Logger log() {
+		return LOG;
 	}
 
 }

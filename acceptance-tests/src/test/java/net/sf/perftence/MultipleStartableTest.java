@@ -2,12 +2,12 @@ package net.sf.perftence;
 
 import java.util.Random;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
 import net.sf.perftence.reporting.Duration;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(DefaultTestRunner.class)
 public class MultipleStartableTest extends AbstractMultiThreadedTest {
@@ -54,14 +54,14 @@ public class MultipleStartableTest extends AbstractMultiThreadedTest {
 
 	private MultithreadWorker durationWorker(final String id, final int threads)
 			throws Exception {
-		return durationWorkerBuilder(id, threads).executable(
-				sleepingExecutable());
+		return durationWorkerBuilder(id, threads)
+				.executable(sleepingExecutable());
 	}
 
-	private TestBuilder durationWorkerBuilder(final String id, final int threads) {
-		return test(id)
-				.setup(setup().threads(threads).duration(Duration.seconds(10))
-						.build());
+	private TestBuilder durationWorkerBuilder(final String id,
+			final int threads) {
+		return test(id).setup(setup().threads(threads)
+				.duration(Duration.seconds(10)).build());
 	}
 
 	private static Executable sleepingExecutable() {

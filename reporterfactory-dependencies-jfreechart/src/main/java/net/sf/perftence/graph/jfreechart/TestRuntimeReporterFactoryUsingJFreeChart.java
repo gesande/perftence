@@ -10,8 +10,8 @@ import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.TestReport;
 
-public final class TestRuntimeReporterFactoryUsingJFreeChart implements
-		ReporterFactoryDependencies {
+public final class TestRuntimeReporterFactoryUsingJFreeChart
+		implements ReporterFactoryDependencies {
 
 	private TestReport testReport;
 	private DefaultDatasetAdapterFactory datasetAdapterFactory;

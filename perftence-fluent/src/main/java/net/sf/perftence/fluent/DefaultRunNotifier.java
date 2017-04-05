@@ -3,17 +3,17 @@ package net.sf.perftence.fluent;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.perftence.RunNotifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.RunNotifier;
 
 public final class DefaultRunNotifier implements RunNotifier {
 
 	private final static Logger LOG = LoggerFactory
 			.getLogger(DefaultRunNotifier.class);
 
-	private List<String> finished = new ArrayList<String>();
+	private List<String> finished = new ArrayList<>();
 
 	@Override
 	public void finished(final String id) {

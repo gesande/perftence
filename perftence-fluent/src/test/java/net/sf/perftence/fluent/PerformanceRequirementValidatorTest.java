@@ -1,15 +1,14 @@
 package net.sf.perftence.fluent;
 
+import org.junit.Test;
+
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.StatisticsProvider;
 
-import org.junit.Test;
-
 public class PerformanceRequirementValidatorTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void noRequirements() {
 		final StatisticsProvider statisticsProvider = new StatisticsProvider() {
@@ -66,7 +65,6 @@ public class PerformanceRequirementValidatorTest {
 		validator.checkAllRequirements("maxLatencyFailed", 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = PerfTestFailure.class)
 	public void maxLatencyFailed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -118,11 +116,10 @@ public class PerformanceRequirementValidatorTest {
 				return 0;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkRuntimeLatency(
-				"maxLatencyFailed", 500);
+		newValidator(requirements, statisticsProvider)
+				.checkRuntimeLatency("maxLatencyFailed", 500);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = PerfTestFailure.class)
 	public void averageFailed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -174,11 +171,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"averageFailed", 1000);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("averageFailed", 1000);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = PerfTestFailure.class)
 	public void throughputFailed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -230,11 +226,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"throughputFailed", 10000);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("throughputFailed", 10000);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = PerfTestFailure.class)
 	public void totalTimeFailed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -286,11 +281,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"totalTimeFailed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("totalTimeFailed", 10001);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = PerfTestFailure.class)
 	public void medianFailed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -342,11 +336,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"medianFailed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("medianFailed", 10001);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void totalTimePassed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -398,11 +391,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"totalTimePassed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("totalTimePassed", 10001);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void throughputPassed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -454,11 +446,10 @@ public class PerformanceRequirementValidatorTest {
 				return 101;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"throughputPassed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("throughputPassed", 10001);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void averagePassed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -510,11 +501,10 @@ public class PerformanceRequirementValidatorTest {
 				return 100;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"averagePassed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("averagePassed", 10001);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void medianPassed() {
 		final PerformanceRequirements requirements = PerformanceRequirementsPojo
@@ -566,8 +556,8 @@ public class PerformanceRequirementValidatorTest {
 				return 100;
 			}
 		};
-		newValidator(requirements, statisticsProvider).checkAllRequirements(
-				"medianPassed", 10001);
+		newValidator(requirements, statisticsProvider)
+				.checkAllRequirements("medianPassed", 10001);
 	}
 
 	private static PerformanceRequirementValidator newValidator(

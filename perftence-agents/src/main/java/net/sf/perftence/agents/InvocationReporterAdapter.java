@@ -13,7 +13,8 @@ public final class InvocationReporterAdapter {
 
 	public InvocationReporterAdapter(final String name,
 			final LatencyProvider latencyProvider,
-			final TestTaskCategory category, final TestRuntimeReporter reporter) {
+			final TestTaskCategory category,
+			final TestRuntimeReporter reporter) {
 		this.name = name;
 		this.latencyProvider = latencyProvider;
 		this.category = category;

@@ -25,8 +25,8 @@ public class BacklogWaitingForImplementation {
 
     public static void main(final String[] args) {
         final List<Tag> tags = toTags(args);
-        new PerftenceBacklog(WaitingForImplementation.displayedBy(
-                new SysoutBacklogDisplay(), tags)).show();
+        new PerftenceBacklog(WaitingForImplementation
+                .displayedBy(new SysoutBacklogDisplay(), tags)).show();
     }
 
     private static List<Tag> toTags(final String[] args) {
@@ -134,7 +134,8 @@ public class BacklogWaitingForImplementation {
                     return new TaskList<Backlog, Done>() {
 
                         @Override
-                        public TaskList<Backlog, Done> title(final String title) {
+                        public TaskList<Backlog, Done> title(
+                                final String title) {
                             return this;
                         }
 

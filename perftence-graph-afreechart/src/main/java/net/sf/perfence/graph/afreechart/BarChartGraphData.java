@@ -1,13 +1,13 @@
 package net.sf.perfence.graph.afreechart;
 
-import net.sf.perftence.graph.GraphData;
-
 import org.afree.data.Range;
 import org.afree.data.category.CategoryDataset;
 import org.afree.graphics.PaintType;
 
-final class BarChartGraphData implements
-		GraphData<BarChartGraphData, Range, PaintType> {
+import net.sf.perftence.graph.GraphData;
+
+final class BarChartGraphData
+		implements GraphData<BarChartGraphData, Range, PaintType> {
 
 	private final String title;
 	private final PaintType paintType;

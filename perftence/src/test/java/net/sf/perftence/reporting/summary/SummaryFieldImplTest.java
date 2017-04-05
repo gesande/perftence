@@ -8,7 +8,6 @@ import org.junit.Test;
 
 public class SummaryFieldImplTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void nullValue() {
 		final SummaryFieldImpl<String> field = newTestField("test-field");
@@ -16,7 +15,6 @@ public class SummaryFieldImplTest {
 		assertNull(field.value());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void withValue() {
 		final SummaryFieldImpl<String> field = newTestFieldWithValue(
@@ -28,12 +26,11 @@ public class SummaryFieldImplTest {
 
 	private static SummaryFieldImpl<String> newTestFieldWithValue(
 			String fieldName, final String value) {
-		return new SummaryFieldImpl<String>(newFieldDefinition(fieldName),
-				value);
+		return new SummaryFieldImpl<>(newFieldDefinition(fieldName), value);
 	}
 
 	private static SummaryFieldImpl<String> newTestField(String fieldName) {
-		return new SummaryFieldImpl<String>(newFieldDefinition(fieldName));
+		return new SummaryFieldImpl<>(newFieldDefinition(fieldName));
 	}
 
 	private static FieldDefinition newFieldDefinition(final String fullName) {

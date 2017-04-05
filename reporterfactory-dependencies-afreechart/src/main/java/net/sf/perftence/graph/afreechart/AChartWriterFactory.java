@@ -1,8 +1,8 @@
 package net.sf.perftence.graph.afreechart;
 
-import net.sf.perftence.graph.ChartWriter;
-
 import org.afree.chart.AFreeChart;
+
+import net.sf.perftence.graph.ChartWriter;
 
 public interface AChartWriterFactory {
 

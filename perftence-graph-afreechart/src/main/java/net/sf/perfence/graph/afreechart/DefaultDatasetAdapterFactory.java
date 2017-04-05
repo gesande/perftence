@@ -1,11 +1,11 @@
 package net.sf.perfence.graph.afreechart;
 
-import net.sf.perftence.graph.DatasetAdapter;
-
 import org.afree.graphics.PaintType;
 
-public final class DefaultDatasetAdapterFactory implements
-		DatasetAdapterFactory {
+import net.sf.perftence.graph.DatasetAdapter;
+
+public final class DefaultDatasetAdapterFactory
+		implements DatasetAdapterFactory {
 
 	@Override
 	public DatasetAdapter<LineChartGraphData, PaintType> forLineChart(

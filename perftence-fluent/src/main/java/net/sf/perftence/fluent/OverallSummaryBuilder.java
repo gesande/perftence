@@ -32,17 +32,15 @@ final class OverallSummaryBuilder extends AbstractSummaryBuilder {
 		final double throughput = provider().throughput();
 		final long sampleCount = provider().sampleCount();
 		if (setUp().invocations() > 0) {
-			summary.field(summaryFieldFactory().samples()
-					.samplesSoFar(sampleCount)
-					.samplesTotal(setUp().invocations()));
+			summary.field(
+					summaryFieldFactory().samples().samplesSoFar(sampleCount)
+							.samplesTotal(setUp().invocations()));
 		} else {
-			summary.field(summaryFieldFactory()
-					.estimatedSamples()
+			summary.field(summaryFieldFactory().estimatedSamples()
 					.samplesSoFar(sampleCount)
-					.estimatedSamples(
-							estimatedInvocations().calculate(throughput,
-									setUp().duration(),
-									provider().sampleCount())));
+					.estimatedSamples(estimatedInvocations().calculate(
+							throughput, setUp().duration(),
+							provider().sampleCount())));
 		}
 		summary.field(max(provider().maxLatency()));
 		summary.field(average(provider().averageLatency()).asFormatted());

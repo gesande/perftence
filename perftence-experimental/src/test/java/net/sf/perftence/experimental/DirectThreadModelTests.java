@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.DefaultTestRunner;
@@ -29,11 +34,6 @@ import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 import net.sf.völundr.concurrent.NamedThreadFactory;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RunWith(DefaultTestRunner.class)
 public class DirectThreadModelTests extends AbstractMultiThreadedTest {
@@ -70,10 +70,10 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 		final SleepingTestAgentFactoryWithNowFlavour agentFactory = new SleepingTestAgentFactoryWithNowFlavour();
 		this.activeThreads = new ActiveThreads();
 		this.latencyProvider.start();
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < userCount; i++) {
-			threads.add(threadFactory.newThread(new AnotherRunner(agentFactory
-					.newTestAgent(userCount))));
+			threads.add(threadFactory.newThread(
+					new AnotherRunner(agentFactory.newTestAgent(userCount))));
 		}
 		for (int i = 0; i < userCount; i++) {
 			threads.get(i).start();
@@ -120,7 +120,7 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 		this.testRuntimeReporter = newTestRuntimeReporter(setup);
 		this.activeThreads = new ActiveThreads();
 		this.latencyProvider.start();
-		List<Thread> threads = new ArrayList<Thread>();
+		List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < userCount; i++) {
 			threads.add(threadFactory.newThread(new AnotherRunner(
 					new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()
@@ -149,8 +149,8 @@ public class DirectThreadModelTests extends AbstractMultiThreadedTest {
 		TestAgent newTestAgent(int id);
 	}
 
-	final static class SleepingTestAgentFactoryWithNowFlavour implements
-			TestAgentFactory {
+	final static class SleepingTestAgentFactoryWithNowFlavour
+			implements TestAgentFactory {
 
 		@Override
 		public TestAgent newTestAgent(final int id) {

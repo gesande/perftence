@@ -10,6 +10,11 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
+
 import net.sf.perftence.Executable;
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
@@ -17,11 +22,6 @@ import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
 
 public class FluentPerformanceTestTest {
 
@@ -42,8 +42,7 @@ public class FluentPerformanceTestTest {
 		final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
 				new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
 				new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
-		final MultithreadWorker test = fluentPerformanceTest
-				.test(id())
+		final MultithreadWorker test = fluentPerformanceTest.test(id())
 				.setup(fluentPerformanceTest.setup().threads(100)
 						.duration(Duration.seconds(3)).build())
 				.executable(new Executable() {
@@ -116,9 +115,9 @@ public class FluentPerformanceTestTest {
 		final FluentPerformanceTest fluent = fluent();
 		fluent.test(id())
 				.setup(fluent.setup().threads(1).invocations(5).build())
-				.requirements(
-						fluent.requirements().percentile95(102).max(102)
-								.build()).executable(new Executable() {
+				.requirements(fluent.requirements().percentile95(102).max(102)
+						.build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						Thread.sleep(99);
@@ -152,11 +151,10 @@ public class FluentPerformanceTestTest {
 	public void allowedExceptionDuringDurationBasedTest() {
 		final AtomicInteger i = new AtomicInteger();
 		final FluentPerformanceTest fluent = fluent();
-		fluent.test(id())
-				.noInvocationGraph()
+		fluent.test(id()).noInvocationGraph()
 				.setup(fluent.setup().threads(1).duration(Duration.seconds(5))
-						.build()).allow(FailIHave.class)
-				.executable(new Executable() {
+						.build())
+				.allow(FailIHave.class).executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						i.incrementAndGet();
@@ -213,9 +211,9 @@ public class FluentPerformanceTestTest {
 				new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
 				new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
 		fluent.test(id())
-				.noInvocationGraph()
-				.setup(fluent.setup().threads(1).duration(Duration.seconds(5))
-						.build()).executable(new Executable() {
+				.noInvocationGraph().setup(fluent.setup().threads(1)
+						.duration(Duration.seconds(5)).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						i.incrementAndGet();
@@ -236,9 +234,9 @@ public class FluentPerformanceTestTest {
 				new ErrorFailureNotifier(), newDefaultTestRuntimeReporter(),
 				new DefaultRunNotifier(), new DefaultDatasetAdapterFactory());
 		fluent.test(id())
-				.noInvocationGraph()
-				.setup(fluent.setup().threads(1).duration(Duration.seconds(5))
-						.build()).executable(new Executable() {
+				.noInvocationGraph().setup(fluent.setup().threads(1)
+						.duration(Duration.seconds(5)).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						i.incrementAndGet();
@@ -297,7 +295,7 @@ public class FluentPerformanceTestTest {
 		assertNull(this.testFailure);
 	}
 
-	@SuppressWarnings({ "unused", "static-method" })
+	@SuppressWarnings({ "unused" })
 	@Test(expected = TestFailureNotifier.NoTestNotifierException.class)
 	public void nullNotifier() {
 		new FluentPerformanceTest(null, newDefaultTestRuntimeReporter(),
@@ -309,11 +307,10 @@ public class FluentPerformanceTestTest {
 		final AtomicBoolean executed = new AtomicBoolean(false);
 		final Random random = new Random();
 		final FluentPerformanceTest fluent = fluent();
-		final MultithreadWorker durationWorker = fluent
-				.test(id() + ".1")
+		final MultithreadWorker durationWorker = fluent.test(id() + ".1")
 				.setup(fluent.setup().threads(10).duration(Duration.seconds(2))
-						.build()).noInvocationGraph()
-				.executable(new Executable() {
+						.build())
+				.noInvocationGraph().executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						executed.set(true);
@@ -346,9 +343,9 @@ public class FluentPerformanceTestTest {
 				}, newDefaultTestRuntimeReporter(), new DefaultRunNotifier(),
 				new DefaultDatasetAdapterFactory());
 		fluent.test(id())
-				.noInvocationGraph()
-				.setup(fluent.setup().threads(6).duration(Duration.seconds(2))
-						.build()).executable(new Executable() {
+				.noInvocationGraph().setup(fluent.setup().threads(6)
+						.duration(Duration.seconds(2)).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						Thread.sleep(i.get() == 6 ? 8000 : 600);
