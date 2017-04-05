@@ -3,7 +3,6 @@ package net.sf.perftence.api;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.fluent.FileSummaryConsumer;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestReport;
 

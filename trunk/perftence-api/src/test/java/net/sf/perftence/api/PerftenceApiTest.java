@@ -7,7 +7,7 @@ import org.junit.Test;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.fluent.FileSummaryConsumer;
+import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestReport;
 
@@ -46,8 +46,13 @@ public final class PerftenceApiTest implements TestFailureNotifier {
 				deps);
 		return new PerftenceApi(this, testRuntimeReporterFactory,
 				deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider(),
-				new FileSummaryConsumer(testReport.reportRootDirectory()));
+				deps.scatterPlotAdapterProvider(), new SummaryConsumer() {
+					@Override
+					public void consumeSummary(String summaryId,
+							String summary) {
+						// no impl
+					}
+				});
 	}
 
 }
