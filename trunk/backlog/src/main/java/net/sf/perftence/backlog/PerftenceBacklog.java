@@ -10,6 +10,7 @@ import static net.sf.perftence.backlog.PerftenceTag.feature;
 import static net.sf.perftence.backlog.PerftenceTag.ide;
 import static net.sf.perftence.backlog.PerftenceTag.infrastructure;
 import static net.sf.perftence.backlog.PerftenceTag.refactoring;
+
 import net.sf.mybacklog.AbstractBacklogging;
 import net.sf.mybacklog.Backlog;
 import net.sf.mybacklog.BacklogFactory;
@@ -22,13 +23,10 @@ public class PerftenceBacklog extends AbstractBacklogging {
     }
 
     public void show() {
-        newBacklog()
-                .title("Backlog for pertence test tool:")
-                .done()
-                .title("DONE:")
-                .tasks(done(
-                        "created mainentrypoint-example project with source example",
-                        developmentSupport),
+        newBacklog().title("Backlog for pertence test tool:").done()
+                .title("DONE:").tasks(
+                        done("created mainentrypoint-example project with source example",
+                                developmentSupport),
                         done("add eclipse formatter settings under build project",
                                 ide),
                         done("additional build scripts for source jars",
@@ -90,7 +88,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("new line-reader project", development),
                         done("provide line-reader project in distribution package",
                                 development),
-                        done("write unit tests for summary fields", codeQuality),
+                        done("write unit tests for summary fields",
+                                codeQuality),
                         done("introduced perftence-api module",
                                 developmentSupport),
                         done("added perftence-api module to the continous and distribution builds",
@@ -192,13 +191,11 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("afreechart version of perftence-graph", feature),
                         done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects)",
                                 refactoring))
-                .inProgress()
-                .title("IN PROGRESS:")
-                .noTasks()
+                .inProgress().title("IN PROGRESS:").noTasks()
 
-                .waiting()
-                .title("WAITING:")
-                .tasks(waiting("failures over test time, use DateAxis", feature),
+                .waiting().title("WAITING:")
+                .tasks(waiting("failures over test time, use DateAxis",
+                        feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
                         waiting("provide unit test for WritingFileFailed and other failure cases",

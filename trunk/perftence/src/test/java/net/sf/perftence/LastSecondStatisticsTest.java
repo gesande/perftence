@@ -8,7 +8,6 @@ public class LastSecondStatisticsTest {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(LastSecondStatisticsTest.class);
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void test() throws InterruptedException {
 		final LastSecondStatistics statistics = new LastSecondStatistics(

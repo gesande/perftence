@@ -9,14 +9,14 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.Assert;
-import net.sf.perftence.TestFailureNotifier;
-import net.sf.völundr.concurrent.NamedThreadFactory;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import junit.framework.Assert;
+import net.sf.perftence.TestFailureNotifier;
+import net.sf.völundr.concurrent.NamedThreadFactory;
 
 public class TaskProviderTest {
 	private final static Logger LOG = LoggerFactory
@@ -40,8 +40,8 @@ public class TaskProviderTest {
 	}
 
 	@Test
-	public void scheduleOrder() throws ScheduleFailedException,
-			InterruptedException {
+	public void scheduleOrder()
+			throws ScheduleFailedException, InterruptedException {
 		final int sleepValue = 100;
 		final TestTask first = sleepingTask(sleepValue, null, inMillis(250));
 		final TestTask second = sleepingTask(sleepValue, null, inMillis(200));
@@ -50,7 +50,7 @@ public class TaskProviderTest {
 		schedule(newTaskProvider, first);
 		log().debug("schedule second task");
 		schedule(newTaskProvider, second);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		final ThreadFactory threadFactory = NamedThreadFactory
 				.forNamePrefix("worker-");
 		final Thread newThread = threadFactory
@@ -64,7 +64,8 @@ public class TaskProviderTest {
 	}
 
 	@Test
-	public void runOrder() throws ScheduleFailedException, InterruptedException {
+	public void runOrder()
+			throws ScheduleFailedException, InterruptedException {
 		final long sleep = 100;
 		final TestTask task2 = new TestTask() {
 
@@ -125,7 +126,7 @@ public class TaskProviderTest {
 		final TaskProvider taskProvider = newTaskProvider();
 		log().debug("first task scheduled.");
 		taskProvider.schedule(first);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		final ThreadFactory threadFactory = NamedThreadFactory
 				.forNamePrefix("thread-worker-");
 		final Thread t = threadFactory.newThread(newWorker(taskProvider));
@@ -138,14 +139,14 @@ public class TaskProviderTest {
 	}
 
 	@Test
-	public void schedule1TaskWithFutureTask() throws ScheduleFailedException,
-			InterruptedException {
+	public void schedule1TaskWithFutureTask()
+			throws ScheduleFailedException, InterruptedException {
 		final ThreadFactory threadFactory = NamedThreadFactory
 				.forNamePrefix("thread-worker-");
 		final int tasks = 1;
 		final TaskProvider taskProvider = newTaskProvider();
 		startingTest(tasks);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < tasks; i++) {
 			schedule(taskProvider,
 					sleepingTask(100, sleepingTask(100), inMillis(1000)));
@@ -215,7 +216,7 @@ public class TaskProviderTest {
 		final ThreadFactory threadFactory = NamedThreadFactory
 				.forNamePrefix("thread-worker-");
 		startingTest(tasks);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < tasks; i++) {
 			schedule(taskProvider, sleepingTask(1000, sleepingTask(1000)));
 			final Thread t = threadFactory.newThread(newWorker(taskProvider));
@@ -288,7 +289,7 @@ public class TaskProviderTest {
 		log().debug(
 				"Going to create and start {} worker threads for running the tasks.",
 				tasks);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < tasks; i++) {
 			schedule(taskProvider, sleepingTask(1000));
 			final Thread t = threadFactory.newThread(newWorker(taskProvider));
@@ -299,7 +300,8 @@ public class TaskProviderTest {
 		Thread.sleep(3000);
 		log().debug("Temporary ugly stop");
 		interruptAndJoin(threads);
-		assertEquals("All tasks were not run!", tasks, this.tasksRun.intValue());
+		assertEquals("All tasks were not run!", tasks,
+				this.tasksRun.intValue());
 		done();
 	}
 
@@ -312,7 +314,8 @@ public class TaskProviderTest {
 		return new Worker(taskProvider, new RunnableAdapter() {
 
 			@Override
-			public Runnable adapt(final TestTask task, long timeItWasScheduled) {
+			public Runnable adapt(final TestTask task,
+					long timeItWasScheduled) {
 				return new Runnable() {
 
 					@Override
@@ -344,7 +347,7 @@ public class TaskProviderTest {
 		log().debug(
 				"Going to create and start {} worker threads for running the tasks.",
 				tasks);
-		final List<Thread> threads = new ArrayList<Thread>();
+		final List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < tasks; i++) {
 			schedule(taskProvider, sleepingTask(1000));
 			final Thread t = threadFactory.newThread(newWorker(taskProvider));
@@ -355,7 +358,8 @@ public class TaskProviderTest {
 		Thread.sleep(sleep);
 		log().debug("Temporary ugly stop");
 		interruptAndJoin(threads);
-		assertEquals("All tasks were not run!", tasks, this.tasksRun.intValue());
+		assertEquals("All tasks were not run!", tasks,
+				this.tasksRun.intValue());
 		done();
 	}
 

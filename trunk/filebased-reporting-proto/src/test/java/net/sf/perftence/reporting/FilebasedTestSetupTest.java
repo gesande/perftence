@@ -11,14 +11,13 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.junit.Test;
+
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 
-import org.junit.Test;
-
 public class FilebasedTestSetupTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void serialize() throws IOException {
 		PerformanceTestSetup setup = PerformanceTestSetupPojo.builder()
@@ -26,8 +25,8 @@ public class FilebasedTestSetupTest {
 				.throughputRange(200).build();
 		final FilebasedTestSetup myObject = new FilebasedTestSetup(setup, true);
 		// Write to disk with FileOutputStream
-		final FileOutputStream f_out = new FileOutputStream(new File("target",
-				"filebasedTestSetup.data"));
+		final FileOutputStream f_out = new FileOutputStream(
+				new File("target", "filebasedTestSetup.data"));
 		final ObjectOutputStream obj_out = new ObjectOutputStream(f_out);
 		try {
 			// Write object with ObjectOutputStream
@@ -39,7 +38,6 @@ public class FilebasedTestSetupTest {
 		}
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void deserialize() throws IOException, ClassNotFoundException {
 		// Read from disk using FileInputStream

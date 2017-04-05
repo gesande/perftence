@@ -8,8 +8,8 @@ import java.util.List;
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
-		Serializable {
+public final class PerformanceTestSetupPojo
+		implements PerformanceTestSetup, Serializable {
 	private static final long serialVersionUID = -687991492884005033L;
 
 	public static class PerformanceTestSetupBuilder {
@@ -18,8 +18,8 @@ public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
 		private int invocations = 0;
 		private int invocationRange = 500;
 		private int throughputRange = 2500;
-		private final List<SummaryAppender> summaryAppenders = new ArrayList<SummaryAppender>();
-		private final List<GraphWriter> graphWriters = new ArrayList<GraphWriter>();
+		private final List<SummaryAppender> summaryAppenders = new ArrayList<>();
+		private final List<GraphWriter> graphWriters = new ArrayList<>();
 
 		public PerformanceTestSetupBuilder threads(final int threads) {
 			this.threads = threads;
@@ -79,7 +79,6 @@ public final class PerformanceTestSetupPojo implements PerformanceTestSetup,
 			return this;
 		}
 
-		@SuppressWarnings("static-method")
 		public PerformanceTestSetup noSetup() {
 			return new PerformanceTestSetup() {
 

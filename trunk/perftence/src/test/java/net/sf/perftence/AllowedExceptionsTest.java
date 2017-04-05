@@ -7,7 +7,6 @@ import org.junit.Test;
 
 public class AllowedExceptionsTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void test() {
 		AllowedExceptions ae = new AllowedExceptions();

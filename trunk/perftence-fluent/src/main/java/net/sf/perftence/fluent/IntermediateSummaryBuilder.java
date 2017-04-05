@@ -36,21 +36,19 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 				.currentThroughput();
 		final long sampleCount = runtimeStatistics().sampleCount();
 		if (testSetup().invocations() > 0) {
-			summary.field(summaryFieldFactory().samples()
-					.samplesSoFar(sampleCount)
-					.samplesTotal(testSetup().invocations()));
+			summary.field(
+					summaryFieldFactory().samples().samplesSoFar(sampleCount)
+							.samplesTotal(testSetup().invocations()));
 		} else {
-			summary.field(summaryFieldFactory()
-					.estimatedSamples()
+			summary.field(summaryFieldFactory().estimatedSamples()
 					.samplesSoFar(sampleCount)
-					.estimatedSamples(
-							estimatedInvocations().calculate(currentThroughput,
-									testSetup().duration(),
-									runtimeStatistics().sampleCount())));
+					.estimatedSamples(estimatedInvocations().calculate(
+							currentThroughput, testSetup().duration(),
+							runtimeStatistics().sampleCount())));
 		}
 		summary.field(max(runtimeStatistics().maxLatency()));
-		summary.field(average(runtimeStatistics().averageLatency())
-				.asFormatted());
+		summary.field(
+				average(runtimeStatistics().averageLatency()).asFormatted());
 		summary.field(median(runtimeStatistics().median()));
 		summary.field(percentile95(runtimeStatistics().percentileLatency(95)));
 		summary.field(throughput(currentThroughput).asFormatted());
@@ -62,11 +60,12 @@ final class IntermediateSummaryBuilder extends AbstractSummaryBuilder {
 					.invocationsLeft(testSetup().invocations() - sampleCount)
 					.throughput(currentThroughput));
 		} else {
-			final long actualTimeLeft = (testSetup().duration() - currentDuration) / 1000;
-			summary.field(summaryFieldFactory()
-					.estimatedTimeLeftBasedOnDuration()
-					.actualTimeLeft(actualTimeLeft)
-					.estimatedTimeLeft(Math.max(actualTimeLeft, 1)));
+			final long actualTimeLeft = (testSetup().duration()
+					- currentDuration) / 1000;
+			summary.field(
+					summaryFieldFactory().estimatedTimeLeftBasedOnDuration()
+							.actualTimeLeft(actualTimeLeft)
+							.estimatedTimeLeft(Math.max(actualTimeLeft, 1)));
 		}
 		customIntermediateSummaryProvider().intermediateSummary(summary,
 				summaryFieldFactory());

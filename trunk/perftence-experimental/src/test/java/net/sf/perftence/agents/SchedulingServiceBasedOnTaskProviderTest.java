@@ -1,19 +1,19 @@
 package net.sf.perftence.agents;
 
+import org.junit.Test;
+
 import junit.framework.Assert;
 import net.sf.perftence.TestFailureNotifier;
 
-import org.junit.Test;
-
 public class SchedulingServiceBasedOnTaskProviderTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void schedule() {
 		newBasedOnTaskProvider(inMillis(100), new RunnableAdapter() {
 
 			@Override
-			public Runnable adapt(final TestTask task, long timeItWasScheduled) {
+			public Runnable adapt(final TestTask task,
+					long timeItWasScheduled) {
 				return new Runnable() {
 
 					@Override
@@ -41,8 +41,9 @@ public class SchedulingServiceBasedOnTaskProviderTest {
 	private static TestTaskSchedulingService newBasedOnTaskProvider(
 			final Time workerWaitTime, final RunnableAdapter adapter,
 			final int workers, TestFailureNotifier testFailureNotifier) {
-		return new SchedulingServiceBasedOnTaskProvider(new TaskProvider(
-				workerWaitTime), adapter, workers, testFailureNotifier);
+		return new SchedulingServiceBasedOnTaskProvider(
+				new TaskProvider(workerWaitTime), adapter, workers,
+				testFailureNotifier);
 	}
 
 }

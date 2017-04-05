@@ -2,12 +2,13 @@ package net.sf.perftence.agents;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
 import net.sf.perftence.reporting.summary.SummaryField;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
-
-import org.junit.Test;
 
 public class SummaryFieldFactoryForAgentBasedTestsTest {
 
@@ -32,10 +33,8 @@ public class SummaryFieldFactoryForAgentBasedTestsTest {
 		assertEquals("last task to be run:     ", lastTaskToBeRun.name());
 	}
 
-	@SuppressWarnings("static-method")
-	private SummaryFieldFactoryForAgentBasedTests newFactory() {
-		return new SummaryFieldFactoryForAgentBasedTests(
-				SummaryFieldFactory.create(new FieldFormatter(),
-						new FieldAdjuster()));
+	private static SummaryFieldFactoryForAgentBasedTests newFactory() {
+		return new SummaryFieldFactoryForAgentBasedTests(SummaryFieldFactory
+				.create(new FieldFormatter(), new FieldAdjuster()));
 	}
 }

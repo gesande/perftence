@@ -35,9 +35,8 @@ final class ScheduledTestTask implements Comparable<ScheduledTestTask> {
 		int result = 1;
 		result = prime * result
 				+ (int) (this.scheduleTime ^ (this.scheduleTime >>> 32));
-		result = prime
-				* result
-				+ (int) (this.scheduledRunTimeInNanos ^ (this.scheduledRunTimeInNanos >>> 32));
+		result = prime * result + (int) (this.scheduledRunTimeInNanos
+				^ (this.scheduledRunTimeInNanos >>> 32));
 		result = prime * result
 				+ ((this.task == null) ? 0 : this.task.hashCode());
 		return result;
@@ -46,8 +45,8 @@ final class ScheduledTestTask implements Comparable<ScheduledTestTask> {
 	public ScheduledTestTask(final TestTask task, final long scheduleTime) {
 		this.task = task;
 		this.scheduleTime = scheduleTime;
-		this.scheduledRunTimeInNanos = TimeSpecificationFactory.toNanos(task
-				.when()) + scheduleTime;
+		this.scheduledRunTimeInNanos = TimeSpecificationFactory
+				.toNanos(task.when()) + scheduleTime;
 	}
 
 	TestTask task() {

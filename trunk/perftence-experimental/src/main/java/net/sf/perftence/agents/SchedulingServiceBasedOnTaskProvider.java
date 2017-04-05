@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
-import net.sf.perftence.TestFailureNotifier;
-import net.sf.völundr.concurrent.NamedThreadFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class SchedulingServiceBasedOnTaskProvider implements
-		TestTaskSchedulingService {
+import net.sf.perftence.TestFailureNotifier;
+import net.sf.völundr.concurrent.NamedThreadFactory;
+
+final class SchedulingServiceBasedOnTaskProvider
+		implements TestTaskSchedulingService {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SchedulingServiceBasedOnTaskProvider.class);
 	private final TaskProvider taskProvider;
@@ -23,16 +23,15 @@ final class SchedulingServiceBasedOnTaskProvider implements
 	private int workerAmount;
 	private final ThreadFactory threadFactory;
 
-	public SchedulingServiceBasedOnTaskProvider(
-			final TaskProvider taskProvider,
+	public SchedulingServiceBasedOnTaskProvider(final TaskProvider taskProvider,
 			final RunnableAdapter runnableProvider, final int workerAmount,
 			final TestFailureNotifier testFailureNotifier) {
 		this.runnableProvider = runnableProvider;
 		this.testFailureNotifier = testFailureNotifier;
 		workerAmount(workerAmount);
 		this.taskProvider = taskProvider;
-		this.threads = new ArrayList<Thread>();
-		this.workers = new ArrayList<Worker>();
+		this.threads = new ArrayList<>();
+		this.workers = new ArrayList<>();
 		this.threadFactory = NamedThreadFactory.forNamePrefix("worker-thread-");
 	}
 
@@ -140,9 +139,8 @@ final class SchedulingServiceBasedOnTaskProvider implements
 
 	private void addNewWorkerThread() {
 		threads().add(
-				threadFactory().newThread(
-						addWorker(new Worker(taskProvider(),
-								runnableProvider(), failureNotifier()))));
+				threadFactory().newThread(addWorker(new Worker(taskProvider(),
+						runnableProvider(), failureNotifier()))));
 	}
 
 	private ThreadFactory threadFactory() {
@@ -169,9 +167,8 @@ final class SchedulingServiceBasedOnTaskProvider implements
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				log().error(
-						"Thread " + Thread.currentThread().getName()
-								+ " was interrupted!", e);
+				log().error("Thread " + Thread.currentThread().getName()
+						+ " was interrupted!", e);
 			}
 		} while (hasScheduledTasks() || workersAreBusy());
 		log().debug("All worker threads finished.");

@@ -2,13 +2,13 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
-import net.sf.perftence.graph.GraphData;
-
 import org.jfree.data.Range;
 import org.jfree.data.category.CategoryDataset;
 
-final class BarChartGraphData implements
-		GraphData<BarChartGraphData, Range, Paint> {
+import net.sf.perftence.graph.GraphData;
+
+final class BarChartGraphData
+		implements GraphData<BarChartGraphData, Range, Paint> {
 
 	private final String title;
 	private final Paint paint;

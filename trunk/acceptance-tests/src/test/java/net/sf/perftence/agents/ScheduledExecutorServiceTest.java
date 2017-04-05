@@ -7,15 +7,15 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import junit.framework.AssertionFailedError;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ScheduledExecutorServiceTest {
 	private ScheduledExecutorService service;
@@ -54,7 +54,6 @@ public class ScheduledExecutorServiceTest {
 		scheduleJobs(5000, 100000);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void threadFailingTest() throws InterruptedException {
 		final AtomicInteger success = new AtomicInteger();
@@ -145,8 +144,8 @@ public class ScheduledExecutorServiceTest {
 			@Override
 			public void run() {
 				ScheduledExecutorServiceTest.this.activeThreads.more();
-				ScheduledExecutorServiceTest.this.storage.store(System
-						.nanoTime(),
+				ScheduledExecutorServiceTest.this.storage.store(
+						System.nanoTime(),
 						ScheduledExecutorServiceTest.this.activeThreads
 								.active());
 				try {
@@ -155,8 +154,8 @@ public class ScheduledExecutorServiceTest {
 					e.printStackTrace();
 				}
 				ScheduledExecutorServiceTest.this.activeThreads.less();
-				ScheduledExecutorServiceTest.this.storage.store(System
-						.nanoTime(),
+				ScheduledExecutorServiceTest.this.storage.store(
+						System.nanoTime(),
 						ScheduledExecutorServiceTest.this.activeThreads
 								.active());
 			}

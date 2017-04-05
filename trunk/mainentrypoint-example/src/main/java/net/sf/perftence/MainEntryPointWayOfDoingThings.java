@@ -10,8 +10,8 @@ import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeCha
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
-public final class MainEntryPointWayOfDoingThings implements
-		TestFailureNotifier {
+public final class MainEntryPointWayOfDoingThings
+		implements TestFailureNotifier {
 
 	private final PerftenceApi api;
 	private final static Random RANDOM = new Random(System.currentTimeMillis());
@@ -39,9 +39,9 @@ public final class MainEntryPointWayOfDoingThings implements
 	}
 
 	private MultithreadWorker test2(final int duration) throws Exception {
-		return test("test2").setup(
-				setup().duration(duration).threads(5).build()).executable(
-				new Executable() {
+		return test("test2")
+				.setup(setup().duration(duration).threads(5).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						Thread.sleep(RANDOM.nextInt(50) + 1);
@@ -50,9 +50,9 @@ public final class MainEntryPointWayOfDoingThings implements
 	}
 
 	private MultithreadWorker test1(final int duration) throws Exception {
-		return test("test1").setup(
-				setup().duration(duration).threads(10).build()).executable(
-				new Executable() {
+		return test("test1")
+				.setup(setup().duration(duration).threads(10).build())
+				.executable(new Executable() {
 					@Override
 					public void execute() throws Exception {
 						Thread.sleep(RANDOM.nextInt(100) + 1);

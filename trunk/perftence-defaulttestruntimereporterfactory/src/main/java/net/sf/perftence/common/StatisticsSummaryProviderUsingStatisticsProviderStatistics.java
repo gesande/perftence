@@ -4,8 +4,8 @@ import net.sf.perftence.StatisticsProvider;
 import net.sf.perftence.reporting.summary.HtmlSummary;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 
-class StatisticsSummaryProviderUsingStatisticsProviderStatistics implements
-		StatisticsSummaryProvider<HtmlSummary> {
+class StatisticsSummaryProviderUsingStatisticsProviderStatistics
+		implements StatisticsSummaryProvider<HtmlSummary> {
 
 	private final StatisticsProvider statistics;
 

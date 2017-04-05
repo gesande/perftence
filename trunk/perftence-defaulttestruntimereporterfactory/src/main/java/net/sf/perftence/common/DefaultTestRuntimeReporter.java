@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.graph.GraphWriter;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.reporting.TestReport;
@@ -12,9 +15,6 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.reporting.summary.HtmlSummary;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 
@@ -34,8 +34,7 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 	private final Collection<SummaryAppender> customSummaryAppenders;
 	private final TestReport testReport;
 
-	public DefaultTestRuntimeReporter(
-			final InvocationStorage invocationStorage,
+	public DefaultTestRuntimeReporter(final InvocationStorage invocationStorage,
 			final ThroughputStorage throughputStorage,
 			final ImageFactory imageFactory, final int threadCount,
 			final int duration, final FrequencyStorage frequencyStorage,
@@ -60,12 +59,13 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 	}
 
 	@Override
-	public void throughput(final long currentDuration, final double throughput) {
+	public void throughput(final long currentDuration,
+			final double throughput) {
 		throughputStorage().store(currentDuration, throughput);
 	}
 
-	private StringBuilder createSummary(final String id,
-			final long elapsedTime, final long invocationCount) {
+	private StringBuilder createSummary(final String id, final long elapsedTime,
+			final long invocationCount) {
 		final HtmlSummary summary = startSummary();
 		buildSummary(id, elapsedTime, invocationCount, summary);
 		appendInvocationChart(id, summary);
@@ -93,7 +93,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 		return new HtmlSummary().start();
 	}
 
-	private void appendFrequencyChart(final String id, final HtmlSummary summary) {
+	private void appendFrequencyChart(final String id,
+			final HtmlSummary summary) {
 		if (writeFrequencyChart(id)) {
 			appendImage(id, summary);
 		}
@@ -101,8 +102,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 
 	private boolean writeFrequencyChart(final String id) {
 		if (frequencyStorage().hasSamples()) {
-			imageFactory()
-					.createXYLineChart(id, frequencyStorage().imageData());
+			imageFactory().createXYLineChart(id,
+					frequencyStorage().imageData());
 			return true;
 		}
 		return false;
@@ -119,7 +120,8 @@ final class DefaultTestRuntimeReporter implements TestRuntimeReporter {
 		}
 	}
 
-	private static void appendImage(final String id, final HtmlSummary summary) {
+	private static void appendImage(final String id,
+			final HtmlSummary summary) {
 		summary.image(id);
 	}
 

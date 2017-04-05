@@ -3,6 +3,13 @@ package net.sf.perftence.fluent;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import junit.framework.Assert;
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
@@ -10,13 +17,6 @@ import net.sf.perftence.Executable;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RunWith(DefaultTestRunner.class)
 public class FluentUserStories extends AbstractMultiThreadedTest {
@@ -56,7 +56,6 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 
 	}
 
-	@SuppressWarnings("static-method")
 	@After
 	public void after() {
 		log().info("Its over...finally...phuuiiii, i'm done.");
@@ -83,9 +82,8 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 	@Test
 	public void durationMultiThreadSleepingMoreThanOneSecondExecutable()
 			throws Exception {
-		test().setup(
-				setup().duration(Duration.seconds(15)).threads(10)
-						.invocationRange(1000).throughputRange(30).build())
+		test().setup(setup().duration(Duration.seconds(15)).threads(10)
+				.invocationRange(1000).throughputRange(30).build())
 				.executable(new Executable() {
 
 					@Override
@@ -97,23 +95,20 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 
 	@Test
 	public void customSummaryAppender() throws Exception {
-		test().setup(
-				setup().duration(Duration.seconds(15)).threads(10)
-						.invocationRange(1000).throughputRange(30)
-						.summaryAppender(new SummaryAppender() {
-							@Override
-							public void append(Summary<?> summary) {
-								summary.text("Here's something cool!")
-										.endOfLine()
-										.bold("And some bolded text")
-										.endOfLine();
-							}
-						}).build()).executable(new Executable() {
+		test().setup(setup().duration(Duration.seconds(15)).threads(10)
+				.invocationRange(1000).throughputRange(30)
+				.summaryAppender(new SummaryAppender() {
+					@Override
+					public void append(Summary<?> summary) {
+						summary.text("Here's something cool!").endOfLine()
+								.bold("And some bolded text").endOfLine();
+					}
+				}).build()).executable(new Executable() {
 
-			@Override
-			public void execute() throws Exception {
-				Thread.sleep(RANDOM.nextInt(1000));
-			}
-		}).start();
+					@Override
+					public void execute() throws Exception {
+						Thread.sleep(RANDOM.nextInt(1000));
+					}
+				}).start();
 	}
 }

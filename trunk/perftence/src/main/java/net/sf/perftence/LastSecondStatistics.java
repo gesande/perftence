@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class LastSecondStatistics implements RuntimeStatisticsProvider,
-		CustomInvocationReporter {
+public final class LastSecondStatistics
+		implements RuntimeStatisticsProvider, CustomInvocationReporter {
 
 	private final Map<Long, LatencyProvider> latencies = Collections
 			.synchronizedMap(new HashMap<Long, LatencyProvider>());

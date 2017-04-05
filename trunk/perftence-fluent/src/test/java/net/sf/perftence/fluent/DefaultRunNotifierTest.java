@@ -7,7 +7,6 @@ import org.junit.Test;
 
 public class DefaultRunNotifierTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void isFinished() {
 		DefaultRunNotifier notifier = new DefaultRunNotifier();

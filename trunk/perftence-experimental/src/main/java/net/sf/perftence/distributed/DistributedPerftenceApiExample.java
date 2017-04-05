@@ -3,15 +3,15 @@ package net.sf.perftence.distributed;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.Executable;
 import net.sf.perftence.LoggingTestFailure;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DistributedPerftenceApiExample {
 	private final static Logger LOG = LoggerFactory
@@ -25,8 +25,8 @@ public class DistributedPerftenceApiExample {
 		final DistributedLatencyReporterFactory reporterFactory = newReporterFactory();
 		final DistributedPerftenceApi api = new DistributedPerftenceApi(
 				new LoggingTestFailure(), reporterFactory).reportingThreads(1)
-				.reportingLatenciesTo(
-						new URL("http://localhost:9001/report/latency"));
+						.reportingLatenciesTo(new URL(
+								"http://localhost:9001/report/latency"));
 		api.test(id()).setup(setup().threads(10).invocations(100).build())
 				.executable(new Executable() {
 					@Override

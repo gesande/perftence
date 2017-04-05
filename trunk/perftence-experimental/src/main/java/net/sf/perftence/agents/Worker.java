@@ -1,9 +1,9 @@
 package net.sf.perftence.agents;
 
-import net.sf.perftence.TestFailureNotifier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.TestFailureNotifier;
 
 final class Worker implements Runnable {
 	private final static Logger LOG = LoggerFactory.getLogger(Worker.class);

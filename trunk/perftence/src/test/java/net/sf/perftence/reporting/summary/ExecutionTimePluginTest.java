@@ -2,14 +2,14 @@ package net.sf.perftence.reporting.summary;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import net.sf.perftence.RuntimeStatisticsProvider;
-import net.sf.perftence.formatting.FieldFormatter;
 
 import org.junit.Test;
 
+import net.sf.perftence.RuntimeStatisticsProvider;
+import net.sf.perftence.formatting.FieldFormatter;
+
 public class ExecutionTimePluginTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void withRuntimeStatistics() {
 		final SummaryFieldPlugin<Long> plugin = new ExecutionTimePlugin(

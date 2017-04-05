@@ -8,7 +8,7 @@ public final class CompositeCustomIntermediateSummaryProvider {
 	private final List<CustomIntermediateSummaryProvider> customProviders;
 
 	public CompositeCustomIntermediateSummaryProvider() {
-		this.customProviders = new ArrayList<CustomIntermediateSummaryProvider>();
+		this.customProviders = new ArrayList<>();
 	}
 
 	public CompositeCustomIntermediateSummaryProvider customSummaryProviders(
@@ -38,9 +38,11 @@ public final class CompositeCustomIntermediateSummaryProvider {
 
 				@Override
 				public IntermediateSummary field(final AdjustedField<?> field) {
-					summary.field(customFieldProvider
-							.custom(toFieldDefinition(field.name()),
-									Object.class).value(field.value()).build());
+					summary.field(
+							customFieldProvider
+									.custom(toFieldDefinition(field.name()),
+											Object.class)
+									.value(field.value()).build());
 					return this;
 				}
 

@@ -141,7 +141,7 @@ public abstract class AbstractTestRunner extends BlockJUnit4ClassRunner
 
 	private List<FrameworkMethod> computeTestMethods(
 			final List<FrameworkMethod> methodList) {
-		return processedTestMethods(new ArrayList<FrameworkMethod>(methodList));
+		return processedTestMethods(new ArrayList<>(methodList));
 	}
 
 	private List<FrameworkMethod> processedTestMethods(

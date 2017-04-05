@@ -38,8 +38,8 @@ public class AgentBasedTestUsingFileBasedReporting {
 		this.adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
 				fieldFormatter, fieldAdjuster);
 		this.failedInvocationsFactory = new FailedInvocationsFactory(
-				new DefaultDoubleFormatter(), adjustedFieldBuilderFactory()
-						.newInstance());
+				new DefaultDoubleFormatter(),
+				adjustedFieldBuilderFactory().newInstance());
 		this.latencyFactory = new LatencyFactory();
 		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
 		this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
@@ -47,16 +47,19 @@ public class AgentBasedTestUsingFileBasedReporting {
 	}
 
 	public TestBuilder test(final String id) {
-		final TestFailureNotifierDecorator notifierAdapter = newNotifierDecorator(failureNotifier());
-		return new TestBuilder(id, notifierAdapter, new SummaryBuilderFactory(
-				testSummaryLoggerFactory(), summaryFieldFactory(),
-				notifierAdapter), failedInvocationsFactory(), latencyFactory(),
+		final TestFailureNotifierDecorator notifierAdapter = newNotifierDecorator(
+				failureNotifier());
+		return new TestBuilder(id, notifierAdapter,
+				new SummaryBuilderFactory(testSummaryLoggerFactory(),
+						summaryFieldFactory(), notifierAdapter),
+				failedInvocationsFactory(), latencyFactory(),
 				allowedExceptionOccurredMessageBuilder(),
 				adjustedFieldBuilderFactory(),
 				TaskScheduleDifferences.instance(datasetAdapterFactory()),
 				new SchedulingServiceFactory(),
 				new DefaultCategorySpecificReporterFactory(id,
-						latencyProviderFactory()), latencyProviderFactory(),
+						latencyProviderFactory()),
+				latencyProviderFactory(),
 				TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory(),
 				datasetAdapterFactory(), datasetAdapterFactory());
 	}

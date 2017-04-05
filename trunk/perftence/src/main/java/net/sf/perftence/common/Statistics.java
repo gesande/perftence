@@ -28,8 +28,10 @@ public final class Statistics implements GraphStatisticsProvider {
 	 *            in milliseconds
 	 * @return the throughput (invocations / second)
 	 */
+
 	@SuppressWarnings("static-method")
-	public double throughput(final long elapsedTime, final long invocationCount) {
+	public double throughput(final long elapsedTime,
+			final long invocationCount) {
 		return (invocationCount / (elapsedTime / 1000.00));
 	}
 

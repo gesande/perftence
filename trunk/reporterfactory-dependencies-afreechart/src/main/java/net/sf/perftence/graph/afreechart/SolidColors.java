@@ -8,10 +8,10 @@ import static java.awt.Color.RED;
 
 import java.awt.Color;
 
-import net.sf.perfence.graph.afreechart.ChartColors;
-
 import org.afree.graphics.PaintType;
 import org.afree.graphics.SolidColor;
+
+import net.sf.perfence.graph.afreechart.ChartColors;
 
 final class SolidColors implements ChartColors {
 

@@ -70,7 +70,8 @@ public final class PerftenceApi {
 		return this.testRuntimeReporterFactory;
 	}
 
-	public net.sf.perftence.agents.TestBuilder agentBasedTest(final String name) {
+	public net.sf.perftence.agents.TestBuilder agentBasedTest(
+			final String name) {
 		return agentBasedTest().test(name);
 	}
 

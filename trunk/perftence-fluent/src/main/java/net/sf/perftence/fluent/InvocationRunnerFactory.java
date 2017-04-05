@@ -1,18 +1,19 @@
 package net.sf.perftence.fluent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.völundr.concurrent.ThreadEngineApi;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class InvocationRunnerFactory {
 	private final static Logger LOG = LoggerFactory
 			.getLogger(InvocationRunnerFactory.class);
 	private final ThreadEngineApi<Invocation> engineApi;
 
-	public InvocationRunnerFactory(final ThreadEngineApi<Invocation> engineApi) {
+	public InvocationRunnerFactory(
+			final ThreadEngineApi<Invocation> engineApi) {
 		this.engineApi = engineApi;
 	}
 

@@ -8,8 +8,8 @@ import net.sf.perftence.reporting.summary.HtmlSummary;
 import net.sf.perftence.reporting.summary.StatisticsSummaryProvider;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
-public final class DefaultTestRuntimeReporterFactory implements
-		TestRuntimeReporterFactory {
+public final class DefaultTestRuntimeReporterFactory
+		implements TestRuntimeReporterFactory {
 
 	private final ReporterFactoryDependencies deps;
 
@@ -24,14 +24,11 @@ public final class DefaultTestRuntimeReporterFactory implements
 			final boolean includeInvocationGraph,
 			final PerformanceTestSetup setup,
 			final FailedInvocations failedInvocations) {
-		return newRuntimeReporter(
-				latencyProvider,
-				includeInvocationGraph,
-				setup,
-				failedInvocations,
+		return newRuntimeReporter(latencyProvider, includeInvocationGraph,
+				setup, failedInvocations,
 				resolveInvocationStorage(includeInvocationGraph, setup),
-				dependencies().throughputStorageFactory().forRange(
-						setup.throughputRange()));
+				dependencies().throughputStorageFactory()
+						.forRange(setup.throughputRange()));
 	}
 
 	private ReporterFactoryDependencies dependencies() {
@@ -48,15 +45,14 @@ public final class DefaultTestRuntimeReporterFactory implements
 	private InvocationStorage defaultInvocationStorage(
 			final PerformanceTestSetup setup) {
 		return DefaultInvocationStorage.newDefaultStorage(setup.invocations(),
-				ReportingOptionsFactory.latencyOptionsWithStatistics(setup
-						.invocationRange()), dependencies()
-						.lineChartAdapterProvider());
+				ReportingOptionsFactory
+						.latencyOptionsWithStatistics(setup.invocationRange()),
+				dependencies().lineChartAdapterProvider());
 	}
 
 	private InvocationStorage invocationStorageWithNoSamples() {
-		return DefaultInvocationStorage
-				.invocationStorageWithNoSamples(dependencies()
-						.lineChartAdapterProvider());
+		return DefaultInvocationStorage.invocationStorageWithNoSamples(
+				dependencies().lineChartAdapterProvider());
 	}
 
 	@Override
@@ -73,18 +69,19 @@ public final class DefaultTestRuntimeReporterFactory implements
 				FrequencyStorageFactory.newFrequencyStorage(latencyProvider,
 						dependencies().lineChartAdapterProvider()),
 				setup.summaryAppenders(), includeInvocationGraph,
-				setup.graphWriters(), statisticsSummaryProvider(
-						latencyProvider, includeInvocationGraph,
-						invocationStorage), failedInvocations, dependencies()
-						.testReport());
+				setup.graphWriters(),
+				statisticsSummaryProvider(latencyProvider,
+						includeInvocationGraph, invocationStorage),
+				failedInvocations, dependencies().testReport());
 	}
 
 	private static StatisticsSummaryProvider<HtmlSummary> statisticsSummaryProvider(
 			final StatisticsProvider statisticsProvider,
 			final boolean includeInvocationGraph,
 			final InvocationStorage invocationStorage) {
-		return includeInvocationGraph ? new StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics(
-				invocationStorage)
+		return includeInvocationGraph
+				? new StatisticsSummaryProviderUsingDefaultInvocationStorageStatistics(
+						invocationStorage)
 				: new StatisticsSummaryProviderUsingStatisticsProviderStatistics(
 						statisticsProvider);
 	}

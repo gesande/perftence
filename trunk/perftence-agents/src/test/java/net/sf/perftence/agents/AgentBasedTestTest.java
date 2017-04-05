@@ -10,16 +10,16 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class AgentBasedTestTest {
 	private final static Logger LOG = LoggerFactory
@@ -36,13 +36,12 @@ public final class AgentBasedTestTest {
 	@Test
 	public void sanityCheck() {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
-		final TestBuilder test = new AgentBasedTest(
-				new MyFailureTestNotifier(),
+		final TestBuilder test = new AgentBasedTest(new MyFailureTestNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("sanityCheck");
-		assertNotNull(
-				"Uuh, null returned by agent based test.test(id) method!", test);
+						.test("sanityCheck");
+		assertNotNull("Uuh, null returned by agent based test.test(id) method!",
+				test);
 		assertEquals("Id doesn't match!", "sanityCheck", test.id());
 		test.agents(failingAgent()).start();
 		assertTrue(this.testFailed);
@@ -53,13 +52,12 @@ public final class AgentBasedTestTest {
 	@Test
 	public void noInvocationGraph() {
 		final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
-		final TestBuilder test = new AgentBasedTest(
-				new MyFailureTestNotifier(),
+		final TestBuilder test = new AgentBasedTest(new MyFailureTestNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("noInvocationGraph").noInvocationGraph();
-		assertNotNull(
-				"Uuh, null returned by agent based test.test(id) method!", test);
+						.test("noInvocationGraph").noInvocationGraph();
+		assertNotNull("Uuh, null returned by agent based test.test(id) method!",
+				test);
 		assertEquals("Id doesn't match!", "noInvocationGraph", test.id());
 		test.agents(failingAgent()).start();
 		assertTrue(this.testFailed);
@@ -73,8 +71,8 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("oneAgentOneTask").agents(agentsWithOneTask(1))
-				.latencyGraphFor(Category.One).start();
+						.test("oneAgentOneTask").agents(agentsWithOneTask(1))
+						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(1, taskRun().get());
 	}
@@ -85,8 +83,8 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("manyAgentsOneTask").agents(agentsWithOneTask(5))
-				.latencyGraphFor(Category.One).start();
+						.test("manyAgentsOneTask").agents(agentsWithOneTask(5))
+						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(5, taskRun().get());
 	}
@@ -97,8 +95,9 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("oneAgentManyTasks").agents(agentsWithManyTasks(1))
-				.latencyGraphFor(Category.One).start();
+						.test("oneAgentManyTasks")
+						.agents(agentsWithManyTasks(1))
+						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(2, taskRun().get());
 	}
@@ -109,8 +108,9 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-				.latencyGraphFor(Category.One).start();
+						.test("manyAgentsManyTasks")
+						.agents(agentsWithManyTasks(2))
+						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
 	}
@@ -121,8 +121,9 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-				.latencyGraphFor(Category.One).start();
+						.test("manyAgentsManyTasks")
+						.agents(agentsWithManyTasks(2))
+						.latencyGraphFor(Category.One).start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
 	}
@@ -133,8 +134,9 @@ public final class AgentBasedTestTest {
 		new AgentBasedTest(new TestingNotifier(),
 				new DefaultLatencyProviderFactory(),
 				testRuntimeReporterFactory(), adapterProvider, adapterProvider)
-				.test("manyAgentsManyTasks").agents(agentsWithManyTasks(2))
-				.latencyGraphForAll().start();
+						.test("manyAgentsManyTasks")
+						.agents(agentsWithManyTasks(2)).latencyGraphForAll()
+						.start();
 		assertFalse(this.testFailed);
 		assertEquals(4, taskRun().get());
 	}
@@ -152,7 +154,7 @@ public final class AgentBasedTestTest {
 	}
 
 	private Collection<TestAgent> agentsWithManyTasks(final int agentCount) {
-		final List<TestAgent> agents = new ArrayList<TestAgent>();
+		final List<TestAgent> agents = new ArrayList<>();
 		for (int i = 0; i < agentCount; i++) {
 			agents.add(new AgentWithManyTasks());
 		}
@@ -163,9 +165,7 @@ public final class AgentBasedTestTest {
 
 		@Override
 		public TestTask firstTask() {
-			return newTestTask(
-					TimeSpecificationFactory.now(),
-					100,
+			return newTestTask(TimeSpecificationFactory.now(), 100,
 					Category.One,
 					newTestTask(TimeSpecificationFactory.inMillis(100), 50,
 							Category.Two, null));
@@ -202,7 +202,7 @@ public final class AgentBasedTestTest {
 	}
 
 	private Collection<TestAgent> agentsWithOneTask(final int agentCount) {
-		final List<TestAgent> agents = new ArrayList<TestAgent>();
+		final List<TestAgent> agents = new ArrayList<>();
 		for (int i = 0; i < agentCount; i++) {
 			agents.add(new AgentWithOneTask());
 		}
@@ -224,7 +224,8 @@ public final class AgentBasedTestTest {
 				@Override
 				public void run(TestTaskReporter reporter) throws Exception {
 					Thread.sleep(100);
-					LOG.info("Time spent so far = " + reporter.timeSpentSoFar());
+					LOG.info(
+							"Time spent so far = " + reporter.timeSpentSoFar());
 					taskRun().incrementAndGet();
 				}
 
@@ -256,7 +257,7 @@ public final class AgentBasedTestTest {
 	}
 
 	private Collection<TestAgent> failingAgent() {
-		final List<TestAgent> agents = new ArrayList<TestAgent>();
+		final List<TestAgent> agents = new ArrayList<>();
 		agents.add(new FailingAgent());
 		return agents;
 	}

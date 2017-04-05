@@ -3,8 +3,8 @@ package net.sf.perftence.agents;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LatencyProviderFactory;
 
-final class DefaultCategorySpecificReporterFactory implements
-		CategorySpecificReporterFactory {
+final class DefaultCategorySpecificReporterFactory
+		implements CategorySpecificReporterFactory {
 
 	private final String name;
 	private final LatencyProviderFactory latencyProviderFactory;

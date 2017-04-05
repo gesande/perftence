@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.völundr.concurrent.ExecutorServiceFactory;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class DistributedPerftenceApi {
 
@@ -22,7 +22,7 @@ public final class DistributedPerftenceApi {
 	private final DistributedLatencyReporterFactory distributedLatencyReporterFactory;
 	private final DefaultRunNotifier defaultRunNotifier = new DefaultRunNotifier();
 	private final ExecutorServiceFactory executorServiceFactory;
-	private final Map<String, RemoteLatencyReporter> reporters = new HashMap<String, RemoteLatencyReporter>();
+	private final Map<String, RemoteLatencyReporter> reporters = new HashMap<>();
 
 	private ExecutorService executorService;
 	private URL reportsTo;
@@ -43,8 +43,8 @@ public final class DistributedPerftenceApi {
 	}
 
 	public DistributedPerftenceApi reportingThreads(final int threads) {
-		this.executorService = executorServiceFactory().newFixedThreadPool(
-				threads, "remote-reporter");
+		this.executorService = executorServiceFactory()
+				.newFixedThreadPool(threads, "remote-reporter");
 		return this;
 	}
 

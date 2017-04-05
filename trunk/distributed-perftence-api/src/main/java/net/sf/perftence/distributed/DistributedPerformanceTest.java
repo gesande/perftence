@@ -49,8 +49,8 @@ public final class DistributedPerformanceTest {
 				return new DistributedTestRuntimeReporter(
 						defaultReporterFactory().newRuntimeReporter(
 								latencyProvider, includeInvocationGraph, setup,
-								failedInvocations), executorService(),
-						remoteReporter());
+								failedInvocations),
+						executorService(), remoteReporter());
 			}
 
 			@Override
@@ -60,11 +60,10 @@ public final class DistributedPerformanceTest {
 					FailedInvocations failedInvocations,
 					InvocationStorage invocationStorage,
 					ThroughputStorage throughputStorage) {
-				return defaultReporterFactory()
-						.newRuntimeReporter(latencyProvider,
-								includeInvocationGraph, setup,
-								failedInvocations, invocationStorage,
-								throughputStorage);
+				return defaultReporterFactory().newRuntimeReporter(
+						latencyProvider, includeInvocationGraph, setup,
+						failedInvocations, invocationStorage,
+						throughputStorage);
 			}
 
 		};

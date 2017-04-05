@@ -46,8 +46,8 @@ public final class AgentBasedTest {
 		this.adjustedFieldBuilderFactory = new AdjustedFieldBuilderFactory(
 				fieldFormatter, fieldAdjuster);
 		this.failedInvocationsFactory = new FailedInvocationsFactory(
-				new DefaultDoubleFormatter(), adjustedFieldBuilderFactory()
-						.newInstance());
+				new DefaultDoubleFormatter(),
+				adjustedFieldBuilderFactory().newInstance());
 		this.latencyFactory = new LatencyFactory();
 		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
 		this.lineChartAdapterProvider = lineChartAdapterProvider;
@@ -56,7 +56,8 @@ public final class AgentBasedTest {
 	}
 
 	public TestBuilder test(final String id) {
-		final TestFailureNotifierDecorator notifierDecorator = newNotifierDecorator(failureNotifier());
+		final TestFailureNotifierDecorator notifierDecorator = newNotifierDecorator(
+				failureNotifier());
 		return new TestBuilder(id, notifierDecorator,
 				new SummaryBuilderFactory(testSummaryLoggerFactory(),
 						summaryFieldFactory(), notifierDecorator),
@@ -66,9 +67,9 @@ public final class AgentBasedTest {
 				TaskScheduleDifferences.instance(lineChartAdapterProvider()),
 				new SchedulingServiceFactory(),
 				new DefaultCategorySpecificReporterFactory(id,
-						latencyProviderFactory()), latencyProviderFactory(),
-				testRuntimeReporterFactory(), lineChartAdapterProvider(),
-				scatterPlotAdapterProvider());
+						latencyProviderFactory()),
+				latencyProviderFactory(), testRuntimeReporterFactory(),
+				lineChartAdapterProvider(), scatterPlotAdapterProvider());
 	}
 
 	private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {

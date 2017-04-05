@@ -7,8 +7,8 @@ import java.util.List;
 import net.sf.perftence.PercentileRequirement;
 import net.sf.perftence.PerformanceRequirements;
 
-public final class PerformanceRequirementsPojo implements
-		PerformanceRequirements {
+public final class PerformanceRequirementsPojo
+		implements PerformanceRequirements {
 
 	public static class PerformanceRequirementsBuilder {
 		private int average = -1;
@@ -19,7 +19,7 @@ public final class PerformanceRequirementsPojo implements
 		private List<PercentileRequirement> percentiles;
 
 		private PerformanceRequirementsBuilder() {
-			this.percentiles = new ArrayList<PercentileRequirement>();
+			this.percentiles = new ArrayList<>();
 		}
 
 		public PerformanceRequirementsBuilder max(final int max) {
@@ -58,8 +58,8 @@ public final class PerformanceRequirementsPojo implements
 		}
 
 		private PercentileRequirement[] percentilesToArray() {
-			return percentiles().toArray(
-					new PercentileRequirement[percentiles().size()]);
+			return percentiles()
+					.toArray(new PercentileRequirement[percentiles().size()]);
 		}
 
 		private static PerformanceRequirements newPerformanceRequirementsPojo(
@@ -76,7 +76,8 @@ public final class PerformanceRequirementsPojo implements
 		}
 
 		public PerformanceRequirementsBuilder percentile90(final int value) {
-			return addPercentileRequirement(newPercentileRequirement(90, value));
+			return addPercentileRequirement(
+					newPercentileRequirement(90, value));
 		}
 
 		private PerformanceRequirementsBuilder addPercentileRequirement(
@@ -91,11 +92,13 @@ public final class PerformanceRequirementsPojo implements
 		}
 
 		public PerformanceRequirementsBuilder percentile95(final int value) {
-			return addPercentileRequirement(newPercentileRequirement(95, value));
+			return addPercentileRequirement(
+					newPercentileRequirement(95, value));
 		}
 
 		public PerformanceRequirementsBuilder percentile99(final int value) {
-			return addPercentileRequirement(newPercentileRequirement(99, value));
+			return addPercentileRequirement(
+					newPercentileRequirement(99, value));
 		}
 	}
 
@@ -158,10 +161,9 @@ public final class PerformanceRequirementsPojo implements
 
 	@Override
 	public String toString() {
-		return "PerformanceRequirementsPojo [average=" + average()
-				+ ", median=" + median() + ", max=" + max() + ", totalTime="
-				+ totalTime() + ", throughput=" + throughput()
-				+ ", percentileRequirements="
+		return "PerformanceRequirementsPojo [average=" + average() + ", median="
+				+ median() + ", max=" + max() + ", totalTime=" + totalTime()
+				+ ", throughput=" + throughput() + ", percentileRequirements="
 				+ Arrays.toString(percentileRequirements()) + "]";
 	}
 }

@@ -7,12 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.perftence.graph.ChartWriter;
-import net.sf.perftence.graph.DatasetAdapter;
-import net.sf.perftence.graph.GraphStatisticsProvider;
-import net.sf.perftence.graph.ImageData;
-import net.sf.perftence.graph.ImageFactory;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -25,13 +19,20 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.graph.ChartWriter;
+import net.sf.perftence.graph.DatasetAdapter;
+import net.sf.perftence.graph.GraphStatisticsProvider;
+import net.sf.perftence.graph.ImageData;
+import net.sf.perftence.graph.ImageFactory;
+
 public final class ImageFactoryUsingJFreeChart implements ImageFactory {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ImageFactoryUsingJFreeChart.class);
 	private final JFreeChartFactory jFreeChartFactory;
 	private ChartWriter<JFreeChart> chartWriter;
 
-	public ImageFactoryUsingJFreeChart(final ChartWriter<JFreeChart> chartWriter) {
+	public ImageFactoryUsingJFreeChart(
+			final ChartWriter<JFreeChart> chartWriter) {
 		this.jFreeChartFactory = new JFreeChartFactory();
 		this.chartWriter = chartWriter;
 	}
@@ -137,8 +138,8 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
 		final double meanValue = statistics.mean();
 		final double percentile95Value = statistics.percentile95();
 		final LineGraphStatisticsGraphData data = new LineGraphStatisticsGraphData();
-		final LineChartGraphData average = data.newSeries("Median",
-				Color.GREEN, lineChartGraphData.range());
+		final LineChartGraphData average = data.newSeries("Median", Color.GREEN,
+				lineChartGraphData.range());
 		final LineChartGraphData percentile95 = data.newSeries("95 percentile",
 				Color.CYAN, lineChartGraphData.range());
 		final LineChartGraphData mean = data.newSeries("Mean", Color.RED,
@@ -201,7 +202,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
 	}
 
 	final static class LineGraphStatisticsGraphData {
-		private Map<String, LineChartGraphData> list = new HashMap<String, LineChartGraphData>();
+		private Map<String, LineChartGraphData> list = new HashMap<>();
 
 		LineGraphStatisticsGraphData() {
 		}
@@ -217,7 +218,7 @@ public final class ImageFactoryUsingJFreeChart implements ImageFactory {
 		}
 
 		public List<LineChartGraphData> values() {
-			return new ArrayList<LineChartGraphData>(this.list.values());
+			return new ArrayList<>(this.list.values());
 		}
 
 		LineChartGraphData newSeries(final String title, final Paint paint,

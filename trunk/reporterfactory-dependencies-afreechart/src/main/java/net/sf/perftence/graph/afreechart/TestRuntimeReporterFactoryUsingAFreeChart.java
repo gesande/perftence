@@ -11,8 +11,8 @@ import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 import net.sf.perftence.reporting.TestReport;
 
-public final class TestRuntimeReporterFactoryUsingAFreeChart implements
-		ReporterFactoryDependencies {
+public final class TestRuntimeReporterFactoryUsingAFreeChart
+		implements ReporterFactoryDependencies {
 
 	private TestReport testReport;
 	private DefaultDatasetAdapterFactory datasetAdapterFactory;
@@ -27,8 +27,8 @@ public final class TestRuntimeReporterFactoryUsingAFreeChart implements
 		this.throughputStorageFactory = new ThroughputStorageFactory(
 				this.datasetAdapterFactory);
 		this.imageFactory = new ImageFactoryUsingAFreeChart(new SolidColors(),
-				chartWriterFactory.chartWriter(this.testReport
-						.reportRootDirectory()));
+				chartWriterFactory
+						.chartWriter(this.testReport.reportRootDirectory()));
 	}
 
 	@Override

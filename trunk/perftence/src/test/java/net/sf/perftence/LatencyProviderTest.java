@@ -4,13 +4,11 @@ import org.junit.Test;
 
 public class LatencyProviderTest {
 
-	@SuppressWarnings("static-method")
 	@Test(expected = IllegalStateException.class)
 	public void tooHastyNotEventStarted() {
 		newLatencyProvider().throughput();
 	}
 
-	@SuppressWarnings("static-method")
 	@Test(expected = IllegalStateException.class)
 	public void tooHastyStartedButNotStopped() {
 		final LatencyProvider provider = newLatencyProvider();

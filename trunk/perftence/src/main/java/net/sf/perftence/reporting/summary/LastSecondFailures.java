@@ -6,8 +6,8 @@ import java.util.Map;
 
 import net.sf.perftence.reporting.CustomFailureReporter;
 
-public final class LastSecondFailures implements CustomFailureReporter,
-		CustomIntermediateSummaryProvider {
+public final class LastSecondFailures
+		implements CustomFailureReporter, CustomIntermediateSummaryProvider {
 	private final Map<Long, FailedInvocations> failures = Collections
 			.synchronizedMap(new HashMap<Long, FailedInvocations>());
 	private final FailedInvocationsFactory failedInvocationsFactory;

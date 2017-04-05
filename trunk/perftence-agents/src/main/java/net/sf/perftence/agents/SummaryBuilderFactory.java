@@ -35,13 +35,13 @@ public final class SummaryBuilderFactory {
 		return newTestSummaryLogger(new IntermediateSummaryBuilder(
 				statisticsProvider, activeThreads, scheduledTasks,
 				failureNotifier(), summaryFieldFactory())
-				.customSummaryProviders(customProviders));
+						.customSummaryProviders(customProviders));
 	}
 
 	public TestSummaryLogger overallSummaryBuilder(
 			final StatisticsProvider statisticsProvider) {
-		return newTestSummaryLogger(new OverallSummaryBuilder(
-				failureNotifier(), statisticsProvider, summaryFieldFactory()));
+		return newTestSummaryLogger(new OverallSummaryBuilder(failureNotifier(),
+				statisticsProvider, summaryFieldFactory()));
 	}
 
 	private TestSummaryLoggerFactory testSummaryLoggerFactory() {

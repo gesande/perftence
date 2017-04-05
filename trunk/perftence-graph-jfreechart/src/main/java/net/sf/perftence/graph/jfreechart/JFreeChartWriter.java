@@ -2,13 +2,13 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.io.File;
 
-import net.sf.perftence.graph.ChartWriter;
-import net.sf.völundr.fileio.FileUtil;
-
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.graph.ChartWriter;
+import net.sf.völundr.fileio.FileUtil;
 
 public final class JFreeChartWriter implements ChartWriter<JFreeChart> {
 
@@ -22,14 +22,14 @@ public final class JFreeChartWriter implements ChartWriter<JFreeChart> {
 	}
 
 	@Override
-	public void write(final String id, final JFreeChart chart,
-			final int height, final int width) {
+	public void write(final String id, final JFreeChart chart, final int height,
+			final int width) {
 		final String outputFilePath = reportRootDirectory() + "/" + id + ".png";
 		LOGGER.info("Writing chart as an image to file {}", outputFilePath);
 		try {
 			FileUtil.ensureDirectoryExists(newFile(reportRootDirectory()));
-			ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart,
-					width, height);
+			ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart, width,
+					height);
 			LOGGER.info("Chart image successfully written to {}",
 					outputFilePath);
 		} catch (final Exception e) {

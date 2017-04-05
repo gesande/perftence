@@ -9,10 +9,9 @@ import org.junit.Test;
 
 public class StatisticsCalculatorTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void stats() {
-		final List<Integer> values = new ArrayList<Integer>();
+		final List<Integer> values = new ArrayList<>();
 		for (int i = 100; i > -1; i--) {
 			values.add(i);
 		}
@@ -41,10 +40,9 @@ public class StatisticsCalculatorTest {
 				stat.variance(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void statsEven() {
-		final List<Integer> values = new ArrayList<Integer>();
+		final List<Integer> values = new ArrayList<>();
 		for (int i = 100; i > 0; i--) {
 			values.add(i);
 		}
@@ -73,7 +71,6 @@ public class StatisticsCalculatorTest {
 				stat.variance(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void mean() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -81,7 +78,6 @@ public class StatisticsCalculatorTest {
 		assertEquals("Mean doesn't match!", 394.00, stat.mean(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void median() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -89,7 +85,6 @@ public class StatisticsCalculatorTest {
 		assertEquals("Median doesn't match!", 430, stat.median(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile90() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -98,7 +93,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(90), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile95() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -107,7 +101,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(95), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile96() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -116,7 +109,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(96), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile97() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -125,7 +117,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(97), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile98() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -134,7 +125,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(98), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void percentile99() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -143,7 +133,6 @@ public class StatisticsCalculatorTest {
 				stat.percentileValue(99), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void standardDeviation() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -152,7 +141,6 @@ public class StatisticsCalculatorTest {
 				stat.standardDeviation(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void variance() {
 		StatisticsCalculator stat = StatisticsCalculator
@@ -160,7 +148,6 @@ public class StatisticsCalculatorTest {
 		assertEquals("Variance doesn't match!", 21704, stat.variance(), 0);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void empty() {
 		final StatisticsCalculator empty = StatisticsCalculator
@@ -180,7 +167,7 @@ public class StatisticsCalculatorTest {
 	}
 
 	private static List<Integer> sampleList() {
-		final List<Integer> list = new ArrayList<Integer>();
+		final List<Integer> list = new ArrayList<>();
 		list.add(600);
 		list.add(470);
 		list.add(170);

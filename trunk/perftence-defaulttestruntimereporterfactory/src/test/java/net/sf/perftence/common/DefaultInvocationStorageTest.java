@@ -4,21 +4,20 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.reporting.ReportingOptions;
 
-import org.junit.Test;
-
 public class DefaultInvocationStorageTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void empty() {
 		assertTrue(newStorage(10, false).isEmpty());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void reportedLatencyBeingBelowOne() {
 		final InvocationStorage storage = newStorage(10, false);
@@ -28,7 +27,6 @@ public class DefaultInvocationStorageTest {
 		assertTrue(storage.reportedLatencyBeingBelowOne());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void statistics() {
 		final InvocationStorage storage = newStorage(10, true);
@@ -39,7 +37,6 @@ public class DefaultInvocationStorageTest {
 		assertNotNull(storage.statistics());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void noStatistics() {
 		final InvocationStorage storage = newStorage(10, false);
@@ -52,7 +49,6 @@ public class DefaultInvocationStorageTest {
 		assertNull(storage.imageData().statistics());
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void imageData() {
 		final InvocationStorage storage = newStorage(10, true);
@@ -68,8 +64,8 @@ public class DefaultInvocationStorageTest {
 
 	private static InvocationStorage newStorage(final int totalInvocations,
 			final boolean provideStatistics) {
-		InvocationStorage storage = DefaultInvocationStorage.newDefaultStorage(
-				totalInvocations, new ReportingOptions() {
+		InvocationStorage storage = DefaultInvocationStorage
+				.newDefaultStorage(totalInvocations, new ReportingOptions() {
 
 					@Override
 					public String xAxisTitle() {

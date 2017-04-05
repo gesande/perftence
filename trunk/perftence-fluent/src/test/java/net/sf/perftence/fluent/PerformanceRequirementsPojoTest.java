@@ -2,15 +2,15 @@ package net.sf.perftence.fluent;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
+
 import net.sf.perftence.PercentileRequirement;
 import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 
-import org.junit.Test;
-
 public class PerformanceRequirementsPojoTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void build() {
 		final PerformanceRequirementsBuilder builder = PerformanceRequirementsPojo

@@ -15,8 +15,8 @@ import net.sf.perftence.reporting.ReportingOptions;
 import net.sf.perftence.reporting.summary.Summary;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 
-public final class StorageForThreadsRunningCurrentTasks implements
-		GraphWriterProvider {
+public final class StorageForThreadsRunningCurrentTasks
+		implements GraphWriterProvider {
 
 	private static final DecimalFormat DF = new DecimalFormat("####");
 
@@ -53,10 +53,9 @@ public final class StorageForThreadsRunningCurrentTasks implements
 
 	private ImageData imageData() {
 		final ImageData imageData = ImageData.noStatistics(
-				reportingOptions().title(),
-				reportingOptions().xAxisTitle(),
-				lineChartAdapterProvider().forLineChart(
-						reportingOptions().legendTitle()));
+				reportingOptions().title(), reportingOptions().xAxisTitle(),
+				lineChartAdapterProvider()
+						.forLineChart(reportingOptions().legendTitle()));
 		int i = 0;
 		double max = reportingOptions().range();
 		for (double value : threads()) {

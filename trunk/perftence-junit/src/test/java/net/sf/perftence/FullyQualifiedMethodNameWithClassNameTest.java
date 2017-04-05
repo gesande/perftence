@@ -10,7 +10,7 @@ public class FullyQualifiedMethodNameWithClassNameTest {
 	public void idFor() {
 		assertEquals(
 				"net.sf.perftence.FullyQualifiedMethodNameWithClassNameTest.id",
-				new FullyQualifiedMethodNameWithClassName().idFor(
-						this.getClass(), "id"));
+				new FullyQualifiedMethodNameWithClassName()
+						.idFor(this.getClass(), "id"));
 	}
 }

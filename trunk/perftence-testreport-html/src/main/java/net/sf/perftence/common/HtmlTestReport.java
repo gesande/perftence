@@ -2,6 +2,9 @@ package net.sf.perftence.common;
 
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.reporting.TestReport;
 import net.sf.völundr.fileio.AppendToFileFailed;
 import net.sf.völundr.fileio.FileAppendHandler;
@@ -9,9 +12,6 @@ import net.sf.völundr.fileio.FileAppender;
 import net.sf.völundr.fileio.FileUtil;
 import net.sf.völundr.fileio.ToBytes;
 import net.sf.völundr.fileio.WritingFileFailed;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class HtmlTestReport implements TestReport {
 	private final static Logger LOG = LoggerFactory
@@ -34,7 +34,8 @@ public final class HtmlTestReport implements TestReport {
 								+ "' failed", e);
 						throw newRuntimeException(
 								"Appending data to summary file '" + file
-										+ "' failed", e);
+										+ "' failed",
+								e);
 					}
 
 					@Override
@@ -99,8 +100,8 @@ public final class HtmlTestReport implements TestReport {
 		try {
 			FileUtil.writeToFile(path, toBytes(data));
 		} catch (final WritingFileFailed cause) {
-			throw newRuntimeException("Writing summary to '" + path
-					+ "'failed!", cause);
+			throw newRuntimeException(
+					"Writing summary to '" + path + "'failed!", cause);
 		}
 		LOG.debug("Summary successfully written to '" + path + "' ");
 	}

@@ -77,8 +77,8 @@ public class SummaryFieldFactory implements CustomSummaryFieldProvider {
 				fieldAdjuster());
 	}
 
-	public static class EstimatedTimeLeftBasedOnDuration extends
-			SummaryFieldImpl<String> {
+	public static class EstimatedTimeLeftBasedOnDuration
+			extends SummaryFieldImpl<String> {
 		private final FieldFormatter fieldFormatter;
 
 		private long actualTimeLeft;

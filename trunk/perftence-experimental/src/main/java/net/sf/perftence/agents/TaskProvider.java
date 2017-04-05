@@ -22,7 +22,7 @@ final class TaskProvider implements TaskSchedulingStatisticsProvider {
 	public TaskProvider(final Time time) {
 		this.waitTimeout = TimeUnit.MILLISECONDS.convert(time.time(),
 				time.timeUnit());
-		this.scheduledTasks = new TreeSet<ScheduledTestTask>();
+		this.scheduledTasks = new TreeSet<>();
 	}
 
 	public ScheduledTestTask waitForNextScheduledTask()
@@ -51,8 +51,8 @@ final class TaskProvider implements TaskSchedulingStatisticsProvider {
 	}
 
 	private ScheduledTestTask nextScheduledTask() {
-		return this.scheduledTasks.isEmpty() ? null : this.scheduledTasks
-				.first();
+		return this.scheduledTasks.isEmpty() ? null
+				: this.scheduledTasks.first();
 	}
 
 	private static boolean isTimeToRun(final ScheduledTestTask first) {
@@ -96,8 +96,9 @@ final class TaskProvider implements TaskSchedulingStatisticsProvider {
 
 	@Override
 	public Time lastTaskScheduledToBeRun() {
-		return hasScheduledTasks() ? TimeSpecificationFactory
-				.inNanos(this.scheduledTasks.last().timeItWasScheduledToBeRun())
+		return hasScheduledTasks()
+				? TimeSpecificationFactory.inNanos(
+						this.scheduledTasks.last().timeItWasScheduledToBeRun())
 				: TimeSpecificationFactory.inMillis(-1);
 	}
 }

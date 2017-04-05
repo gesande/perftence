@@ -8,7 +8,6 @@ import org.junit.Test;
 
 public class ScheduledTasksTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	public void scheduleTask() {
 		ScheduledTasks scheduled = new ScheduledTasks();

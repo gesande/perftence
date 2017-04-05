@@ -2,13 +2,13 @@ package net.sf.perftence.graph.jfreechart;
 
 import java.awt.Paint;
 
-import net.sf.perftence.graph.GraphData;
-
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 
-public final class LineChartGraphData implements
-		GraphData<LineChartGraphData, Range, Paint> {
+import net.sf.perftence.graph.GraphData;
+
+public final class LineChartGraphData
+		implements GraphData<LineChartGraphData, Range, Paint> {
 
 	private final XYSeries series;
 	private final String title;

@@ -1,13 +1,13 @@
 package net.sf.perfence.graph.afreechart;
 
-import net.sf.perftence.graph.DatasetAdapter;
-
 import org.afree.data.Range;
 import org.afree.data.xy.XYSeries;
 import org.afree.graphics.PaintType;
 
-final class XYSeriesAdapter implements
-		DatasetAdapter<LineChartGraphData, PaintType> {
+import net.sf.perftence.graph.DatasetAdapter;
+
+final class XYSeriesAdapter
+		implements DatasetAdapter<LineChartGraphData, PaintType> {
 
 	private XYSeries series;
 	private String legendTitle;

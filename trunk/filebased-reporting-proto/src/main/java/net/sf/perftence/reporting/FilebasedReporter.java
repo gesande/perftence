@@ -7,10 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import net.sf.perftence.setup.PerformanceTestSetup;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.setup.PerformanceTestSetup;
 
 public class FilebasedReporter implements TestRuntimeReporter {
 
@@ -31,18 +31,18 @@ public class FilebasedReporter implements TestRuntimeReporter {
 		this.reportDirectory = new File(root, id);
 		if (!reportDirectory().exists()) {
 			if (!reportDirectory().mkdirs()) {
-				throw new RuntimeException("Not able to create directory '"
-						+ id + "' to directory '" + reportDirectory().getName()
+				throw new RuntimeException("Not able to create directory '" + id
+						+ "' to directory '" + reportDirectory().getName()
 						+ "'");
 			}
 		} else {
-			log().info(
-					"Directory '" + id + " already exists under '"
-							+ reportDirectory().getName() + "'...");
+			log().info("Directory '" + id + " already exists under '"
+					+ reportDirectory().getName() + "'...");
 		}
 		this.latencyWriter = newBufferedWriterFor("latencies");
 		this.throughputWriter = newBufferedWriterFor("throughput");
-		this.failedInvocationWriter = newBufferedWriterFor("failed-invocations");
+		this.failedInvocationWriter = newBufferedWriterFor(
+				"failed-invocations");
 		this.summaryFileWriter = new SummaryFileWriter();
 		final TestSetupFileWriter testSetupFileWriter = new TestSetupFileWriter(
 				new FilebasedTestSetup(testSetup, includeInvocationGraph));
@@ -70,8 +70,8 @@ public class FilebasedReporter implements TestRuntimeReporter {
 
 		public void write() {
 			try {
-				final FileOutputStream output = new FileOutputStream(new File(
-						reportDirectory(), "setup"));
+				final FileOutputStream output = new FileOutputStream(
+						new File(reportDirectory(), "setup"));
 				try {
 					final ObjectOutputStream outputStream = new ObjectOutputStream(
 							output);
@@ -124,7 +124,8 @@ public class FilebasedReporter implements TestRuntimeReporter {
 		public void write(final String id, final long elapsedTime,
 				final long sampleCount, final long startTime)
 				throws IOException {
-			final BufferedWriter bufferedWriter = newBufferedWriterFor("summary");
+			final BufferedWriter bufferedWriter = newBufferedWriterFor(
+					"summary");
 			try {
 				bufferedWriter.append(SummaryLine.summaryLine(id, elapsedTime,
 						sampleCount, startTime));
@@ -155,7 +156,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
 		try {
 			((BufferedWriter) throughputWriter().append(
 					ThroughputLine.throughputLine(currentDuration, throughput)))
-					.newLine();
+							.newLine();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

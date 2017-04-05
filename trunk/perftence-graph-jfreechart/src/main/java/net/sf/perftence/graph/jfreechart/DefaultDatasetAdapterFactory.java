@@ -4,8 +4,8 @@ import java.awt.Paint;
 
 import net.sf.perftence.graph.DatasetAdapter;
 
-public final class DefaultDatasetAdapterFactory implements
-		DatasetAdapterFactory {
+public final class DefaultDatasetAdapterFactory
+		implements DatasetAdapterFactory {
 
 	@Override
 	public DatasetAdapter<LineChartGraphData, Paint> forLineChart(

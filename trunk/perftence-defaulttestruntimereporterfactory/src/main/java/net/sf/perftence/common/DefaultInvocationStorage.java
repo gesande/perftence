@@ -23,16 +23,15 @@ public final class DefaultInvocationStorage implements InvocationStorage {
 	}
 
 	public static InvocationStorage newDefaultStorage(
-			final int totalInvocations,
-			final ReportingOptions reportingOptions,
+			final int totalInvocations, final ReportingOptions reportingOptions,
 			final LineChartAdapterProvider<?, ?> lineChartAdapterProvider) {
 		return new DefaultInvocationStorage(totalInvocations, reportingOptions,
 				new ImageDataFactory(lineChartAdapterProvider));
 	}
 
 	private static List<Integer> initialize(final int invocations) {
-		return invocations > 0 ? new ArrayList<Integer>(invocations)
-				: new ArrayList<Integer>();
+		return invocations > 0 ? new ArrayList<>(invocations)
+				: new ArrayList<>();
 	}
 
 	@Override

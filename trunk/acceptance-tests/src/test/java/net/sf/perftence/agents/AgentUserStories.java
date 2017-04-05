@@ -5,14 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import junit.framework.Assert;
-import net.sf.perftence.AbstractMultiThreadedTest;
-import net.sf.perftence.DefaultTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import junit.framework.Assert;
+import net.sf.perftence.AbstractMultiThreadedTest;
+import net.sf.perftence.DefaultTestRunner;
 
 @RunWith(DefaultTestRunner.class)
 public class AgentUserStories extends AbstractMultiThreadedTest {
@@ -36,17 +36,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
 	@Test
 	public void sleepingAgentStoryWithTasksThatAreScheduledToBeRunNow() {
-		agentBasedTest()
-				.workers(10000)
-				.agents(agents(10000,
-						new SleepingTestAgentFactoryWithNowFlavour())).start();
+		agentBasedTest().workers(10000).agents(
+				agents(10000, new SleepingTestAgentFactoryWithNowFlavour()))
+				.start();
 	}
 
 	@Test
 	public void sleepingAgentStoryWithTwoTasks() {
 		agentBasedTest()
-				.agents(agents(
-						10000,
+				.agents(agents(10000,
 						new SleepingTestAgentFactoryWithNowFlavourHavingNextTask()))
 				.workers(2000).start();
 	}
@@ -66,8 +64,8 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
 	}
 
-	final static class SleepingTestAgentFactoryWithNowFlavour implements
-			TestAgentFactory {
+	final static class SleepingTestAgentFactoryWithNowFlavour
+			implements TestAgentFactory {
 
 		@Override
 		public TestAgent newTestAgent(final int id) {
@@ -137,12 +135,12 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 	}
 
 	private Collection<TestAgent> failingAgents(int agents) {
-		final List<TestAgent> list = new ArrayList<TestAgent>();
+		final List<TestAgent> list = new ArrayList<>();
 		final AtomicInteger counter = new AtomicInteger();
 		failures().set(0);
 		for (int i = 0; i < agents; i++) {
-			final TestTask first = (counter.get() % 10 == 0) ? log(new FailTask(
-					100)) : newTask(50, 300, null);
+			final TestTask first = (counter.get() % 10 == 0)
+					? log(new FailTask(100)) : newTask(50, 300, null);
 			counter.incrementAndGet();
 			list.add(new FailingHalfTheTime(first));
 		}
@@ -151,7 +149,7 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
 	private static Collection<TestAgent> agents(final int initialCapacity,
 			final TestAgentFactory factory) {
-		final List<TestAgent> agents = new ArrayList<TestAgent>(initialCapacity);
+		final List<TestAgent> agents = new ArrayList<>(initialCapacity);
 		for (int i = 0; i < initialCapacity; i++) {
 			agents.add(factory.newTestAgent(i));
 		}
@@ -277,7 +275,8 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 					}
 
 					@Override
-					public void run(TestTaskReporter reporter) throws Exception {
+					public void run(TestTaskReporter reporter)
+							throws Exception {
 						Thread.sleep(sleep);
 					}
 

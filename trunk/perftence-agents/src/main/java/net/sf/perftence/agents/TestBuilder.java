@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.CustomInvocationReporter;
@@ -34,9 +37,6 @@ import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public final class TestBuilder implements RunnableAdapter, Startable,
 		ReporterFactoryForCategorySpecificLatencies {
 
@@ -55,7 +55,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	private final StorageForThreadsRunningCurrentTasks storageForThreadsRunningCurrentTasks;
 	private final ScheduledTasks scheduledTasks;
 	private final List<SummaryAppender> customSummaryAppenders;
-	private final List<TestAgent> agents = new ArrayList<TestAgent>();
+	private final List<TestAgent> agents = new ArrayList<>();
 	private final LatencyVsConcurrentTasks runningTasks;
 	private final AllowedExceptions allowedExceptions;
 	private final FailedInvocationsFactory failedInvocationsFactory;
@@ -89,8 +89,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	private boolean includeThreadsRunningCurrentTasks = true;
 	private boolean includeTaskScheduleDifferencies = true;
 
-	TestBuilder(
-			final String name,
+	TestBuilder(final String name,
 			final TestFailureNotifierDecorator failureNotifier,
 			final SummaryBuilderFactory summaryBuilderFactory,
 			final FailedInvocationsFactory failedInvocationsFactory,
@@ -121,7 +120,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		this.taskScheduleDifferences = taskScheduleDifferences;
 		this.storageForThreadsRunningCurrentTasks = StorageForThreadsRunningCurrentTasks
 				.newStorage(lineChartAdapterProvider);
-		this.customSummaryAppenders = new ArrayList<SummaryAppender>();
+		this.customSummaryAppenders = new ArrayList<>();
 		this.runningTasks = LatencyVsConcurrentTasks
 				.instance(scatterPlotAdapterProvider);
 		this.allowedExceptions = new AllowedExceptions();
@@ -133,15 +132,15 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		this.lastSecondFailureGraphWriter = new LastSecondFailuresGraphWriter(
 				this.lastSecondFailures, this.latencyProvider,
 				lineChartAdapterProvider);
-		this.customLatencyReporters = new ArrayList<CustomInvocationReporter>();
+		this.customLatencyReporters = new ArrayList<>();
 		this.customLatencyReporters.add(lastSecondStatistics());
-		this.customFailureReporters = new ArrayList<CustomFailureReporter>();
+		this.customFailureReporters = new ArrayList<>();
 		this.customFailureReporters.add(lastSecondFailures());
 		this.lastSecondThroughput = new LastSecondThroughput(
 				lineChartAdapterProvider);
 		this.categorySpecificLatenciesConfigurator = new CategorySpecificLatenciesConfigurator(
-				this.categorySpecificLatencies,
-				categorySpecificReporterFactory, this);
+				this.categorySpecificLatencies, categorySpecificReporterFactory,
+				this);
 		log().info("TestBuilder for '{}' created.", id());
 	}
 
@@ -234,13 +233,11 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		final AdjustedFieldBuilder fieldBuilder = this.adjustedFieldBuilderFactory
 				.newInstance();
 		this.intermediateSummaryLogger = summaryBuilderFactory()
-				.intermediateSummaryBuilder(
-						latencyProvider(),
-						activeThreads(),
-						scheduledTasks(),
-						failedInvocations(),
+				.intermediateSummaryBuilder(latencyProvider(), activeThreads(),
+						scheduledTasks(), failedInvocations(),
 						newLastSecondStatsProvider(lastSecondStatistics(),
-								fieldBuilder), lastSecondFailures());
+								fieldBuilder),
+						lastSecondFailures());
 		log().debug("Intermediate summary builder created.");
 	}
 
@@ -392,7 +389,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
 	private void doOverallSummary() {
 		log().info("Creating overall summary...");
-		doSummary(latencyProvider().duration(), latencyProvider().sampleCount());
+		doSummary(latencyProvider().duration(),
+				latencyProvider().sampleCount());
 		log().info("Overall summary done.");
 	}
 
@@ -457,8 +455,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 				return new TimerTask() {
 					@Override
 					public void run() {
-						intermediateSummaryLogger().printSummary(
-								TestBuilder.this.id());
+						intermediateSummaryLogger()
+								.printSummary(TestBuilder.this.id());
 					}
 				};
 			}
@@ -508,13 +506,13 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		final PerformanceTestSetupBuilder testSetupBuilder = buildSetup(
 				duration, threads, sampleCount);
 		if (includeThreadsRunningCurrentTasks()) {
-			testSetupBuilder.summaryAppender(threadsRunningCurrentTasks()
-					.summaryAppender());
+			testSetupBuilder.summaryAppender(
+					threadsRunningCurrentTasks().summaryAppender());
 		}
 
 		if (includeTaskScheduleDifferencies()) {
-			testSetupBuilder.summaryAppender(taskScheduleDifferencies()
-					.summaryAppender());
+			testSetupBuilder.summaryAppender(
+					taskScheduleDifferencies().summaryAppender());
 		}
 
 		for (final SummaryAppender appender : customSummaryAppenders()) {
@@ -522,19 +520,19 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		}
 
 		if (includeThreadsRunningCurrentTasks()) {
-			testSetupBuilder.graphWriter(threadsRunningCurrentTasks()
-					.graphWriterFor(id()));
+			testSetupBuilder.graphWriter(
+					threadsRunningCurrentTasks().graphWriterFor(id()));
 		}
 
 		if (includeTaskScheduleDifferencies()) {
-			testSetupBuilder.graphWriter(taskScheduleDifferencies()
-					.graphWriterFor(id()));
+			testSetupBuilder.graphWriter(
+					taskScheduleDifferencies().graphWriterFor(id()));
 		}
 		testSetupBuilder.graphWriter(runningTasks().graphWriterFor(id()));
-		testSetupBuilder.graphWriter(lastSecondThroughput()
-				.graphWriterFor(id()));
-		testSetupBuilder.graphWriter(lastSecondFailureGraphWriter()
-				.graphWriterFor(id()));
+		testSetupBuilder
+				.graphWriter(lastSecondThroughput().graphWriterFor(id()));
+		testSetupBuilder.graphWriter(
+				lastSecondFailureGraphWriter().graphWriterFor(id()));
 		return testSetupBuilder.build();
 	}
 
@@ -633,8 +631,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 
 	private void storeThreadsRunningCurrentTasks(final int threads) {
 		if (includeThreadsRunningCurrentTasks()) {
-			threadsRunningCurrentTasks().store(
-					latencyProvider().currentDuration(), threads);
+			threadsRunningCurrentTasks()
+					.store(latencyProvider().currentDuration(), threads);
 		}
 	}
 
@@ -672,8 +670,8 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	}
 
 	private boolean isAllowed(final Throwable cause) {
-		return cause instanceof Exception ? allowedExceptions().isAllowed(
-				(Exception) cause) : false;
+		return cause instanceof Exception
+				? allowedExceptions().isAllowed((Exception) cause) : false;
 	}
 
 	private static void finishedWithError(final TestTask task,

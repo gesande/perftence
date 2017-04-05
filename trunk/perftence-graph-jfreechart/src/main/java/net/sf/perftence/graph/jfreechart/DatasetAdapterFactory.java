@@ -7,8 +7,8 @@ import net.sf.perftence.graph.DatasetAdapter;
 import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.ScatterPlotAdapterProvider;
 
-public interface DatasetAdapterFactory extends
-		LineChartAdapterProvider<LineChartGraphData, Paint>,
+public interface DatasetAdapterFactory
+		extends LineChartAdapterProvider<LineChartGraphData, Paint>,
 		BarChartAdapterProvider<BarChartGraphData, Paint>,
 		ScatterPlotAdapterProvider<ScatterPlotGraphData, Paint> {
 	@Override

@@ -5,8 +5,8 @@ import java.util.Date;
 
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 
-public final class HtmlSummary implements Summary<HtmlSummary>,
-		StatisticsSummary<HtmlSummary> {
+public final class HtmlSummary
+		implements Summary<HtmlSummary>, StatisticsSummary<HtmlSummary> {
 	private final static DefaultDoubleFormatter DF = new DefaultDoubleFormatter();
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
@@ -98,8 +98,8 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 	}
 
 	public HtmlSummary totalTime(final long elapsedTime, final String unit) {
-		return append("Total time            : ").append(elapsedTime).append(
-				unit);
+		return append("Total time            : ").append(elapsedTime)
+				.append(unit);
 	}
 
 	private static String format(final double value) {
@@ -108,8 +108,8 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 
 	@Override
 	public HtmlSummary throughput(final double throughput) {
-		return append("Throughput                   : ").append(
-				format(throughput));
+		return append("Throughput                   : ")
+				.append(format(throughput));
 	}
 
 	public HtmlSummary threadCount(final int threadCount) {
@@ -131,9 +131,10 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 	}
 
 	@Override
-	public HtmlSummary averageResponseTime(final double mean, final String unit) {
-		return append("Avg response time     : ").append(format(mean)).append(
-				unit);
+	public HtmlSummary averageResponseTime(final double mean,
+			final String unit) {
+		return append("Avg response time     : ").append(format(mean))
+				.append(unit);
 	}
 
 	@Override
@@ -143,8 +144,8 @@ public final class HtmlSummary implements Summary<HtmlSummary>,
 
 	@Override
 	public HtmlSummary standardDeviation(final double standardDeviation) {
-		return append("Standard deviation    : ").append(
-				format(standardDeviation));
+		return append("Standard deviation    : ")
+				.append(format(standardDeviation));
 	}
 
 	@Override

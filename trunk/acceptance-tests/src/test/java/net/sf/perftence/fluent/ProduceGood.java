@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
@@ -16,20 +19,16 @@ import net.sf.perftence.agents.TestTaskReporter;
 import net.sf.perftence.agents.Time;
 import net.sf.perftence.agents.TimeSpecificationFactory;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 @RunWith(DefaultTestRunner.class)
 public class ProduceGood extends AbstractMultiThreadedTest {
 
 	@Test
 	public void graphsForFluentBased() {
 		final int invocations = 50000;
-		final Stack<Integer> stack = new Stack<Integer>();
+		final Stack<Integer> stack = new Stack<>();
 		setupStack(stack);
-		test().setup(
-				setup().threads(400).invocations(invocations)
-						.invocationRange(110).throughputRange(10000).build())
+		test().setup(setup().threads(400).invocations(invocations)
+				.invocationRange(110).throughputRange(10000).build())
 				.executable(new Executable() {
 
 					@Override
@@ -41,7 +40,7 @@ public class ProduceGood extends AbstractMultiThreadedTest {
 
 	@Test
 	public void graphsForAgentBased() {
-		final Stack<Integer> stack = new Stack<Integer>();
+		final Stack<Integer> stack = new Stack<>();
 		setupStack(stack);
 		agentBasedTest().latencyGraphForAll().agents(agents(50000, stack))
 				.workers(400).start();
@@ -53,7 +52,7 @@ public class ProduceGood extends AbstractMultiThreadedTest {
 
 	private static Collection<TestAgent> agents(final int size,
 			final Stack<Integer> stack) {
-		List<TestAgent> list = new ArrayList<TestAgent>();
+		List<TestAgent> list = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			list.add(new TestAgent() {
 

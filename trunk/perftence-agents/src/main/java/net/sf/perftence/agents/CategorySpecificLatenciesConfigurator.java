@@ -31,7 +31,8 @@ class CategorySpecificLatenciesConfigurator {
 	private void registerLatencyGraphFor(final TestTaskCategory... categories) {
 		for (final TestTaskCategory category : categories) {
 			newCategorySpecificReporter(category);
-			log().debug("Added invocation reporter for category '{}'", category);
+			log().debug("Added invocation reporter for category '{}'",
+					category);
 		}
 	}
 
@@ -40,10 +41,8 @@ class CategorySpecificLatenciesConfigurator {
 	}
 
 	private void newCategorySpecificReporter(final TestTaskCategory category) {
-		categorySpecificLatencies().register(
-				category,
-				reporterFactory().adapterFor(invocationReporterFactory(),
-						category));
+		categorySpecificLatencies().register(category, reporterFactory()
+				.adapterFor(invocationReporterFactory(), category));
 	}
 
 	private ReporterFactoryForCategorySpecificLatencies invocationReporterFactory() {

@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.common.DefaultInvocationStorage;
@@ -19,14 +27,6 @@ import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.ImageFactoryUsingJFreeChart;
 import net.sf.perftence.graph.jfreechart.JFreeChartWriter;
 import net.sf.perftence.graph.jfreechart.ScatterPlotGraphData;
-
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ImageFactoryUsingJFreeChartTest {
 	private final static Logger LOG = LoggerFactory
@@ -43,11 +43,13 @@ public class ImageFactoryUsingJFreeChartTest {
 				HtmlTestReport.withDefaultReportPath().reportRootDirectory()));
 	}
 
-	private static InvocationStorage newDefaultInvocationStorage(final int value) {
+	private static InvocationStorage newDefaultInvocationStorage(
+			final int value) {
 		log().info("Warming up invocation storage...");
 		final InvocationStorage storage = DefaultInvocationStorage
-				.newDefaultStorage(value, ReportingOptionsFactory
-						.latencyOptionsWithStatistics(120),
+				.newDefaultStorage(
+						value, ReportingOptionsFactory
+								.latencyOptionsWithStatistics(120),
 						new DefaultDatasetAdapterFactory());
 		for (int i = 0; i < value; i++) {
 			storage.store(randomValue());
@@ -210,9 +212,13 @@ public class ImageFactoryUsingJFreeChartTest {
 
 	private static ImageData imageDataWithoutStatistics() {
 		log().info("Warming up latency counter...");
-		return warmedUp(FrequencyStorageFactory.newFrequencyStorage(
-				toString(newCounterWithRandomContent(storageSize())),
-				new DefaultDatasetAdapterFactory()).imageData());
+		return warmedUp(
+				FrequencyStorageFactory
+						.newFrequencyStorage(
+								toString(newCounterWithRandomContent(
+										storageSize())),
+								new DefaultDatasetAdapterFactory())
+						.imageData());
 	}
 
 	private static Logger log() {

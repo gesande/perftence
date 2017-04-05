@@ -9,7 +9,7 @@ public class DefaultTestRunnerTest {
 
 	private static TestFailureNotifier failureNotifier;
 
-	@SuppressWarnings({ "static-method", "unused" })
+	@SuppressWarnings("unused")
 	@Test
 	public void failureNotifierIsSet() throws InitializationError {
 		new DefaultTestRunner(DefaultTestRunnerTest.class);

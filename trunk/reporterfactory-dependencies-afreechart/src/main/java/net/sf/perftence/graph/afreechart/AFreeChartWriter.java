@@ -2,12 +2,12 @@ package net.sf.perftence.graph.afreechart;
 
 import java.io.File;
 
-import net.sf.perftence.graph.ChartWriter;
-import net.sf.völundr.fileio.FileUtil;
-
 import org.afree.chart.AFreeChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.graph.ChartWriter;
+import net.sf.völundr.fileio.FileUtil;
 
 public class AFreeChartWriter implements ChartWriter<AFreeChart> {
 
@@ -20,8 +20,8 @@ public class AFreeChartWriter implements ChartWriter<AFreeChart> {
 	}
 
 	@Override
-	public void write(final String id, final AFreeChart chart,
-			final int height, final int width) {
+	public void write(final String id, final AFreeChart chart, final int height,
+			final int width) {
 		final String outputFilePath = reportRootDirectory() + "/" + id + ".png";
 		LOGGER.info("Writing chart as an image to file {}", outputFilePath);
 		try {

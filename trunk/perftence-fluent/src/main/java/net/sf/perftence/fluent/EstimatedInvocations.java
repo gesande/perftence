@@ -1,6 +1,7 @@
 package net.sf.perftence.fluent;
 
 final class EstimatedInvocations {
+
 	@SuppressWarnings("static-method")
 	public long calculate(final double currentThroughput, final int duration,
 			final long sampleCount) {

@@ -3,6 +3,9 @@ package net.sf.perftence.agents;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.perftence.TestTimeAware;
 import net.sf.perftence.common.ImageDataFactory;
 import net.sf.perftence.graph.GraphWriter;
@@ -11,9 +14,6 @@ import net.sf.perftence.graph.ImageData;
 import net.sf.perftence.graph.ImageFactory;
 import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
 	protected static final Logger LOG = LoggerFactory
@@ -77,8 +77,8 @@ public class LastSecondFailuresGraphWriter implements GraphWriterProvider {
 
 	private ImageData newImageDataForLinechart(final String title,
 			final String xAxisTitle) {
-		return this.imageDataFactory
-				.newImageDataForLineChart(title, xAxisTitle);
+		return this.imageDataFactory.newImageDataForLineChart(title,
+				xAxisTitle);
 	}
 
 	private TestTimeAware testTimeAware() {
