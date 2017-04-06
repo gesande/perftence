@@ -18,7 +18,6 @@ import net.sf.perftence.PerformanceRequirements;
 import net.sf.perftence.RunNotifier;
 import net.sf.perftence.Startable;
 import net.sf.perftence.StatisticsProvider;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.graph.LastSecondThroughput;
@@ -30,6 +29,7 @@ import net.sf.perftence.reporting.summary.FailedInvocations;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
 

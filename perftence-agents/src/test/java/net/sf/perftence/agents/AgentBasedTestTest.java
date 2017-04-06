@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 
 public final class AgentBasedTestTest {
 	private final static Logger LOG = LoggerFactory

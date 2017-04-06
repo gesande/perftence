@@ -7,9 +7,9 @@ import org.junit.Test;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestReport;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 
 public final class PerftenceApiTest implements TestFailureNotifier {
 

@@ -19,11 +19,11 @@ import net.sf.perftence.Executable;
 import net.sf.perftence.PerfTestFailure;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 
 public class FluentPerformanceTestTest {
 
@@ -44,7 +44,7 @@ public class FluentPerformanceTestTest {
 		final FluentPerformanceTest fluentPerformanceTest = new FluentPerformanceTest(
 				new FailIHaveNotifier(), newDefaultTestRuntimeReporter(),
 				new DefaultRunNotifier(), new DefaultDatasetAdapterFactory(),
-				new SummaryConsumer() {
+				new net.sf.perftence.reporting.summary.SummaryConsumer() {
 
 					@Override
 					public void consumeSummary(String summaryId,

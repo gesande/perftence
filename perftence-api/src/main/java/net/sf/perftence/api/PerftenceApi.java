@@ -4,13 +4,13 @@ import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.agents.AgentBasedTest;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.fluent.DefaultRunNotifier;
 import net.sf.perftence.fluent.FluentPerformanceTest;
 import net.sf.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
 import net.sf.perftence.graph.LineChartAdapterProvider;
 import net.sf.perftence.graph.ScatterPlotAdapterProvider;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
 public final class PerftenceApi {

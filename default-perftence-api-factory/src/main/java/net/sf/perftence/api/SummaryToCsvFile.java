@@ -2,7 +2,7 @@ package net.sf.perftence.api;
 
 import java.io.IOException;
 
-import net.sf.perftence.common.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.reporting.summary.SummaryToCsv;
 import net.sf.völundr.fileio.FileUtil;
 import net.sf.völundr.fileio.ToBytes;
