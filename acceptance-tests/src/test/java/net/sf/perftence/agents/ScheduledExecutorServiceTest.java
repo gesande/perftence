@@ -68,40 +68,33 @@ public class ScheduledExecutorServiceTest {
 	}
 
 	private static Runnable successTask(final AtomicInteger success) {
-		return new Runnable() {
+		return () -> {
+			LOG.info("running success task...");
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			LOG.info("success task done");
+			success.incrementAndGet();
 
-			@Override
-			public void run() {
-				LOG.info("running success task...");
+		};
+	}
+
+	private static Runnable failTask(final AtomicInteger failed) {
+		return () -> {
+			try {
+				LOG.info("running fail task...");
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				LOG.info("success task done");
-				success.incrementAndGet();
-
-			}
-		};
-	}
-
-	private static Runnable failTask(final AtomicInteger failed) {
-		return new Runnable() {
-			@Override
-			public void run() {
-				try {
-					LOG.info("running fail task...");
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					LOG.info("fail task 'failed'!");
-					failed.incrementAndGet();
-					throw new AssertionFailedError("fail task actually failed");
-				} catch (Throwable t) {
-					LOG.error("Error:", t);
-				}
+				LOG.info("fail task 'failed'!");
+				failed.incrementAndGet();
+				throw new AssertionFailedError("fail task actually failed");
+			} catch (Throwable t) {
+				LOG.error("Error:", t);
 			}
 		};
 	}
@@ -140,25 +133,18 @@ public class ScheduledExecutorServiceTest {
 	}
 
 	private Runnable sleepRunnable(final int delay) {
-		return new Runnable() {
-			@Override
-			public void run() {
-				ScheduledExecutorServiceTest.this.activeThreads.more();
-				ScheduledExecutorServiceTest.this.storage.store(
-						System.nanoTime(),
-						ScheduledExecutorServiceTest.this.activeThreads
-								.active());
-				try {
-					Thread.sleep(delay);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				ScheduledExecutorServiceTest.this.activeThreads.less();
-				ScheduledExecutorServiceTest.this.storage.store(
-						System.nanoTime(),
-						ScheduledExecutorServiceTest.this.activeThreads
-								.active());
+		return () -> {
+			ScheduledExecutorServiceTest.this.activeThreads.more();
+			ScheduledExecutorServiceTest.this.storage.store(System.nanoTime(),
+					ScheduledExecutorServiceTest.this.activeThreads.active());
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+			ScheduledExecutorServiceTest.this.activeThreads.less();
+			ScheduledExecutorServiceTest.this.storage.store(System.nanoTime(),
+					ScheduledExecutorServiceTest.this.activeThreads.active());
 		};
 	}
 }

@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
-import net.sf.perftence.Executable;
 import net.sf.perftence.agents.TestAgent;
 import net.sf.perftence.agents.TestTask;
 import net.sf.perftence.agents.TestTaskCategory;
@@ -29,13 +28,7 @@ public class ProduceGood extends AbstractMultiThreadedTest {
 		setupStack(stack);
 		test().setup(setup().threads(400).invocations(invocations)
 				.invocationRange(110).throughputRange(10000).build())
-				.executable(new Executable() {
-
-					@Override
-					public void execute() throws Exception {
-						Thread.sleep(stack.pop());
-					}
-				}).start();
+				.executable(() -> Thread.sleep(stack.pop())).start();
 	}
 
 	@Test
