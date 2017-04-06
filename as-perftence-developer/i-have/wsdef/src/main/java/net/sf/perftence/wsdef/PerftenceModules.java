@@ -120,9 +120,11 @@ public class PerftenceModules extends JavaModules {
 
 	private final JavaSrcModule perftenceFluent = srcModule("perftence-fluent")
 			.noTestResources()
-			.mainDeps(perftence, perftenceGraph, slf4jApi, völundrConcurrent)
+			.mainDeps(perftence, perftenceGraph,
+					perftenceDefaulttestruntimereporterfactory, slf4jApi,
+					völundrConcurrent)
 			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
-					perftenceGraphJfreechart,
+					perftenceGraphJfreechart, perftenceTestreportHtml,
 					reporterfactoryDependenciesJfreechart)
 			.end();
 
@@ -138,9 +140,9 @@ public class PerftenceModules extends JavaModules {
 	private final JavaSrcModule perftenceApi = srcModule("perftence-api")
 			.noTestResources()
 			.mainDeps(perftence, perftenceAgents, perftenceFluent,
-					perftenceGraph)
+					perftenceGraph, perftenceDefaulttestruntimereporterfactory)
 			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
-					perftenceGraphJfreechart,
+					perftenceGraphJfreechart, perftenceTestreportHtml,
 					reporterfactoryDependenciesJfreechart)
 			.end();
 
@@ -150,7 +152,7 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(perftence,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceFluent, perftenceGraph,
-							perftenceGraphJfreechart,
+							perftenceGraphJfreechart, perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart, slf4jApi,
 							völundrConcurrent)
 					.end();
@@ -161,7 +163,8 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(perftence, perftenceApi,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph,
-							reporterfactoryDependenciesJfreechart)
+							reporterfactoryDependenciesJfreechart,
+							perftenceTestreportHtml, völundrFileutil)
 					.end();
 
 	private final JavaSrcModule perftenceJunit = srcModule("perftence-junit")
@@ -184,6 +187,7 @@ public class PerftenceModules extends JavaModules {
 							perftenceApi,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceFluent, perftenceGraph,
+							perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart, slf4jApi)
 					.end();
 
@@ -210,6 +214,7 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(perftence, perftenceAgents,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph, perftenceGraphJfreechart,
+							perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart, slf4jApi,
 							völundrLinereader)
 					.testDeps(junit, perftenceFluent, perftenceJunit).end();
