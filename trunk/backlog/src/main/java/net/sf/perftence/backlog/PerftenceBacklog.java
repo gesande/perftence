@@ -190,7 +190,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 feature),
                         done("afreechart version of perftence-graph", feature),
                         done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects)",
-                                refactoring))
+                                refactoring),
+                        done("ticket#2 csv files for trend support", feature))
                 .inProgress().title("IN PROGRESS:").noTasks()
 
                 .waiting().title("WAITING:")
@@ -225,7 +226,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         waiting("study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY",
                                 refactoring),
                         waiting("ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running",
-                                feature))
+                                feature),
+                        waiting("autoscaling graphs", feature))
 
                 .show();
     }
