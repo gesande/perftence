@@ -1,31 +1,12 @@
-package net.sf.perftence.api;
+package net.sf.perftence.reporting.summary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import net.sf.perftence.common.SummaryConsumer;
-import net.sf.völundr.fileio.AppendToFileFailed;
-import net.sf.völundr.fileio.FileUtil;
-import net.sf.völundr.fileio.ToBytes;
 
-public final class FileSummaryConsumer implements SummaryConsumer {
-	private String path;
+public class SummaryToCsv {
 
-	public FileSummaryConsumer(String path) {
-		this.path = path;
-	}
-
-	@Override
-	public void consumeSummary(String summaryId, String summary) {
-		try {
-			FileUtil.appendToFile(path + "/" + summaryId, ToBytes
-					.withDefaultCharset().convert(convertToCsv(summary)));
-		} catch (AppendToFileFailed | IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private static String convertToCsv(String summary) throws IOException {
+	public static String convertToCsv(String summary) throws IOException {
 		StringReader reader = new StringReader(summary);
 		BufferedReader br = new BufferedReader(reader);
 		try {

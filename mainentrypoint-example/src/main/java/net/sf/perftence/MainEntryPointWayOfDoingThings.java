@@ -2,7 +2,7 @@ package net.sf.perftence;
 
 import java.util.Random;
 
-import net.sf.perftence.api.FileSummaryConsumer;
+import net.sf.perftence.api.SummaryToCsvFile;
 import net.sf.perftence.api.PerftenceApi;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.HtmlTestReport;
@@ -28,7 +28,7 @@ public final class MainEntryPointWayOfDoingThings
 		this.api = new PerftenceApi(this, defaultTestRuntimeReporterFactory,
 				deps.lineChartAdapterProvider(),
 				deps.scatterPlotAdapterProvider(),
-				new FileSummaryConsumer(testReport.reportRootDirectory()));
+				new SummaryToCsvFile(testReport.reportRootDirectory()));
 	}
 
 	public static void main(final String[] args) throws Exception {
