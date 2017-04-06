@@ -120,9 +120,7 @@ public class PerftenceModules extends JavaModules {
 
 	private final JavaSrcModule perftenceFluent = srcModule("perftence-fluent")
 			.noTestResources()
-			.mainDeps(perftence, perftenceGraph,
-					perftenceDefaulttestruntimereporterfactory, slf4jApi,
-					völundrConcurrent)
+			.mainDeps(perftence, perftenceGraph, slf4jApi, völundrConcurrent)
 			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
 					perftenceGraphJfreechart, perftenceTestreportHtml,
 					reporterfactoryDependenciesJfreechart)
@@ -140,7 +138,7 @@ public class PerftenceModules extends JavaModules {
 	private final JavaSrcModule perftenceApi = srcModule("perftence-api")
 			.noTestResources()
 			.mainDeps(perftence, perftenceAgents, perftenceFluent,
-					perftenceGraph, perftenceDefaulttestruntimereporterfactory)
+					perftenceGraph)
 			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
 					perftenceGraphJfreechart, perftenceTestreportHtml,
 					reporterfactoryDependenciesJfreechart)

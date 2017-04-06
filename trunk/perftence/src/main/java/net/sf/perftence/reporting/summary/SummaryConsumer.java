@@ -1,4 +1,4 @@
-package net.sf.perftence.common;
+package net.sf.perftence.reporting.summary;
 
 public interface SummaryConsumer {
 

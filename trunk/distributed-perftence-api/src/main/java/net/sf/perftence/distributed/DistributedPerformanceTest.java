@@ -7,7 +7,6 @@ import net.sf.perftence.RunNotifier;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.common.InvocationStorage;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.fluent.FluentPerformanceTest;
@@ -16,6 +15,7 @@ import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.FailedInvocations;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public final class DistributedPerformanceTest {

@@ -6,7 +6,6 @@ import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
 import net.sf.perftence.common.HtmlTestReport;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.formatting.DefaultDoubleFormatter;
 import net.sf.perftence.formatting.FieldFormatter;
 import net.sf.perftence.graph.jfreechart.DatasetAdapterFactory;
@@ -15,6 +14,7 @@ import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeCha
 import net.sf.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import net.sf.perftence.reporting.summary.FailedInvocationsFactory;
 import net.sf.perftence.reporting.summary.FieldAdjuster;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.reporting.summary.SummaryFieldFactory;
 import net.sf.perftence.reporting.summary.TestSummaryLoggerFactory;
 

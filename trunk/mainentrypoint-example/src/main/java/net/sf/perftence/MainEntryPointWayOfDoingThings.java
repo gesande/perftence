@@ -2,8 +2,8 @@ package net.sf.perftence;
 
 import java.util.Random;
 
-import net.sf.perftence.api.SummaryToCsvFile;
 import net.sf.perftence.api.PerftenceApi;
+import net.sf.perftence.api.SummaryToCsvFile;
 import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
 import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.fluent.MultithreadWorker;

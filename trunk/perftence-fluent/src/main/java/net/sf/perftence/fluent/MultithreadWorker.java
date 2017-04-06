@@ -17,10 +17,10 @@ import net.sf.perftence.PerfTestFailureFactory;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
-import net.sf.perftence.common.SummaryConsumer;
 import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
