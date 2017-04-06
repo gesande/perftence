@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
 
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
-import net.sf.perftence.reporting.summary.Summary;
-import net.sf.perftence.reporting.summary.SummaryAppender;
 
 @RunWith(DefaultTestRunner.class)
 public class TestAgentUserStories extends AbstractMultiThreadedTest {
@@ -26,21 +24,12 @@ public class TestAgentUserStories extends AbstractMultiThreadedTest {
 
 	@Test
 	public void sleepingAgentStoryWith10AgentsWithCustomSummaryAppender() {
-		SummaryAppender appender = newSummaryAppender();
 		agentBasedTest().agents(agents(10, new SleepingTestAgentFactory()))
-				.summaryAppender(appender).start();
-	}
-
-	private static SummaryAppender newSummaryAppender() {
-		return new SummaryAppender() {
-
-			@Override
-			public void append(Summary<?> summary) {
-				summary.bold("Summary caption").endOfLine();
-				summary.text("Some test summary specific text").endOfLine();
-				summary.endOfLine();
-			}
-		};
+				.summaryAppender(summary -> {
+					summary.bold("Summary caption").endOfLine();
+					summary.text("Some test summary specific text").endOfLine();
+					summary.endOfLine();
+				}).start();
 	}
 
 	@Test

@@ -15,8 +15,6 @@ import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 import net.sf.perftence.Executable;
 import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.summary.Summary;
-import net.sf.perftence.reporting.summary.SummaryAppender;
 
 @RunWith(DefaultTestRunner.class)
 public class FluentUserStories extends AbstractMultiThreadedTest {
@@ -34,13 +32,10 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 	@Before
 	public void before() throws Exception {
 		this.i = 0;
-		this.executor = new Executable() {
-			@Override
-			public void execute() {
-				FluentUserStories.this.i++;
-				if (FluentUserStories.this.i % 1000 == 0) {
-					log().info("Executing...{}", FluentUserStories.this.i);
-				}
+		this.executor = () -> {
+			FluentUserStories.this.i++;
+			if (FluentUserStories.this.i % 1000 == 0) {
+				log().info("Executing...{}", FluentUserStories.this.i);
 			}
 		};
 	}
@@ -69,12 +64,9 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 	public void invocationCount() throws Exception {
 		final AtomicInteger i = new AtomicInteger(0);
 		test().setup(setup().threads(3).invocations(10).build())
-				.executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						executor().execute();
-						i.incrementAndGet();
-					}
+				.executable(() -> {
+					executor().execute();
+					i.incrementAndGet();
 				}).start();
 		Assert.assertEquals("Invocation count doesn't match!", 10, i.get());
 	}
@@ -84,31 +76,17 @@ public class FluentUserStories extends AbstractMultiThreadedTest {
 			throws Exception {
 		test().setup(setup().duration(Duration.seconds(15)).threads(10)
 				.invocationRange(1000).throughputRange(30).build())
-				.executable(new Executable() {
-
-					@Override
-					public void execute() throws Exception {
-						Thread.sleep(RANDOM.nextInt(1000));
-					}
-				}).start();
+				.executable(() -> Thread.sleep(RANDOM.nextInt(1000))).start();
 	}
 
 	@Test
 	public void customSummaryAppender() throws Exception {
 		test().setup(setup().duration(Duration.seconds(15)).threads(10)
 				.invocationRange(1000).throughputRange(30)
-				.summaryAppender(new SummaryAppender() {
-					@Override
-					public void append(Summary<?> summary) {
-						summary.text("Here's something cool!").endOfLine()
-								.bold("And some bolded text").endOfLine();
-					}
-				}).build()).executable(new Executable() {
-
-					@Override
-					public void execute() throws Exception {
-						Thread.sleep(RANDOM.nextInt(1000));
-					}
-				}).start();
+				.summaryAppender(summary -> summary
+						.text("Here's something cool!").endOfLine()
+						.bold("And some bolded text").endOfLine())
+				.build()).executable(() -> Thread.sleep(RANDOM.nextInt(1000)))
+				.start();
 	}
 }

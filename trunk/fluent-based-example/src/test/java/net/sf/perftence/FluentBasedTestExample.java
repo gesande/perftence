@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.summary.Summary;
-import net.sf.perftence.reporting.summary.SummaryAppender;
 
 /**
  * First extend from AbstractMultiThreadedTest to get access to test entry
@@ -30,46 +28,26 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 	@Test
 	public void invocationBased() throws Exception {
 		test().setup(setup().invocations(100).invocationRange(10).build())
-				.executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						sleep(10);
-					}
-				}).start();
+				.executable(() -> sleep(10)).start();
 	}
 
 	@Test
 	public void threadBased() throws Exception {
 		test().setup(setup().threads(100).invocations(5000).invocationRange(20)
-				.build()).executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						sleep(10);
-					}
-				}).start();
+				.build()).executable(() -> sleep(10)).start();
 	}
 
 	@Test
 	public void durationBasedSingleThread() throws Exception {
 		test().setup(setup().duration(Duration.seconds(5)).build())
-				.executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						sleep(100);
-					}
-				}).start();
+				.executable(() -> sleep(100)).start();
 	}
 
 	@Test
 	public void durationBasedMultiThread() throws Exception {
 		test().setup(setup().duration(Duration.seconds(2)).threads(2)
 				.invocationRange(20).throughputRange(2000000).build())
-				.executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						sleep(100);
-					}
-				}).start();
+				.executable(() -> sleep(100)).start();
 	}
 
 	@Test
@@ -77,41 +55,24 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 		test().setup(setup().threads(10).invocations(100).build())
 				.requirements(
 						requirements().average(30).max(200).median(20).build())
-				.executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						sleep(20);
-					}
-				}).start();
+				.executable(() -> sleep(20)).start();
 	}
 
 	@Test
 	public void durationWithRanges() throws Exception {
 		test().setup(setup().duration(Duration.seconds(5)).threads(10)
 				.invocationRange(100).throughputRange(500).build())
-				.executable(new Executable() {
-
-					@Override
-					public void execute() throws Exception {
-						sleep(random(100) + 1);
-					}
-
-				}).start();
+				.executable(() -> sleep(random(100) + 1)).start();
 	}
 
 	@Test
 	public void customSummaryAppender() throws Exception {
-		final SummaryAppender summaryAppender = new SummaryAppender() {
-			@Override
-			public void append(Summary<?> summary) {
-				summary.text("Here's something cool!").endOfLine()
-						.bold("And some bolded text").endOfLine();
-			}
-		};
 		test().setup(setup().duration(Duration.seconds(15)).threads(10)
 				.invocationRange(1000).throughputRange(30)
-				.summaryAppender(summaryAppender).build())
-				.executable(new Executable() {
+				.summaryAppender(summary -> summary
+						.text("Here's something cool!").endOfLine()
+						.bold("And some bolded text").endOfLine())
+				.build()).executable(new Executable() {
 
 					@Override
 					public void execute() throws Exception {
@@ -126,25 +87,15 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 		test().noInvocationGraph()
 				.setup(setup().duration(Duration.seconds(5)).threads(10)
 						.invocationRange(1000).throughputRange(30).build())
-				.executable(new Executable() {
-
-					@Override
-					public void execute() throws Exception {
-						randomSleep(1000);
-					}
-				}).start();
+				.executable(() -> randomSleep(1000)).start();
 	}
 
 	@Test
 	public void threadBasedWithAllowedException() throws Exception {
 		final ExecutorBehavingBadlyHalfTheTime failingExecutor = new ExecutorBehavingBadlyHalfTheTime();
 		test().setup(setup().threads(10).invocations(100).throughputRange(50)
-				.build()).allow(MyException.class).executable(new Executable() {
-					@Override
-					public void execute() throws Exception {
-						failingExecutor.execute();
-					}
-				}).start();
+				.build()).allow(MyException.class)
+				.executable(() -> failingExecutor.execute()).start();
 	}
 
 	class ExecutorBehavingBadlyHalfTheTime implements Executable {
