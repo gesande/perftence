@@ -44,13 +44,16 @@ apply plugin : PerftenceBuildPlugin
 reportingSettings {
 	toolsDirectory = "${toolsDir}"
 	onlyAnalyze = 'net.sf.perftence'
+	findbugsVersion = '3.0.1'
 }
+
 
 subprojects { Project prj ->
 	version = prj.parent.artifactVersion
-	sourceCompatibility = JavaVersion.VERSION_1_6
-	targetCompatibility = JavaVersion.VERSION_1_6
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 	apply plugin : DefaultContinousBuildPlugin
 	forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
+	pmd { toolVersion = '4.3'	}
 }
 

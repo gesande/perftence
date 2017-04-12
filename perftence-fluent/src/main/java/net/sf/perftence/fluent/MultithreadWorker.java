@@ -410,7 +410,7 @@ public final class MultithreadWorker implements Startable {
 		String id = id();
 		String summaryId = id + ".fluent.summary";
 		overallSummaryLogger().printSummary(id, summary -> {
-			summaryConsumer.consumeSummary(summaryId, summary);
+            this.summaryConsumer.consumeSummary(summaryId, summary);
 		});
 	}
 

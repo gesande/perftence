@@ -68,7 +68,7 @@ public class AgentBasedTestUsingFileBasedReporting {
 				TestRuntimeReporterFactoryUsingJFreeChart.reporterFactory(
 						HtmlTestReport.withDefaultReportPath()),
 				datasetAdapterFactory(), datasetAdapterFactory(),
-				summaryConsumer);
+				this.summaryConsumer);
 	}
 
 	private LatencyProviderFactory latencyProviderFactory() {

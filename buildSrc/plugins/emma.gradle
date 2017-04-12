@@ -1,7 +1,4 @@
-import static org.gradle.logging.StyledTextOutput.Style
-
 import org.gradle.api.Project
-import org.gradle.logging.StyledTextOutputFactory
 
 
 /* Got this originally from https://github.com/breskeby/gradleplugins/blob/master/emmaPlugin/emma.gradle
@@ -93,25 +90,24 @@ test {
             }
         }
         def File reportFile = file("$buildDir/reports/emma/coverage.xml")
-        def outputFactory = services.get(StyledTextOutputFactory).create("emma.test")
         if (reportFile.exists()) {
-            outputFactory.withStyle(Style.Info).println("Test coverage reports available at $buildDir/reports/emma.")
-            outputFactory.withStyle(Style.Normal).println("Text: file://$buildDir/reports/emma/coverage.txt")
-            outputFactory.withStyle(Style.Info).println("Html: file://$buildDir/reports/emma/coverage.html")
-            outputFactory.withStyle(Style.Normal).println("Xml:  file://$buildDir/reports/emma/coverage.xml")
+            println("Test coverage reports available at $buildDir/reports/emma.")
+            println("Text: file://$buildDir/reports/emma/coverage.txt")
+            println("Html: file://$buildDir/reports/emma/coverage.html")
+            println("Xml:  file://$buildDir/reports/emma/coverage.xml")
 
-            outputFactory.withStyle(Style.Normal).println("Analyzing test coverage for $project.name ...")
+            println("Analyzing test coverage for $project.name ...")
             def report = new XmlParser().parse(reportFile)
             def String coverage = report.data[0].all[0].coverage[3].@value
             def String[] splitted =coverage.split(" ");
             def Double actualCoverage = Double.parseDouble(splitted[0].replace("%", ""))
             if(actualCoverage < 95.0){
-                outputFactory.withStyle(Style.Error).println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on $project.name.")
+                println("Line coverage was lower than expected (95.0), it was ${actualCoverage} so you need to work on $project.name.")
             } else {
-                outputFactory.withStyle(Style.Info).println("Line coverage was ${coverage}, good job!")
+                println("Line coverage was ${coverage}, good job!")
             }
         } else {
-            outputFactory.withStyle(Style.Info).println("Seems that there was no coverage file, project '$project.name' might need some tests.")
+            println("Seems that there was no coverage file, project '$project.name' might need some tests.")
         }
     }
 }

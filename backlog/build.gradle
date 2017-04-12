@@ -1,4 +1,3 @@
-import net.sf.mygradlebuild.tasks.BashExec
 
 import org.gradle.api.Task
 
@@ -71,10 +70,11 @@ task featuresWaiting (dependsOn: classes) { Task task ->
     }
 }
 
-task printChangeLog(type: BashExec) { BashExec task ->
+task printChangeLog(type: Exec) { Exec task ->
     group = 'Backlog'
     description= 'Change log for backlog.'
-    task.args changeLogArgs(task)
+    task.executable = "bash"
+    task.args "-c",changeLogArgs(task)
 }
 
 task copyStdLib() { Task task ->
