@@ -2,11 +2,10 @@
 
 package net.sf.perftence
 
-import net.sf.mygradlebuild.tasks.BashExec
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
+import org.gradle.api.tasks.Exec
 
 class PerftenceBacklogBuildPlugin implements Plugin<Project>{
 
@@ -67,11 +66,12 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("printChangeLog", type: BashExec) {
-            BashExec task ->
+        project.task("printChangeLog", type: Exec) {
+            Exec task ->
             group = 'Backlog'
             description= 'Change log for backlog.'
-            task.args changeLogArgs(task)
+            task.executable = "bash"
+            task.args "-c", changeLogArgs(task)
         }
 
         project.task("copyStdLib") {
