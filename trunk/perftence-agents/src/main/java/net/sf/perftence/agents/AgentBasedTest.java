@@ -74,7 +74,7 @@ public final class AgentBasedTest {
 						latencyProviderFactory()),
 				latencyProviderFactory(), testRuntimeReporterFactory(),
 				lineChartAdapterProvider(), scatterPlotAdapterProvider(),
-				summaryConsumer);
+				this.summaryConsumer);
 	}
 
 	private ScatterPlotAdapterProvider<?, ?> scatterPlotAdapterProvider() {

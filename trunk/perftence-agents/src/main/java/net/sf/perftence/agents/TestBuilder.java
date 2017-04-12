@@ -496,7 +496,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		String id = id();
 		String summaryId = id + ".agent.summary";
 		overAllSummaryBuilder().printSummary(id, summary -> {
-			summaryConsumer.consumeSummary(summaryId, summary);
+            this.summaryConsumer.consumeSummary(summaryId, summary);
 		});
 	}
 

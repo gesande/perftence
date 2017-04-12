@@ -53,7 +53,7 @@ public final class PerftenceApi {
 	private AgentBasedTest createAgentBasedTest() {
 		return new AgentBasedTest(failureNotifier(), latencyProviderFactory(),
 				testRuntimeReporterFactory(), lineChartAdapterProvider(),
-				this.scatterPlotAdapterProvider, summaryConsumer);
+				this.scatterPlotAdapterProvider, this.summaryConsumer);
 	}
 
 	private LineChartAdapterProvider<?, ?> lineChartAdapterProvider() {
@@ -67,7 +67,7 @@ public final class PerftenceApi {
 	private FluentPerformanceTest createPerformanceTest() {
 		return new FluentPerformanceTest(failureNotifier(),
 				testRuntimeReporterFactory(), new DefaultRunNotifier(),
-				lineChartAdapterProvider(), summaryConsumer);
+                lineChartAdapterProvider(), this.summaryConsumer);
 	}
 
 	private TestRuntimeReporterFactory testRuntimeReporterFactory() {

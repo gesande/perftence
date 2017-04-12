@@ -1,6 +1,3 @@
-import static org.gradle.logging.StyledTextOutput.Style
-
-import org.gradle.logging.StyledTextOutputFactory
 import org.gradle.plugins.ide.eclipse.model.AbstractLibrary
 import org.gradle.plugins.ide.eclipse.model.Classpath
 import org.gradle.plugins.ide.eclipse.model.ClasspathEntry
@@ -19,7 +16,7 @@ dependencies {
     compile project.fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
 }
 
-version = '1.0.3'
+version = '2.0.0'
 
 eclipse.classpath.defaultOutputDir = file('target/classes')
 
@@ -32,15 +29,14 @@ eclipse {
                 String gradleHome = gradle.getGradleHomeDir().absolutePath.replace(File.separator, '/')
                 String gradleSrc = "${gradleHome}/src"
                 def entrySourcePath = new FileReferenceFactory().fromPath(gradleSrc)
-                def outputFactory = services.get(StyledTextOutputFactory).create("gradlePlugins.eclipseClasspath")
                 cp.entries.each { ClasspathEntry entry ->
                     if ((entry in AbstractLibrary) && (entry.library.file.name.startsWith('gradle-'))) {
                         entry.sourcePath = entrySourcePath
-                        outputFactory.withStyle(Style.Info).println("Forked for patch for ${entry}")
+						println("Forked for patch for ${entry}")
                     }
                     if( ((entry in AbstractLibrary) && entry.library.file.name.startsWith(buildLibrary)) ) {
                         entry.sourcePath = new FileReferenceFactory().fromPath("${projectDir}/lib-sources/${buildLibrary}-sources.jar")
-                        outputFactory.withStyle(Style.Info).println("Forked for patch for ${buildLibrary}")
+                        println("Forked for patch for ${buildLibrary}")
                     }
                 }
             }

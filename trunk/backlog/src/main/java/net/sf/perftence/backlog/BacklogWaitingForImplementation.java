@@ -30,7 +30,7 @@ public class BacklogWaitingForImplementation {
     }
 
     private static List<Tag> toTags(final String[] args) {
-        final List<Tag> tags = new ArrayList<Tag>();
+        final List<Tag> tags = new ArrayList<>();
         if (args.length > 0) {
             for (final String value : args) {
                 tags.add(PerftenceTag.valueOf(value));
@@ -46,7 +46,7 @@ public class BacklogWaitingForImplementation {
     private static class WaitingForImplementation implements BacklogFactory {
 
         private final BacklogDisplay display;
-        private final List<Tag> waitingTags = new ArrayList<Tag>();
+        private final List<Tag> waitingTags = new ArrayList<>();
 
         public WaitingForImplementation(final BacklogDisplay display,
                 final List<Tag> waitingTags) {
@@ -55,7 +55,7 @@ public class BacklogWaitingForImplementation {
         }
 
         Waiting[] filtered(final Waiting[] tasks) {
-            List<Waiting> filtered = new ArrayList<Waiting>();
+            List<Waiting> filtered = new ArrayList<>();
             for (Waiting task : tasks) {
                 if (waitingTasks().contains(task.tag())) {
                     filtered.add(task);
