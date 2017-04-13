@@ -13,21 +13,21 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
 ext {
-	//make sure these files exist
-	jdtInputFile="${buildScripts}/template/for/eclipse/org.eclipse.jdt.core.prefs"
+    //make sure these files exist
+    jdtInputFile="${buildScripts}/template/for/eclipse/org.eclipse.jdt.core.prefs"
 
-	pmdSettings="${buildScripts}/template/for/pmd/.pmd"
+    pmdSettings="${buildScripts}/template/for/pmd/.pmd"
 
-	distributionDir="$buildDir/distributions"
+    distributionDir="$buildDir/distributions"
 
-	toolsDir="${projectDir}/tools"
+    toolsDir="${projectDir}/tools"
 
-	emmaPlugin="${buildScripts}/plugins/emma.gradle"
+    emmaPlugin="${buildScripts}/plugins/emma.gradle"
 
-	artifactVersion='2.1.1'
+    artifactVersion='2.1.1'
 
-	distributionExcludes = ["*-lib.jar"]
-	distributionBasename = 'perftence-distribution'
+    distributionExcludes = ["*-lib.jar"]
+    distributionBasename = 'perftence-distribution'
 }
 
 apply plugin: MavenCentral
@@ -42,18 +42,18 @@ apply plugin : ExportAntBuildFilePlugin
 apply plugin : PerftenceBuildPlugin
 
 reportingSettings {
-	toolsDirectory = "${toolsDir}"
-	onlyAnalyze = 'net.sf.perftence'
-	findbugsVersion = '3.0.1'
+    toolsDirectory = "${toolsDir}"
+    onlyAnalyze = 'net.sf.perftence'
+    findbugsVersion = '3.0.1'
 }
 
 
 subprojects { Project prj ->
-	version = prj.parent.artifactVersion
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-	apply plugin : DefaultContinousBuildPlugin
-	forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
-	pmd { toolVersion = '4.3'	}
+    version = prj.parent.artifactVersion
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    apply plugin : DefaultContinousBuildPlugin
+    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
+    pmd { toolVersion = '4.3'	}
 }
 

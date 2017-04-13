@@ -11,8 +11,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
 
     @Override
     public void apply(final Project project) {
-        project.task("showBacklog",dependsOn: "classes") {
-            Task task ->
+        project.task("showBacklog",dependsOn: "classes") { Task task ->
             group = 'Backlog'
             description= 'Shows the backlog.'
             doLast {
@@ -24,8 +23,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("exportBacklog", dependsOn: "classes") {
-            Task task ->
+        project.task("exportBacklog", dependsOn: "classes") { Task task ->
             group = 'Backlog'
             description= 'Exports the backlog to backlog.txt.'
             doLast {
@@ -39,8 +37,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("waitingForImplementation",dependsOn: "classes") {
-            Task task ->
+        project.task("waitingForImplementation",dependsOn: "classes") { Task task ->
             group = 'Backlog'
             description= 'Shows all stuff waiting for implementation.'
             doLast {
@@ -52,8 +49,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("featuresWaiting" ,dependsOn: "classes") {
-            Task task ->
+        project.task("featuresWaiting" ,dependsOn: "classes") { Task task ->
             group = 'Backlog'
             description= 'Shows all features waiting for implementation.'
             doLast {
@@ -66,16 +62,14 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("printChangeLog", type: Exec) {
-            Exec task ->
+        project.task("printChangeLog", type: Exec) { Exec task ->
             group = 'Backlog'
             description= 'Change log for backlog.'
             task.executable = "bash"
             task.args "-c", changeLogArgs(task)
         }
 
-        project.task("copyStdLib") {
-            Task task ->
+        project.task("copyStdLib") { Task task ->
             group ='Backlog'
             description = "Copies stdout-lib.sh for changelog scripts to ${distributionDir}."
             doLast {
@@ -87,8 +81,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("createChangeLogScript", dependsOn: "copyStdLib") {
-            Task task ->
+        project.task("createChangeLogScript", dependsOn: "copyStdLib") { Task task ->
             group ='Backlog'
             description = 'Create a shell script for a specific changelog.'
 
@@ -128,8 +121,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("exportChangeLog", dependsOn: "createChangeLogScript")  {
-            Task task ->
+        project.task("exportChangeLog", dependsOn: "createChangeLogScript")  { Task task ->
             group = 'Backlog'
             description= 'Exports changelog.'
             doLast {
@@ -141,8 +133,7 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
 
-        project.task("exportChangeLogTo", dependsOn: "createChangeLogScript")  {
-            Task task ->
+        project.task("exportChangeLogTo", dependsOn: "createChangeLogScript")  { Task task ->
             group = 'Backlog'
             description= 'Exports changelog to given file.'
             doLast{
