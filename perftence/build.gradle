@@ -1,5 +1,5 @@
 project(':perftence') {
-    apply from:"$emmaPlugin"
+    apply from : "$emmaPlugin"
     apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
     tasks.withType(FindBugs){ ignoreFailures = true }
