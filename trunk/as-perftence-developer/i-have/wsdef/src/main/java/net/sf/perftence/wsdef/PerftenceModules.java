@@ -230,11 +230,14 @@ public class PerftenceModules extends JavaModules {
 					.end();
 
 	// collections
-
 	List<JavaSrcModule> productionDependencyRoots() {
-		return Arrays.asList(distributedPerftenceApi, filebasedReportingProto,
-				mainentrypointExample, perftenceExperimental,
-				reporterfactoryDependenciesAfreechart,
+		return Arrays.asList(distributedPerftenceApi, perftence,
+				perftenceAgents, perftenceApi,
+				perftenceDefaulttestruntimereporterfactory, perftenceFluent,
+				perftenceGraph, perftenceGraphAfreechart,
+				perftenceGraphJfreechart, perftenceJunit,
+				perftenceTestreportHtml, reporterfactoryDependenciesAfreechart,
+				reporterfactoryDependenciesJfreechart,
 				responsecodeSummaryappender);
 	}
 
@@ -244,9 +247,12 @@ public class PerftenceModules extends JavaModules {
 	List<JavaSrcModule> dependencyRoots() {
 		List<JavaSrcModule> roots = new ArrayList<>();
 		roots.addAll(productionDependencyRoots());
+		roots.add(mainentrypointExample);
+		roots.add(perftenceExperimental);
 		roots.add(acceptanceTests);
 		roots.add(agentBasedExample);
 		roots.add(fluentBasedExample);
+		roots.add(filebasedReportingProto);
 		return roots;
 	}
 

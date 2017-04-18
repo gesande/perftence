@@ -77,6 +77,7 @@ class Distro extends TargetBase {
 						+ "src/main/java/"
 						+ "net/sf/perftence/wsdef/Distro.java"))
 				.ingredients("svnRevisionProperties", svnRevisionProperties)
+				.ingredients("COPYING", Source.underWsroot("COPYING"))
 				.ingredients("zips", zips).ingredients("srcJars", srcJars)
 				.nothingElse();
 	}
@@ -93,6 +94,9 @@ class Distro extends TargetBase {
 		File distDir = new File(ctx.cached(this), name() + "-R" + rev);
 		System.err.println("Populating " + distDir);
 		FileUtils.forceMkdir(distDir);
+
+		FileUtils.copyFileToDirectory(ctx.cached(Source.underWsroot("COPYING")),
+				distDir);
 
 		for (Path zip : zips) {
 			FileUtils.copyFileToDirectory(ctx.cached(zip), distDir);
