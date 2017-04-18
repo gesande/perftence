@@ -29,6 +29,7 @@ class Distro extends TargetBase {
 	private final Map<JavaModule, Path> jars = new LinkedHashMap<>();
 	private final List<Path> zips;
 	private final List<Path> srcJars;
+	private Path copying;
 
 	public Distro(PerftenceModules modules,
 			SvnRevisionProperties svnRevisionProperties) {
@@ -39,6 +40,7 @@ class Distro extends TargetBase {
 		srcJars = modules.allSrcModules().stream()
 				.map(m -> JavaModules.srcJarOf(majorVer, m))
 				.filter(s -> s != null).collect(Collectors.toList());
+		copying = Source.underWsroot("COPYING");
 	}
 
 	private Path zippedRuntimeJarsOf(JavaModule depRoot) {
@@ -77,9 +79,8 @@ class Distro extends TargetBase {
 						+ "src/main/java/"
 						+ "net/sf/perftence/wsdef/Distro.java"))
 				.ingredients("svnRevisionProperties", svnRevisionProperties)
-				.ingredients("COPYING", Source.underWsroot("COPYING"))
-				.ingredients("zips", zips).ingredients("srcJars", srcJars)
-				.nothingElse();
+				.ingredients("COPYING", copying).ingredients("zips", zips)
+				.ingredients("srcJars", srcJars).nothingElse();
 	}
 
 	@Override
@@ -95,8 +96,7 @@ class Distro extends TargetBase {
 		System.err.println("Populating " + distDir);
 		FileUtils.forceMkdir(distDir);
 
-		FileUtils.copyFileToDirectory(ctx.cached(Source.underWsroot("COPYING")),
-				distDir);
+		FileUtils.copyFileToDirectory(ctx.cached(copying), distDir);
 
 		for (Path zip : zips) {
 			FileUtils.copyFileToDirectory(ctx.cached(zip), distDir);
