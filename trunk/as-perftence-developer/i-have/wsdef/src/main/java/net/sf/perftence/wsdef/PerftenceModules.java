@@ -1,5 +1,6 @@
 package net.sf.perftence.wsdef;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -230,15 +231,23 @@ public class PerftenceModules extends JavaModules {
 
 	// collections
 
+	List<JavaSrcModule> productionDependencyRoots() {
+		return Arrays.asList(distributedPerftenceApi, filebasedReportingProto,
+				mainentrypointExample, perftenceExperimental,
+				reporterfactoryDependenciesAfreechart,
+				responsecodeSummaryappender);
+	}
+
 	/**
 	 * Basically this just prevents warnings about unused modules
 	 */
 	List<JavaSrcModule> dependencyRoots() {
-		return Arrays.asList(acceptanceTests, agentBasedExample,
-				distributedPerftenceApi, filebasedReportingProto,
-				fluentBasedExample, mainentrypointExample,
-				perftenceExperimental, reporterfactoryDependenciesAfreechart,
-				responsecodeSummaryappender);
+		List<JavaSrcModule> roots = new ArrayList<>();
+		roots.addAll(productionDependencyRoots());
+		roots.add(acceptanceTests);
+		roots.add(agentBasedExample);
+		roots.add(fluentBasedExample);
+		return roots;
 	}
 
 }
