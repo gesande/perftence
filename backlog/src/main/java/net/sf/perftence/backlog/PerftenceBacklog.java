@@ -191,10 +191,14 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("afreechart version of perftence-graph", feature),
                         done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects)",
                                 refactoring),
-                        done("ticket#2 csv files for trend support", feature))
+                        done("ticket#2 csv files for trend support", feature),
+                        done("split fluent and agent stuff into separate projects",
+                                refactoring))
+
                 .inProgress().title("IN PROGRESS:").noTasks()
 
                 .waiting().title("WAITING:")
+
                 .tasks(waiting("failures over test time, use DateAxis",
                         feature),
                         waiting("provide success rate percentage for intermediate statistics",
@@ -203,15 +207,13 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 codeQuality),
                         waiting("provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example",
                                 feature),
-                        waiting("split fluent and agent stuff into separate projects",
-                                refactoring),
                         waiting("provide means to create test results in an intermediate format",
                                 feature),
                         waiting("provide means to create test report from an intermediate format",
                                 feature),
                         waiting("provide means to define also Throwable/Error with allow() mechanism",
                                 feature),
-                        waiting("provide means to tell the Executable  also Throwable/Error with allow() mechanism",
+                        waiting("provide means to tell the Executable also Throwable/Error with allow() mechanism",
                                 feature),
                         waiting("upload test example distribution packages to project files (i.e. to source forge)",
                                 developmentSupport),
@@ -227,7 +229,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 refactoring),
                         waiting("ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running",
                                 feature),
-                        waiting("autoscaling graphs", feature))
+                        waiting("autoscaling graphs", feature),
+                        waiting("rampup + intelligent warmup", feature))
 
                 .show();
     }
