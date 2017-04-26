@@ -3,6 +3,9 @@ package net.sf.perftence.wsdef;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.function.Predicate;
 
 import net.sf.iwant.api.javamodules.JavaBinModule;
 import net.sf.iwant.api.javamodules.JavaModule;
@@ -254,6 +257,23 @@ public class PerftenceModules extends JavaModules {
 		roots.add(fluentBasedExample);
 		roots.add(filebasedReportingProto);
 		return roots;
+	}
+
+	public SortedSet<JavaSrcModule> modulesForJacoco() {
+		SortedSet<JavaSrcModule> modulesForJacoco = new TreeSet<>(
+				allSrcModules());
+		modulesForJacoco.removeIf(new Predicate<JavaSrcModule>() {
+			@Override
+			public boolean test(JavaSrcModule module) {
+				return module.equals(perftenceExperimental)
+						|| module.equals(filebasedReportingProto)
+						|| module.equals(mainentrypointExample)
+						|| module.equals(fluentBasedExample)
+						|| module.equals(agentBasedExample)
+						|| module.equals(distributedPerftenceApi);
+			}
+		});
+		return modulesForJacoco;
 	}
 
 }

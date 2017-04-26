@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
-
 import net.sf.iwant.api.core.Concatenated;
 import net.sf.iwant.api.core.Concatenated.ConcatenatedBuilder;
 import net.sf.iwant.api.javamodules.JavaModule;
@@ -43,7 +42,7 @@ public class PerftenceWorkspace implements Workspace {
 	}
 
 	private Target jacocoReportAll() {
-		return jacocoReport("jacoco-report-all", modules.allSrcModules());
+		return jacocoReport("jacoco-report-all", modules.modulesForJacoco());
 	}
 
 	private Target jacocoReport(String name,
