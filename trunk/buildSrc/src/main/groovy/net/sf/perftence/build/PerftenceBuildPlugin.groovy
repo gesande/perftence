@@ -32,7 +32,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
                 'exportAntBuildFile',
                 'aggregateTestReport',
                 'aggregateJDependReport',
-//                'aggregateCoverageReport',
                 'aggregateFindbugsReport',
                 'archiveAggregateReports'
             ]
@@ -62,7 +61,6 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
                 'exportAntBuildFile',
                 'aggregateTestReport',
                 'aggregateJDependReport',
-//                'aggregateCoverageReport',
                 'aggregateFindbugsReport',
                 'archiveAggregateReports'
             ]
