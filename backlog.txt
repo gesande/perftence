@@ -108,12 +108,12 @@ Backlog for pertence test tool:
 [32m  +++ move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects) +++ #refactoring[m
 [32m  +++ ticket#2 csv files for trend support +++ #feature[m
 [32m  +++ split fluent and agent stuff into separate projects +++ #refactoring[m
+[32m  +++ agent base tests: summary files for categorized tasks +++ #feature[m
 
   [33mIN PROGRESS:[m
 
   [31mWAITING:[m
 
-[31m  --- agent base tests: summary files for categorized tasks --- #feature[m
 [31m  --- agent based tests: requirements for categorized tasks --- #feature[m
 [31m  --- failures over test time, use DateAxis --- #feature[m
 [31m  --- provide success rate percentage for intermediate statistics --- #feature[m

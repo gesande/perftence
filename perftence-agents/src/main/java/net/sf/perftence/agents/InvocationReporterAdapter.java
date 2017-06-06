@@ -1,7 +1,11 @@
 package net.sf.perftence.agents;
 
+import java.util.function.Function;
+
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.TestRuntimeReporter;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
 public final class InvocationReporterAdapter {
 
@@ -66,5 +70,17 @@ public final class InvocationReporterAdapter {
 
 	public void invocationFailed(final Throwable cause) {
 		reporter().invocationFailed(cause);
+	}
+
+	public void summaryForCategory(
+			Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
+			SummaryConsumer summaryConsumer) {
+		if (!isStarted())
+			return;
+		TestSummaryLogger summaryLogger = summaryBuilderFactory
+				.apply(latencyProvider);
+		String id = name() + "-" + category().name() + "-statistics.summary";
+		summaryLogger.printSummary(id,
+				summary -> summaryConsumer.consumeSummary(id, summary));
 	}
 }

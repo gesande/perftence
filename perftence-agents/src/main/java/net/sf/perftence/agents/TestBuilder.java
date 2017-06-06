@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -379,7 +380,19 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	}
 
 	private void categorySpecificSummary() {
+		log().info("Creating category specific summaries...");
 		categorySpecificLatencies().summaryTime();
+		categorySpecificLatencies()
+				.summaries(new Function<LatencyProvider, TestSummaryLogger>() {
+
+					@Override
+					public TestSummaryLogger apply(
+							LatencyProvider latencyProvider) {
+						return summaryBuilderFactory
+								.overallSummaryBuilder(latencyProvider);
+					}
+				}, summaryConsumer);
+		log().info("Category specific summaries done.");
 	}
 
 	private void resetCurrentThreads() {
@@ -496,7 +509,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		String id = id();
 		String summaryId = id + ".agent.summary";
 		overAllSummaryBuilder().printSummary(id, summary -> {
-            this.summaryConsumer.consumeSummary(summaryId, summary);
+			this.summaryConsumer.consumeSummary(summaryId, summary);
 		});
 	}
 
