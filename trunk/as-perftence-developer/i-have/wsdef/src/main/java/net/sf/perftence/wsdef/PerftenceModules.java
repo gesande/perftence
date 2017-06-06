@@ -185,12 +185,13 @@ public class PerftenceModules extends JavaModules {
 	private final JavaSrcModule mainentrypointExample = srcModule(
 			"mainentrypoint-example").noTestJava()
 					.noTestResources()
-					.mainDeps(defaultPerftenceApiFactory, perftence,
+					.mainDeps(defaultPerftenceApiFactory, log4j, perftence,
 							perftenceApi,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceFluent, perftenceGraph,
 							perftenceTestreportHtml,
-							reporterfactoryDependenciesJfreechart, slf4jApi)
+							reporterfactoryDependenciesJfreechart, slf4jApi,
+							slf4jLog4j12)
 					.end();
 
 	private final JavaSrcModule perftenceExperimental = srcModule(

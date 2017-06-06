@@ -2,33 +2,21 @@ package net.sf.perftence;
 
 import java.util.Random;
 
+import net.sf.perftence.api.DefaultPerftenceApiFactory;
 import net.sf.perftence.api.PerftenceApi;
-import net.sf.perftence.api.SummaryToCsvFile;
-import net.sf.perftence.common.DefaultTestRuntimeReporterFactory;
-import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.fluent.MultithreadWorker;
 import net.sf.perftence.fluent.TestBuilder;
-import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
-import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.setup.PerformanceTestSetupPojo.PerformanceTestSetupBuilder;
 
-public final class MainEntryPointWayOfDoingThings
-		implements TestFailureNotifier {
+public final class MainEntryPointWayOfDoingThings {
 
 	private final PerftenceApi api;
 	private final static Random RANDOM = new Random(System.currentTimeMillis());
 
 	public MainEntryPointWayOfDoingThings() {
-		TestReport testReport = HtmlTestReport.withDefaultReportPath();
-		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart(
-				testReport);
-		final DefaultTestRuntimeReporterFactory defaultTestRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
-				deps);
-		this.api = new PerftenceApi(this, defaultTestRuntimeReporterFactory,
-				deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider(),
-				new SummaryToCsvFile(testReport.reportRootDirectory()));
+		this.api = new DefaultPerftenceApiFactory()
+				.newPerftenceApi(Throwable::printStackTrace);
 	}
 
 	public static void main(final String[] args) throws Exception {
@@ -76,10 +64,5 @@ public final class MainEntryPointWayOfDoingThings
 
 	private PerftenceApi api() {
 		return this.api;
-	}
-
-	@Override
-	public void testFailed(final Throwable t) {
-		// no implementation
 	}
 }
