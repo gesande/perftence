@@ -199,7 +199,10 @@ public class PerftenceBacklog extends AbstractBacklogging {
 
                 .waiting().title("WAITING:")
 
-                .tasks(waiting("failures over test time, use DateAxis",
+                .tasks(
+                        waiting("agent base tests: summary files for categorized tasks", feature),
+                        waiting("agent based tests: requirements for categorized tasks", feature),
+                        waiting("failures over test time, use DateAxis",
                         feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
