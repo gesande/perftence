@@ -3,9 +3,14 @@ package net.sf.perftence.agents;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
 final class CategorySpecificLatencies {
 	private final static Logger LOG = LoggerFactory
@@ -144,6 +149,16 @@ final class CategorySpecificLatencies {
 	private static void reportFailure(final InvocationReporterAdapter reporter,
 			final Throwable cause) {
 		reporter.invocationFailed(cause);
+	}
+
+	public void summaries(
+			Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
+			SummaryConsumer summaryConsumer) {
+		for (InvocationReporterAdapter reporterAdapter : categorySpecificReporters
+				.values()) {
+			reporterAdapter.summaryForCategory(summaryBuilderFactory,
+					summaryConsumer);
+		}
 	}
 
 }

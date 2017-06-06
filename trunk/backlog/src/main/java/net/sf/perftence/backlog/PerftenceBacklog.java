@@ -193,17 +193,19 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 refactoring),
                         done("ticket#2 csv files for trend support", feature),
                         done("split fluent and agent stuff into separate projects",
-                                refactoring))
+                                refactoring),
+                        done("agent base tests: summary files for categorized tasks",
+                                feature))
 
                 .inProgress().title("IN PROGRESS:").noTasks()
 
                 .waiting().title("WAITING:")
 
-                .tasks(
-                        waiting("agent base tests: summary files for categorized tasks", feature),
-                        waiting("agent based tests: requirements for categorized tasks", feature),
-                        waiting("failures over test time, use DateAxis",
+                .tasks(waiting(
+                        "agent based tests: requirements for categorized tasks",
                         feature),
+                        waiting("failures over test time, use DateAxis",
+                                feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
                         waiting("provide unit test for WritingFileFailed and other failure cases",

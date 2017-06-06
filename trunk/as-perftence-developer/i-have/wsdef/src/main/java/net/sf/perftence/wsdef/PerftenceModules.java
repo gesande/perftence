@@ -229,7 +229,8 @@ public class PerftenceModules extends JavaModules {
 
 	private final JavaSrcModule agentBasedExample = srcModule(
 			"agent-based-example").noMainJava().noMainResources()
-					.testDeps(junit, perftence, perftenceAgents, perftenceJunit)
+					.testDeps(junit, log4j, perftence, perftenceAgents,
+							perftenceJunit, slf4jApi, slf4jLog4j12)
 					.end();
 
 	// collections
