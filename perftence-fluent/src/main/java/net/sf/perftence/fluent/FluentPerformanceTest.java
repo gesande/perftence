@@ -1,6 +1,6 @@
 package net.sf.perftence.fluent;
 
-import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.AllowedExceptionOrErrorOccurredMessageBuilder;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
@@ -33,7 +33,7 @@ public final class FluentPerformanceTest {
     private final FailedInvocationsFactory failedInvocationsFactory;
     private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
     private final LatencyFactory latencyFactory;
-    private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+    private final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
     private final PerfTestFailureFactory perfTestFailureFactory;
     private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
     private final EstimatedInvocations estimatedInvocations;
@@ -64,7 +64,7 @@ public final class FluentPerformanceTest {
                 fieldFormatter, fieldAdjuster);
         this.failedInvocationsFactory = newFailedInvocationsFactory();
         this.latencyFactory = new LatencyFactory();
-        this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
+        this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOrErrorOccurredMessageBuilder();
         this.perfTestFailureFactory = new PerfTestFailureFactory();
         this.lineChartAdapterProvider = lineChartAdapterProvider;
         this.latencyProviderFactory = new DefaultLatencyProviderFactory();
@@ -125,7 +125,7 @@ public final class FluentPerformanceTest {
         return this.perfTestFailureFactory;
     }
 
-    private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+    private AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
         return this.allowedExceptionOccurredMessageBuilder;
     }
 

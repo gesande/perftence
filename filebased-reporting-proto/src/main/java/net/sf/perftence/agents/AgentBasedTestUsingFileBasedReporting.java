@@ -1,6 +1,6 @@
 package net.sf.perftence.agents;
 
-import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.AllowedExceptionOrErrorOccurredMessageBuilder;
 import net.sf.perftence.DefaultLatencyProviderFactory;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
@@ -24,7 +24,7 @@ public class AgentBasedTestUsingFileBasedReporting {
 	private final TestSummaryLoggerFactory testSummaryLoggerFactory;
 	private final FailedInvocationsFactory failedInvocationsFactory;
 	private final LatencyFactory latencyFactory;
-	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+	private final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
 	private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 	private final DatasetAdapterFactory datasetAdapterFactory;
 	private final LatencyProviderFactory latencyProviderFactory;
@@ -46,7 +46,7 @@ public class AgentBasedTestUsingFileBasedReporting {
 				new DefaultDoubleFormatter(),
 				adjustedFieldBuilderFactory().newInstance());
 		this.latencyFactory = new LatencyFactory();
-		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
+		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOrErrorOccurredMessageBuilder();
 		this.datasetAdapterFactory = new DefaultDatasetAdapterFactory();
 		this.latencyProviderFactory = new DefaultLatencyProviderFactory();
 	}
@@ -108,7 +108,7 @@ public class AgentBasedTestUsingFileBasedReporting {
 		return this.testSummaryLoggerFactory;
 	}
 
-	private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+	private AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
 		return this.allowedExceptionOccurredMessageBuilder;
 	}
 

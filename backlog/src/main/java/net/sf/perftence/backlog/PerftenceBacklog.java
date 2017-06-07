@@ -195,6 +195,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("split fluent and agent stuff into separate projects",
                                 refactoring),
                         done("agent base tests: summary files for categorized tasks",
+                                feature),
+                        done("provide means to define also Throwable/Error with allow() mechanism",
                                 feature))
 
                 .inProgress().title("IN PROGRESS:").noTasks()
@@ -215,8 +217,6 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         waiting("provide means to create test results in an intermediate format",
                                 feature),
                         waiting("provide means to create test report from an intermediate format",
-                                feature),
-                        waiting("provide means to define also Throwable/Error with allow() mechanism",
                                 feature),
                         waiting("provide means to tell the Executable also Throwable/Error with allow() mechanism",
                                 feature),

@@ -109,6 +109,7 @@ Backlog for pertence test tool:
 [32m  +++ ticket#2 csv files for trend support +++ #feature[m
 [32m  +++ split fluent and agent stuff into separate projects +++ #refactoring[m
 [32m  +++ agent base tests: summary files for categorized tasks +++ #feature[m
+[32m  +++ provide means to define also Throwable/Error with allow() mechanism +++ #feature[m
 
   [33mIN PROGRESS:[m
 
@@ -121,7 +122,6 @@ Backlog for pertence test tool:
 [31m  --- provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example --- #feature[m
 [31m  --- provide means to create test results in an intermediate format --- #feature[m
 [31m  --- provide means to create test report from an intermediate format --- #feature[m
-[31m  --- provide means to define also Throwable/Error with allow() mechanism --- #feature[m
 [31m  --- provide means to tell the Executable also Throwable/Error with allow() mechanism --- #feature[m
 [31m  --- upload test example distribution packages to project files (i.e. to source forge) --- #developmentSupport[m
 [31m  --- one intermediate summary statistics appender --- #refactoring[m

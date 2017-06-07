@@ -10,7 +10,8 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.AllowedErrors;
+import net.sf.perftence.AllowedExceptionOrErrorOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.CustomInvocationReporter;
 import net.sf.perftence.LastSecondStatistics;
@@ -60,10 +61,12 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	private final List<TestAgent> agents = new ArrayList<>();
 	private final LatencyVsConcurrentTasks runningTasks;
 	private final AllowedExceptions allowedExceptions;
+	private final AllowedErrors allowedErrors;
+
 	private final FailedInvocationsFactory failedInvocationsFactory;
 	private final SummaryBuilderFactory summaryBuilderFactory;
 	private final LatencyFactory latencyFactory;
-	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+	private final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
 
 	private TestRuntimeReporter overallReporter;
 	private TestTaskSchedulingService schedulingService;
@@ -97,7 +100,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 			final SummaryBuilderFactory summaryBuilderFactory,
 			final FailedInvocationsFactory failedInvocationsFactory,
 			final LatencyFactory latencyFactory,
-			final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
+			final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
 			final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory,
 			final TaskScheduleDifferences taskScheduleDifferences,
 			final SchedulingServiceFactory schedulingServiceFactory,
@@ -129,6 +132,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		this.runningTasks = LatencyVsConcurrentTasks
 				.instance(scatterPlotAdapterProvider);
 		this.allowedExceptions = new AllowedExceptions();
+		this.allowedErrors = new AllowedErrors();
 		this.adjustedFieldBuilderFactory = adjustedFieldBuilderFactory;
 		this.failedInvocations = this.failedInvocationsFactory.newInstance();
 		this.lastSecondStats = new LastSecondStatistics(latencyProviderFactory);
@@ -673,7 +677,7 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 			failureNotifier().testFailed(cause);
 			finishedWithError(task, cause);
 		} else {
-			log().warn(allowedExceptionOccurredMessage(cause));
+			log().warn(allowedExceptionOrErrorOccurredMessage(cause));
 		}
 	}
 
@@ -681,18 +685,35 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 		return this.customFailureReporters;
 	}
 
-	private String allowedExceptionOccurredMessage(final Throwable cause) {
-		return allowedExceptionOccurredMessageBuilder()
-				.allowedExceptionOccurredMessage(cause, id());
+	private String allowedExceptionOrErrorOccurredMessage(
+			final Throwable cause) {
+		if (cause instanceof Exception)
+			return allowedExceptionOccurredMessageBuilder()
+					.allowedExceptionOccurredMessage((Exception) cause, id());
+		else if (cause instanceof Error) {
+			return allowedExceptionOccurredMessageBuilder()
+					.allowedErrorOccurredMessage((Error) cause, id());
+		} else {
+			return "Failure was either Exception nor Error, cause "
+					+ cause.getClass().getSimpleName();
+		}
 	}
 
-	private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+	private AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
 		return this.allowedExceptionOccurredMessageBuilder;
 	}
 
 	private boolean isAllowed(final Throwable cause) {
-		return cause instanceof Exception
-				? allowedExceptions().isAllowed((Exception) cause) : false;
+		if (cause instanceof Exception)
+			return allowedExceptions().isAllowed((Exception) cause);
+		if (cause instanceof Error)
+			return allowedErrors().isAllowed((Error) cause);
+		else
+			return false;
+	}
+
+	private AllowedErrors allowedErrors() {
+		return allowedErrors;
 	}
 
 	private static void finishedWithError(final TestTask task,
@@ -831,6 +852,14 @@ public final class TestBuilder implements RunnableAdapter, Startable,
 	 */
 	public TestBuilder allow(final Class<? extends Exception> allowed) {
 		allowedExceptions().allow(allowed);
+		return this;
+	}
+
+	/**
+	 * Set the allowed errors for the test (e.g. AssertionError)
+	 */
+	public TestBuilder allowError(final Class<? extends Error> allowed) {
+		allowedErrors().allow(allowed);
 		return this;
 	}
 

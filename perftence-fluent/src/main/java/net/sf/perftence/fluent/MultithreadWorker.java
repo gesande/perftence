@@ -7,7 +7,8 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.AllowedErrors;
+import net.sf.perftence.AllowedExceptionOrErrorOccurredMessageBuilder;
 import net.sf.perftence.AllowedExceptions;
 import net.sf.perftence.CustomInvocationReporter;
 import net.sf.perftence.Executable;
@@ -35,13 +36,14 @@ public final class MultithreadWorker implements Startable {
 	private final TimerScheduler timerScheduler;
 	private final LatencyProvider latencyProvider;
 	private final AllowedExceptions allowedExceptions;
+	private final AllowedErrors allowedErrors;
 	private final PerformanceRequirementValidator requirementValidator;
 	private final TestSummaryLogger overallSummaryLogger;
 	private final TestSummaryLogger intermediateSummaryLogger;
 	private final List<CustomInvocationReporter> customReporters;
 	private final List<CustomFailureReporter> customFailureReporters;
 	private final LatencyFactory latencyFactory;
-	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+	private final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOrErrorOccurredMessageBuilder;
 	private final PerfTestFailureFactory perfTestFailureFactory;
 	private final SummaryConsumer summaryConsumer;
 
@@ -51,11 +53,12 @@ public final class MultithreadWorker implements Startable {
 			final InvocationRunner runner, final PerformanceTestSetup setUp,
 			final LatencyProvider latencyProvider,
 			final AllowedExceptions allowedExceptions,
+			final AllowedErrors allowedErrors,
 			final PerformanceRequirementValidator requirementValidator,
 			final TestSummaryLogger overAllSummaryLogger,
 			final TestSummaryLogger intermediateSummaryLogger,
 			final LatencyFactory latencyFactory,
-			final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder,
+			final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOrErrorOccurredMessageBuilder,
 			final PerfTestFailureFactory perfTestFailureFactory,
 			final SummaryConsumer summaryConsumer) {
 		this.reporter = reporter;
@@ -63,8 +66,9 @@ public final class MultithreadWorker implements Startable {
 		this.setUp = setUp;
 		this.latencyProvider = latencyProvider;
 		this.allowedExceptions = allowedExceptions;
+		this.allowedErrors = allowedErrors;
 		this.latencyFactory = latencyFactory;
-		this.allowedExceptionOccurredMessageBuilder = allowedExceptionOccurredMessageBuilder;
+		this.allowedExceptionOrErrorOccurredMessageBuilder = allowedExceptionOrErrorOccurredMessageBuilder;
 		this.requirementValidator = requirementValidator;
 		this.overallSummaryLogger = overAllSummaryLogger;
 		this.intermediateSummaryLogger = intermediateSummaryLogger;
@@ -201,7 +205,13 @@ public final class MultithreadWorker implements Startable {
 				if (!allowedExceptions().isAllowed((Exception) t)) {
 					reportTestFailure(t);
 				} else {
-					log().warn(allowedExceptionOccurredMessage(t));
+					log().warn(allowedExceptionOccurredMessage((Exception) t));
+				}
+			} else if (t instanceof Error) {
+				if (!allowedErrors().isAllowed((Error) t)) {
+					reportTestFailure(t);
+				} else {
+					log().warn(allowedErrorOccurredMessage((Error) t));
 				}
 			} else {
 				reportTestFailure(t);
@@ -226,9 +236,14 @@ public final class MultithreadWorker implements Startable {
 		}
 	}
 
-	private String allowedExceptionOccurredMessage(final Throwable t) {
-		return this.allowedExceptionOccurredMessageBuilder
-				.allowedExceptionOccurredMessage(t, id());
+	private String allowedExceptionOccurredMessage(final Exception cause) {
+		return this.allowedExceptionOrErrorOccurredMessageBuilder
+				.allowedExceptionOccurredMessage(cause, id());
+	}
+
+	private String allowedErrorOccurredMessage(final Error cause) {
+		return this.allowedExceptionOrErrorOccurredMessageBuilder
+				.allowedErrorOccurredMessage(cause, id());
 	}
 
 	private int totalThreads() {
@@ -355,7 +370,13 @@ public final class MultithreadWorker implements Startable {
 				if (!allowedExceptions().isAllowed((Exception) t)) {
 					reportTestFailure(t);
 				} else {
-					log().warn(allowedExceptionOccurredMessage(t));
+					log().warn(allowedExceptionOccurredMessage((Exception) t));
+				}
+			} else if (t instanceof Error) {
+				if (!allowedErrors().isAllowed((Error) t)) {
+					reportTestFailure(t);
+				} else {
+					log().warn(allowedErrorOccurredMessage((Error) t));
 				}
 			} else {
 				reportTestFailure(t);
@@ -384,6 +405,10 @@ public final class MultithreadWorker implements Startable {
 		return this.allowedExceptions;
 	}
 
+	private AllowedErrors allowedErrors() {
+		return this.allowedErrors;
+	}
+
 	private void interruptThreads() {
 		runner().interruptThreads();
 	}
@@ -410,7 +435,7 @@ public final class MultithreadWorker implements Startable {
 		String id = id();
 		String summaryId = id + ".fluent.summary";
 		overallSummaryLogger().printSummary(id, summary -> {
-            this.summaryConsumer.consumeSummary(summaryId, summary);
+			this.summaryConsumer.consumeSummary(summaryId, summary);
 		});
 	}
 
