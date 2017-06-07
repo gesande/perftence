@@ -24,7 +24,7 @@ ext {
 
     emmaPlugin="${buildScripts}/plugins/jacoco.gradle"
 
-    artifactVersion='2.1.1'
+    artifactVersion='2.2.3'
 
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'

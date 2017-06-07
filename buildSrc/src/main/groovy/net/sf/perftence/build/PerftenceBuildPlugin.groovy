@@ -67,44 +67,12 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
 
             doLast { println "Continous build passed, good work!" }
         }
-        project.task("distributionPackage", type: GradleBuild, dependsOn: ['continousBuild']) { Task task ->
+
+        project.task("distributionPackage", type: GradleBuild) { Task task ->
             group = 'Distribution'
-            description = 'Distribution package for the whole thing including continous build.'
+            description = '[deprecated] Distribution package for the whole thing including continous build.'
             buildFile = 'build.gradle'
-
-            tasks =[
-                'perftence-api:clean',
-                'perftence:clean',
-                'responsecode-summaryappender:clean',
-                'perftence-junit:clean',
-                'distributed-perftence-api:clean',
-                'perftence-fluent:clean',
-                'perftence-agents:clean',
-                'perftence-graph:clean',
-                'perftence-graph-jfreechart:clean',
-                'perftence-graph-afreechart:clean',
-                'perftence-defaulttestruntimereporterfactory:clean',
-                'reporterfactory-dependencies-jfreechart:clean',
-                'reporterfactory-dependencies-afreechart:clean',
-                'perftence-testreport-html:clean',
-                'perftence-api:release',
-                'perftence:release',
-                'responsecode-summaryappender:release',
-                'perftence-junit:release',
-                'distributed-perftence-api:release',
-                'perftence-fluent:release',
-                'perftence-agents:release',
-                'perftence-graph:release',
-                'perftence-graph-jfreechart:release',
-                'perftence-graph-afreechart:release',
-                'perftence-defaulttestruntimereporterfactory:release',
-                'reporterfactory-dependencies-jfreechart:release',
-                'reporterfactory-dependencies-afreechart:release',
-                'perftence-testreport-html:release',
-                'makeDistributionPackage'
-            ]
-
-            doLast { println "Distribution package ready to be uploaded to the repository." }
+            doLast { println "Use as-perftence-developer/with/bash/iwant/target/perftence-distribution/as-path to create perftence distribution package." }
         }
     }
 }
