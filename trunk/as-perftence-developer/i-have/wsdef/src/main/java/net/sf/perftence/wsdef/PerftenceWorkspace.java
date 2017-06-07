@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
+
 import net.sf.iwant.api.core.Concatenated;
 import net.sf.iwant.api.core.Concatenated.ConcatenatedBuilder;
 import net.sf.iwant.api.javamodules.JavaModule;

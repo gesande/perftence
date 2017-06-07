@@ -67,7 +67,7 @@ public final class PerftenceApi {
 	private FluentPerformanceTest createPerformanceTest() {
 		return new FluentPerformanceTest(failureNotifier(),
 				testRuntimeReporterFactory(), new DefaultRunNotifier(),
-                lineChartAdapterProvider(), this.summaryConsumer);
+				lineChartAdapterProvider(), this.summaryConsumer);
 	}
 
 	private TestRuntimeReporterFactory testRuntimeReporterFactory() {
