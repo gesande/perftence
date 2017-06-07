@@ -49,27 +49,27 @@ public class PerftenceModules extends JavaModules {
 	private final JavaModule völundrBag = JavaBinModule
 			.providing(
 					Source.underWsroot(
-							"völundr-bag/lib/stronglytyped-sortedbag-1.0.3.jar"),
+							"völundr/stronglytyped-sortedbag-1.0.3.jar"),
 					Source.underWsroot(
-							"völundr-bag/lib-sources/stronglytyped-sortedbag-1.0.3-sources.jar"))
+							"völundr/sources/stronglytyped-sortedbag-1.0.3-sources.jar"))
 			.end();
 
 	private final JavaModule völundrConcurrent = JavaBinModule.providing(
-			Source.underWsroot("völundr-concurrent/lib/concurrent-1.0.3.jar"),
+			Source.underWsroot("völundr/concurrent-1.0.3.jar"),
 			Source.underWsroot(
-					"völundr-concurrent/lib-sources/concurrent-1.0.3-sources.jar"))
+					"völundr/sources/concurrent-1.0.3-sources.jar"))
 			.end();
 
 	private final JavaModule völundrFileutil = JavaBinModule.providing(
-			Source.underWsroot("völundr-fileutil/lib/fileutil-1.0.3.jar"),
+			Source.underWsroot("völundr/fileutil-1.0.3.jar"),
 			Source.underWsroot(
-					"völundr-fileutil/lib-sources/fileutil-1.0.3-sources.jar"))
+					"völundr/sources/fileutil-1.0.3-sources.jar"))
 			.end();
 
 	private final JavaModule völundrLinereader = JavaBinModule.providing(
-			Source.underWsroot("völundr-linereader/lib/linereader-1.0.3.jar"),
+			Source.underWsroot("völundr/linereader-1.0.3.jar"),
 			Source.underWsroot(
-					"völundr-linereader/lib-sources/linereader-1.0.3-sources.jar"))
+					"völundr/sources/linereader-1.0.3-sources.jar"))
 			.end();
 
 	// src

@@ -1,8 +1,0 @@
-project(':log4j-1.2.16') { prj ->
-    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
-
-    version = 'lib'
-
-    prj.ext.library='log4j-1.2.16.jar'
-    prj.ext.librarySources='apache-log4j-1.2.16.zip'
-}
