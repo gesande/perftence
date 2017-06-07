@@ -1,8 +1,0 @@
-project(':jcommon-1.0.15') { prj ->
-    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
-    
-    version = 'lib'
-    
-    prj.ext.library='jcommon-1.0.15.jar'
-    prj.ext.librarySources='jcommon-1.0.15.zip'
-}
