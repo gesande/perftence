@@ -3,6 +3,7 @@ package net.sf.perftence.agents;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 import net.sf.perftence.AbstractMultiThreadedTest;
 import net.sf.perftence.DefaultTestRunner;
 
@@ -51,7 +53,14 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 
 	@Test
 	public void agentBasedTestWithAllowedExceptions() {
-		agentBasedTest().agents(failingAgents(5000)).allow(FailIHave.class)
+		agentBasedTest().agents(failingAgents(5000, false))
+				.allow(FailIHave.class).start();
+	}
+
+	@Test
+	public void agentBasedTestWithAllowedExceptionsAndErrors() {
+		agentBasedTest().agents(failingAgents(5000, true))
+				.allow(FailIHave.class).allowError(AssertionFailedError.class)
 				.start();
 	}
 
@@ -134,13 +143,15 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 		};
 	}
 
-	private Collection<TestAgent> failingAgents(int agents) {
+	private Collection<TestAgent> failingAgents(int agents,
+			boolean assertAlso) {
 		final List<TestAgent> list = new ArrayList<>();
 		final AtomicInteger counter = new AtomicInteger();
 		failures().set(0);
 		for (int i = 0; i < agents; i++) {
 			final TestTask first = (counter.get() % 10 == 0)
-					? log(new FailTask(100)) : newTask(50, 300, null);
+					? log(new FailTask(100, assertAlso))
+					: newTask(50, 300, null);
 			counter.incrementAndGet();
 			list.add(new FailingHalfTheTime(first));
 		}
@@ -317,9 +328,11 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 	class FailTask implements TestTask {
 
 		private long failureSleep;
+		private final boolean assertAlso;
 
-		public FailTask(final long failureSleep) {
+		public FailTask(final long failureSleep, boolean assertAlso) {
 			this.failureSleep = failureSleep;
+			this.assertAlso = assertAlso;
 		}
 
 		@Override
@@ -337,7 +350,16 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
 			failures().incrementAndGet();
 			Thread.sleep(failureSleep());
 			if (failures().get() < 200) {
-				throw new FailIHave("Yoda: Fail I have...");
+				if (assertAlso) {
+					int value = new Random().nextInt(2);
+					if (value == 0)
+						throw new FailIHave("Yoda: Fail I have...");
+					else {
+						Assert.fail("Yoda: Fail I have...");
+					}
+				} else {
+					throw new FailIHave("Yoda: Fail I have...");
+				}
 			}
 		}
 

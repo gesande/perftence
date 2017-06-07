@@ -1,6 +1,6 @@
 package net.sf.perftence.agents;
 
-import net.sf.perftence.AllowedExceptionOccurredMessageBuilder;
+import net.sf.perftence.AllowedExceptionOrErrorOccurredMessageBuilder;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProviderFactory;
 import net.sf.perftence.TestFailureNotifier;
@@ -25,7 +25,7 @@ public final class AgentBasedTest {
 	private final TestSummaryLoggerFactory testSummaryLoggerFactory;
 	private final FailedInvocationsFactory failedInvocationsFactory;
 	private final LatencyFactory latencyFactory;
-	private final AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
+	private final AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder;
 	private final AdjustedFieldBuilderFactory adjustedFieldBuilderFactory;
 	private final LineChartAdapterProvider<?, ?> lineChartAdapterProvider;
 	private final LatencyProviderFactory latencyProviderFactory;
@@ -53,7 +53,7 @@ public final class AgentBasedTest {
 				new DefaultDoubleFormatter(),
 				adjustedFieldBuilderFactory().newInstance());
 		this.latencyFactory = new LatencyFactory();
-		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOccurredMessageBuilder();
+		this.allowedExceptionOccurredMessageBuilder = new AllowedExceptionOrErrorOccurredMessageBuilder();
 		this.lineChartAdapterProvider = lineChartAdapterProvider;
 		this.latencyProviderFactory = latencyProviderFactory;
 		this.testRuntimeReporterFactory = testRuntimeReporterFactory;
@@ -122,7 +122,7 @@ public final class AgentBasedTest {
 		return this.testSummaryLoggerFactory;
 	}
 
-	private AllowedExceptionOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
+	private AllowedExceptionOrErrorOccurredMessageBuilder allowedExceptionOccurredMessageBuilder() {
 		return this.allowedExceptionOccurredMessageBuilder;
 	}
 
