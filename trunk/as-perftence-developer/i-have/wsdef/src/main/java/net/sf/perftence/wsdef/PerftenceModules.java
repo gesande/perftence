@@ -89,12 +89,12 @@ public class PerftenceModules extends JavaModules {
 
 	private final JavaSrcModule perftence = srcModule("perftence")
 			.mainDeps(commonsCollections, perftenceGraph, völundrBag, slf4jApi)
-			.testDeps(junit).end();
+			.testDeps(junit, slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule perftenceTestreportHtml = srcModule(
 			"perftence-testreport-html").noMainResources().noTestJava()
-					.noTestResources()
-					.mainDeps(perftence, slf4jApi, völundrFileutil).end();
+					.noTestResources().mainDeps(perftence, völundrFileutil)
+					.end();
 
 	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModule(
 			"perftence-defaulttestruntimereporterfactory").noTestResources()
@@ -180,7 +180,7 @@ public class PerftenceModules extends JavaModules {
 			.testDeps(junit, perftence, perftenceAgents, perftenceFluent,
 					perftenceJunit, perftenceGraph, perftenceGraphJfreechart,
 					perftenceTestreportHtml, slf4jApi)
-			.testRuntimeDeps(slf4jLog4j12).end();
+			.testRuntimeDeps(slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule mainentrypointExample = srcModule(
 			"mainentrypoint-example").noTestJava()
@@ -190,9 +190,8 @@ public class PerftenceModules extends JavaModules {
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceFluent, perftenceGraph,
 							perftenceTestreportHtml,
-							reporterfactoryDependenciesJfreechart, slf4jApi,
-							slf4jLog4j12)
-					.end();
+							reporterfactoryDependenciesJfreechart, slf4jApi)
+					.mainRuntimeDeps(log4j, slf4jLog4j12).end();
 
 	private final JavaSrcModule perftenceExperimental = srcModule(
 			"perftence-experimental").noMainResources()
@@ -205,7 +204,7 @@ public class PerftenceModules extends JavaModules {
 							perftenceGraph, perftenceGraphJfreechart,
 							perftenceJunit, perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart)
-					.end();
+					.testRuntimeDeps(slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule responsecodeSummaryappender = srcModule(
 			"responsecode-summaryappender").noMainResources().noTestResources()
@@ -220,7 +219,8 @@ public class PerftenceModules extends JavaModules {
 							perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart, slf4jApi,
 							völundrLinereader)
-					.testDeps(junit, perftenceFluent, perftenceJunit).end();
+					.testDeps(junit, perftenceFluent, perftenceJunit)
+					.testRuntimeDeps(log4j, slf4jLog4j12).end();
 
 	private final JavaSrcModule fluentBasedExample = srcModule(
 			"fluent-based-example").noMainJava().noMainResources()

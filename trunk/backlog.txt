@@ -120,9 +120,8 @@ Backlog for pertence test tool:
 [31m  --- provide success rate percentage for intermediate statistics --- #feature[m
 [31m  --- provide unit test for WritingFileFailed and other failure cases --- #codeQuality[m
 [31m  --- provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example --- #feature[m
-[31m  --- provide means to create test results in an intermediate format --- #feature[m
+[31m  --- provide means to create test results in an intermediate format (see ticket#2) --- #feature[m
 [31m  --- provide means to create test report from an intermediate format --- #feature[m
-[31m  --- provide means to tell the Executable also Throwable/Error with allow() mechanism --- #feature[m
 [31m  --- upload test example distribution packages to project files (i.e. to source forge) --- #developmentSupport[m
 [31m  --- one intermediate summary statistics appender --- #refactoring[m
 [31m  --- latency frequencies -> ability to set the range for the graph e.g. using 99% percentile --- #feature[m

@@ -197,7 +197,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("agent base tests: summary files for categorized tasks",
                                 feature),
                         done("provide means to define also Throwable/Error with allow() mechanism",
-                                feature))
+                                feature)
+
+                )
 
                 .inProgress().title("IN PROGRESS:").noTasks()
 
@@ -214,11 +216,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                                 codeQuality),
                         waiting("provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example",
                                 feature),
-                        waiting("provide means to create test results in an intermediate format",
+                        waiting("provide means to create test results in an intermediate format (see ticket#2)",
                                 feature),
                         waiting("provide means to create test report from an intermediate format",
-                                feature),
-                        waiting("provide means to tell the Executable also Throwable/Error with allow() mechanism",
                                 feature),
                         waiting("upload test example distribution packages to project files (i.e. to source forge)",
                                 developmentSupport),
