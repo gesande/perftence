@@ -7,8 +7,8 @@ import java.io.StringReader;
 public class SummaryToCsv {
 
 	public static String convertToCsv(String summary) throws IOException {
-		StringReader reader = new StringReader(summary);
-		BufferedReader br = new BufferedReader(reader);
+		final StringReader reader = new StringReader(summary);
+		final BufferedReader br = new BufferedReader(reader);
 		try {
 			StringBuilder cols = new StringBuilder();
 			StringBuilder rows = new StringBuilder();

@@ -26,8 +26,7 @@ public class PerftenceWorkspaceModuleProvider
 				.mainDeps(ctx.wsdefdefModule())
 				.mainDeps(ctx.iwantPlugin().jacoco().withDependencies())
 				.mainDeps(ctx.iwantPlugin().javamodules().withDependencies())
-				.mainDeps(commonsIo)
-				.end();
+				.mainDeps(commonsIo).end();
 	}
 
 	@Override
