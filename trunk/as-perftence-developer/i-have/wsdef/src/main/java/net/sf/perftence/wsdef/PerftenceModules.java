@@ -7,15 +7,24 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
+import net.sf.iwant.api.javamodules.CodeFormatterPolicy;
+import net.sf.iwant.api.javamodules.CodeFormatterPolicy.TabulationCharValue;
+import net.sf.iwant.api.javamodules.CodeStylePolicy;
+import net.sf.iwant.api.javamodules.CodeStylePolicy.CodeStylePolicySpex;
 import net.sf.iwant.api.javamodules.JavaBinModule;
 import net.sf.iwant.api.javamodules.JavaModule;
 import net.sf.iwant.api.javamodules.JavaSrcModule;
+import net.sf.iwant.api.javamodules.JavaSrcModule.IwantSrcModuleSpex;
 import net.sf.iwant.api.model.Path;
 import net.sf.iwant.api.model.Source;
 import net.sf.iwant.core.download.Downloaded;
 import net.sf.iwant.plugin.javamodules.JavaModules;
 
 public class PerftenceModules extends JavaModules {
+
+	private static final CodeFormatterPolicy CODE_FORMATTER_POLICY = codeFormatterPolicy();
+	private static final CodeStylePolicySpex CODE_STYLE_POLICY = CodeStylePolicy
+			.defaultsExcept();
 
 	// bin
 	private final Path afreechartJar = Downloaded.withName("afreechartJar")
@@ -71,36 +80,36 @@ public class PerftenceModules extends JavaModules {
 
 	// src
 
-	private final JavaSrcModule perftenceGraph = srcModule("perftence-graph")
-			.noTestJava().noTestResources().end();
+	private final JavaSrcModule perftenceGraph = srcModuleWithDefaults(
+			"perftence-graph").noTestJava().noTestResources().end();
 
-	private final JavaSrcModule perftenceGraphAfreechart = srcModule(
+	private final JavaSrcModule perftenceGraphAfreechart = srcModuleWithDefaults(
 			"perftence-graph-afreechart").noTestJava().noTestResources()
 					.mainDeps(afreechart, perftenceGraph, slf4jApi).end();
 
-	private final JavaSrcModule perftenceGraphJfreechart = srcModule(
+	private final JavaSrcModule perftenceGraphJfreechart = srcModuleWithDefaults(
 			"perftence-graph-jfreechart").noTestJava().noTestResources()
 					.mainDeps(jcommon, jfreechart, perftenceGraph, slf4jApi,
 							völundrFileutil)
 					.end();
 
-	private final JavaSrcModule perftence = srcModule("perftence")
+	private final JavaSrcModule perftence = srcModuleWithDefaults("perftence")
 			.mainDeps(commonsCollections, perftenceGraph, völundrBag, slf4jApi)
 			.testDeps(junit, slf4jLog4j12, log4j).end();
 
-	private final JavaSrcModule perftenceTestreportHtml = srcModule(
+	private final JavaSrcModule perftenceTestreportHtml = srcModuleWithDefaults(
 			"perftence-testreport-html").noMainResources().noTestJava()
 					.noTestResources()
 					.mainDeps(perftence, slf4jApi, völundrFileutil).end();
 
-	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModule(
+	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModuleWithDefaults(
 			"perftence-defaulttestruntimereporterfactory").noTestResources()
 					.mainDeps(perftence, perftenceGraph, slf4jApi)
 					.testDeps(junit, perftenceGraphJfreechart,
 							perftenceTestreportHtml)
 					.end();
 
-	private final JavaSrcModule reporterfactoryDependenciesJfreechart = srcModule(
+	private final JavaSrcModule reporterfactoryDependenciesJfreechart = srcModuleWithDefaults(
 			"reporterfactory-dependencies-jfreechart").noTestJava()
 					.noTestResources()
 					.mainDeps(perftence,
@@ -109,7 +118,7 @@ public class PerftenceModules extends JavaModules {
 							perftenceTestreportHtml)
 					.end();
 
-	private final JavaSrcModule reporterfactoryDependenciesAfreechart = srcModule(
+	private final JavaSrcModule reporterfactoryDependenciesAfreechart = srcModuleWithDefaults(
 			"reporterfactory-dependencies-afreechart").noTestJava()
 					.noTestResources()
 					.mainDeps(perftence,
@@ -119,33 +128,38 @@ public class PerftenceModules extends JavaModules {
 							völundrFileutil)
 					.end();
 
-	private final JavaSrcModule perftenceFluent = srcModule("perftence-fluent")
-			.noTestResources()
-			.mainDeps(perftence, perftenceGraph, slf4jApi, völundrConcurrent)
-			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
-					perftenceGraphJfreechart, perftenceTestreportHtml,
-					reporterfactoryDependenciesJfreechart)
-			.end();
+	private final JavaSrcModule perftenceFluent = srcModuleWithDefaults(
+			"perftence-fluent")
+					.noTestResources()
+					.mainDeps(perftence, perftenceGraph, slf4jApi,
+							völundrConcurrent)
+					.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
+							perftenceGraphJfreechart, perftenceTestreportHtml,
+							reporterfactoryDependenciesJfreechart)
+					.end();
 
-	private final JavaSrcModule perftenceAgents = srcModule("perftence-agents")
-			.noTestResources()
-			.mainDeps(perftence, perftenceDefaulttestruntimereporterfactory,
-					perftenceGraph, slf4jApi, völundrBag)
-			.testDeps(jfreechart, junit, perftenceGraphJfreechart,
-					perftenceTestreportHtml,
-					reporterfactoryDependenciesJfreechart)
-			.end();
+	private final JavaSrcModule perftenceAgents = srcModuleWithDefaults(
+			"perftence-agents")
+					.noTestResources()
+					.mainDeps(perftence,
+							perftenceDefaulttestruntimereporterfactory,
+							perftenceGraph, slf4jApi, völundrBag)
+					.testDeps(jfreechart, junit, perftenceGraphJfreechart,
+							perftenceTestreportHtml,
+							reporterfactoryDependenciesJfreechart)
+					.end();
 
-	private final JavaSrcModule perftenceApi = srcModule("perftence-api")
-			.noTestResources()
-			.mainDeps(perftence, perftenceAgents, perftenceFluent,
-					perftenceGraph)
-			.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
-					perftenceGraphJfreechart, perftenceTestreportHtml,
-					reporterfactoryDependenciesJfreechart)
-			.end();
+	private final JavaSrcModule perftenceApi = srcModuleWithDefaults(
+			"perftence-api")
+					.noTestResources()
+					.mainDeps(perftence, perftenceAgents, perftenceFluent,
+							perftenceGraph)
+					.testDeps(junit, perftenceDefaulttestruntimereporterfactory,
+							perftenceGraphJfreechart, perftenceTestreportHtml,
+							reporterfactoryDependenciesJfreechart)
+					.end();
 
-	private final JavaSrcModule distributedPerftenceApi = srcModule(
+	private final JavaSrcModule distributedPerftenceApi = srcModuleWithDefaults(
 			"distributed-perftence-api").noTestJava()
 					.noTestResources()
 					.mainDeps(perftence,
@@ -156,7 +170,7 @@ public class PerftenceModules extends JavaModules {
 							völundrConcurrent)
 					.end();
 
-	private final JavaSrcModule defaultPerftenceApiFactory = srcModule(
+	private final JavaSrcModule defaultPerftenceApiFactory = srcModuleWithDefaults(
 			"default-perftence-api-factory").noMainResources().noTestJava()
 					.noTestResources()
 					.mainDeps(perftence, perftenceApi,
@@ -166,20 +180,24 @@ public class PerftenceModules extends JavaModules {
 							perftenceTestreportHtml, völundrFileutil)
 					.end();
 
-	private final JavaSrcModule perftenceJunit = srcModule("perftence-junit")
-			.noTestResources()
-			.mainDeps(defaultPerftenceApiFactory, junit, perftence,
-					perftenceAgents, perftenceApi, perftenceFluent, slf4jApi)
-			.end();
+	private final JavaSrcModule perftenceJunit = srcModuleWithDefaults(
+			"perftence-junit")
+					.noTestResources()
+					.mainDeps(defaultPerftenceApiFactory, junit, perftence,
+							perftenceAgents, perftenceApi, perftenceFluent,
+							slf4jApi)
+					.end();
 
-	private final JavaSrcModule acceptanceTests = srcModule("acceptance-tests")
-			.noMainJava().noTestResources()
-			.testDeps(junit, perftence, perftenceAgents, perftenceFluent,
-					perftenceJunit, perftenceGraph, perftenceGraphJfreechart,
-					perftenceTestreportHtml, slf4jApi)
-			.testRuntimeDeps(slf4jLog4j12, log4j).end();
+	private final JavaSrcModule acceptanceTests = srcModuleWithDefaults(
+			"acceptance-tests").noMainJava()
+					.noTestResources()
+					.testDeps(junit, perftence, perftenceAgents,
+							perftenceFluent, perftenceJunit, perftenceGraph,
+							perftenceGraphJfreechart, perftenceTestreportHtml,
+							slf4jApi)
+					.testRuntimeDeps(slf4jLog4j12, log4j).end();
 
-	private final JavaSrcModule mainentrypointExample = srcModule(
+	private final JavaSrcModule mainentrypointExample = srcModuleWithDefaults(
 			"mainentrypoint-example").noTestJava()
 					.noTestResources()
 					.mainDeps(defaultPerftenceApiFactory, log4j, perftence,
@@ -190,7 +208,7 @@ public class PerftenceModules extends JavaModules {
 							reporterfactoryDependenciesJfreechart, slf4jApi)
 					.mainRuntimeDeps(log4j, slf4jLog4j12).end();
 
-	private final JavaSrcModule perftenceExperimental = srcModule(
+	private final JavaSrcModule perftenceExperimental = srcModuleWithDefaults(
 			"perftence-experimental").noMainResources()
 					.noTestResources()
 					.mainDeps(distributedPerftenceApi, perftence,
@@ -203,11 +221,11 @@ public class PerftenceModules extends JavaModules {
 							reporterfactoryDependenciesJfreechart)
 					.testRuntimeDeps(slf4jLog4j12, log4j).end();
 
-	private final JavaSrcModule responsecodeSummaryappender = srcModule(
+	private final JavaSrcModule responsecodeSummaryappender = srcModuleWithDefaults(
 			"responsecode-summaryappender").noMainResources().noTestResources()
 					.mainDeps(perftence, völundrBag).testDeps(junit).end();
 
-	private final JavaSrcModule filebasedReportingProto = srcModule(
+	private final JavaSrcModule filebasedReportingProto = srcModuleWithDefaults(
 			"filebased-reporting-proto")
 					.noMainResources()
 					.mainDeps(perftence, perftenceAgents,
@@ -219,13 +237,13 @@ public class PerftenceModules extends JavaModules {
 					.testDeps(junit, perftenceFluent, perftenceJunit)
 					.testRuntimeDeps(log4j, slf4jLog4j12).end();
 
-	private final JavaSrcModule fluentBasedExample = srcModule(
+	private final JavaSrcModule fluentBasedExample = srcModuleWithDefaults(
 			"fluent-based-example").noMainJava().noMainResources()
 					.testDeps(junit, perftence, perftenceFluent, perftenceJunit,
 							slf4jApi)
 					.end();
 
-	private final JavaSrcModule agentBasedExample = srcModule(
+	private final JavaSrcModule agentBasedExample = srcModuleWithDefaults(
 			"agent-based-example").noMainJava().noMainResources()
 					.testDeps(junit, log4j, perftence, perftenceAgents,
 							perftenceJunit, slf4jApi, slf4jLog4j12)
@@ -241,6 +259,18 @@ public class PerftenceModules extends JavaModules {
 				perftenceTestreportHtml, reporterfactoryDependenciesAfreechart,
 				reporterfactoryDependenciesJfreechart,
 				responsecodeSummaryappender);
+	}
+
+	private IwantSrcModuleSpex srcModuleWithDefaults(String string) {
+		return srcModule(string).codeFormatter(CODE_FORMATTER_POLICY)
+				.codeStyle(CODE_STYLE_POLICY.end());
+	}
+
+	private static CodeFormatterPolicy codeFormatterPolicy() {
+		CodeFormatterPolicy codeFormatterPolicy = new CodeFormatterPolicy();
+		codeFormatterPolicy.lineSplit = 120;
+		codeFormatterPolicy.tabulationChar = TabulationCharValue.SPACE;
+		return codeFormatterPolicy;
 	}
 
 	/**

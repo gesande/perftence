@@ -2,8 +2,8 @@ package net.sf.perftence;
 
 public interface Startable {
 
-	void start();
+    void start();
 
-	String id();
+    String id();
 
 }

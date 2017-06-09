@@ -42,7 +42,6 @@ ext {
 apply plugin: MavenCentral
 apply plugin: NewJavaProjectToSvnPlugin
 apply plugin : ReportingPlugin
-apply plugin : JavaDistributionPlugin
 apply plugin : EnvironmentVariablesPlugin
 apply plugin : EclipseSettingsPlugin
 apply plugin : SvnPlugin
@@ -55,7 +54,6 @@ reportingSettings {
     onlyAnalyze = 'net.sf.perftence'
     findbugsVersion = '3.0.1'
 }
-
 
 subprojects { Project prj ->
 

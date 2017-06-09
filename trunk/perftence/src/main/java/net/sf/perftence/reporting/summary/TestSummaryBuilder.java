@@ -2,8 +2,8 @@ package net.sf.perftence.reporting.summary;
 
 public interface TestSummaryBuilder {
 
-	String build();
+    String build();
 
-	boolean hasSamples();
+    boolean hasSamples();
 
 }

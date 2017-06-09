@@ -6,44 +6,42 @@ import org.afree.graphics.PaintType;
 
 import net.sf.perftence.graph.GraphData;
 
-final class BarChartGraphData
-		implements GraphData<BarChartGraphData, Range, PaintType> {
+final class BarChartGraphData implements GraphData<BarChartGraphData, Range, PaintType> {
 
-	private final String title;
-	private final PaintType paintType;
-	private final CategoryDataset categoryDataset;
-	private Range range;
+    private final String title;
+    private final PaintType paintType;
+    private final CategoryDataset categoryDataset;
+    private Range range;
 
-	BarChartGraphData(final String title, final PaintType paintType,
-			final CategoryDataset categoryDataset) {
-		this.title = title;
-		this.paintType = paintType;
-		this.categoryDataset = categoryDataset;
-	}
+    BarChartGraphData(final String title, final PaintType paintType, final CategoryDataset categoryDataset) {
+        this.title = title;
+        this.paintType = paintType;
+        this.categoryDataset = categoryDataset;
+    }
 
-	public CategoryDataset categoryDataset() {
-		return this.categoryDataset;
-	}
+    public CategoryDataset categoryDataset() {
+        return this.categoryDataset;
+    }
 
-	@Override
-	public PaintType paint() {
-		return this.paintType;
-	}
+    @Override
+    public PaintType paint() {
+        return this.paintType;
+    }
 
-	@Override
-	public BarChartGraphData range(Range range) {
-		this.range = range;
-		return this;
-	}
+    @Override
+    public BarChartGraphData range(Range range) {
+        this.range = range;
+        return this;
+    }
 
-	@Override
-	public Range range() {
-		return this.range;
-	}
+    @Override
+    public Range range() {
+        return this.range;
+    }
 
-	@Override
-	public String title() {
-		return this.title;
-	}
+    @Override
+    public String title() {
+        return this.title;
+    }
 
 }

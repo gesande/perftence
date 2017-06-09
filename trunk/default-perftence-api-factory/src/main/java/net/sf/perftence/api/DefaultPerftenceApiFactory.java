@@ -8,18 +8,16 @@ import net.sf.perftence.reporting.TestReport;
 
 public final class DefaultPerftenceApiFactory {
 
-	@SuppressWarnings("static-method")
-	public PerftenceApi newPerftenceApi(final TestFailureNotifier notifier) {
-		TestReport testReport = HtmlTestReport.withDefaultReportPath();
-		final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart(
-				testReport);
-		final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
-				deps);
-		final PerftenceApi api = new PerftenceApi(notifier,
-				testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
-				deps.scatterPlotAdapterProvider(),
-				new SummaryToCsvFile(testReport.reportRootDirectory()));
-		return api;
+    @SuppressWarnings("static-method")
+    public PerftenceApi newPerftenceApi(final TestFailureNotifier notifier) {
+        TestReport testReport = HtmlTestReport.withDefaultReportPath();
+        final TestRuntimeReporterFactoryUsingJFreeChart deps = new TestRuntimeReporterFactoryUsingJFreeChart(
+                testReport);
+        final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
+                deps);
+        final PerftenceApi api = new PerftenceApi(notifier, testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
+                deps.scatterPlotAdapterProvider(), new SummaryToCsvFile(testReport.reportRootDirectory()));
+        return api;
 
-	}
+    }
 }
