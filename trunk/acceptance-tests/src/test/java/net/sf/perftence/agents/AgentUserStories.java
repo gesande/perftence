@@ -328,13 +328,12 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
             failures().incrementAndGet();
             Thread.sleep(failureSleep());
             if (failures().get() < 200) {
-                if (assertAlso) {
+                if (this.assertAlso) {
                     int value = new Random().nextInt(2);
-                    if (value == 0)
+                    if (value == 0) {
                         throw new FailIHave("Yoda: Fail I have...");
-                    else {
-                        Assert.fail("Yoda: Fail I have...");
                     }
+                    Assert.fail("Yoda: Fail I have...");
                 } else {
                     throw new FailIHave("Yoda: Fail I have...");
                 }

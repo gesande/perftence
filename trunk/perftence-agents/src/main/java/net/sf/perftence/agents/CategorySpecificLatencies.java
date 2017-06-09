@@ -141,7 +141,7 @@ final class CategorySpecificLatencies {
 
     public void summaries(Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
             SummaryConsumer summaryConsumer) {
-        for (InvocationReporterAdapter reporterAdapter : categorySpecificReporters.values()) {
+        for (InvocationReporterAdapter reporterAdapter : categorySpecificReporters().values()) {
             reporterAdapter.summaryForCategory(summaryBuilderFactory, summaryConsumer);
         }
     }

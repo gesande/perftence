@@ -364,9 +364,9 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
 
             @Override
             public TestSummaryLogger apply(LatencyProvider latencyProvider) {
-                return summaryBuilderFactory.overallSummaryBuilder(latencyProvider);
+                return TestBuilder.this.summaryBuilderFactory.overallSummaryBuilder(latencyProvider);
             }
-        }, summaryConsumer);
+        }, this.summaryConsumer);
         log().info("Category specific summaries done.");
     }
 
@@ -654,12 +654,11 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
             return allowedExceptions().isAllowed((Exception) cause);
         if (cause instanceof Error)
             return allowedErrors().isAllowed((Error) cause);
-        else
-            return false;
+        return false;
     }
 
     private AllowedErrors allowedErrors() {
-        return allowedErrors;
+        return this.allowedErrors;
     }
 
     private static void finishedWithError(final TestTask task, final Throwable cause) {
