@@ -1,12 +1,12 @@
 project(':distributed-perftence-api') {
-    apply from : "$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from : "$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':völundr-concurrent')
-        compile project(':perftence-fluent')
-        compile project(':perftence-defaulttestruntimereporterfactory')
-        compile project(':reporterfactory-dependencies-jfreechart')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile name : "concurrent-${volundrVersion}"
+		compile project(':perftence-fluent')
+		compile project(':perftence-defaulttestruntimereporterfactory')
+		compile project(':reporterfactory-dependencies-jfreechart')
+	}
 }

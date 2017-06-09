@@ -1,11 +1,11 @@
 project(':reporterfactory-dependencies-afreechart') {
-    apply from : "$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from : "$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence-testreport-html')
-        compile project(':perftence-graph-afreechart')
-        compile project(':perftence-defaulttestruntimereporterfactory')
-        testCompile project(':junit-4.10')
-    }
+	dependencies {
+		compile project(':perftence-testreport-html')
+		compile project(':perftence-graph-afreechart')
+		compile project(':perftence-defaulttestruntimereporterfactory')
+		testCompile "junit:junit:${junitVersion}"
+	}
 }

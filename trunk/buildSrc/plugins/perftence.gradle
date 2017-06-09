@@ -24,10 +24,19 @@ ext {
 
     emmaPlugin="${buildScripts}/plugins/jacoco.gradle"
 
-    artifactVersion='2.2.3'
+    artifactVersion ='2.2.3'
 
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
+
+    commonsCollectionsVersion = '3.2.1'
+    slf4jVersion='1.6.1'
+    log4jVersion='1.2.16'
+    volundrVersion='1.0.3'
+    jfreechartVersion='1.0.12'
+    jcommonVersion='1.0.15'
+    junitVersion='4.10'
+    afreechartVersion='0.0.4'
 }
 
 apply plugin: MavenCentral
@@ -35,7 +44,7 @@ apply plugin: NewJavaProjectToSvnPlugin
 apply plugin : ReportingPlugin
 apply plugin : JavaDistributionPlugin
 apply plugin : EnvironmentVariablesPlugin
-//apply plugin : EclipseSettingsPlugin
+apply plugin : EclipseSettingsPlugin
 apply plugin : SvnPlugin
 apply plugin : ExportAntBuildFilePlugin
 
@@ -49,6 +58,9 @@ reportingSettings {
 
 
 subprojects { Project prj ->
+
+    repositories { flatDir { dirs "$rootProject.projectDir/lib-repo" } }
+
     version = prj.parent.artifactVersion
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8

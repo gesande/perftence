@@ -1,15 +1,15 @@
 
 project(':perftence-api') {
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from:"$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':perftence-fluent')
-        compile project(':perftence-agents')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        testCompile project(':junit-4.10')
-        testCompile project(':reporterfactory-dependencies-jfreechart')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile project(':perftence-fluent')
+		compile project(':perftence-agents')
+		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
+		testCompile "junit:junit:${junitVersion}"
+		testCompile project(':reporterfactory-dependencies-jfreechart')
+	}
 }

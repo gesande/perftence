@@ -14,7 +14,7 @@ project(':backlog') {
         compile project(':mybacklog')
         compile project(':chalkbox-1.0.0')
         compile project(':buildSrc')
-        testCompile project(':junit-4.10')
+        testCompile  "junit:junit:${junitVersion}"
     }
 }
 

@@ -1,25 +1,28 @@
 project(':perftence-experimental') {
-    apply from:"$emmaPlugin"
+	apply from:"$emmaPlugin"
 
-    version = project.properties.artifactVersion + "-EXPERIMENTAL"
+	version = project.properties.artifactVersion + "-EXPERIMENTAL"
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':perftence-fluent')
-        compile project(':perftence-agents')
-        compile project(':distributed-perftence-api')
-        compile project(':perftence-defaulttestruntimereporterfactory')
-        compile project(':perftence-graph-jfreechart')
-        compile project(':perftence-testreport-html')
-        compile project(':völundr-concurrent')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':junit-4.10')
-        compile project(':reporterfactory-dependencies-jfreechart')
-        testCompile project(':perftence-junit')
-        testCompile project(':jfreechart-1.0.12')
-        testCompile project(':jcommon-1.0.15')
-        testRuntime project(':slf4j-log4j12-1.6.1')
-        testRuntime project(':log4j-1.2.16')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile project(':perftence-fluent')
+		compile project(':perftence-agents')
+		compile project(':distributed-perftence-api')
+		compile project(':perftence-defaulttestruntimereporterfactory')
+		compile project(':perftence-graph-jfreechart')
+		compile project(':perftence-testreport-html')
+		compile project(':reporterfactory-dependencies-jfreechart')
+
+		compile name: "concurrent-${volundrVersion}"
+
+		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
+		compile "junit:junit:${junitVersion}"
+
+		testCompile project(':perftence-junit')
+		testCompile "jfree:jfreechart:${jfreechartVersion}"
+		testCompile "jfree:jcommon:${jcommonVersion}"
+		testRuntime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+		testRuntime "log4j:log4j:${log4jVersion}"
+	}
 }

@@ -1,16 +1,16 @@
 project(':perftence-graph-jfreechart') {
-    apply from : "$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from : "$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence-graph')
-        compile project(':perftence')
-        compile project(':völundr-fileutil')
-        compile project(':jfreechart-1.0.12')
-        compile project(':slf4j-api-1.6.1')
+	dependencies {
+		compile project(':perftence-graph')
+		compile project(':perftence')
+		compile name: "fileutil-${volundrVersion}"
+		compile "jfree:jfreechart:${jfreechartVersion}"
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
 
-        testCompile project(':junit-4.10')
-        testRuntime project(':slf4j-log4j12-1.6.1')
-        testRuntime project(':log4j-1.2.16')
-    }
+		testCompile "junit:junit:${junitVersion}"
+		testRuntime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+		testRuntime "log4j:log4j:${log4jVersion}"
+	}
 }

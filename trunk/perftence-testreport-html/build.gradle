@@ -1,10 +1,10 @@
 project(':perftence-testreport-html') {
-    apply from : "$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from : "$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':völundr-fileutil')
-        testCompile project(':junit-4.10')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile name: "fileutil-${volundrVersion}"
+		compile "junit:junit:${junitVersion}"
+	}
 }
