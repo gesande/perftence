@@ -10,7 +10,7 @@ project(':perftence') {
 		compile "org.slf4j:slf4j-api:${slf4jVersion}"
 		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
 
-		testCompile project(':junit-4.10')
+		testCompile "junit:junit:${junitVersion}"
 		testCompile "log4j:log4j:${log4jVersion}"
 		testCompile  "org.slf4j:slf4j-log4j12:${slf4jVersion}"
 	}

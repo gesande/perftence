@@ -1,4 +1,4 @@
 include 'buildSrc'
-include 'junit-4.10','chalkbox-1.0.0','mybacklog'
+include 'chalkbox-1.0.0','mybacklog'
 include 'perftence','acceptance-tests','install','mainentrypoint-example','backlog','fluent-based-example','agent-based-example','responsecode-summaryappender','filebased-reporting-proto','perftence-experimental','perftence-junit','perftence-api','distributed-perftence-api','perftence-fluent','perftence-agents','perftence-graph','perftence-defaulttestruntimereporterfactory','perftence-graph-jfreechart','perftence-testreport-html','perftence-graph-afreechart','reporterfactory-dependencies-jfreechart','reporterfactory-dependencies-afreechart'
 include 'default-perftence-api-factory'
