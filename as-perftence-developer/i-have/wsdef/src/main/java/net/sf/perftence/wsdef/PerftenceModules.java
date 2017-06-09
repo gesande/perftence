@@ -90,8 +90,8 @@ public class PerftenceModules extends JavaModules {
 
 	private final JavaSrcModule perftenceTestreportHtml = srcModule(
 			"perftence-testreport-html").noMainResources().noTestJava()
-					.noTestResources().mainDeps(perftence, völundrFileutil)
-					.end();
+					.noTestResources()
+					.mainDeps(perftence, slf4jApi, völundrFileutil).end();
 
 	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModule(
 			"perftence-defaulttestruntimereporterfactory").noTestResources()
