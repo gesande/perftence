@@ -69,12 +69,12 @@ public final class InvocationReporterAdapter {
         reporter().invocationFailed(cause);
     }
 
-    public void summaryForCategory(Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
+    public void summaryForCategory(final Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
             SummaryConsumer summaryConsumer) {
         if (!isStarted())
             return;
-        TestSummaryLogger summaryLogger = summaryBuilderFactory.apply(latencyProvider);
-        String id = name() + "-" + category().name() + "-statistics.summary";
+        final TestSummaryLogger summaryLogger = summaryBuilderFactory.apply(latencyProvider());
+        final String id = name() + "-" + category().name() + "-statistics.summary";
         summaryLogger.printSummary(id, summary -> summaryConsumer.consumeSummary(id, summary));
     }
 }
