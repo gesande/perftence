@@ -1,17 +1,17 @@
 project(':mainentrypoint-example') {
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':perftence')
-        compile project(':perftence-fluent')
-        compile project(':perftence-api')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
-        compile project(':reporterfactory-dependencies-jfreechart')
-        compile project(':default-perftence-api-factory')
-        runtime project(':slf4j-log4j12-1.6.1')
-        runtime project(':log4j-1.2.16')
-    }
+	dependencies {
+		compile project(':perftence')
+		compile project(':perftence-fluent')
+		compile project(':perftence-api')
+		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
+		compile "jfree:jfreechart:${jfreechartVersion}"
+		compile "jfree:jcommon:${jcommonVersion}"
+		compile project(':reporterfactory-dependencies-jfreechart')
+		compile project(':default-perftence-api-factory')
+		runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+		runtime "log4j:log4j:${log4jVersion}"
+	}
 }

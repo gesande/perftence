@@ -1,15 +1,17 @@
 project(':perftence') {
-    apply from : "$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from : "$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    tasks.withType(FindBugs){ ignoreFailures = true }
+	tasks.withType(FindBugs){ ignoreFailures = true }
 
-    dependencies {
-        compile project(':völundr-bag')
-        compile project(':perftence-graph')
-        compile project(':slf4j-api-1.6.1')
-        testCompile project(':junit-4.10')
-        testCompile project(':log4j-1.2.16')
-        testCompile project(':slf4j-log4j12-1.6.1')
-    }
+	dependencies {
+		compile name: "stronglytyped-sortedbag-${volundrVersion}"
+		compile project(':perftence-graph')
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
+		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+
+		testCompile project(':junit-4.10')
+		testCompile "log4j:log4j:${log4jVersion}"
+		testCompile  "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+	}
 }

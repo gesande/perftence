@@ -18,7 +18,6 @@ import net.sf.iwant.plugin.javamodules.JavaModules;
 public class PerftenceModules extends JavaModules {
 
 	// bin
-
 	private final Path afreechartJar = Downloaded.withName("afreechartJar")
 			.url("https://github.com/gmarques33/repos/raw/master/releases/org/afree/afreechart/"
 					+ "0.0.4/afreechart-0.0.4.jar")
@@ -46,30 +45,28 @@ public class PerftenceModules extends JavaModules {
 	private final JavaModule slf4jLog4j12 = binModule("org.slf4j",
 			"slf4j-log4j12", "1.6.1");
 
-	private final JavaModule völundrBag = JavaBinModule
-			.providing(
+	private final JavaModule völundrBag = JavaBinModule.providing(
+			Source.underWsroot("lib-repo/stronglytyped-sortedbag-1.0.3.jar"),
+			Source.underWsroot(
+					"lib-repo/sources/stronglytyped-sortedbag-1.0.3-sources.jar"))
+			.end();
+
+	private final JavaModule völundrConcurrent = JavaBinModule
+			.providing(Source.underWsroot("lib-repo/concurrent-1.0.3.jar"),
 					Source.underWsroot(
-							"völundr/stronglytyped-sortedbag-1.0.3.jar"),
+							"lib-repo/sources/concurrent-1.0.3-sources.jar"))
+			.end();
+
+	private final JavaModule völundrFileutil = JavaBinModule
+			.providing(Source.underWsroot("lib-repo/fileutil-1.0.3.jar"),
 					Source.underWsroot(
-							"völundr/sources/stronglytyped-sortedbag-1.0.3-sources.jar"))
+							"lib-repo/sources/fileutil-1.0.3-sources.jar"))
 			.end();
 
-	private final JavaModule völundrConcurrent = JavaBinModule.providing(
-			Source.underWsroot("völundr/concurrent-1.0.3.jar"),
-			Source.underWsroot(
-					"völundr/sources/concurrent-1.0.3-sources.jar"))
-			.end();
-
-	private final JavaModule völundrFileutil = JavaBinModule.providing(
-			Source.underWsroot("völundr/fileutil-1.0.3.jar"),
-			Source.underWsroot(
-					"völundr/sources/fileutil-1.0.3-sources.jar"))
-			.end();
-
-	private final JavaModule völundrLinereader = JavaBinModule.providing(
-			Source.underWsroot("völundr/linereader-1.0.3.jar"),
-			Source.underWsroot(
-					"völundr/sources/linereader-1.0.3-sources.jar"))
+	private final JavaModule völundrLinereader = JavaBinModule
+			.providing(Source.underWsroot("lib-repo/linereader-1.0.3.jar"),
+					Source.underWsroot(
+							"lib-repo/sources/linereader-1.0.3-sources.jar"))
 			.end();
 
 	// src

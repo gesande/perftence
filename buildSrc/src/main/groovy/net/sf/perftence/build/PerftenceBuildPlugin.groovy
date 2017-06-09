@@ -67,12 +67,5 @@ public class PerftenceBuildPlugin implements Plugin<Project> {
 
             doLast { println "Continous build passed, good work!" }
         }
-
-        project.task("distributionPackage", type: GradleBuild) { Task task ->
-            group = 'Distribution'
-            description = '[deprecated] Distribution package for the whole thing including continous build.'
-            buildFile = 'build.gradle'
-            doLast { println "Use as-perftence-developer/with/bash/iwant/target/perftence-distribution/as-path to create perftence distribution package." }
-        }
     }
 }

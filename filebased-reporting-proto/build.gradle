@@ -1,21 +1,21 @@
 project (':filebased-reporting-proto') {
-    apply from:"$emmaPlugin"
-    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+	apply from:"$emmaPlugin"
+	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-    dependencies {
-        compile project(':völundr-linereader')
-        compile project(':perftence')
-        compile project(':perftence-fluent')
-        compile project(':perftence-agents')
-        compile project(':perftence-defaulttestruntimereporterfactory')
-        compile project(':perftence-graph-jfreechart')
-        compile project(':commons-collections-3.2.1')
-        compile project(':slf4j-api-1.6.1')
-        compile project(':jfreechart-1.0.12')
-        compile project(':jcommon-1.0.15')
-        compile project(':reporterfactory-dependencies-jfreechart')
-        testCompile project(':perftence-junit')
-        runtime project(':slf4j-log4j12-1.6.1')
-        runtime project(':log4j-1.2.16')
-    }
+	dependencies {
+		compile name: "linereader-${volundrVersion}"
+		compile project(':perftence')
+		compile project(':perftence-fluent')
+		compile project(':perftence-agents')
+		compile project(':perftence-defaulttestruntimereporterfactory')
+		compile project(':perftence-graph-jfreechart')
+		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+		compile "org.slf4j:slf4j-api:${slf4jVersion}"
+		compile "jfree:jfreechart:${jfreechartVersion}"
+		compile "jfree:jcommon:${jcommonVersion}"
+		compile project(':reporterfactory-dependencies-jfreechart')
+		testCompile project(':perftence-junit')
+		runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+		runtime "log4j:log4j:${log4jVersion}"
+	}
 }
