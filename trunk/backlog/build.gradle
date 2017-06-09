@@ -16,6 +16,7 @@ project(':backlog') {
         //compile project(':buildSrc')
         testCompile "junit:junit:${junitVersion}"
     }
+    tasks.withType(FindBugs){ ignoreFailures = true }
 }
 
 task showBacklog (dependsOn: classes) { Task task ->
