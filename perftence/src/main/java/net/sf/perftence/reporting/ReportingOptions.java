@@ -1,13 +1,13 @@
 package net.sf.perftence.reporting;
 
 public interface ReportingOptions {
-	String xAxisTitle();
+    String xAxisTitle();
 
-	String legendTitle();
+    String legendTitle();
 
-	String title();
+    String title();
 
-	boolean provideStatistics();
+    boolean provideStatistics();
 
-	int range();
+    int range();
 }

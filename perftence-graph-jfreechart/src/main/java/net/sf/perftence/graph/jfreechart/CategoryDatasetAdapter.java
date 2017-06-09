@@ -8,36 +8,34 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import net.sf.perftence.graph.DatasetAdapter;
 
-final class CategoryDatasetAdapter
-		implements DatasetAdapter<BarChartGraphData, Paint> {
+final class CategoryDatasetAdapter implements DatasetAdapter<BarChartGraphData, Paint> {
 
-	private final DefaultCategoryDataset categoryData;
-	private final String legendTitle;
+    private final DefaultCategoryDataset categoryData;
+    private final String legendTitle;
 
-	public CategoryDatasetAdapter(final String legendTitle) {
-		this.legendTitle = legendTitle;
-		this.categoryData = new DefaultCategoryDataset();
-	}
+    public CategoryDatasetAdapter(final String legendTitle) {
+        this.legendTitle = legendTitle;
+        this.categoryData = new DefaultCategoryDataset();
+    }
 
-	private String legendTitle() {
-		return this.legendTitle;
-	}
+    private String legendTitle() {
+        return this.legendTitle;
+    }
 
-	public CategoryDataset dataSet() {
-		return this.categoryData;
-	}
+    public CategoryDataset dataSet() {
+        return this.categoryData;
+    }
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public void add(final Number x, final Number y) {
-		this.categoryData.addValue(x, (Comparable) y, "");
-	}
+    @Override
+    @SuppressWarnings("rawtypes")
+    public void add(final Number x, final Number y) {
+        this.categoryData.addValue(x, (Comparable) y, "");
+    }
 
-	@Override
-	public BarChartGraphData graphData(final Paint paint, final double range) {
-		final BarChartGraphData data = new BarChartGraphData(legendTitle(),
-				paint, dataSet());
-		return data.range(new Range(0, range));
-	}
+    @Override
+    public BarChartGraphData graphData(final Paint paint, final double range) {
+        final BarChartGraphData data = new BarChartGraphData(legendTitle(), paint, dataSet());
+        return data.range(new Range(0, range));
+    }
 
 }

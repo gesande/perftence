@@ -4,14 +4,14 @@ import org.afree.graphics.PaintType;
 
 public interface ChartColors {
 
-	PaintType red();
+    PaintType red();
 
-	PaintType cyan();
+    PaintType cyan();
 
-	PaintType green();
+    PaintType green();
 
-	PaintType gray();
+    PaintType gray();
 
-	PaintType black();
+    PaintType black();
 
 }

@@ -2,12 +2,12 @@ package net.sf.perftence.graph;
 
 public interface GraphData<DATA, RANGE, PAINT> {
 
-	PAINT paint();
+    PAINT paint();
 
-	String title();
+    String title();
 
-	RANGE range();
+    RANGE range();
 
-	DATA range(final RANGE range);
+    DATA range(final RANGE range);
 
 }

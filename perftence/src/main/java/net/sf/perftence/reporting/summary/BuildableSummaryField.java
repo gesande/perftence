@@ -1,8 +1,8 @@
 package net.sf.perftence.reporting.summary;
 
 public interface BuildableSummaryField<T> {
-	SummaryField<T> build();
+    SummaryField<T> build();
 
-	SummaryField<String> asFormatted();
+    SummaryField<String> asFormatted();
 
 }

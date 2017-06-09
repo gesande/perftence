@@ -10,21 +10,20 @@ import net.sf.völundr.fileio.WritingFileFailed;
 
 public final class SummaryToCsvFile implements SummaryConsumer {
 
-	private String path;
+    private String path;
 
-	public SummaryToCsvFile(String path) {
-		this.path = path;
-	}
+    public SummaryToCsvFile(String path) {
+        this.path = path;
+    }
 
-	@Override
-	public void consumeSummary(String summaryId, String summary) {
-		try {
-			FileUtil.writeToFile(this.path + "/" + summaryId,
-					ToBytes.withDefaultCharset()
-							.convert(SummaryToCsv.convertToCsv(summary)));
-		} catch (WritingFileFailed | IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public void consumeSummary(String summaryId, String summary) {
+        try {
+            FileUtil.writeToFile(this.path + "/" + summaryId,
+                    ToBytes.withDefaultCharset().convert(SummaryToCsv.convertToCsv(summary)));
+        } catch (WritingFileFailed | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

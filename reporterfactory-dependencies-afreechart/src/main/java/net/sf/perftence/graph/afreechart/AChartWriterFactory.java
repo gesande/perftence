@@ -6,6 +6,6 @@ import net.sf.perftence.graph.ChartWriter;
 
 public interface AChartWriterFactory {
 
-	ChartWriter<AFreeChart> chartWriter(final String reportRootDirectory);
+    ChartWriter<AFreeChart> chartWriter(final String reportRootDirectory);
 
 }

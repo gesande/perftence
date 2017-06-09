@@ -7,12 +7,12 @@ import org.junit.Test;
 
 public class DefaultRunNotifierTest {
 
-	@Test
-	public void isFinished() {
-		DefaultRunNotifier notifier = new DefaultRunNotifier();
-		final String id = "id";
-		assertFalse(notifier.isFinished(id));
-		notifier.finished(id);
-		assertTrue(notifier.isFinished(id));
-	}
+    @Test
+    public void isFinished() {
+        DefaultRunNotifier notifier = new DefaultRunNotifier();
+        final String id = "id";
+        assertFalse(notifier.isFinished(id));
+        notifier.finished(id);
+        assertTrue(notifier.isFinished(id));
+    }
 }
