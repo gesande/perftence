@@ -4,16 +4,16 @@ import org.gradle.api.tasks.Exec
 
 project(':backlog') {
     apply from:"$buildPlugins/gradlePlugins.gradle"
-    apply from:"$buildPlugins/emma.gradle"
+    //apply from:"$buildPlugins/emma.gradle"
 
     apply plugin : 'groovy'
 
     version = project.properties.artifactVersion
 
     dependencies {
-        compile project(':mybacklog')
-        compile project(':chalkbox-1.0.0')
-        compile project(':buildSrc')
+        compile "net.sf.mybacklog:my-backlog:1.0.0"
+        compile "net.sf.chalkbox:chalkbox:1.0.0"
+        //compile project(':buildSrc')
         testCompile "junit:junit:${junitVersion}"
     }
 }

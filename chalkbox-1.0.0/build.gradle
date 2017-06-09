@@ -1,9 +1,0 @@
-project(':chalkbox-1.0.0') { prj ->
-    apply plugin : net.sf.mygradlebuild.plugins.JavaLibraryProject
-
-    version = 'lib'
-
-    prj.ext.library='chalkbox-1.0.0.jar'
-    prj.ext.librarySources='chalkbox-1.0.0-sources.jar'
-}
-
