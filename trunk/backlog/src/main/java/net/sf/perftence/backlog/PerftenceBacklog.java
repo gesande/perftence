@@ -205,23 +205,24 @@ public class PerftenceBacklog extends AbstractBacklogging {
 
                 .waiting().title("WAITING:")
 
-                .tasks(waiting(
-                        "agent based tests: requirements for categorized tasks",
-                        feature),
+                .tasks(
+
+                        waiting("autoscaling graphs", feature),
+                        waiting("rampup + intelligent warmup", feature),
+                        waiting("convert backlog build stuff to iwant",
+                                developmentSupport),
+                        waiting("agent based tests: requirements for categorized tasks",
+                                feature),
                         waiting("failures over test time, use DateAxis",
                                 feature),
                         waiting("provide success rate percentage for intermediate statistics",
                                 feature),
-                        waiting("provide unit test for WritingFileFailed and other failure cases",
-                                codeQuality),
                         waiting("provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example",
                                 feature),
                         waiting("provide means to create test results in an intermediate format (see ticket#2)",
                                 feature),
                         waiting("provide means to create test report from an intermediate format",
                                 feature),
-                        waiting("upload test example distribution packages to project files (i.e. to source forge)",
-                                developmentSupport),
                         waiting("one intermediate summary statistics appender",
                                 refactoring),
                         waiting("latency frequencies -> ability to set the range for the graph e.g. using 99% percentile",
@@ -233,11 +234,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         waiting("study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY",
                                 refactoring),
                         waiting("ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running",
-                                feature),
-                        waiting("autoscaling graphs", feature),
-                        waiting("rampup + intelligent warmup", feature))
+                                feature)
 
-                .show();
+                ).show();
     }
 
     @Override
