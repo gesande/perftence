@@ -13,7 +13,6 @@ project(':backlog') {
     dependencies {
         compile "net.sf.mybacklog:my-backlog:1.0.0"
         compile "net.sf.chalkbox:chalkbox:1.0.0"
-        //compile project(':buildSrc')
         testCompile "junit:junit:${junitVersion}"
     }
     tasks.withType(FindBugs){ ignoreFailures = true }
