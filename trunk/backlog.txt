@@ -115,21 +115,20 @@ Backlog for pertence test tool:
 
   [31mWAITING:[m
 
+[31m  --- autoscaling graphs --- #feature[m
+[31m  --- rampup + intelligent warmup --- #feature[m
+[31m  --- convert backlog build stuff to iwant --- #developmentSupport[m
 [31m  --- agent based tests: requirements for categorized tasks --- #feature[m
 [31m  --- failures over test time, use DateAxis --- #feature[m
 [31m  --- provide success rate percentage for intermediate statistics --- #feature[m
-[31m  --- provide unit test for WritingFileFailed and other failure cases --- #codeQuality[m
 [31m  --- provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example --- #feature[m
 [31m  --- provide means to create test results in an intermediate format (see ticket#2) --- #feature[m
 [31m  --- provide means to create test report from an intermediate format --- #feature[m
-[31m  --- upload test example distribution packages to project files (i.e. to source forge) --- #developmentSupport[m
 [31m  --- one intermediate summary statistics appender --- #refactoring[m
 [31m  --- latency frequencies -> ability to set the range for the graph e.g. using 99% percentile --- #feature[m
 [31m  --- statistics enhancement: define a latency rate --- #feature[m
 [31m  --- statistics enhancement: print out statistics for latencies over the defined rate i.e. statistics over statistics --- #feature[m
 [31m  --- study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY --- #refactoring[m
 [31m  --- ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running --- #feature[m
-[31m  --- autoscaling graphs --- #feature[m
-[31m  --- rampup + intelligent warmup --- #feature[m
 
 

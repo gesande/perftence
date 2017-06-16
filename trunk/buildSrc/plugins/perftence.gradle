@@ -1,5 +1,4 @@
-import net.sf.mygradlebuild.plugins.DefaultContinousBuildPlugin
-import net.sf.mygradlebuild.plugins.EclipseSettingsPlugin
+import net.sf.mygradlebuild.plugins.PerftenceContinousBuildPlugin
 import net.sf.mygradlebuild.plugins.EnvironmentVariablesPlugin
 import net.sf.mygradlebuild.plugins.JavaDistributionPlugin
 import net.sf.mygradlebuild.plugins.MavenCentral
@@ -43,7 +42,6 @@ apply plugin: MavenCentral
 apply plugin: NewJavaProjectToSvnPlugin
 apply plugin : ReportingPlugin
 apply plugin : EnvironmentVariablesPlugin
-apply plugin : EclipseSettingsPlugin
 apply plugin : SvnPlugin
 apply plugin : ExportAntBuildFilePlugin
 
@@ -62,8 +60,8 @@ subprojects { Project prj ->
     version = prj.parent.artifactVersion
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    apply plugin : DefaultContinousBuildPlugin
-    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
+    apply plugin : PerftenceContinousBuildPlugin
+//    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
     pmd { toolVersion = '4.3'	}
 }
 
