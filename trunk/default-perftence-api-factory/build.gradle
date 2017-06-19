@@ -7,8 +7,8 @@ project(':default-perftence-api-factory') {
 		compile project(':perftence-api')
 		compile group: 'commons-collections', name: 'commons-collections', version: "${commonsCollectionsVersion}"
 		compile group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-		compile group: 'jfree', name: 'jfreechart', version: '1.0.12'
-		compile group: 'jfree', name: 'jcommon', version: '1.0.15'
+		compile "jfree:jfreechart:${jfreechartVersion}"
+		compile "jfree:jcommon:${jcommonVersion}"
 		compile project(':reporterfactory-dependencies-jfreechart')
 	}
 }
