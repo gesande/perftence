@@ -1,10 +1,11 @@
 package net.sf.perftence.wsdefdef;
 
 import net.sf.iwant.api.javamodules.JavaBinModule;
+import net.sf.iwant.api.javamodules.JavaModule;
 import net.sf.iwant.api.javamodules.JavaSrcModule;
 import net.sf.iwant.api.wsdef.WorkspaceModuleContext;
 import net.sf.iwant.api.wsdef.WorkspaceModuleProvider;
-import net.sf.iwant.core.download.FromRepository;
+import net.sf.iwant.core.javamodules.JavaModules;
 
 public class PerftenceWorkspaceModuleProvider
 		implements WorkspaceModuleProvider {
@@ -13,9 +14,8 @@ public class PerftenceWorkspaceModuleProvider
 			"commons-io", "2.4");
 
 	private static JavaBinModule binModule(String group, String name,
-			String version) {
-		return JavaBinModule.providing(FromRepository.repo1MavenOrg()
-				.group(group).name(name).version(version)).end();
+			String version, JavaModule... runtimeDeps) {
+		return JavaModules.binModule(group, name, version, runtimeDeps);
 	}
 
 	@Override
@@ -25,7 +25,6 @@ public class PerftenceWorkspaceModuleProvider
 				.mainJava("src/main/java").mainDeps(ctx.iwantApiModules())
 				.mainDeps(ctx.wsdefdefModule())
 				.mainDeps(ctx.iwantPlugin().jacoco().withDependencies())
-				.mainDeps(ctx.iwantPlugin().javamodules().withDependencies())
 				.mainDeps(commonsIo).end();
 	}
 
