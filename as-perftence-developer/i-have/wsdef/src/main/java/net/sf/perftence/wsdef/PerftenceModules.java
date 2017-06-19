@@ -20,7 +20,7 @@ import net.sf.iwant.api.javamodules.JavaSrcModule.IwantSrcModuleSpex;
 import net.sf.iwant.api.model.Path;
 import net.sf.iwant.api.model.Source;
 import net.sf.iwant.core.download.Downloaded;
-import net.sf.iwant.plugin.javamodules.JavaModules;
+import net.sf.iwant.core.javamodules.JavaModules;
 
 public class PerftenceModules extends JavaModules {
 
@@ -39,9 +39,9 @@ public class PerftenceModules extends JavaModules {
 	private final JavaModule commonsCollections = binModule(
 			"commons-collections", "commons-collections", "3.2.1");
 
-	private final JavaModule jcommon = binModule("jfree", "jcommon", "1.0.15");
+	private final JavaModule jcommon = srclessBinModule("jfree", "jcommon", "1.0.15");
 
-	private final JavaModule jfreechart = binModule("jfree", "jfreechart",
+	private final JavaModule jfreechart = srclessBinModule("jfree", "jfreechart",
 			"1.0.12");
 
 	private final JavaModule junit = binModule("junit", "junit", "4.10");
