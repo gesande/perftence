@@ -15,11 +15,11 @@ import org.apache.commons.io.FileUtils;
 import net.sf.iwant.api.core.Concatenated;
 import net.sf.iwant.api.core.Concatenated.ConcatenatedBuilder;
 import net.sf.iwant.api.core.ScriptGenerated;
-import net.sf.iwant.api.target.TargetBase;
 import net.sf.iwant.api.javamodules.JavaModule;
 import net.sf.iwant.api.model.Path;
 import net.sf.iwant.api.model.Source;
 import net.sf.iwant.api.model.TargetEvaluationContext;
+import net.sf.iwant.api.target.TargetBase;
 import net.sf.iwant.core.javamodules.JavaModules;
 
 class Distro extends TargetBase {

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import org.apache.commons.io.FileUtils;
 
 import net.sf.iwant.api.core.ScriptGenerated;
-import net.sf.iwant.api.target.TargetBase;
 import net.sf.iwant.api.model.TargetEvaluationContext;
+import net.sf.iwant.api.target.TargetBase;
 
 public class SvnRevisionProperties extends TargetBase {
 

@@ -39,10 +39,11 @@ public class PerftenceModules extends JavaModules {
 	private final JavaModule commonsCollections = binModule(
 			"commons-collections", "commons-collections", "3.2.1");
 
-	private final JavaModule jcommon = srclessBinModule("jfree", "jcommon", "1.0.15");
+	private final JavaModule jcommon = srclessBinModule("jfree", "jcommon",
+			"1.0.15");
 
-	private final JavaModule jfreechart = srclessBinModule("jfree", "jfreechart",
-			"1.0.12");
+	private final JavaModule jfreechart = srclessBinModule("jfree",
+			"jfreechart", "1.0.12");
 
 	private final JavaModule junit = binModule("junit", "junit", "4.10");
 
