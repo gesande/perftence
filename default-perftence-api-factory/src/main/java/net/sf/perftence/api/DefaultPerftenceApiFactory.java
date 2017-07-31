@@ -16,7 +16,7 @@ public final class DefaultPerftenceApiFactory {
         final DefaultTestRuntimeReporterFactory testRuntimeReporterFactory = new DefaultTestRuntimeReporterFactory(
                 deps);
         final PerftenceApi api = new PerftenceApi(notifier, testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
-                deps.scatterPlotAdapterProvider(), new SummaryToCsvFile(testReport.reportRootDirectory()));
+                deps.scatterPlotAdapterProvider(), new SummaryToFileWriter(testReport.reportRootDirectory()));
         return api;
 
     }

@@ -2,9 +2,13 @@ package net.sf.perftence.agents;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -35,6 +39,8 @@ import net.sf.perftence.reporting.summary.LastSecondFailures;
 import net.sf.perftence.reporting.summary.LastSecondIntermediateStatisticsProvider;
 import net.sf.perftence.reporting.summary.SummaryAppender;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.setup.PerformanceTestSetup;
 import net.sf.perftence.setup.PerformanceTestSetupPojo;
@@ -360,13 +366,15 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
     private void categorySpecificSummary() {
         log().info("Creating category specific summaries...");
         categorySpecificLatencies().summaryTime();
+        final AggregateSummary aggregateSummary = new AggregateSummary();
         categorySpecificLatencies().summaries(new Function<LatencyProvider, TestSummaryLogger>() {
 
             @Override
             public TestSummaryLogger apply(LatencyProvider latencyProvider) {
                 return TestBuilder.this.summaryBuilderFactory.overallSummaryBuilder(latencyProvider);
             }
-        }, this.summaryConsumer);
+        }, this.summaryConsumer, aggregateSummary);
+        aggregateSummary.publish();
         log().info("Category specific summaries done.");
     }
 
@@ -479,9 +487,8 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
     private void printOverallSummary() {
         String id = id();
         String summaryId = id + ".agent.summary";
-        overAllSummaryBuilder().printSummary(id, summary -> {
-            this.summaryConsumer.consumeSummary(summaryId, summary);
-        });
+        overAllSummaryBuilder().printSummary(id,
+                summary -> this.summaryConsumer.consumeSummary(summaryId, SummaryToCsv.convertToCsv(summary)));
     }
 
     private void newSummary(final String name, final long duration, final long sampleCount, long startTime) {
@@ -829,4 +836,44 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
         return this;
     }
 
+    class AggregateSummary implements BiConsumer<TestTaskCategory, CsvSummary> {
+        private final Map<String, List<CategorySummary>> summaries = new HashMap<>();
+
+        AggregateSummary() {
+        }
+
+        @Override
+        public void accept(TestTaskCategory category, CsvSummary summary) {
+            String key = summary.columnRow();
+            if (!this.summaries.containsKey(key)) {
+                this.summaries.put(key, new ArrayList<>());
+            }
+            this.summaries.get(summary.columnRow()).add(new CategorySummary(category, summary));
+        }
+
+        class CategorySummary {
+            private final TestTaskCategory category;
+            private final CsvSummary summary;
+
+            private CategorySummary(TestTaskCategory category, CsvSummary summary) {
+                this.category = category;
+                this.summary = summary;
+            }
+        }
+
+        public void publish() {
+            int i = 1;
+            for (Entry<String, List<CategorySummary>> entry : this.summaries.entrySet()) {
+                List<CategorySummary> categorySummaries = entry.getValue();
+                StringBuilder sb = new StringBuilder();
+                sb.append("category").append(",").append(entry.getKey()).append("\n");
+                for (CategorySummary categorySummary : categorySummaries) {
+                    String row = categorySummary.category.name() + "," + categorySummary.summary.valueRow();
+                    sb.append(row).append("\n");
+                }
+                TestBuilder.this.summaryConsumer.consumeSummary(id() + ".aggregate." + i + ".csv", sb.toString());
+                i++;
+            }
+        }
+    }
 }

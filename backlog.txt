@@ -110,6 +110,7 @@ Backlog for pertence test tool:
 [32m  +++ split fluent and agent stuff into separate projects +++ #refactoring[m
 [32m  +++ agent base tests: summary files for categorized tasks +++ #feature[m
 [32m  +++ provide means to define also Throwable/Error with allow() mechanism +++ #feature[m
+[32m  +++ aggregate csv for agent based tests +++ #feature[m
 
   [33mIN PROGRESS:[m
 

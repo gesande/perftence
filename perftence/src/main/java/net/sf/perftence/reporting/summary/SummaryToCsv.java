@@ -6,7 +6,7 @@ import java.io.StringReader;
 
 public class SummaryToCsv {
 
-    public static String convertToCsv(String summary) throws IOException {
+    public static CsvSummary convertToCsv(String summary) {
         final StringReader reader = new StringReader(summary);
         final BufferedReader br = new BufferedReader(reader);
         try {
@@ -22,10 +22,40 @@ public class SummaryToCsv {
             }
             String string = cols.toString();
             String string2 = rows.toString();
-            return string.substring(0, string.length() - 1) + "\n" + string2.substring(0, string2.length() - 1);
+            return new CsvSummary(string.substring(0, string.length() - 1), string2.substring(0, string2.length() - 1));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
-            br.close();
+            try {
+                br.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             reader.close();
+        }
+    }
+
+    public static final class CsvSummary {
+
+        private final String columnRow;
+        private final String valueRow;
+
+        private CsvSummary(String columnRow, String valueRow) {
+            this.columnRow = columnRow;
+            this.valueRow = valueRow;
+        }
+
+        @Override
+        public String toString() {
+            return this.columnRow + "\n" + this.valueRow;
+        }
+
+        public String columnRow() {
+            return this.columnRow;
+        }
+
+        public String valueRow() {
+            return this.valueRow;
         }
     }
 }

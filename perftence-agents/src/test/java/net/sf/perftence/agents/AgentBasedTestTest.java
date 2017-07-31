@@ -22,6 +22,7 @@ import net.sf.perftence.common.TestRuntimeReporterFactory;
 import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 
 public final class AgentBasedTestTest {
     private final static Logger LOG = LoggerFactory.getLogger(AgentBasedTestTest.class);
@@ -39,6 +40,11 @@ public final class AgentBasedTestTest {
         final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
         final TestBuilder test = new AgentBasedTest(new MyFailureTestNotifier(), new DefaultLatencyProviderFactory(),
                 testRuntimeReporterFactory(), adapterProvider, adapterProvider, new SummaryConsumer() {
+
+                    @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
 
                     @Override
                     public void consumeSummary(String summaryId, String summary) {
@@ -60,9 +66,15 @@ public final class AgentBasedTestTest {
                 testRuntimeReporterFactory(), adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("noInvocationGraph").noInvocationGraph();
         assertNotNull("Uuh, null returned by agent based test.test(id) method!", test);
         assertEquals("Id doesn't match!", "noInvocationGraph", test.id());
@@ -79,9 +91,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("oneAgentOneTask").agents(agentsWithOneTask(1)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(1, taskRun().get());
@@ -94,9 +112,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("manyAgentsOneTask").agents(agentsWithOneTask(5)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(5, taskRun().get());
@@ -109,9 +133,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("oneAgentManyTasks").agents(agentsWithManyTasks(1)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(2, taskRun().get());
@@ -124,9 +154,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
@@ -139,9 +175,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
@@ -154,9 +196,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 }).test("manyAgentsManyTasks").agents(agentsWithManyTasks(2)).latencyGraphForAll().start();
         assertFalse(this.testFailed);
         assertEquals(4, taskRun().get());
@@ -170,9 +218,15 @@ public final class AgentBasedTestTest {
                 adapterProvider, new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
     }
 
