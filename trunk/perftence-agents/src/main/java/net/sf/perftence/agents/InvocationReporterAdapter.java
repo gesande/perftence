@@ -1,10 +1,13 @@
 package net.sf.perftence.agents;
 
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
 public final class InvocationReporterAdapter {
@@ -70,11 +73,15 @@ public final class InvocationReporterAdapter {
     }
 
     public void summaryForCategory(final Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
-            SummaryConsumer summaryConsumer) {
+            SummaryConsumer summaryConsumer, BiConsumer<TestTaskCategory, CsvSummary> categorySpecificSummary) {
         if (!isStarted())
             return;
         final TestSummaryLogger summaryLogger = summaryBuilderFactory.apply(latencyProvider());
         final String id = name() + "-" + category().name() + "-statistics.summary";
-        summaryLogger.printSummary(id, summary -> summaryConsumer.consumeSummary(id, summary));
+        summaryLogger.printSummary(id, summary -> {
+            final CsvSummary csvSummary = SummaryToCsv.convertToCsv(summary);
+            summaryConsumer.consumeSummary(id, csvSummary);
+            categorySpecificSummary.accept(category(), csvSummary);
+        });
     }
 }

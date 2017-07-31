@@ -28,6 +28,16 @@ public class AgentUserStories extends AbstractMultiThreadedTest {
     }
 
     @Test
+    public void agentBasedTestWithMultipleAgents() {
+        Collection<TestAgent> concurrent = agents(10, new ConcurrentAgentFactory());
+        Collection<TestAgent> sleepy = agents(10, new SleepingMs(1000, 100));
+        Collection<TestAgent> agents = new ArrayList<>();
+        agents.addAll(concurrent);
+        agents.addAll(sleepy);
+        agentBasedTest().agents(agents).start();
+    }
+
+    @Test
     public void oneAgentOneTask() {
         agentBasedTest().workerWaitTime(50).invocationRange(100).throughputRange(6500)
                 .agents(agents(100000, new SleepingMs(40, 50))).workers(1000).start();

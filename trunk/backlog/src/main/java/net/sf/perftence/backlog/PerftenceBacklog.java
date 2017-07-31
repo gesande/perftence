@@ -197,7 +197,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("agent base tests: summary files for categorized tasks",
                                 feature),
                         done("provide means to define also Throwable/Error with allow() mechanism",
-                                feature)
+                                feature),
+                        done("aggregate csv for agent based tests", feature)
 
                 )
 

@@ -24,6 +24,7 @@ import net.sf.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 
 public class FluentPerformanceTestTest {
 
@@ -46,9 +47,15 @@ public class FluentPerformanceTestTest {
                 new net.sf.perftence.reporting.summary.SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         final MultithreadWorker test = fluentPerformanceTest.test(id())
                 .setup(fluentPerformanceTest.setup().threads(100).duration(Duration.seconds(3)).build())
@@ -203,9 +210,15 @@ public class FluentPerformanceTestTest {
                 new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         fluent.test(id()).noInvocationGraph().setup(fluent.setup().threads(1).duration(Duration.seconds(5)).build())
                 .executable(new Executable() {
@@ -230,9 +243,15 @@ public class FluentPerformanceTestTest {
                 new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         fluent.test(id()).noInvocationGraph().setup(fluent.setup().threads(1).duration(Duration.seconds(5)).build())
                 .executable(new Executable() {
@@ -261,9 +280,15 @@ public class FluentPerformanceTestTest {
                 new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         fluent.test(id()).noInvocationGraph().setup(fluent.setup().threads(1).invocations(5).build())
                 .executable(new Executable() {
@@ -288,9 +313,15 @@ public class FluentPerformanceTestTest {
                 new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         fluent.test(id()).noInvocationGraph().setup(fluent.setup().threads(3).invocations(10).build())
                 .executable(new Executable() {
@@ -311,9 +342,15 @@ public class FluentPerformanceTestTest {
                 new DefaultDatasetAdapterFactory(), new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
     }
 
@@ -354,9 +391,15 @@ public class FluentPerformanceTestTest {
                 new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
         fluent.test(id()).noInvocationGraph().setup(fluent.setup().threads(6).duration(Duration.seconds(2)).build())
                 .executable(new Executable() {
@@ -376,9 +419,15 @@ public class FluentPerformanceTestTest {
                 new DefaultRunNotifier(), new DefaultDatasetAdapterFactory(), new SummaryConsumer() {
 
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
     }
 

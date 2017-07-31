@@ -10,6 +10,7 @@ import net.sf.perftence.common.HtmlTestReport;
 import net.sf.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 
 public final class PerftenceApiTest implements TestFailureNotifier {
 
@@ -47,9 +48,15 @@ public final class PerftenceApiTest implements TestFailureNotifier {
         return new PerftenceApi(this, testRuntimeReporterFactory, deps.lineChartAdapterProvider(),
                 deps.scatterPlotAdapterProvider(), new SummaryConsumer() {
                     @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        // no impl
+                    }
+
+                    @Override
                     public void consumeSummary(String summaryId, String summary) {
                         // no impl
                     }
+
                 });
     }
 

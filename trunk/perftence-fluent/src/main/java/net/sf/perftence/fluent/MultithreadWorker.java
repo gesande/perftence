@@ -22,6 +22,7 @@ import net.sf.perftence.reporting.CustomFailureReporter;
 import net.sf.perftence.reporting.Duration;
 import net.sf.perftence.reporting.TestRuntimeReporter;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
@@ -409,9 +410,8 @@ public final class MultithreadWorker implements Startable {
     private void printOverallSummary() {
         String id = id();
         String summaryId = id + ".fluent.summary";
-        overallSummaryLogger().printSummary(id, summary -> {
-            this.summaryConsumer.consumeSummary(summaryId, summary);
-        });
+        overallSummaryLogger().printSummary(id,
+                summary -> this.summaryConsumer.consumeSummary(summaryId, SummaryToCsv.convertToCsv(summary)));
     }
 
     private TestSummaryLogger overallSummaryLogger() {

@@ -3,6 +3,7 @@ package net.sf.perftence.agents;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
+import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 import net.sf.perftence.reporting.summary.TestSummaryLogger;
 
 final class CategorySpecificLatencies {
@@ -140,9 +142,9 @@ final class CategorySpecificLatencies {
     }
 
     public void summaries(Function<LatencyProvider, TestSummaryLogger> summaryBuilderFactory,
-            SummaryConsumer summaryConsumer) {
+            SummaryConsumer summaryConsumer, BiConsumer<TestTaskCategory, CsvSummary> categorySummaryConsumer) {
         for (InvocationReporterAdapter reporterAdapter : categorySpecificReporters().values()) {
-            reporterAdapter.summaryForCategory(summaryBuilderFactory, summaryConsumer);
+            reporterAdapter.summaryForCategory(summaryBuilderFactory, summaryConsumer, categorySummaryConsumer);
         }
     }
 
