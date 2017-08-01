@@ -24,7 +24,7 @@ import net.sf.iwant.core.javamodules.JavaModules;
 
 class Distro extends TargetBase {
 
-	private static final String majorVer = "2.1.3";
+	private static final String majorVer = "2.1.4";
 	private final SvnRevisionProperties svnRevisionProperties;
 	private final Map<JavaModule, Path> jars = new LinkedHashMap<>();
 	private final List<Path> zips;
