@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.setup.PerformanceTestSetup;
 
 public class FilebasedReporter implements TestRuntimeReporter {
@@ -29,7 +30,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
         this.reportDirectory = new File(root, id);
         if (!reportDirectory().exists()) {
             if (!reportDirectory().mkdirs()) {
-                throw new RuntimeException(
+                throw new PerftenceRuntimeException(
                         "Not able to create directory '" + id + "' to directory '" + reportDirectory().getName() + "'");
             }
         } else {
@@ -52,7 +53,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
             BufferedWriter bufferedWriter = new BufferedWriter(out);
             return bufferedWriter;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 
@@ -77,7 +78,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
                     output.close();
                 }
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                throw new PerftenceRuntimeException(ex);
             }
         }
 
@@ -91,7 +92,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
         try {
             ((BufferedWriter) latencyWriter().append(Integer.toString(latency))).newLine();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 
@@ -102,7 +103,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
             throughputWriter().close();
             summaryFileWriter().write(id, elapsedTime, sampleCount, startTime);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 
@@ -141,7 +142,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
             ((BufferedWriter) throughputWriter().append(ThroughputLine.throughputLine(currentDuration, throughput)))
                     .newLine();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 
@@ -157,7 +158,7 @@ public class FilebasedReporter implements TestRuntimeReporter {
         try {
             failedInvocationWriter().append(t.getClass().getName());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 

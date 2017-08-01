@@ -1,5 +1,6 @@
 package net.sf.perftence.api;
 
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 import net.sf.völundr.fileio.FileUtil;
@@ -24,7 +25,7 @@ public final class SummaryToFileWriter implements SummaryConsumer {
         try {
             FileUtil.writeToFile(this.path + "/" + summaryId, ToBytes.withDefaultCharset().convert(summary));
         } catch (WritingFileFailed e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 

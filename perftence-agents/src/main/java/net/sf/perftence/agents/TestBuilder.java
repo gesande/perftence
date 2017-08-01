@@ -22,6 +22,7 @@ import net.sf.perftence.LastSecondStatistics;
 import net.sf.perftence.LatencyFactory;
 import net.sf.perftence.LatencyProvider;
 import net.sf.perftence.LatencyProviderFactory;
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.Startable;
 import net.sf.perftence.TimerScheduler;
 import net.sf.perftence.TimerSpec;
@@ -340,7 +341,7 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
         try {
             schedulingService().scheduleFirstTasks(agents());
         } catch (ScheduleFailedException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 

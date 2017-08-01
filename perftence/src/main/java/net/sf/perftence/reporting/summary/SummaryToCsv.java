@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
+import net.sf.perftence.PerftenceRuntimeException;
+
 public class SummaryToCsv {
 
     public static CsvSummary convertToCsv(String summary) {
@@ -24,12 +26,12 @@ public class SummaryToCsv {
             String string2 = rows.toString();
             return new CsvSummary(string.substring(0, string.length() - 1), string2.substring(0, string2.length() - 1));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         } finally {
             try {
                 br.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new PerftenceRuntimeException(e);
             }
             reader.close();
         }

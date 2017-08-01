@@ -6,6 +6,7 @@ import org.afree.chart.AFreeChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.graph.ChartWriter;
 import net.sf.völundr.fileio.FileUtil;
 
@@ -28,7 +29,7 @@ public class AFreeChartWriter implements ChartWriter<AFreeChart> {
             // width, height);
             LOGGER.info("Chart image successfully written to {}", outputFilePath);
         } catch (final Exception e) {
-            throw new RuntimeException(logError(outputFilePath, e), e);
+            throw new PerftenceRuntimeException(logError(outputFilePath, e), e);
         }
     }
 

@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.PerftenceRuntimeException;
+
 final class SchedulingServiceBasedOnJavaConcurrentStuff implements TestTaskSchedulingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SchedulingServiceBasedOnJavaConcurrentStuff.class);
@@ -92,7 +94,7 @@ final class SchedulingServiceBasedOnJavaConcurrentStuff implements TestTaskSched
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                throw new PerftenceRuntimeException(e);
             }
         } while (hasScheduledTasks());
     }
