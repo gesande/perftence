@@ -88,15 +88,15 @@ public class PerftenceModules extends JavaModules {
 			"perftence-graph-afreechart").noTestJava().noTestResources()
 					.mainDeps(afreechart, perftenceGraph, slf4jApi).end();
 
-	private final JavaSrcModule perftenceGraphJfreechart = srcModule(
-			"perftence-graph-jfreechart").noTestJava().noTestResources()
-					.mainDeps(jcommon, jfreechart, perftenceGraph, slf4jApi,
-							völundrFileutil)
-					.end();
-
 	private final JavaSrcModule perftence = srcModule("perftence")
 			.mainDeps(commonsCollections, perftenceGraph, völundrBag, slf4jApi)
 			.testDeps(junit, slf4jLog4j12, log4j).end();
+
+	private final JavaSrcModule perftenceGraphJfreechart = srcModule(
+			"perftence-graph-jfreechart").noTestJava().noTestResources()
+					.mainDeps(jcommon, jfreechart, perftence, perftenceGraph,
+							slf4jApi, völundrFileutil)
+					.end();
 
 	private final JavaSrcModule perftenceTestreportHtml = srcModule(
 			"perftence-testreport-html").noMainResources().noTestJava()

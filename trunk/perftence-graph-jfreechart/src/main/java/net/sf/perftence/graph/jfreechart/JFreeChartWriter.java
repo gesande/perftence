@@ -7,6 +7,7 @@ import org.jfree.chart.JFreeChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.graph.ChartWriter;
 import net.sf.völundr.fileio.FileUtil;
 
@@ -29,7 +30,7 @@ public final class JFreeChartWriter implements ChartWriter<JFreeChart> {
             ChartUtilities.saveChartAsPNG(newFile(outputFilePath), chart, width, height);
             LOGGER.info("Chart image successfully written to {}", outputFilePath);
         } catch (final Exception e) {
-            throw new RuntimeException(logError(outputFilePath, e), e);
+            throw new PerftenceRuntimeException(logError(outputFilePath, e), e);
         }
     }
 

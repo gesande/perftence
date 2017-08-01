@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.sf.perftence.LatencyProvider;
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.common.InvocationStorage;
 import net.sf.perftence.common.ThroughputStorage;
 import net.sf.perftence.common.ThroughputStorageFactory;
@@ -58,11 +59,11 @@ public class FilebasedReportReader {
                     inputStream.close();
                 }
             } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new PerftenceRuntimeException(e);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new PerftenceRuntimeException(e);
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new PerftenceRuntimeException(e);
             }
 
         }
@@ -247,9 +248,9 @@ public class FilebasedReportReader {
             final FilebasedReader throughput = newFilebasedReader(throughputVisitor, "throughput");
             throughput.read();
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PerftenceRuntimeException(e);
         }
     }
 

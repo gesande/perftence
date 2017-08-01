@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.reporting.TestReport;
 import net.sf.völundr.fileio.AppendToFileFailed;
 import net.sf.völundr.fileio.FileAppendHandler;
@@ -102,8 +103,8 @@ public final class HtmlTestReport implements TestReport {
         return this.toBytes;
     }
 
-    private static RuntimeException newRuntimeException(final String msg, final Throwable cause) {
-        return new RuntimeException(logError(msg, cause), cause);
+    private static PerftenceRuntimeException newRuntimeException(final String msg, final Throwable cause) {
+        return new PerftenceRuntimeException(logError(msg, cause), cause);
     }
 
     private static String logError(final String msg, final Throwable t) {
