@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Before;
@@ -103,6 +104,29 @@ public final class AgentBasedTestTest {
                 }).test("oneAgentOneTask").agents(agentsWithOneTask(1)).latencyGraphFor(Category.One).start();
         assertFalse(this.testFailed);
         assertEquals(1, taskRun().get());
+    }
+
+    @Test
+    public void oneAgentOneTaskWithSummary() {
+        final AtomicBoolean summaryConsumed = new AtomicBoolean(false);
+        final DefaultDatasetAdapterFactory adapterProvider = new DefaultDatasetAdapterFactory();
+        new AgentBasedTest(new TestingNotifier(), new DefaultLatencyProviderFactory(), testRuntimeReporterFactory(),
+                adapterProvider, adapterProvider, new SummaryConsumer() {
+
+                    @Override
+                    public void consumeSummary(String summaryId, CsvSummary convertToCsv) {
+                        summaryConsumed.set(true);
+                    }
+
+                    @Override
+                    public void consumeSummary(String summaryId, String summary) {
+                        // no impl
+                    }
+
+                }).test("oneAgentOneTask").agents(agentsWithOneTask(1)).latencyGraphFor(Category.One).start();
+        assertFalse(this.testFailed);
+        assertEquals(1, taskRun().get());
+        assertTrue(summaryConsumed.get());
     }
 
     @Test
