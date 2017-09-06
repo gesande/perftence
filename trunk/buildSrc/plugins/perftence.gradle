@@ -28,18 +28,19 @@ ext {
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
 
+    volundrVersion='2.1.1'
+
     commonsCollectionsVersion = '3.2.1'
     slf4jVersion='1.6.1'
     log4jVersion='1.2.16'
-    volundrVersion='1.0.3'
     jfreechartVersion='1.0.12'
     jcommonVersion='1.0.15'
     junitVersion='4.10'
     afreechartVersion='0.0.4'
 }
 
-apply plugin: MavenCentral
-apply plugin: NewJavaProjectToSvnPlugin
+apply plugin : MavenCentral
+apply plugin : NewJavaProjectToSvnPlugin
 apply plugin : ReportingPlugin
 apply plugin : EnvironmentVariablesPlugin
 apply plugin : SvnPlugin
@@ -61,7 +62,7 @@ subprojects { Project prj ->
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
     apply plugin : PerftenceContinousBuildPlugin
-//    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
+    //    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
     pmd { toolVersion = '4.3'	}
 }
 

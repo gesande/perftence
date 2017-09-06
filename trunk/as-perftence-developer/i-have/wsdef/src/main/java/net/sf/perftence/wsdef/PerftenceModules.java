@@ -56,29 +56,39 @@ public class PerftenceModules extends JavaModules {
 			"slf4j-log4j12", "1.6.1");
 
 	private final JavaModule völundrBag = JavaBinModule.providing(
-			Source.underWsroot("lib-repo/stronglytyped-sortedbag-1.0.3.jar"),
+			Source.underWsroot("lib-repo/stronglytyped-sortedbag-2.1.1.jar"),
 			Source.underWsroot(
-					"lib-repo/sources/stronglytyped-sortedbag-1.0.3-sources.jar"))
+					"lib-repo/sources/stronglytyped-sortedbag-2.1.1-sources.jar"))
 			.end();
 
 	private final JavaModule völundrConcurrent = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/concurrent-1.0.3.jar"),
+			.providing(Source.underWsroot("lib-repo/concurrent-2.1.1.jar"),
 					Source.underWsroot(
-							"lib-repo/sources/concurrent-1.0.3-sources.jar"))
+							"lib-repo/sources/concurrent-2.1.1-sources.jar"))
 			.end();
 
 	private final JavaModule völundrFileutil = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/fileutil-1.0.3.jar"),
+			.providing(Source.underWsroot("lib-repo/fileutil-2.1.1.jar"),
 					Source.underWsroot(
-							"lib-repo/sources/fileutil-1.0.3-sources.jar"))
+							"lib-repo/sources/fileutil-2.1.1-sources.jar"))
 			.end();
 
 	private final JavaModule völundrLinereader = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/linereader-1.0.3.jar"),
+			.providing(Source.underWsroot("lib-repo/linereader-2.1.1.jar"),
 					Source.underWsroot(
-							"lib-repo/sources/linereader-1.0.3-sources.jar"))
+							"lib-repo/sources/linereader-2.1.1-sources.jar"))
+			.end();
+	private final JavaModule völundrStringToBytes = JavaBinModule
+			.providing(Source.underWsroot("lib-repo/string-to-bytes-2.1.1.jar"),
+					Source.underWsroot(
+							"lib-repo/sources/string-to-bytes-2.1.1-sources.jar"))
 			.end();
 
+	private final JavaModule völundrStatistics = JavaBinModule
+			.providing(Source.underWsroot("lib-repo/statistics-2.1.1.jar"),
+					Source.underWsroot(
+							"lib-repo/sources/statistics-2.1.1-sources.jar"))
+			.end();
 	// src
 
 	private final JavaSrcModule perftenceGraph = srcModule("perftence-graph")
@@ -89,19 +99,23 @@ public class PerftenceModules extends JavaModules {
 					.mainDeps(afreechart, perftenceGraph, slf4jApi).end();
 
 	private final JavaSrcModule perftence = srcModule("perftence")
-			.mainDeps(commonsCollections, perftenceGraph, völundrBag, slf4jApi)
+			.mainDeps(commonsCollections, perftenceGraph, völundrBag,
+					völundrStatistics, slf4jApi)
 			.testDeps(junit, slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule perftenceGraphJfreechart = srcModule(
-			"perftence-graph-jfreechart").noTestJava().noTestResources()
+			"perftence-graph-jfreechart").noTestJava()
+					.noTestResources()
 					.mainDeps(jcommon, jfreechart, perftence, perftenceGraph,
-							slf4jApi, völundrFileutil)
+							slf4jApi, völundrFileutil, völundrStringToBytes)
 					.end();
 
 	private final JavaSrcModule perftenceTestreportHtml = srcModule(
-			"perftence-testreport-html").noMainResources().noTestJava()
-					.noTestResources()
-					.mainDeps(perftence, slf4jApi, völundrFileutil).end();
+			"perftence-testreport-html")
+					.noMainResources()
+					.noTestJava().noTestResources().mainDeps(perftence,
+							slf4jApi, völundrFileutil, völundrStringToBytes)
+					.end();
 
 	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModule(
 			"perftence-defaulttestruntimereporterfactory").noTestResources()
@@ -126,7 +140,7 @@ public class PerftenceModules extends JavaModules {
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph, perftenceGraphAfreechart,
 							perftenceTestreportHtml, slf4jApi, afreechart,
-							völundrFileutil)
+							völundrFileutil, völundrStringToBytes)
 					.end();
 
 	private final JavaSrcModule perftenceFluent = srcModule("perftence-fluent")
@@ -173,7 +187,8 @@ public class PerftenceModules extends JavaModules {
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceGraph,
 							reporterfactoryDependenciesJfreechart,
-							perftenceTestreportHtml, völundrFileutil)
+							perftenceTestreportHtml, völundrFileutil,
+							völundrStringToBytes)
 					.end();
 
 	private final JavaSrcModule perftenceJunit = srcModule("perftence-junit")
@@ -225,7 +240,7 @@ public class PerftenceModules extends JavaModules {
 							perftenceGraph, perftenceGraphJfreechart,
 							perftenceTestreportHtml,
 							reporterfactoryDependenciesJfreechart, slf4jApi,
-							völundrLinereader)
+							völundrStringToBytes, völundrLinereader)
 					.testDeps(junit, perftenceFluent, perftenceJunit)
 					.testRuntimeDeps(log4j, slf4jLog4j12).end();
 

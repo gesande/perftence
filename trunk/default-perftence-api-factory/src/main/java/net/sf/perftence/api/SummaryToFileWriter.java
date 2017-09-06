@@ -4,8 +4,8 @@ import net.sf.perftence.PerftenceRuntimeException;
 import net.sf.perftence.reporting.summary.SummaryConsumer;
 import net.sf.perftence.reporting.summary.SummaryToCsv.CsvSummary;
 import net.sf.völundr.fileio.FileUtil;
-import net.sf.völundr.fileio.ToBytes;
 import net.sf.völundr.fileio.WritingFileFailed;
+import net.sf.völundr.io.StringToBytes;
 
 public final class SummaryToFileWriter implements SummaryConsumer {
 
@@ -23,7 +23,7 @@ public final class SummaryToFileWriter implements SummaryConsumer {
     @Override
     public void consumeSummary(String summaryId, String summary) {
         try {
-            FileUtil.writeToFile(this.path + "/" + summaryId, ToBytes.withDefaultCharset().convert(summary));
+            FileUtil.writeToFile(this.path + "/" + summaryId, StringToBytes.withDefaultCharset().convert(summary));
         } catch (WritingFileFailed e) {
             throw new PerftenceRuntimeException(e);
         }

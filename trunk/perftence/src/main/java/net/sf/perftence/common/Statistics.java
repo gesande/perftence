@@ -3,7 +3,7 @@ package net.sf.perftence.common;
 import java.util.List;
 
 import net.sf.perftence.graph.GraphStatisticsProvider;
-import net.sf.perftence.statistics.StatisticsCalculator;
+import net.sf.völundr.statistics.StatisticsCalculator;
 
 public final class Statistics implements GraphStatisticsProvider {
 
@@ -14,7 +14,7 @@ public final class Statistics implements GraphStatisticsProvider {
     }
 
     public int percentile90() {
-        return statistics().percentileValue(90);
+        return statistics().percentile(90);
     }
 
     private StatisticsCalculator statistics() {
@@ -49,11 +49,11 @@ public final class Statistics implements GraphStatisticsProvider {
 
     @Override
     public int percentile95() {
-        return statistics().percentileValue(95);
+        return statistics().percentile(95);
     }
 
     public int percentile99() {
-        return statistics().percentileValue(99);
+        return statistics().percentile(99);
     }
 
     @Override
@@ -70,15 +70,15 @@ public final class Statistics implements GraphStatisticsProvider {
     }
 
     public int percentile96() {
-        return statistics().percentileValue(96);
+        return statistics().percentile(96);
     }
 
     public int percentile97() {
-        return statistics().percentileValue(97);
+        return statistics().percentile(97);
     }
 
     public int percentile98() {
-        return statistics().percentileValue(98);
+        return statistics().percentile(98);
     }
 
     public static Statistics fromLatencies(final List<Integer> latencies) {
