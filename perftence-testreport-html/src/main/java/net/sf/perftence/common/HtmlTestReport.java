@@ -11,17 +11,17 @@ import net.sf.völundr.fileio.AppendToFileFailed;
 import net.sf.völundr.fileio.FileAppendHandler;
 import net.sf.völundr.fileio.FileAppender;
 import net.sf.völundr.fileio.FileUtil;
-import net.sf.völundr.fileio.ToBytes;
 import net.sf.völundr.fileio.WritingFileFailed;
+import net.sf.völundr.io.StringToBytes;
 
 public final class HtmlTestReport implements TestReport {
     private final static Logger LOG = LoggerFactory.getLogger(HtmlTestReport.class);
 
     private final String directory;
     private final FileAppender fileAppender;
-    private final ToBytes toBytes;
+    private final StringToBytes toBytes;
 
-    private HtmlTestReport(final String reportRootDirectory, final ToBytes toBytes) {
+    private HtmlTestReport(final String reportRootDirectory, final StringToBytes toBytes) {
         this.directory = reportRootDirectory;
         this.toBytes = toBytes;
         this.fileAppender = new FileAppender(this.toBytes, new FileAppendHandler() {
@@ -54,7 +54,7 @@ public final class HtmlTestReport implements TestReport {
      * Factory method for creating test report
      */
     public static TestReport testReport(final String reportRootDirectory, final Charset charset) {
-        return new HtmlTestReport(reportRootDirectory, new ToBytes(charset));
+        return new HtmlTestReport(reportRootDirectory, StringToBytes.forCharset(charset));
     }
 
     @Override
@@ -99,7 +99,7 @@ public final class HtmlTestReport implements TestReport {
         return toBytes().convert(data);
     }
 
-    private ToBytes toBytes() {
+    private StringToBytes toBytes() {
         return this.toBytes;
     }
 

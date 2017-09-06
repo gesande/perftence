@@ -6,6 +6,7 @@ project(':perftence') {
 
     dependencies {
         compile name: "stronglytyped-sortedbag-${volundrVersion}"
+        compile name: "statistics-${volundrVersion}"
         compile project(':perftence-graph')
         compile "org.slf4j:slf4j-api:${slf4jVersion}"
         compile "commons-collections:commons-collections:${commonsCollectionsVersion}"

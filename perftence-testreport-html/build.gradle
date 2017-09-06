@@ -5,6 +5,7 @@ project(':perftence-testreport-html') {
 	dependencies {
 		compile project(':perftence')
 		compile name: "fileutil-${volundrVersion}"
+        compile name: "string-to-bytes-${volundrVersion}"
 		compile "junit:junit:${junitVersion}"
 	}
 }

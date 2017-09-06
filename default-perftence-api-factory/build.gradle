@@ -10,5 +10,6 @@ project(':default-perftence-api-factory') {
 		compile "jfree:jfreechart:${jfreechartVersion}"
 		compile "jfree:jcommon:${jcommonVersion}"
 		compile project(':reporterfactory-dependencies-jfreechart')
+        compile name: "string-to-bytes-${volundrVersion}"
 	}
 }
