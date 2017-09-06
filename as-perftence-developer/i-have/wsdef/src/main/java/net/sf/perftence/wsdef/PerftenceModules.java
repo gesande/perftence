@@ -25,7 +25,7 @@ import net.sf.iwant.core.javamodules.JavaModules;
 public class PerftenceModules extends JavaModules {
 
 	private static final CodeFormatterPolicy CODE_FORMATTER_POLICY = codeFormatterPolicy();
-
+	private static final String VÖLUNDR_VERSION = "2.1.1";
 	// bin
 	private final Path afreechartJar = Downloaded.withName("afreechartJar")
 			.url("https://github.com/gmarques33/repos/raw/master/releases/org/afree/afreechart/"
@@ -55,40 +55,16 @@ public class PerftenceModules extends JavaModules {
 	private final JavaModule slf4jLog4j12 = binModule("org.slf4j",
 			"slf4j-log4j12", "1.6.1");
 
-	private final JavaModule völundrBag = JavaBinModule.providing(
-			Source.underWsroot("lib-repo/stronglytyped-sortedbag-2.1.1.jar"),
-			Source.underWsroot(
-					"lib-repo/sources/stronglytyped-sortedbag-2.1.1-sources.jar"))
-			.end();
+	private final JavaModule völundrBag = völundrBinModule(
+			"stronglytyped-sortedbag");
 
-	private final JavaModule völundrConcurrent = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/concurrent-2.1.1.jar"),
-					Source.underWsroot(
-							"lib-repo/sources/concurrent-2.1.1-sources.jar"))
-			.end();
+	private final JavaModule völundrConcurrent = völundrBinModule("concurrent");
+	private final JavaModule völundrFileutil = völundrBinModule("fileutil");
+	private final JavaModule völundrLinereader = völundrBinModule("linereader");
+	private final JavaModule völundrStringToBytes = völundrBinModule(
+			"string-to-bytes");
+	private final JavaModule völundrStatistics = völundrBinModule("statistics");
 
-	private final JavaModule völundrFileutil = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/fileutil-2.1.1.jar"),
-					Source.underWsroot(
-							"lib-repo/sources/fileutil-2.1.1-sources.jar"))
-			.end();
-
-	private final JavaModule völundrLinereader = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/linereader-2.1.1.jar"),
-					Source.underWsroot(
-							"lib-repo/sources/linereader-2.1.1-sources.jar"))
-			.end();
-	private final JavaModule völundrStringToBytes = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/string-to-bytes-2.1.1.jar"),
-					Source.underWsroot(
-							"lib-repo/sources/string-to-bytes-2.1.1-sources.jar"))
-			.end();
-
-	private final JavaModule völundrStatistics = JavaBinModule
-			.providing(Source.underWsroot("lib-repo/statistics-2.1.1.jar"),
-					Source.underWsroot(
-							"lib-repo/sources/statistics-2.1.1-sources.jar"))
-			.end();
 	// src
 
 	private final JavaSrcModule perftenceGraph = srcModule("perftence-graph")
@@ -255,6 +231,15 @@ public class PerftenceModules extends JavaModules {
 					.testDeps(junit, log4j, perftence, perftenceAgents,
 							perftenceJunit, slf4jApi, slf4jLog4j12)
 					.end();
+
+	private static JavaBinModule völundrBinModule(String lib) {
+		return JavaBinModule.providing(
+				Source.underWsroot(
+						"lib-repo/" + lib + "-" + VÖLUNDR_VERSION + ".jar"),
+				Source.underWsroot("lib-repo/sources/" + lib + "-"
+						+ VÖLUNDR_VERSION + "-sources.jar"))
+				.end();
+	}
 
 	// override common settings, like code formatter and code style
 
