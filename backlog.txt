@@ -112,6 +112,8 @@ Backlog for pertence test tool:
 [32m  +++ provide means to define also Throwable/Error with allow() mechanism +++ #feature[m
 [32m  +++ aggregate csv for agent based tests +++ #feature[m
 [32m  +++ applied völundr 2.1.1 +++ #refactoring[m
+[32m  +++ move perftence to github +++ #developmentSupport[m
+[32m  +++ bootstrap iwant from github +++ #build[m
 
   [33mIN PROGRESS:[m
 

@@ -199,7 +199,9 @@ public class PerftenceBacklog extends AbstractBacklogging {
                         done("provide means to define also Throwable/Error with allow() mechanism",
                                 feature),
                         done("aggregate csv for agent based tests", feature),
-                        done("applied völundr 2.1.1", refactoring)
+                        done("applied völundr 2.1.1", refactoring),
+                        done("move perftence to github", developmentSupport),
+                        done("bootstrap iwant from github", build)
 
                 )
 
