@@ -5,6 +5,21 @@ can be used for:
   - writing performance tests
   - writing use cases based tests (called test agents)
 
+Performance test engine written in Java and exposed as a fluent API for writing JUnit tests. 
+
+Perftence can also be used without JUnit by using perftence-api distribution package.
+
+Full test results are provided in html, which can published directly with different CI's (e.g. Jenkins/Hudson).
+
+Runtime test statistics are also provided through logging (e.g. using slf4j-log4j and log4j).
+
+Pertence tool can also be used for finding out threading issues. Just write a test that uses the component you need to test for threading issues and assign load of threads to the test.
+
+Thanks to my employer (Nokia) for letting me publish the initial version of this tool as open-source!
+
+
+Developing perftence:
+
 import eclipse formatting settings from ./build/eclipse/formatting/settings.xml
 
 some eclipse plugins you might consider useful (not required for developing perftence):
