@@ -1,11 +1,11 @@
 package net.sf.perftence.wsdefdef;
 
-import net.sf.iwant.api.javamodules.JavaBinModule;
-import net.sf.iwant.api.javamodules.JavaModule;
-import net.sf.iwant.api.javamodules.JavaSrcModule;
-import net.sf.iwant.api.wsdef.WorkspaceModuleContext;
-import net.sf.iwant.api.wsdef.WorkspaceModuleProvider;
-import net.sf.iwant.core.javamodules.JavaModules;
+import org.fluentjava.iwant.api.javamodules.JavaBinModule;
+import org.fluentjava.iwant.api.javamodules.JavaModule;
+import org.fluentjava.iwant.api.javamodules.JavaSrcModule;
+import org.fluentjava.iwant.api.wsdef.WorkspaceModuleContext;
+import org.fluentjava.iwant.api.wsdef.WorkspaceModuleProvider;
+import org.fluentjava.iwant.core.javamodules.JavaModules;
 
 public class PerftenceWorkspaceModuleProvider
 		implements WorkspaceModuleProvider {
