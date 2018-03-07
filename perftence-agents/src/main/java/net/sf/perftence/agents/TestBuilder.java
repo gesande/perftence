@@ -200,8 +200,8 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
 
     /**
      * @param workers
-     *            The number of workers for running test tasks, default value is
-     *            the amount of agents;
+     *            The number of workers for running test tasks, default value is the
+     *            amount of agents;
      */
     public TestBuilder workers(final int workers) {
         this.workers = workers;
@@ -781,8 +781,8 @@ public final class TestBuilder implements RunnableAdapter, Startable, ReporterFa
     }
 
     /**
-     * Setting invocation range for the graph. Notice that if
-     * noInvocationGraph() has been called, this has eventually no effect.
+     * Setting invocation range for the graph. Notice that if noInvocationGraph()
+     * has been called, this has eventually no effect.
      */
     public TestBuilder invocationRange(final int invocationRange) {
         this.invocationRange = invocationRange;

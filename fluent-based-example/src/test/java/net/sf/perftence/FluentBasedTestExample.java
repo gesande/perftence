@@ -63,9 +63,9 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
     @Test
     public void customSummaryAppender() throws Exception {
-        test().setup(setup().duration(Duration.seconds(15)).threads(10)
-                .invocationRange(1000).throughputRange(30).summaryAppender(summary -> summary
-                        .text("Here's something cool!").endOfLine().bold("And some bolded text").endOfLine())
+        test().setup(setup().duration(Duration.seconds(15)).threads(10).invocationRange(1000).throughputRange(30)
+                .summaryAppender(summary -> summary.text("Here's something cool!").endOfLine()
+                        .bold("And some bolded text").endOfLine())
                 .build()).executable(new Executable() {
 
                     @Override

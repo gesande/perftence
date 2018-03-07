@@ -9,16 +9,16 @@ public interface StatisticsSummaryProvider<SUMMARY> {
     void provideSummary(final SUMMARY summary);
 
     /**
-     * Elapsed time for the test. Can be used when calculating throughput for
-     * the summary
+     * Elapsed time for the test. Can be used when calculating throughput for the
+     * summary
      * 
      * @param elapsedTime
      */
     StatisticsSummaryProvider<SUMMARY> elapsedTime(final long elapsedTime);
 
     /**
-     * Total invocations for the test. Can be used when calculating throughput
-     * for the summary
+     * Total invocations for the test. Can be used when calculating throughput for
+     * the summary
      * 
      * @param invocationCount
      */

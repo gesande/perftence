@@ -27,8 +27,8 @@ public class PerftenceModules extends JavaModules {
 	private static final CodeFormatterPolicy CODE_FORMATTER_POLICY = codeFormatterPolicy();
 	private static final String VÖLUNDR_VERSION = "2.1.1";
 	// bin
-	private final Path afreechartJar = Downloaded.withName("afreechartJar")
-			.url("https://github.com/gmarques33/repos/raw/master/releases/org/afree/afreechart/"
+	private final Path afreechartJar = Downloaded.withName("afreechartJar").url(
+			"https://github.com/gmarques33/repos/raw/master/releases/org/afree/afreechart/"
 					+ "0.0.4/afreechart-0.0.4.jar")
 			.md5("cdca9ce40b95c104f44e624dc6ee29c2");
 	private final JavaModule afreechart = JavaBinModule.providing(afreechartJar)
@@ -80,17 +80,16 @@ public class PerftenceModules extends JavaModules {
 			.testDeps(junit, slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule perftenceGraphJfreechart = srcModule(
-			"perftence-graph-jfreechart").noTestJava()
-					.noTestResources()
+			"perftence-graph-jfreechart")
+					.noTestJava().noTestResources()
 					.mainDeps(jcommon, jfreechart, perftence, perftenceGraph,
 							slf4jApi, völundrFileutil, völundrStringToBytes)
 					.end();
 
 	private final JavaSrcModule perftenceTestreportHtml = srcModule(
-			"perftence-testreport-html")
-					.noMainResources()
-					.noTestJava().noTestResources().mainDeps(perftence,
-							slf4jApi, völundrFileutil, völundrStringToBytes)
+			"perftence-testreport-html").noMainResources().noTestJava()
+					.noTestResources().mainDeps(perftence, slf4jApi,
+							völundrFileutil, völundrStringToBytes)
 					.end();
 
 	private final JavaSrcModule perftenceDefaulttestruntimereporterfactory = srcModule(
@@ -146,8 +145,8 @@ public class PerftenceModules extends JavaModules {
 			.end();
 
 	private final JavaSrcModule distributedPerftenceApi = srcModule(
-			"distributed-perftence-api").noTestJava()
-					.noTestResources()
+			"distributed-perftence-api")
+					.noTestJava().noTestResources()
 					.mainDeps(perftence,
 							perftenceDefaulttestruntimereporterfactory,
 							perftenceFluent, perftenceGraph,
@@ -181,8 +180,8 @@ public class PerftenceModules extends JavaModules {
 			.testRuntimeDeps(slf4jLog4j12, log4j).end();
 
 	private final JavaSrcModule mainentrypointExample = srcModule(
-			"mainentrypoint-example").noTestJava()
-					.noTestResources()
+			"mainentrypoint-example")
+					.noTestJava().noTestResources()
 					.mainDeps(defaultPerftenceApiFactory, log4j, perftence,
 							perftenceApi,
 							perftenceDefaulttestruntimereporterfactory,
@@ -192,8 +191,8 @@ public class PerftenceModules extends JavaModules {
 					.mainRuntimeDeps(log4j, slf4jLog4j12).end();
 
 	private final JavaSrcModule perftenceExperimental = srcModule(
-			"perftence-experimental").noMainResources()
-					.noTestResources()
+			"perftence-experimental")
+					.noMainResources().noTestResources()
 					.mainDeps(distributedPerftenceApi, perftence,
 							perftenceAgents, perftenceFluent, slf4jApi,
 							völundrConcurrent)

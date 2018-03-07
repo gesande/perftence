@@ -10,8 +10,7 @@ import java.util.TimerTask;
 public interface TimerSpec {
 
     /**
-     * Name of the task, i.e. thread name running the task, see
-     * {@link TimerTask}
+     * Name of the task, i.e. thread name running the task, see {@link TimerTask}
      */
     String name();
 

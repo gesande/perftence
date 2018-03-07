@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
-
 import org.fluentjava.iwant.api.core.Concatenated;
 import org.fluentjava.iwant.api.core.Concatenated.ConcatenatedBuilder;
 import org.fluentjava.iwant.api.core.ScriptGenerated;
