@@ -22,7 +22,7 @@ ext {
 
     emmaPlugin="${buildScripts}/plugins/jacoco.gradle"
 
-    artifactVersion ='2.1.4'
+    artifactVersion ='2.1.5'
 
     distributionExcludes = ["*-lib.jar"]
     distributionBasename = 'perftence-distribution'
@@ -60,7 +60,6 @@ subprojects { Project prj ->
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
     apply plugin : PerftenceContinousBuildPlugin
-    //    forkJdt { jdtInputFile = "${project.properties.jdtInputFile}"  }
     pmd { toolVersion = '4.3'	}
 }
 
