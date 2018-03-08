@@ -30,7 +30,7 @@ public class PerftenceWorkspace implements Workspace {
 		List<Target> t = new ArrayList<>();
 		t.add(classdirList());
 		t.add(jacocoReportAll());
-		t.add(new Distro(modules, new SvnRevisionProperties()));
+		t.add(Distro.withModules(modules));
 		return t;
 	}
 

@@ -17,23 +17,23 @@ import org.fluentjava.iwant.api.core.ScriptGenerated;
 import org.fluentjava.iwant.api.javamodules.JavaModule;
 import org.fluentjava.iwant.api.model.Path;
 import org.fluentjava.iwant.api.model.Source;
+import org.fluentjava.iwant.api.model.Target;
 import org.fluentjava.iwant.api.model.TargetEvaluationContext;
 import org.fluentjava.iwant.api.target.TargetBase;
 import org.fluentjava.iwant.core.javamodules.JavaModules;
 
-class Distro extends TargetBase {
+final class Distro extends TargetBase {
 
 	private static final String majorVer = "2.1.4";
-	private final SvnRevisionProperties svnRevisionProperties;
+	private final Path revisionProperties;
 	private final Map<JavaModule, Path> jars = new LinkedHashMap<>();
 	private final List<Path> zips;
 	private final List<Path> srcJars;
 	private Path copying;
 
-	public Distro(PerftenceModules modules,
-			SvnRevisionProperties svnRevisionProperties) {
+	private Distro(PerftenceModules modules, Path revisionProperties) {
 		super("perftence-distribution");
-		this.svnRevisionProperties = svnRevisionProperties;
+		this.revisionProperties = revisionProperties;
 		zips = modules.productionDependencyRoots().stream()
 				.map(m -> zippedRuntimeJarsOf(m)).collect(Collectors.toList());
 		srcJars = modules.allSrcModules().stream()
@@ -77,7 +77,7 @@ class Distro extends TargetBase {
 				Source.underWsroot("as-perftence-developer/i-have/wsdef/"
 						+ "src/main/java/"
 						+ "net/sf/perftence/wsdef/Distro.java"))
-				.ingredients("svnRevisionProperties", svnRevisionProperties)
+				.ingredients("revisionProperties", revisionProperties)
 				.ingredients("COPYING", copying).ingredients("zips", zips)
 				.ingredients("srcJars", srcJars).nothingElse();
 	}
@@ -86,7 +86,7 @@ class Distro extends TargetBase {
 	public void path(TargetEvaluationContext ctx) throws Exception {
 		Properties p = new Properties();
 		try (InputStream in = new FileInputStream(
-				ctx.cached(svnRevisionProperties))) {
+				ctx.cached(revisionProperties))) {
 			p.load(in);
 		}
 		String rev = p.getProperty("Revision");
@@ -108,6 +108,10 @@ class Distro extends TargetBase {
 		}
 
 		System.err.println("Done populating " + distDir);
+	}
+
+	public static Target withModules(PerftenceModules modules) {
+		return new Distro(modules, RevisionPropertiesBuilder.gitRevision());
 	}
 
 }
