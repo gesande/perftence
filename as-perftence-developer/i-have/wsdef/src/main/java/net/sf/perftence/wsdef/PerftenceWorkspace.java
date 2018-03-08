@@ -30,7 +30,10 @@ public class PerftenceWorkspace implements Workspace {
 		List<Target> t = new ArrayList<>();
 		t.add(classdirList());
 		t.add(jacocoReportAll());
-		t.add(Distro.withModules(modules));
+		Target perftenceDistribution = Distro.withModules(modules);
+		t.add(perftenceDistribution);
+		t.add(Tarred.target("perftence-distribution.gzip",
+				perftenceDistribution));
 		return t;
 	}
 
