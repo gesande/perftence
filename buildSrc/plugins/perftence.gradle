@@ -2,7 +2,6 @@ import net.sf.mygradlebuild.plugins.PerftenceContinousBuildPlugin
 import net.sf.mygradlebuild.plugins.EnvironmentVariablesPlugin
 import net.sf.mygradlebuild.plugins.JavaDistributionPlugin
 import net.sf.mygradlebuild.plugins.MavenCentral
-import net.sf.mygradlebuild.plugins.NewJavaProjectToSvnPlugin
 import net.sf.mygradlebuild.plugins.ReportingPlugin
 import net.sf.mygradlebuild.plugins.SvnPlugin
 import net.sf.perftence.build.ExportAntBuildFilePlugin
@@ -40,10 +39,9 @@ ext {
 }
 
 apply plugin : MavenCentral
-apply plugin : NewJavaProjectToSvnPlugin
+apply plugin: 'java'
 apply plugin : ReportingPlugin
 apply plugin : EnvironmentVariablesPlugin
-apply plugin : SvnPlugin
 apply plugin : ExportAntBuildFilePlugin
 
 apply plugin : PerftenceBuildPlugin
