@@ -24,22 +24,8 @@ import net.sf.mybacklog.Waiting;
 public class BacklogWaitingForImplementation {
 
 	public static void main(final String[] args) {
-		final List<Tag> tags = toTags(args);
+		final List<Tag> tags = PerftenceTag.toTags(args);
 		new PerftenceBacklog(WaitingForImplementation.displayedBy(new SysoutBacklogDisplay(), tags)).show();
-	}
-
-	private static List<Tag> toTags(final String[] args) {
-		final List<Tag> tags = new ArrayList<>();
-		if (args.length > 0) {
-			for (final String value : args) {
-				tags.add(PerftenceTag.valueOf(value));
-			}
-		} else {
-			for (final Tag tag : PerftenceTag.values()) {
-				tags.add(tag);
-			}
-		}
-		return tags;
 	}
 
 	private static class WaitingForImplementation implements BacklogFactory {
@@ -52,7 +38,7 @@ public class BacklogWaitingForImplementation {
 			waitingTasks().addAll(waitingTags);
 		}
 
-		Waiting[] filtered(final Waiting[] tasks) {
+		private Waiting[] filtered(final Waiting[] tasks) {
 			List<Waiting> filtered = new ArrayList<>();
 			for (Waiting task : tasks) {
 				if (waitingTasks().contains(task.tag())) {
@@ -71,10 +57,12 @@ public class BacklogWaitingForImplementation {
 			final ChalkBox chalkBox = new ChalkBox();
 			final StringBuilderAppender appender = new StringBuilderAppender();
 			final ChalkedTaskAppender chalkedTaskAppender = new ChalkedTaskAppender();
-			final TaskAppenderDoingNothing doingNothing = new TaskAppenderDoingNothing();
 			final Chalk red = chalkBox.red();
-			final BacklogAppender backlogAppender = new DefaultBacklogAppender(appender, doingNothing.forDone(),
-					doingNothing.forInProgress(), chalkedTaskAppender.forWaiting(appender, red));
+			final BacklogAppender backlogAppender = new DefaultBacklogAppender(appender, done -> {
+				// no-op
+			}, inProgress -> {
+				// no-op
+			}, chalkedTaskAppender.forWaiting(appender, red));
 			final TaskListFactory taskListFactory = new TaskListFactory() {
 
 				@Override

@@ -145,9 +145,11 @@ class PerftenceBacklogBuildPlugin implements Plugin<Project>{
             }
         }
     }
+
     private String generatedScriptFile() {
         return "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
     }
+
     private String replaceBacklogPlus(){
         return " | sed 's/ +++ //' | sed 's/ +++ /|/'"
     }
