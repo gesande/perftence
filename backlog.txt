@@ -22,8 +22,8 @@ Backlog for pertence test tool:
 [32m  +++ added change log capabilities through svn diffing backlog +++ #infrastructure[m
 [32m  +++ added noInvocationGraph also for agent based test for overall statistics +++ #feature[m
 [32m  +++ enabled last second throughput graph writing also for agent based tests +++ #feature[m
-[32m  +++ agent based tests: category specific invocation reporters also respect noInvocationGraph() setting +++ #feature[m
-[32m  +++ agent based tests: optimize graph, no same graphs from overall to  category specific reports +++ #feature[m
+[32m  +++ agent based tests: category specific invocation reporters also  respect noInvocationGraph() setting +++ #feature[m
+[32m  +++ agent based tests: optimize graph, no same graphs from overall to category specific reports +++ #feature[m
 [32m  +++ agent based tests: Ability to turn off 'threads running current tasks' and task schedule differencies' measurements +++ #feature[m
 [32m  +++ acceptance-tests are also run when making a distribution package +++ #deployment[m
 [32m  +++ XYSeriesFactory in use, gave up using autoSort on XySeries +++ #feature[m
@@ -114,6 +114,7 @@ Backlog for pertence test tool:
 [32m  +++ applied völundr 2.1.1 +++ #refactoring[m
 [32m  +++ move perftence to github +++ #developmentSupport[m
 [32m  +++ bootstrap iwant from github +++ #build[m
+[32m  +++ distribution with git hash +++ #deployment[m
 
   [33mIN PROGRESS:[m
 
@@ -134,5 +135,7 @@ Backlog for pertence test tool:
 [31m  --- statistics enhancement: print out statistics for latencies over the defined rate i.e. statistics over statistics --- #feature[m
 [31m  --- study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY --- #refactoring[m
 [31m  --- ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running --- #feature[m
+[31m  --- use source level integration to völundr modules --- #build[m
+[31m  --- use source level integration to my-backlog modules --- #build[m
 
 
