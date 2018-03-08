@@ -23,12 +23,14 @@ public class PerftenceBacklog extends AbstractBacklogging {
 	}
 
 	public void show() {
+		//@formatter:off
 		newBacklog().title("Backlog for pertence test tool:").done().title("DONE:").tasks(
 				done("created mainentrypoint-example project with source example", developmentSupport),
 				done("add eclipse formatter settings under build project", ide),
 				done("additional build scripts for source jars", developmentSupport),
 				done("additional build scripts for distribution", developmentSupport),
-				done("publish to sourceforge", development), done("rename TPS -> throughput", refactoring),
+				done("publish to sourceforge", development),
+				done("rename TPS -> throughput", refactoring),
 				done("provide fluent based test examples with sources", developmentSupport),
 				done("provide agent based test examples with sources", developmentSupport),
 				done("provide distribution for test examples with sources", developmentSupport),
@@ -43,12 +45,12 @@ public class PerftenceBacklog extends AbstractBacklogging {
 				done("added change log capabilities through svn diffing backlog", infrastructure),
 				done("added noInvocationGraph also for agent based test for overall statistics", feature),
 				done("enabled last second throughput graph writing also for agent based tests", feature),
-				done("agent based tests: category specific invocation reporters also respect noInvocationGraph() setting",
-						feature),
-				done("agent based tests: optimize graph, no same graphs from overall to  category specific reports",
-						feature),
-				done("agent based tests: Ability to turn off 'threads running current tasks' and task schedule differencies' measurements",
-						feature),
+				done("agent based tests: category specific invocation reporters also "
+						+ "respect noInvocationGraph() setting",feature),
+				done("agent based tests: optimize graph, no same graphs from overall to  "
+						+ "category specific reports", feature),
+				done("agent based tests: Ability to turn off 'threads running current tasks' and "
+						+ "task schedule differencies' measurements", feature),
 				done("acceptance-tests are also run when making a distribution package", deployment),
 				done("XYSeriesFactory in use, gave up using autoSort on XySeries", feature),
 				done("use emma to figure out where to put some more unit tests", codeQuality),
@@ -72,37 +74,51 @@ public class PerftenceBacklog extends AbstractBacklogging {
 				done("provided more unit tests for LatencyProvider", codeQuality),
 				done("removed static evil for EstimatedInvocations ", refactoring),
 				done("unit tests for PerformanceTestSetupPojo.noSetup()", codeQuality),
-				done("breakup stuff from build.gradle into separate .gradle files, e.g. libproject.gradle has only lib file repo",
-						build),
-				done("simplified thread run engine for finding out threading issues, perftence-concurrent provides this now",
-						feature),
+				done("breakup stuff from build.gradle into separate .gradle files, e.g. "
+						+ "libproject.gradle has only lib file repo", build),
+				done("simplified thread run engine for finding out threading issues, perftence-concurrent"
+						+ " provides this now", feature),
 				done("fixed dist task, dist package didn't contain all zips", build),
-				done("gradle continousBuild", build), done("gradle aggregateReports", build),
-				done("gradle distributionPackage", build), done("gradle main/testCodeAnalysis", build),
-				done("gradle buildEclipseSettings", build), done("gradle newJavaProject", build),
-				done("gradle newJavaLibProject", build), done("gradle svnRevision,svnStatus", build),
-				done("gradle backlog:showBacklog", build), done("gradle backlog:hereIsSomethingTodo", build),
-				done("gradle backlog:featuresWaiting", build), done("gradle svnfeaturesWaiting", build),
+				done("gradle continousBuild", build),
+				done("gradle aggregateReports", build),
+				done("gradle distributionPackage", build),
+				done("gradle main/testCodeAnalysis", build),
+				done("gradle buildEclipseSettings", build),
+				done("gradle newJavaProject", build),
+				done("gradle newJavaLibProject", build),
+				done("gradle svnRevision,svnStatus", build),
+				done("gradle backlog:showBacklog", build),
+				done("gradle backlog:hereIsSomethingTodo", build),
 				done("gradle backlog:featuresWaiting", build),
-				done("gradle addNewFilesToSvn,listFilesNotAddedToSvn", build), done("gradle printChangeLog", build),
-				done("gradle exportChangeLog", build), done("threadengine-api-example module", developmentSupport),
+				done("gradle svnfeaturesWaiting", build),
+				done("gradle backlog:featuresWaiting", build),
+				done("gradle addNewFilesToSvn,listFilesNotAddedToSvn", build),
+				done("gradle printChangeLog", build),
+				done("gradle exportChangeLog", build),
+				done("threadengine-api-example module", developmentSupport),
 				done("gradle testCodeDist,testCodeRelease", developmentSupport),
 				done("added median check for PerformanceRequirements", feature),
 				done("gradle createChangeLogScript", build),
 				done("fixed gradle aggregateFindBugsReport auxclasspath", build),
 				done("gradle emma output test coverage after the tests", build),
-				done("gradle continousBuildWithoutAcceptanceTests", build), done("backlog/build.gradle cleanup", build),
-				done("new typeof gradle exportChangeLog", build), done("java based backlogging", backlog),
-				done("simple-backlog module", backlog), done("chalkbox module", backlog),
+				done("gradle continousBuildWithoutAcceptanceTests", build), 
+				done("backlog/build.gradle cleanup", build),
+				done("new typeof gradle exportChangeLog", build),
+				done("java based backlogging", backlog),
+				done("simple-backlog module", backlog),
+				done("chalkbox module", backlog),
 				done("taking chalks out of DefaultBacklogAppender class", backlog),
 				done("gradle waitingForImplementation", backlog),
-				done("replaced chalkbox with chalkbox-1.0.0", backlog), done("fixed eclipseJdt", ide),
+				done("replaced chalkbox with chalkbox-1.0.0", backlog),
+				done("fixed eclipseJdt", ide),
 				done("gradle licenseToCommit", build),
 				done("removed build-stuff module and moved stuff to buildSrc", build),
-				done("gradle buildGradleForJavaProject and buildGradleForJavaLibProject used to create build.gradle for new projects.",
-						build),
-				done("applied my-gradle-build.", build), done("clean up obsolete gradle scripts", build),
-				done("applied my-backlog", build), done("applied my-gradle-build-1.0.3", build),
+				done("gradle buildGradleForJavaProject and buildGradleForJavaLibProject "
+						+ "used to create build.gradle for new projects.", build),
+				done("applied my-gradle-build.", build),
+				done("clean up obsolete gradle scripts", build),
+				done("applied my-backlog", build),
+				done("applied my-gradle-build-1.0.3", build),
 				done("introduce distributed-perftence-api module", feature),
 				done("added id for DistributedLatencyReporterFactory.forRemoteReporting", feature),
 				done("introduced perftence-fluent module", refactoring),
@@ -111,20 +127,24 @@ public class PerftenceBacklog extends AbstractBacklogging {
 				done("introduced perftence-graph module", refactoring),
 				done("introduced perftence-defaulttestruntimereporterfactory module", refactoring),
 				done("introduced perftence-graph-jfreechart module", refactoring),
-				done("introduced perftence-testreport-html", refactoring), done("starting völundr", refactoring),
-				done("völundr-linereader", refactoring), done("völundr-fileutil", refactoring),
+				done("introduced perftence-testreport-html", refactoring),
+				done("starting völundr", refactoring),
+				done("völundr-linereader", refactoring),
+				done("völundr-fileutil", refactoring),
 				done("völundr-bag", refactoring),
 				done("choice of perftence-graph implementation in perftence-api level", feature),
 				done("afreechart version of perftence-graph", feature),
-				done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> völundr (see concurrent,bag,linereader,fileutil projects)",
-						refactoring),
+				done("move 'blacksmith' projects to its own 'blacksmith' sourceforge project -> "
+						+ "völundr (see concurrent,bag,linereader,fileutil projects)", refactoring),
 				done("ticket#2 csv files for trend support", feature),
 				done("split fluent and agent stuff into separate projects", refactoring),
 				done("agent base tests: summary files for categorized tasks", feature),
 				done("provide means to define also Throwable/Error with allow() mechanism", feature),
-				done("aggregate csv for agent based tests", feature), done("applied völundr 2.1.1", refactoring),
-				done("move perftence to github", developmentSupport), done("bootstrap iwant from github", build)
-
+				done("aggregate csv for agent based tests", feature),
+				done("applied völundr 2.1.1", refactoring),
+				done("move perftence to github", developmentSupport),
+				done("bootstrap iwant from github", build)
+				//@formatter:on
 		)
 
 				.inProgress().title("IN PROGRESS:").noTasks()
@@ -132,13 +152,15 @@ public class PerftenceBacklog extends AbstractBacklogging {
 				.waiting().title("WAITING:")
 
 				.tasks(
-
-						waiting("autoscaling graphs", feature), waiting("rampup + intelligent warmup", feature),
+						//@formatter:off
+						waiting("autoscaling graphs", feature),
+						waiting("rampup + intelligent warmup", feature),
 						waiting("convert backlog build stuff to iwant", developmentSupport),
 						waiting("agent based tests: requirements for categorized tasks", feature),
 						waiting("failures over test time, use DateAxis", feature),
 						waiting("provide success rate percentage for intermediate statistics", feature),
-						waiting("provide tools to create ResponseCodesPerSecond graph, see http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example",
+						waiting("provide tools to create ResponseCodesPerSecond graph, see "
+								+ "http://code.google.com/p/jmeter-plugins/wiki/ResponseCodesPerSecond for example",
 								feature),
 						waiting("provide means to create test results in an intermediate format (see ticket#2)",
 								feature),
@@ -147,12 +169,16 @@ public class PerftenceBacklog extends AbstractBacklogging {
 						waiting("latency frequencies -> ability to set the range for the graph e.g. using 99% percentile",
 								feature),
 						waiting("statistics enhancement: define a latency rate", feature),
-						waiting("statistics enhancement: print out statistics for latencies over the defined rate i.e. statistics over statistics",
+						waiting("statistics enhancement: print out statistics for latencies over "
+								+ "the defined rate i.e. statistics over statistics",
 								feature),
-						waiting("study changing public interface DatasetAdapter GRAPHDATA to DatasetAdapter GRAPHDATA, CATEGORY",
-								refactoring),
-						waiting("ability to define the TPS is used defining it before running the test, e.g. running at 500 TPS max when the test is running",
-								feature)
+						waiting("study changing public interface DatasetAdapter GRAPHDATA to"
+								+ " DatasetAdapter GRAPHDATA, CATEGORY", refactoring),
+						waiting("ability to define the TPS is used defining it before running the test, e.g. "
+								+ "running at 500 TPS max when the test is running", feature),
+						waiting("use source level integration to völundr modules", build),
+						waiting("use source level integration to my-backlog modules", build)
+						//@formatter:on
 
 				).show();
 	}
