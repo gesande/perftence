@@ -115,6 +115,7 @@ Backlog for pertence test tool:
 [32m  +++ move perftence to github +++ #developmentSupport[m
 [32m  +++ bootstrap iwant from github +++ #build[m
 [32m  +++ distribution with git hash +++ #deployment[m
+[32m  +++ tarred distribution +++ #deployment[m
 
   [33mIN PROGRESS:[m
 
