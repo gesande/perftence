@@ -8,6 +8,7 @@ import java.util.SortedSet;
 
 import org.fluentjava.iwant.api.core.Concatenated;
 import org.fluentjava.iwant.api.core.Concatenated.ConcatenatedBuilder;
+import org.fluentjava.iwant.api.core.ScriptGenerated;
 import org.fluentjava.iwant.api.javamodules.JavaModule;
 import org.fluentjava.iwant.api.javamodules.JavaSrcModule;
 import org.fluentjava.iwant.api.model.Path;
@@ -32,9 +33,23 @@ public class PerftenceWorkspace implements Workspace {
 		t.add(jacocoReportAll());
 		Target perftenceDistribution = Distro.withModules(modules);
 		t.add(perftenceDistribution);
-		t.add(Tarred.target("perftence-distribution.gzip",
-				perftenceDistribution));
+		t.add(tarred(perftenceDistribution));
 		return t;
+	}
+
+	// TODO use from iwant codebase when available
+	private static Target tarred(Path dirToTar) {
+		String tarName = dirToTar.name() + ".tar";
+		ConcatenatedBuilder tarScript = Concatenated.named(tarName + ".sh");
+		tarScript.string("#!/bin/bash\n");
+		tarScript.string("set -eu\n");
+		tarScript.string("DEST=$1\n");
+		tarScript.string("SRC=").unixPathTo(dirToTar).string("\n");
+		tarScript.string("SRCDIR=$(dirname \"$SRC\")\n");
+		tarScript.string("SRCBASE=$(basename \"$SRC\")\n");
+		tarScript.string("cd \"$SRCDIR\"\n");
+		tarScript.string("tar cf \"$DEST\" \"$SRCBASE\"\n");
+		return ScriptGenerated.named(tarName).byScript(tarScript.end());
 	}
 
 	@Override
