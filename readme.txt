@@ -33,7 +33,7 @@ eclipse-gradle plugin
 
 Developing perftence:
 
-install subversion
+install git
 checkout the code
 
 see tool installation scripts (mainly for ubuntu) in install project:
@@ -41,19 +41,11 @@ see tool installation scripts (mainly for ubuntu) in install project:
 ./install/gradle/for/ubuntu.sh
 or install them manually
 
+setup iwant
+as-perftence-developer/with/bash/iwant/help.sh
+
 build your eclipse settings:
-gradle eclipseSettings
+gradle eclipseSettings (applies to buildSrc and backlog projects)
+as-perftence-developer/with/bash/iwant/side-effect/eclipse-settings/effective
 
 after that just import the projects to eclipse
-
-updating libsvn-java 1.7 (not available for ubuntu 10.10)
-Remove your existing libsvn-java:
-
-sudo apt-get purge libsvn-java
-
-Then, add the following software source and re-install:
-
-sudo add-apt-repository ppa:dominik-stadler/subversion-1.7
-sudo apt-get update
-sudo apt-get install libsvn-java
-
