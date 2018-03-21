@@ -18,11 +18,6 @@
 			<arg value="continousBuild" />
 		</exec>
 	</target>
-	<target name="distributionPackage">
-		<exec executable="${gradle.executable}" dir=".">
-			<arg value="distributionPackage" />
-		</exec>
-	</target>
 	<target name="eclipseSettings">
 		<exec executable="${gradle.executable}" dir=".">
 			<arg value="eclipseSettings" />

@@ -17,7 +17,6 @@ class ExportAntBuildFilePlugin implements Plugin<Project> {
             task.defaultTarget= "licenseToCommit"
             task.targets = [
                 "continousBuild",
-                "distributionPackage",
                 "eclipseSettings",
                 "exportAntBuildFile",
                 "exportBacklog",
