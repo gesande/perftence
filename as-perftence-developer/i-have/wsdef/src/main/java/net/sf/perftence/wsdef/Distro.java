@@ -24,7 +24,7 @@ import org.fluentjava.iwant.core.javamodules.JavaModules;
 
 final class Distro extends TargetBase {
 
-	private static final String majorVer = "2.1.5";
+	private static final String majorVer = "3.0.0";
 	private final Path revisionProperties;
 	private final Map<JavaModule, Path> jars = new LinkedHashMap<>();
 	private final List<Path> zips;

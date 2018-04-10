@@ -116,6 +116,7 @@ Backlog for pertence test tool:
 [32m  +++ bootstrap iwant from github +++ #build[m
 [32m  +++ distribution with git hash +++ #deployment[m
 [32m  +++ tarred distribution +++ #deployment[m
+[32m  +++ start 3.0.0 (first official github release) +++ #deployment[m
 
   [33mIN PROGRESS:[m
 
