@@ -8,7 +8,7 @@ public class FullyQualifiedMethodNameWithClassNameTest {
 
     @Test
     public void idFor() {
-        assertEquals("org.fluentjava.perftence.FullyQualifiedMethodNameWithClassNameTest.id",
+        assertEquals("org.fluentjava.perftence.junit.FullyQualifiedMethodNameWithClassNameTest.id",
                 new FullyQualifiedMethodNameWithClassName().idFor(this.getClass(), "id"));
     }
 }

@@ -51,12 +51,12 @@ public class EntrypointTest extends AbstractMultiThreadedTest {
 
     @Test
     public void checkId() {
-        assertEquals("org.fluentjava.perftence.EntrypointTest.checkId", id());
+        assertEquals("org.fluentjava.perftence.junit.EntrypointTest.checkId", id());
     }
 
     @Test
     public void checkFullyQualifiedMethodNameWithClassName() {
-        assertEquals("org.fluentjava.perftence.EntrypointTest.checkFullyQualifiedMethodNameWithClassName",
+        assertEquals("org.fluentjava.perftence.junit.EntrypointTest.checkFullyQualifiedMethodNameWithClassName",
                 fullyQualifiedMethodNameWithClassName());
     }
 
