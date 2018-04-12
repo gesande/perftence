@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.fluentjava.perftence.AbstractMultiThreadedTest;
-import org.fluentjava.perftence.DefaultTestRunner;
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

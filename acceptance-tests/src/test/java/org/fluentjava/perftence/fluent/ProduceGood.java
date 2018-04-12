@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
-import org.fluentjava.perftence.AbstractMultiThreadedTest;
-import org.fluentjava.perftence.DefaultTestRunner;
 import org.fluentjava.perftence.agents.TestAgent;
 import org.fluentjava.perftence.agents.TestTask;
 import org.fluentjava.perftence.agents.TestTaskCategory;
 import org.fluentjava.perftence.agents.TestTaskReporter;
 import org.fluentjava.perftence.agents.Time;
 import org.fluentjava.perftence.agents.TimeSpecificationFactory;
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

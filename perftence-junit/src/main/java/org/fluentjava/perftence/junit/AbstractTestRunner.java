@@ -1,10 +1,11 @@
-package org.fluentjava.perftence;
+package org.fluentjava.perftence.junit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fluentjava.perftence.TestFailureNotifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

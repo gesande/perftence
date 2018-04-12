@@ -3,6 +3,8 @@ package org.fluentjava.perftence;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.fluentjava.perftence.reporting.Duration;
 import org.junit.After;
 import org.junit.Test;

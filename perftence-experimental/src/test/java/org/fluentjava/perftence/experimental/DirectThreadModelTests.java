@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.fluentjava.perftence.AbstractMultiThreadedTest;
 import org.fluentjava.perftence.DefaultLatencyProviderFactory;
-import org.fluentjava.perftence.DefaultTestRunner;
 import org.fluentjava.perftence.LatencyFactory;
 import org.fluentjava.perftence.LatencyProvider;
 import org.fluentjava.perftence.agents.ActiveThreads;
@@ -23,6 +21,8 @@ import org.fluentjava.perftence.formatting.DefaultDoubleFormatter;
 import org.fluentjava.perftence.formatting.FieldFormatter;
 import org.fluentjava.perftence.graph.jfreechart.DefaultDatasetAdapterFactory;
 import org.fluentjava.perftence.graph.jfreechart.TestRuntimeReporterFactoryUsingJFreeChart;
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.fluentjava.perftence.reporting.TestRuntimeReporter;
 import org.fluentjava.perftence.reporting.summary.AdjustedFieldBuilderFactory;
 import org.fluentjava.perftence.reporting.summary.FailedInvocations;

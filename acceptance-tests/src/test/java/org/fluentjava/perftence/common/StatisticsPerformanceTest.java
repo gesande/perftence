@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.fluentjava.perftence.AbstractMultiThreadedTest;
-import org.fluentjava.perftence.DefaultTestRunner;
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

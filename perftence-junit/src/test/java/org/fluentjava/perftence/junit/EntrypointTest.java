@@ -1,8 +1,10 @@
-package org.fluentjava.perftence;
+package org.fluentjava.perftence.junit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.fluentjava.perftence.junit.AbstractMultiThreadedTest;
+import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -1,4 +1,4 @@
-package org.fluentjava.perftence;
+package org.fluentjava.perftence.junit;
 
 import java.util.List;
 

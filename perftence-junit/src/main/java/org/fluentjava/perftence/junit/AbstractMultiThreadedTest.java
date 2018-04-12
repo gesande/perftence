@@ -1,5 +1,6 @@
-package org.fluentjava.perftence;
+package org.fluentjava.perftence.junit;
 
+import org.fluentjava.perftence.TestFailureNotifier;
 import org.fluentjava.perftence.api.DefaultPerftenceApiFactory;
 import org.fluentjava.perftence.api.PerftenceApi;
 import org.fluentjava.perftence.fluent.PerformanceRequirementsPojo.PerformanceRequirementsBuilder;
