@@ -1,28 +1,28 @@
 project(':perftence-experimental') {
-	apply from:"$emmaPlugin"
+    apply from:"$emmaPlugin"
 
-	version = project.properties.artifactVersion + "-EXPERIMENTAL"
+    version = project.properties.artifactVersion + "-EXPERIMENTAL"
 
-	dependencies {
-		compile project(':perftence')
-		compile project(':perftence-fluent')
-		compile project(':perftence-agents')
-		compile project(':distributed-perftence-api')
-		compile project(':perftence-defaulttestruntimereporterfactory')
-		compile project(':perftence-graph-jfreechart')
-		compile project(':perftence-testreport-html')
-		compile project(':reporterfactory-dependencies-jfreechart')
+    dependencies {
+        compile project(':perftence')
+        compile project(':perftence-fluent')
+        compile project(':perftence-agents')
+        compile project(':distributed-perftence-api')
+        compile project(':perftence-defaulttestruntimereporterfactory')
+        compile project(':perftence-graph-jfreechart')
+        compile project(':perftence-testreport-html')
+        compile project(':reporterfactory-dependencies-jfreechart')
 
-		compile name: "concurrent-${volundrVersion}"
+        compile name: "concurrent-${volundrVersion}"
 
-		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-		compile "org.slf4j:slf4j-api:${slf4jVersion}"
-		compile "junit:junit:${junitVersion}"
+        compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+        compile "org.slf4j:slf4j-api:${slf4jVersion}"
+        compile "junit:junit:${junitVersion}"
 
-		testCompile project(':perftence-junit')
-		testCompile "jfree:jfreechart:${jfreechartVersion}"
-		testCompile "jfree:jcommon:${jcommonVersion}"
-		testRuntime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-		testRuntime "log4j:log4j:${log4jVersion}"
-	}
+        testCompile project(':perftence-junit')
+        testCompile "jfree:jfreechart:${jfreechartVersion}"
+        testCompile "jfree:jcommon:${jcommonVersion}"
+        testRuntime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+        testRuntime "log4j:log4j:${log4jVersion}"
+    }
 }

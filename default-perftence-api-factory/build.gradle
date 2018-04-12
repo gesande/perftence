@@ -1,15 +1,15 @@
 project(':default-perftence-api-factory') {
-	apply from : "$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
-	dependencies {
-		compile project(':perftence')
-		compile project(':perftence-fluent')
-		compile project(':perftence-api')
-		compile group: 'commons-collections', name: 'commons-collections', version: "${commonsCollectionsVersion}"
-		compile group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-		compile "jfree:jfreechart:${jfreechartVersion}"
-		compile "jfree:jcommon:${jcommonVersion}"
-		compile project(':reporterfactory-dependencies-jfreechart')
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    dependencies {
+        compile project(':perftence')
+        compile project(':perftence-fluent')
+        compile project(':perftence-api')
+        compile group: 'commons-collections', name: 'commons-collections', version: "${commonsCollectionsVersion}"
+        compile group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
+        compile "jfree:jfreechart:${jfreechartVersion}"
+        compile "jfree:jcommon:${jcommonVersion}"
+        compile project(':reporterfactory-dependencies-jfreechart')
         compile name: "string-to-bytes-${volundrVersion}"
-	}
+    }
 }

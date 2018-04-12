@@ -1,22 +1,22 @@
 project(':perftence-junit') { prj ->
-	apply from:"$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply from:"$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies {
-		compile project(':perftence')
-		compile project(':perftence-fluent')
-		compile project(':perftence-agents')
-		compile project(':perftence-api')
-		compile project(':reporterfactory-dependencies-jfreechart')
-		compile project(':default-perftence-api-factory')
-		compile name: "stronglytyped-sortedbag-${volundrVersion}"
-		compile "junit:junit:${junitVersion}"
-		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-		compile "org.slf4j:slf4j-api:${slf4jVersion}"
-		compile "jfree:jfreechart:${jfreechartVersion}"
-		compile "jfree:jcommon:${jcommonVersion}"
+    dependencies {
+        compile project(':perftence')
+        compile project(':perftence-fluent')
+        compile project(':perftence-agents')
+        compile project(':perftence-api')
+        compile project(':reporterfactory-dependencies-jfreechart')
+        compile project(':default-perftence-api-factory')
+        compile name: "stronglytyped-sortedbag-${volundrVersion}"
+        compile "junit:junit:${junitVersion}"
+        compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+        compile "org.slf4j:slf4j-api:${slf4jVersion}"
+        compile "jfree:jfreechart:${jfreechartVersion}"
+        compile "jfree:jcommon:${jcommonVersion}"
 
-		runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-		runtime "log4j:log4j:${log4jVersion}"
-	}
+        runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+        runtime "log4j:log4j:${log4jVersion}"
+    }
 }

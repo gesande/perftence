@@ -11,9 +11,9 @@ apply plugin: 'java'
 repositories {  flatDir { dirs 'lib' }  }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile project.fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
+	compile gradleApi()
+	compile localGroovy()
+	compile project.fileTree(dir: 'lib', include: '*.jar', exclude: '*-sources.jar')
 }
 
 version = '2.0.0'
@@ -23,24 +23,24 @@ eclipse.classpath.defaultOutputDir = file('target/classes')
 ext.buildLibrary='my-gradle-build-' + version
 
 eclipse {
-    classpath {
-        file {
-            whenMerged { Classpath cp ->
-                String gradleHome = gradle.getGradleHomeDir().absolutePath.replace(File.separator, '/')
-                String gradleSrc = "${gradleHome}/src"
-                def entrySourcePath = new FileReferenceFactory().fromPath(gradleSrc)
-                cp.entries.each { ClasspathEntry entry ->
-                    if ((entry in AbstractLibrary) && (entry.library.file.name.startsWith('gradle-'))) {
-                        entry.sourcePath = entrySourcePath
+	classpath {
+		file {
+			whenMerged { Classpath cp ->
+				String gradleHome = gradle.getGradleHomeDir().absolutePath.replace(File.separator, '/')
+				String gradleSrc = "${gradleHome}/src"
+				def entrySourcePath = new FileReferenceFactory().fromPath(gradleSrc)
+				cp.entries.each { ClasspathEntry entry ->
+					if ((entry in AbstractLibrary) && (entry.library.file.name.startsWith('gradle-'))) {
+						entry.sourcePath = entrySourcePath
 						println("Forked for patch for ${entry}")
-                    }
-                    if( ((entry in AbstractLibrary) && entry.library.file.name.startsWith(buildLibrary)) ) {
-                        entry.sourcePath = new FileReferenceFactory().fromPath("${projectDir}/lib-sources/${buildLibrary}-sources.jar")
-                        println("Forked for patch for ${buildLibrary}")
-                    }
-                }
-            }
-        }
-    }
+					}
+					if( ((entry in AbstractLibrary) && entry.library.file.name.startsWith(buildLibrary)) ) {
+						entry.sourcePath = new FileReferenceFactory().fromPath("${projectDir}/lib-sources/${buildLibrary}-sources.jar")
+						println("Forked for patch for ${buildLibrary}")
+					}
+				}
+			}
+		}
+	}
 }
 

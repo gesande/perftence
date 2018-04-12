@@ -1,12 +1,12 @@
 project(':responsecode-summaryappender') {
-	apply from:"$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply from:"$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies {
-		compile project(':perftence')
-		compile name: "stronglytyped-sortedbag-${volundrVersion}"
-		compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-		compile "jfree:jcommon:${jcommonVersion}"
-		testCompile "junit:junit:${junitVersion}"
-	}
+    dependencies {
+        compile project(':perftence')
+        compile name: "stronglytyped-sortedbag-${volundrVersion}"
+        compile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+        compile "jfree:jcommon:${jcommonVersion}"
+        testCompile "junit:junit:${junitVersion}"
+    }
 }

@@ -48,7 +48,7 @@ apply plugin : PerftenceBuildPlugin
 
 reportingSettings {
     toolsDirectory = "${toolsDir}"
-    onlyAnalyze = 'net.sf.perftence'
+    onlyAnalyze = 'org.fluentjava.perftence'
     findbugsVersion = '3.0.1'
 }
 

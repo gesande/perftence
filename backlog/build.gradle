@@ -8,187 +8,187 @@ import org.gradle.plugins.ide.eclipse.model.internal.FileReferenceFactory
 
 project(':backlog') {
 
-    apply plugin : 'groovy'
-    apply plugin: 'eclipse'
+	apply plugin : 'groovy'
+	apply plugin: 'eclipse'
 
-    version = project.properties.artifactVersion
+	version = project.properties.artifactVersion
 
-    eclipse {
-        classpath {
-            file {
-                whenMerged {Classpath cp ->
-                    String gradleHome = gradle.getGradleHomeDir().absolutePath.replace(File.separator, '/')
-                    String gradleSrc = "${gradleHome}/src"
-                    def entrySourcePath = new FileReferenceFactory().fromPath(gradleSrc)
-                    cp.entries.each {ClasspathEntry entry ->
-                        if ((entry in AbstractLibrary) && (entry.library.file.name.startsWith('gradle-'))) {
-                            entry.sourcePath = entrySourcePath
-                            println("Forked for patch for ${entry}")
-                        }
-                    }
-                }
-            }
-        }
-    }
+	eclipse {
+		classpath {
+			file {
+				whenMerged {Classpath cp ->
+					String gradleHome = gradle.getGradleHomeDir().absolutePath.replace(File.separator, '/')
+					String gradleSrc = "${gradleHome}/src"
+					def entrySourcePath = new FileReferenceFactory().fromPath(gradleSrc)
+					cp.entries.each {ClasspathEntry entry ->
+						if ((entry in AbstractLibrary) && (entry.library.file.name.startsWith('gradle-'))) {
+							entry.sourcePath = entrySourcePath
+							println("Forked for patch for ${entry}")
+						}
+					}
+				}
+			}
+		}
+	}
 
-    dependencies {
-        compile gradleApi()
-        compile localGroovy()
-        compile "net.sf.mybacklog:my-backlog:1.0.0"
-        compile "net.sf.chalkbox:chalkbox:1.0.0"
-        testCompile "junit:junit:${junitVersion}"
-    }
-    tasks.withType(FindBugs){ ignoreFailures = true }
+	dependencies {
+		compile gradleApi()
+		compile localGroovy()
+		compile "net.sf.mybacklog:my-backlog:1.0.0"
+		compile "net.sf.chalkbox:chalkbox:1.0.0"
+		testCompile "junit:junit:${junitVersion}"
+	}
+	tasks.withType(FindBugs){ ignoreFailures = true }
 }
 
 task showBacklog (dependsOn: classes) { Task task ->
-    group = 'Backlog'
-    description= 'Shows the backlog.'
-    doLast {
-        javaexec {
-            main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
-            classpath  sourceSets.main.output.classesDir
-            classpath configurations.runtime
-        }
-    }
+	group = 'Backlog'
+	description= 'Shows the backlog.'
+	doLast {
+		javaexec {
+			main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
+			classpath  sourceSets.main.output.classesDir
+			classpath configurations.runtime
+		}
+	}
 }
 
 task exportBacklog (dependsOn: classes) { Task task ->
-    group = 'Backlog'
-    description= 'Exports the backlog to backlog.txt.'
-    doLast {
-        def OutputStream backlog = new FileOutputStream("backlog.txt")
-        javaexec {
-            main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
-            classpath  sourceSets.main.output.classesDir
-            classpath configurations.runtime
-            standardOutput = backlog
-        }
-        println("Backlog exported to backlog.txt")
-    }
+	group = 'Backlog'
+	description= 'Exports the backlog to backlog.txt.'
+	doLast {
+		def OutputStream backlog = new FileOutputStream("backlog.txt")
+		javaexec {
+			main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
+			classpath  sourceSets.main.output.classesDir
+			classpath configurations.runtime
+			standardOutput = backlog
+		}
+		println("Backlog exported to backlog.txt")
+	}
 }
 
 task waitingForImplementation (dependsOn: classes) { Task task ->
-    group = 'Backlog'
-    description= 'Shows all stuff waiting for implementation.'
-    doLast {
-        javaexec {
-            main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
-            classpath  sourceSets.main.output.classesDir
-            classpath configurations.runtime
-        }
-    }
+	group = 'Backlog'
+	description= 'Shows all stuff waiting for implementation.'
+	doLast {
+		javaexec {
+			main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
+			classpath  sourceSets.main.output.classesDir
+			classpath configurations.runtime
+		}
+	}
 }
 
 task featuresWaiting (dependsOn: classes) { Task task ->
-    group = 'Backlog'
-    description= 'Shows all features waiting for implementation.'
-    doLast {
-        javaexec {
-            main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
-            args 'feature'
-            classpath  sourceSets.main.output.classesDir
-            classpath configurations.runtime
-        }
-    }
+	group = 'Backlog'
+	description= 'Shows all features waiting for implementation.'
+	doLast {
+		javaexec {
+			main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
+			args 'feature'
+			classpath  sourceSets.main.output.classesDir
+			classpath configurations.runtime
+		}
+	}
 }
 
 task printChangeLog(type: Exec) { Exec task ->
-    group = 'Backlog'
-    description= 'Change log for backlog.'
-    task.executable = "bash"
-    task.args "-c",changeLogArgs(task)
+	group = 'Backlog'
+	description= 'Change log for backlog.'
+	task.executable = "bash"
+	task.args "-c",changeLogArgs(task)
 }
 
 task copyStdLib() { Task task ->
-    group ='Backlog'
-    description = "Copies stdout-lib.sh for changelog scripts to ${distributionDir}."
-    doLast {
-        copy {
-            from "${task.project.projectDir}"
-            include 'stdout-lib.sh'
-            into distributionDir
-        }
-    }
+	group ='Backlog'
+	description = "Copies stdout-lib.sh for changelog scripts to ${distributionDir}."
+	doLast {
+		copy {
+			from "${task.project.projectDir}"
+			include 'stdout-lib.sh'
+			into distributionDir
+		}
+	}
 }
 
 task createChangeLogScript(dependsOn: copyStdLib) { Task task ->
-    group ='Backlog'
-    description = 'Create a shell script for a specific changelog.'
+	group ='Backlog'
+	description = 'Create a shell script for a specific changelog.'
 
-    doLast {
-        def String scriptFile = "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
-        exec {
-            executable = 'bash'
-            args "-c"
-            args "echo '#!/bin/bash' > ${scriptFile}"
-        }
-        exec {
-            executable ='bash'
-            args "-c"
-            args "echo 'set -eu' >> ${scriptFile}"
-        }
-        exec {
-            executable ='bash'
-            args "-c"
-            args "echo 'HERE=\$(dirname \$0)' >> ${scriptFile}"
-        }
-        exec {
-            executable ='bash'
-            args "-c"
-            args "echo '. \$HERE/stdout-lib.sh' >> ${scriptFile}"
-        }
-        exec {
-            executable = 'bash'
-            args "-c"
-            args changeLogArgs(task) +" | sed 's/+//' " +" >> ${scriptFile}"
-        }
-        exec {
-            executable = 'chmod'
-            args "a+x"
-            args "${scriptFile}"
-        }
-        println "Get the change log by running the script from ${scriptFile}"
-    }
+	doLast {
+		def String scriptFile = "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
+		exec {
+			executable = 'bash'
+			args "-c"
+			args "echo '#!/bin/bash' > ${scriptFile}"
+		}
+		exec {
+			executable ='bash'
+			args "-c"
+			args "echo 'set -eu' >> ${scriptFile}"
+		}
+		exec {
+			executable ='bash'
+			args "-c"
+			args "echo 'HERE=\$(dirname \$0)' >> ${scriptFile}"
+		}
+		exec {
+			executable ='bash'
+			args "-c"
+			args "echo '. \$HERE/stdout-lib.sh' >> ${scriptFile}"
+		}
+		exec {
+			executable = 'bash'
+			args "-c"
+			args changeLogArgs(task) +" | sed 's/+//' " +" >> ${scriptFile}"
+		}
+		exec {
+			executable = 'chmod'
+			args "a+x"
+			args "${scriptFile}"
+		}
+		println "Get the change log by running the script from ${scriptFile}"
+	}
 }
 
 task exportChangeLog(dependsOn: createChangeLogScript)  { Task task ->
-    group = 'Backlog'
-    description= 'Exports changelog.'
-    doLast {
-        exec {
-            executable = "bash"
-            args "-c"
-            args generatedScriptFile() + replaceBacklogPlus()
-        }
-    }
+	group = 'Backlog'
+	description= 'Exports changelog.'
+	doLast {
+		exec {
+			executable = "bash"
+			args "-c"
+			args generatedScriptFile() + replaceBacklogPlus()
+		}
+	}
 }
 
 task exportChangeLogTo(dependsOn: createChangeLogScript)  { Task task ->
-    group = 'Backlog'
-    description= 'Exports changelog to given file.'
-    doLast{
-        exec {
-            executable = "bash"
-            args "-c"
-            args generatedScriptFile() + replaceBacklogPlus() + " >> $exportTo"
-        }
-    }
+	group = 'Backlog'
+	description= 'Exports changelog to given file.'
+	doLast{
+		exec {
+			executable = "bash"
+			args "-c"
+			args generatedScriptFile() + replaceBacklogPlus() + " >> $exportTo"
+		}
+	}
 }
 
 private String generatedScriptFile() {
-    return "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
+	return "${distributionDir}/changelog-from-${fromRevision}-to-${toRevision}.sh"
 }
 private String replaceBacklogPlus(){
-    return " | sed 's/ +++ //' | sed 's/ +++ /|/'"
+	return " | sed 's/ +++ //' | sed 's/ +++ /|/'"
 }
 
 private String changeLogArgsForJavaBacklog(Task task) {
-    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/src/main/java/org/fluentjava/perftence/backlog/PerftenceBacklog.java | grep 'done(' | grep '+' | sed 's/+                        //'"
-    return args
+	def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/src/main/java/org/fluentjava/perftence/backlog/PerftenceBacklog.java | grep 'done(' | grep '+' | sed 's/+                        //'"
+	return args
 }
 
 private String changeLogArgs(Task task){
-    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
-    return args
+	def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/show.sh | grep task-done | grep '+'"
+	return args
 }

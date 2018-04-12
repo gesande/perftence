@@ -1,15 +1,15 @@
 project(':agent-based-example') {
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies {
-		testCompile project(':perftence')
-		testCompile project(':perftence-agents')
-		testCompile project(':perftence-junit')
-		testCompile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-		testCompile "org.slf4j:slf4j-api:${slf4jVersion}"
-		testCompile "jfree:jcommon:${jcommonVersion}"
-		testCompile "jfree:jfreechart:${jfreechartVersion}"
-		runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-		runtime "log4j:log4j:${log4jVersion}"
-	}
+    dependencies {
+        testCompile project(':perftence')
+        testCompile project(':perftence-agents')
+        testCompile project(':perftence-junit')
+        testCompile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+        testCompile "org.slf4j:slf4j-api:${slf4jVersion}"
+        testCompile "jfree:jcommon:${jcommonVersion}"
+        testCompile "jfree:jfreechart:${jfreechartVersion}"
+        runtime "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+        runtime "log4j:log4j:${log4jVersion}"
+    }
 }
