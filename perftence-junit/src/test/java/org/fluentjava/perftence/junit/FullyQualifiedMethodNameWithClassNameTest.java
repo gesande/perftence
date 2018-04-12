@@ -2,7 +2,6 @@ package org.fluentjava.perftence.junit;
 
 import static org.junit.Assert.assertEquals;
 
-import org.fluentjava.perftence.junit.FullyQualifiedMethodNameWithClassName;
 import org.junit.Test;
 
 public class FullyQualifiedMethodNameWithClassNameTest {

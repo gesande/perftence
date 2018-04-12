@@ -3,7 +3,6 @@ package org.fluentjava.perftence.junit;
 import static org.junit.Assert.assertNotNull;
 
 import org.fluentjava.perftence.TestFailureNotifier;
-import org.fluentjava.perftence.junit.DefaultTestRunner;
 import org.junit.Test;
 import org.junit.runners.model.InitializationError;
 
