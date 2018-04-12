@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.text.DecimalFormat;
 
+import org.fluentjava.perftence.reporting.summary.ResponseCodeSummary;
+import org.fluentjava.perftence.reporting.summary.Summary;
 import org.junit.Test;
 
 public class ResponseCodeSummaryTest {

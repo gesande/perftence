@@ -1,11 +1,11 @@
 project(':perftence-testreport-html') {
-	apply from : "$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies {
-		compile project(':perftence')
-		compile name: "fileutil-${volundrVersion}"
+    dependencies {
+        compile project(':perftence')
+        compile name: "fileutil-${volundrVersion}"
         compile name: "string-to-bytes-${volundrVersion}"
-		compile "junit:junit:${junitVersion}"
-	}
+        compile "junit:junit:${junitVersion}"
+    }
 }

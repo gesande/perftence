@@ -1,13 +1,13 @@
 project(':perftence-fluent') {
-	apply from : "$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies {
-		compile project(':perftence')
-		compile project(':perftence-defaulttestruntimereporterfactory')
-		compile name: "concurrent-${volundrVersion}"
-		testCompile "junit:junit:${junitVersion}"
-		testCompile project(':reporterfactory-dependencies-jfreechart')
-		testCompile project(':perftence-graph-jfreechart')
-	}
+    dependencies {
+        compile project(':perftence')
+        compile project(':perftence-defaulttestruntimereporterfactory')
+        compile name: "concurrent-${volundrVersion}"
+        testCompile "junit:junit:${junitVersion}"
+        testCompile project(':reporterfactory-dependencies-jfreechart')
+        testCompile project(':perftence-graph-jfreechart')
+    }
 }

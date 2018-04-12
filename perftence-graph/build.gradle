@@ -1,6 +1,6 @@
 project(':perftence-graph') {
-	apply from : "$emmaPlugin"
-	apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
+    apply from : "$emmaPlugin"
+    apply plugin : net.sf.mygradlebuild.plugins.JavaProjectDistribution
 
-	dependencies { testCompile "junit:junit:${junitVersion}" }
+    dependencies { testCompile "junit:junit:${junitVersion}" }
 }

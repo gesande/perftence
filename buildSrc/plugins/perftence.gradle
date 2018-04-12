@@ -1,11 +1,11 @@
-import net.sf.mygradlebuild.plugins.PerftenceContinousBuildPlugin
 import net.sf.mygradlebuild.plugins.EnvironmentVariablesPlugin
 import net.sf.mygradlebuild.plugins.JavaDistributionPlugin
 import net.sf.mygradlebuild.plugins.MavenCentral
 import net.sf.mygradlebuild.plugins.ReportingPlugin
 import net.sf.mygradlebuild.plugins.SvnPlugin
-import net.sf.perftence.build.ExportAntBuildFilePlugin
-import net.sf.perftence.build.PerftenceBuildPlugin
+import org.fluentjava.perftence.build.PerftenceContinousBuildPlugin
+import org.fluentjava.perftence.build.ExportAntBuildFilePlugin
+import org.fluentjava.perftence.build.PerftenceBuildPlugin
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -48,7 +48,7 @@ apply plugin : PerftenceBuildPlugin
 
 reportingSettings {
     toolsDirectory = "${toolsDir}"
-    onlyAnalyze = 'net.sf.perftence'
+    onlyAnalyze = 'org.fluentjava.perftence'
     findbugsVersion = '3.0.1'
 }
 

@@ -4,6 +4,7 @@
 .settings
 classes
 target
+bin
 
 #gradle
 .gradle

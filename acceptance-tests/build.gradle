@@ -1,18 +1,18 @@
 project(':acceptance-tests') { prj ->
 
-	dependencies {
-		testCompile project(':perftence-graph-jfreechart')
-		testCompile project(':perftence-fluent')
-		testCompile project(':perftence-agents')
-		testCompile project(':perftence')
-		testCompile project(':perftence-junit')
-		testCompile project(':perftence-testreport-html')
-		testCompile "junit:junit:${junitVersion}"
-		testCompile "commons-collections:commons-collections:${commonsCollectionsVersion}"
-		testCompile "org.slf4j:slf4j-api:${slf4jVersion}"
-		testCompile "jfree:jfreechart:${jfreechartVersion}"
-		testCompile "jfree:jcommon:${jcommonVersion}"
-		testCompile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
-		testRuntime "log4j:log4j:${log4jVersion}"
-	}
+    dependencies {
+        testCompile project(':perftence-graph-jfreechart')
+        testCompile project(':perftence-fluent')
+        testCompile project(':perftence-agents')
+        testCompile project(':perftence')
+        testCompile project(':perftence-junit')
+        testCompile project(':perftence-testreport-html')
+        testCompile "junit:junit:${junitVersion}"
+        testCompile "commons-collections:commons-collections:${commonsCollectionsVersion}"
+        testCompile "org.slf4j:slf4j-api:${slf4jVersion}"
+        testCompile "jfree:jfreechart:${jfreechartVersion}"
+        testCompile "jfree:jcommon:${jcommonVersion}"
+        testCompile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+        testRuntime "log4j:log4j:${log4jVersion}"
+    }
 }
