@@ -2,4 +2,4 @@
 WSNAME=perftence
 WSROOT=../../..
 WSDEFDEF_MODULE=../wsdefdef
-WSDEFDEF_CLASS=net.sf.perftence.wsdefdef.PerftenceWorkspaceModuleProvider
+WSDEFDEF_CLASS=org.fluentjava.perftence.wsdefdef.PerftenceWorkspaceModuleProvider

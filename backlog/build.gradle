@@ -46,7 +46,7 @@ task showBacklog (dependsOn: classes) { Task task ->
     description= 'Shows the backlog.'
     doLast {
         javaexec {
-            main = 'net.sf.perftence.backlog.PerftenceBacklogMain'
+            main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
             classpath  sourceSets.main.output.classesDir
             classpath configurations.runtime
         }
@@ -59,7 +59,7 @@ task exportBacklog (dependsOn: classes) { Task task ->
     doLast {
         def OutputStream backlog = new FileOutputStream("backlog.txt")
         javaexec {
-            main = 'net.sf.perftence.backlog.PerftenceBacklogMain'
+            main = 'org.fluentjava.perftence.backlog.PerftenceBacklogMain'
             classpath  sourceSets.main.output.classesDir
             classpath configurations.runtime
             standardOutput = backlog
@@ -73,7 +73,7 @@ task waitingForImplementation (dependsOn: classes) { Task task ->
     description= 'Shows all stuff waiting for implementation.'
     doLast {
         javaexec {
-            main = 'net.sf.perftence.backlog.BacklogWaitingForImplementation'
+            main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
             classpath  sourceSets.main.output.classesDir
             classpath configurations.runtime
         }
@@ -85,7 +85,7 @@ task featuresWaiting (dependsOn: classes) { Task task ->
     description= 'Shows all features waiting for implementation.'
     doLast {
         javaexec {
-            main = 'net.sf.perftence.backlog.BacklogWaitingForImplementation'
+            main = 'org.fluentjava.perftence.backlog.BacklogWaitingForImplementation'
             args 'feature'
             classpath  sourceSets.main.output.classesDir
             classpath configurations.runtime
@@ -184,7 +184,7 @@ private String replaceBacklogPlus(){
 }
 
 private String changeLogArgsForJavaBacklog(Task task) {
-    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/src/main/java/net/sf/perftence/backlog/PerftenceBacklog.java | grep 'done(' | grep '+' | sed 's/+                        //'"
+    def String args = "svn diff -r ${task.project.properties.fromRevision}:${task.project.properties.toRevision} ${task.project.projectDir}/src/main/java/org/fluentjava/perftence/backlog/PerftenceBacklog.java | grep 'done(' | grep '+' | sed 's/+                        //'"
     return args
 }
 
