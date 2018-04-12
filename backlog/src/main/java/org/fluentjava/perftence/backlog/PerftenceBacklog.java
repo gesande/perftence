@@ -125,7 +125,8 @@ public class PerftenceBacklog extends AbstractBacklogging {
 				done("aggregate csv for agent based tests", feature), done("applied völundr 2.1.1", refactoring),
 				done("move perftence to github", developmentSupport), done("bootstrap iwant from github", build),
 				done("distribution with git hash", deployment), done("tarred distribution", deployment),
-				done("start 3.0.0 (first official github release)", deployment))
+				done("start 3.0.0 (first official github release)", deployment),
+				done("net.sf -> org.fluentjava", refactoring))
 
 				.inProgress().title("IN PROGRESS:").noTasks()
 
