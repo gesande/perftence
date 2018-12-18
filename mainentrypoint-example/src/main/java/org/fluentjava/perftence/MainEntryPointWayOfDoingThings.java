@@ -31,21 +31,13 @@ public final class MainEntryPointWayOfDoingThings {
     }
 
     private MultithreadWorker test2(final int duration) throws Exception {
-        return test("test2").setup(setup().duration(duration).threads(5).build()).executable(new Executable() {
-            @Override
-            public void execute() throws Exception {
-                Thread.sleep(RANDOM.nextInt(50) + 1);
-            }
-        });
+        Executable myMeasurableItem = () -> Thread.sleep(RANDOM.nextInt(50) + 1);
+        return test("test2").setup(setup().duration(duration).threads(5).build()).executable(myMeasurableItem);
     }
 
     private MultithreadWorker test1(final int duration) throws Exception {
-        return test("test1").setup(setup().duration(duration).threads(10).build()).executable(new Executable() {
-            @Override
-            public void execute() throws Exception {
-                Thread.sleep(RANDOM.nextInt(100) + 1);
-            }
-        });
+        Executable myMeasurableItem = () -> Thread.sleep(RANDOM.nextInt(100) + 1);
+        return test("test1").setup(setup().duration(duration).threads(10).build()).executable(myMeasurableItem);
     }
 
     private TestBuilder test(final String id) {

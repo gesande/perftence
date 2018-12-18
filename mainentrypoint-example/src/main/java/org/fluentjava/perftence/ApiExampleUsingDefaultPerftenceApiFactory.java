@@ -22,13 +22,9 @@ public class ApiExampleUsingDefaultPerftenceApiFactory {
             }
         };
         final PerftenceApi api = perftenceApi(notifier);
+        Executable myMeasurableItem = () -> Thread.sleep(100);
         api.test("api-example").setup(api.setup().threads(2).duration(Duration.seconds(10)).build())
-                .executable(new Executable() {
-                    @Override
-                    public void execute() throws Exception {
-                        Thread.sleep(100);
-                    }
-                }).start();
+                .executable(myMeasurableItem).start();
     }
 
     private static PerftenceApi perftenceApi(TestFailureNotifier notifier) {
