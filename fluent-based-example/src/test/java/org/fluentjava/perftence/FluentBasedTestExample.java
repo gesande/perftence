@@ -27,25 +27,29 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
     @Test
     public void invocationBased() throws Exception {
-        test().setup(setup().invocations(100).invocationRange(10).build()).executable(() -> sleep(10)).start();
+        Executable myMeasurableItem = () -> sleep(10);
+        test().setup(setup().invocations(100).invocationRange(10).build()).executable(myMeasurableItem).start();
     }
 
     @Test
     public void threadBased() throws Exception {
-        test().setup(setup().threads(100).invocations(5000).invocationRange(20).build()).executable(() -> sleep(10))
+        Executable myMeasurableItem = () -> sleep(10);
+        test().setup(setup().threads(100).invocations(5000).invocationRange(20).build()).executable(myMeasurableItem)
                 .start();
     }
 
     @Test
     public void durationBasedSingleThread() throws Exception {
-        test().setup(setup().duration(Duration.seconds(5)).build()).executable(() -> sleep(100)).start();
+        Executable myMeasurableItem = () -> sleep(100);
+        test().setup(setup().duration(Duration.seconds(5)).build()).executable(myMeasurableItem).start();
     }
 
     @Test
     public void durationBasedMultiThread() throws Exception {
+        Executable myMeasurableItem = () -> sleep(100);
         test().setup(
                 setup().duration(Duration.seconds(2)).threads(2).invocationRange(20).throughputRange(2000000).build())
-                .executable(() -> sleep(100)).start();
+                .executable(myMeasurableItem).start();
     }
 
     @Test
@@ -57,38 +61,37 @@ public final class FluentBasedTestExample extends AbstractMultiThreadedTest {
 
     @Test
     public void durationWithRanges() throws Exception {
+        Executable myMeasurableItem = () -> sleep(random(100) + 1);
         test().setup(
                 setup().duration(Duration.seconds(5)).threads(10).invocationRange(100).throughputRange(500).build())
-                .executable(() -> sleep(random(100) + 1)).start();
+                .executable(myMeasurableItem).start();
     }
 
     @Test
     public void customSummaryAppender() throws Exception {
-        test().setup(setup().duration(Duration.seconds(15)).threads(10).invocationRange(1000).throughputRange(30)
-                .summaryAppender(summary -> summary.text("Here's something cool!").endOfLine()
-                        .bold("And some bolded text").endOfLine())
-                .build()).executable(new Executable() {
-
-                    @Override
-                    public void execute() throws Exception {
-                        randomSleep(1000);
-                    }
-
-                }).start();
+        Executable myMeasurableItem = () -> randomSleep(1000);
+        test().setup(
+                setup().duration(Duration.seconds(15)).threads(10).invocationRange(1000).throughputRange(30)
+                        .summaryAppender(summary -> summary.text("Here's something cool!").endOfLine()
+                                .bold("And some bolded text").endOfLine())
+                        .build())
+                .executable(myMeasurableItem).start();
     }
 
     @Test
     public void noInvocationGraph() throws Exception {
+        Executable myMeasurableItem = () -> randomSleep(1000);
         test().noInvocationGraph().setup(
                 setup().duration(Duration.seconds(5)).threads(10).invocationRange(1000).throughputRange(30).build())
-                .executable(() -> randomSleep(1000)).start();
+                .executable(myMeasurableItem).start();
     }
 
     @Test
     public void threadBasedWithAllowedException() throws Exception {
         final ExecutorBehavingBadlyHalfTheTime failingExecutor = new ExecutorBehavingBadlyHalfTheTime();
+        Executable myMeasurableItem = () -> failingExecutor.execute();
         test().setup(setup().threads(10).invocations(100).throughputRange(50).build()).allow(MyException.class)
-                .executable(() -> failingExecutor.execute()).start();
+                .executable(myMeasurableItem).start();
     }
 
     class ExecutorBehavingBadlyHalfTheTime implements Executable {
