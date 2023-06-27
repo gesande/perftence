@@ -67,7 +67,7 @@ public class PerftenceWorkspace implements Workspace {
 	private Target jacocoReport(String name,
 			SortedSet<JavaSrcModule> interestingModules) {
 		return JacocoTargetsOfJavaModules.with()
-				.jacocoWithDeps(jacoco(), modules.asmAll.mainArtifact())
+				.jacoco(jacoco())
 				.antJars(TestedIwantDependencies.antJar(),
 						TestedIwantDependencies.antLauncherJar())
 				.modules(interestingModules).end().jacocoReport(name);
